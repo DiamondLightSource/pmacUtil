@@ -11,8 +11,10 @@ include $(TOP)/configure/CONFIG
 # In a Diamond Support Module, install
 # templates like this
 #
-#DB += motor.template
-#DB += basic_motor.template
+DB += energise.template
+
+# not using streams since this doesnt work with tpmac
+#DB += energise_streams.template
 
 #----------------------------------------------------
 # In a Diamond IOC Application, build db files from
