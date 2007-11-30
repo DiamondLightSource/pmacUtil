@@ -8,23 +8,13 @@ include $(TOP)/configure/CONFIG
 #DB_OPT = YES
 
 #----------------------------------------------------
-# In a Diamond Support Module, install
-# templates like this
-#
-DB += energise.template
-DB += gather.template
-
-# not using streams since this doesnt work with tpmac
-#DB += energise_streams.template
-
-#----------------------------------------------------
 # In a Diamond IOC Application, build db files from
 # template files like this
 #
 #DB += BL06I-MO-IOC-01.db
-#DB += BL06I-MO-IOC-01_sim.db
+DB += example.db
 
-#USES_TEMPLATE += $(MOTOR)/db/motor.template
+USES_TEMPLATE += $(PMACUTIL)/db/gather.template
 #USES_TEMPLATE += $(MOTOR)/db/basic_motor.template
 
 include $(TOP)/configure/RULES

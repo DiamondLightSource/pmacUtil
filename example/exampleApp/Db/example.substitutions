@@ -1,0 +1,6 @@
+file gather.template
+{
+pattern { P, R }
+		{ P:, R: }
+}
+
