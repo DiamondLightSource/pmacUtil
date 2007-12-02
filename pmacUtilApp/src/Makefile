@@ -17,7 +17,8 @@ DBD += pmacUtil.dbd
 pmacUtil_DBD += base.dbd
 pmacUtil_DBD += asyn.dbd
 pmacUtil_DBD += calcSupport.dbd
-pmacUtil_DBD += stdSupport.dbd
+#pmacUtil_DBD += stdSupport.dbd
+pmacUtil_DBD += sscanSupport.dbd
 
 # The following are compiled and added to the support library
 pmacUtil_SRCS += gather.st

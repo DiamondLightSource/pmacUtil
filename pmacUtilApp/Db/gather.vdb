@@ -44,7 +44,6 @@ record(asyn, "$(P)$(M):PMACTRIG") {
   field(IFMT, "ASCII")
 }
 
-
 record(waveform, "$(P)$(M):VELO") {
   field(DESC, "sampled velocity")
   field(PINI, "YES")
@@ -115,17 +114,26 @@ record(bi, "$(P)$(M):COLLECTING") {
   field(ONAM, "busy")
 }
 
+# Start executing gather function when user writes to this record.
+# Will go back to 0 (done) when gather scan is over and parsed.
+record(busy, "$(P)$(M):EXECUTE") {
+  field(DESC, "Start gather function")
+  field(SCAN, "Passive")
+  field(VAL, "Done")
+}
+
 #! Further lines contain data used by VisualDCT
-#! View(0,63,1.2)
-#! Record("$(P)$(R)trigger",620,691,0,1,"$(P)$(R)trigger")
+#! View(0,383,1.2)
+#! Record("$(P)$(R)trigger",820,751,0,1,"$(P)$(R)trigger")
 #! Record("$(P)$(M):GETDATA",540,97,0,1,"$(P)$(M):GETDATA")
 #! Record("$(P)$(M):SETUP",540,325,0,1,"$(P)$(M):SETUP")
 #! Record("$(P)$(M):PMACTRIG",540,525,0,1,"$(P)$(M):PMACTRIG")
 #! Record("$(P)$(M):VELO",800,111,0,1,"$(P)$(M):VELO")
 #! Record("$(P)$(M):FERR",800,291,0,1,"$(P)$(M):FERR")
 #! Record("$(P)$(M):POSN",800,471,0,1,"$(P)$(M):POSN")
-#! Record("$(P)$(M):STATE",300,700,0,1,"$(P)$(M):STATE")
-#! Record("$(P)$(M):MSG",100,705,0,1,"$(P)$(M):MSG")
+#! Record("$(P)$(M):STATE",580,760,0,1,"$(P)$(M):STATE")
+#! Record("$(P)$(M):MSG",380,765,0,1,"$(P)$(M):MSG")
 #! Record("$(P)$(M):SPERIOD",120,97,0,1,"$(P)$(M):SPERIOD")
 #! Record("$(P)$(M):PARSING",120,317,0,1,"$(P)$(M):PARSING")
 #! Record("$(P)$(M):COLLECTING",120,497,0,1,"$(P)$(M):COLLECTING")
+#! Record("$(P)$(M):EXECUTE",120,740,0,1,"$(P)$(M):EXECUTE")

@@ -2,63 +2,120 @@ program gather("P=P:,R=R:")
 
 %%#include <stdio.h>
 %%#include <stdlib.h>
-
+%%#include <string.h>
 option +r;
 
-int trigger; assign trigger to "{P}{R}trigger.VAL";
-monitor trigger;
+int execute; assign execute to "{P}{M}:EXECUTE.VAL";
+monitor execute;
+evflag executeMon; sync execute executeMon;
+
+#define MAX_RAW_CHARS 13315
+char rawData[MAX_RAW_CHARS]; assign rawData to "{P}{M}:GETDATA.BINP";
+monitor rawData;
+evflag rawDataMon; sync rawData rawDataMon;
+
+int nRawChars; assign nRawChars to "{P}{M}:GETDATA.NORD";
+monitor nRawChars;
+
+string stateMsg; assign stateMsg to "{P}{M}:STATE.VAL";
 
 ss ssGather 
 {
-	state init 
+	state INIT 
 	{
+		entry
+		{
+			printf("ssGather: state INIT entry.\n");
+			strcpy(stateMsg, "INIT");
+			pvPut(stateMsg);
+		}
 		when()
 		{
-			printf("ssGather: state init entry.\n");
-			trigger = 1;
-			pvPut(trigger);
-		} state monitor_inputs
+			printf("ssGather: clearing all event flags.\n");
+			efClear(executeMon);
+			efClear(rawDataMon);
+		} state READY
 	}
 
-	state monitor_inputs
+	state READY
 	{
 		entry
 		{
-			printf("ssGather: state monitor_inputs.\n");
+			printf("ssGather: state READY\n");
+			strcpy(stateMsg, "READY");
+			pvPut(stateMsg);
 		}
-		when( trigger == 1 )
+		when( efTestAndClear(executeMon) && (execute == 1) )
 		{
-			printf("ssGather: Got trigger!\n");
-			printf("ssGather: sending gather command to PMAC.\n");
-		} state acquire
+			printf("ssGather: got execute trigger from user.\n");
+		} state SETUP
 	}
 	
-	state acquire
+	state SETUP
 	{
 		entry
 		{
-			trigger = 0;
-			pvPut(trigger);
-			printf("ssGather: state acquire entry.\n");
+			printf("ssGather: state SETUP\n");
+			strcpy(stateMsg, "SETUP");
+			pvPut(stateMsg);
+		}
+		when()
+		{
+			printf("ssGather: setting up all ivars for gathering\n");
+
+		} state GATHER
+	}
+
+	state GATHER
+	{
+		entry
+		{
+			printf("ssGather: state GATHER\n");
+			strcpy(stateMsg, "GATHER");
+			pvPut(stateMsg);
+			printf("ssGather: sending define gather cmd to start gathering.\n");
+			printf("ssGather: sending tweak step command to motor to start moving.\n");
+
 		}
 		when(delay(10.0))
 		{
-			printf("ssGather: waited long enough for acquire to finish...\n");
-		} state collect
+			printf("ssGather: timeout - gathering must have stopped now...(I guess)\n");
+			
+		} state COLLECT
 	}
 
-	state collect
+	state COLLECT
 	{
 		entry
 		{
-			printf("ssGather: state collect\n");
+			printf("ssGather: state COLLECT\n");
+			strcpy(stateMsg, "COLLECT");
+			pvPut(stateMsg);
+			printf("ssGather: sending list gather cmd to collect data from PMAC.\n");
+		}
+		when( efTestAndClear(rawDataMon) )
+		{
+			printf("ssGather: got raw data: %d ASCII chars!\n", nRawChars);
+		} state PARSE
+	}
+
+	state PARSE
+	{
+		entry
+		{
+			printf("ssGather: state PARSE\n");
+			strcpy(stateMsg, "PARSE");
+			pvPut(stateMsg);
 		}
 		when()
 		{
-			printf("ssGather: sending the list gather command to PMAC.\n");
-			printf("ssGather: parsing the gathered data from the PMAC.\n");
-			
-		} state monitor_inputs
+			printf("ssGather: parsing the raw ASCII data...\n");
+			printf("ssGather: posting the parsed data to the waveform records.\n");
+			printf("ssGather: all done!\n");
+			execute = 0;
+			pvPut(execute);
+			efClear(executeMon);
+		} state READY
 	}
 }
-		
+
