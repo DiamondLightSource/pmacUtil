@@ -4,7 +4,7 @@
 #! DBDEND
 
 
-
+# Just a test record for SNL...
 record(ao, "$(P)$(R)trigger") {
   field(DESC, "trigger for SNL")
   field(SCAN, "Passive")
@@ -13,6 +13,119 @@ record(ao, "$(P)$(R)trigger") {
   field(PINI, "YES")
 }
 
+# Send the "list gather" command to the PMAC and receives the whole ASCII array
+# of data which will be parsed by the SNL.
+# It has to be Hybrid in order to receive all this data.
+record(asyn, "$(P)$(M):GETDATA") {
+  field(DESC, "send list gather cmd")
+  field(DTYP, "asynRecordDevice")
+  field(PORT, "$(PORT)")
+  field(TMOT, "10.0")
+  field(AOUT, "list gather")
+  field(IFMT, "Hybrid")
+}
+
+# Send all necessary I-variables to the PMAC in order to setup the gather:
+# * I5050 and I5051 for choosing which channels to gather from.
+# * I5001 to I50048 for choosing which addresses to gather from.
+# * I5049 gather sample period/time (in servo cycles).
+record(asyn, "$(P)$(M):SETUP") {
+  field(DESC, "configure ivars for gather")
+  field(DTYP, "asynRecordDevice")
+  field(PORT, "$(PORT)")
+  field(IFMT, "ASCII")
+}
+
+# Send the trigger signal to the PMAC: define gather NN
+record(asyn, "$(P)$(M):PMACTRIG") {
+  field(DESC, "configure ivars for gather")
+  field(DTYP, "asynRecordDevice")
+  field(PORT, "$(PORT)")
+  field(IFMT, "ASCII")
+}
+
+
+record(waveform, "$(P)$(M):VELO") {
+  field(DESC, "sampled velocity")
+  field(PINI, "YES")
+  field(DTYP, "Soft Channel")
+  field(NELM, "1024")
+  field(FTVL, "DOUBLE")
+}
+
+record(waveform, "$(P)$(M):FERR") {
+  field(DESC, "sampled following error")
+  field(PINI, "YES")
+  field(DTYP, "Soft Channel")
+  field(NELM, "1024")
+  field(FTVL, "DOUBLE")
+}
+
+record(waveform, "$(P)$(M):POSN") {
+  field(DESC, "sampled actual position")
+  field(PINI, "YES")
+  field(DTYP, "Soft Channel")
+  field(NELM, "1024")
+  field(FTVL, "DOUBLE")
+}
+
+# Kept updated with the current state of the SNL application.
+# Not intended for end user display.
+record(state, "$(P)$(M):STATE") {
+  field(DESC, "current SNL state")
+  field(PINI, "YES")
+  field(VAL, "not initialised")
+}
+
+# Holds a user message about the state of the application: errors, warnings and so on.
+record(stringin, "$(P)$(M):MSG") {
+  field(DESC, "user message")
+  field(PINI, "YES")
+  field(DTYP, "Soft Channel")
+  field(VAL, "not initialised")
+}
+
+# The sample period (or sample time) in PMAC servo cycles.
+record(ao, "$(P)$(M):SPERIOD") {
+  field(DESC, "sample period [servo cycles]")
+  field(DTYP, "Soft Channel")
+  field(PREC, "0")
+  field(LINR, "NO CONVERSION")
+  field(HOPR, "10000")
+  field(LOPR, "1")
+}
+
+# SNL will set this to 1 (parsing) when parsing the data from PMAC.
+record(bi, "$(P)$(M):PARSING") {
+  field(DESC, "set when parsing data")
+  field(PINI, "YES")
+  field(DTYP, "Soft Channel")
+  field(VAL, "0")
+  field(ZNAM, "done")
+  field(ONAM, "busy")
+}
+
+# set to 1 (busy) when collecting data from the PMAC.
+record(bi, "$(P)$(M):COLLECTING") {
+  field(DESC, "set when collecting data")
+  field(PINI, "YES")
+  field(DTYP, "Soft Channel")
+  field(VAL, "0")
+  field(ZNAM, "done")
+  field(ONAM, "busy")
+}
+
 #! Further lines contain data used by VisualDCT
-#! View(0,55,1.2)
-#! Record("$(P)$(R)trigger",120,131,0,1,"$(P)$(R)trigger")
+#! View(0,63,1.2)
+#! Record("$(P)$(R)trigger",620,691,0,1,"$(P)$(R)trigger")
+#! Record("$(P)$(M):GETDATA",540,97,0,1,"$(P)$(M):GETDATA")
+#! Record("$(P)$(M):SETUP",540,325,0,1,"$(P)$(M):SETUP")
+#! Record("$(P)$(M):PMACTRIG",540,525,0,1,"$(P)$(M):PMACTRIG")
+#! Record("$(P)$(M):VELO",800,111,0,1,"$(P)$(M):VELO")
+#! Record("$(P)$(M):FERR",800,291,0,1,"$(P)$(M):FERR")
+#! Record("$(P)$(M):POSN",800,471,0,1,"$(P)$(M):POSN")
+#! Record("$(P)$(M):STATE",300,700,0,1,"$(P)$(M):STATE")
+#! Record("$(P)$(M):MSG",100,705,0,1,"$(P)$(M):MSG")
+#! Record("$(P)$(M):SPERIOD",120,97,0,1,"$(P)$(M):SPERIOD")
+#! Record("$(P)$(M):PARSING",120,317,0,1,"$(P)$(M):PARSING")
+#! Record("$(P)$(M):COLLECTING",120,497,0,1,"$(P)$(M):COLLECTING")
