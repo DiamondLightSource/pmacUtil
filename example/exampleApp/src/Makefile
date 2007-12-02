@@ -15,6 +15,7 @@ DBD += example.dbd
 example_DBD += base.dbd
 example_DBD += asyn.dbd
 example_DBD += calcSupport.dbd
+example_DBD += stdSupport.dbd
 example_DBD += pmacUtilSupport.dbd
 
 # example_registerRecordDeviceDriver.cpp will be created
@@ -35,6 +36,7 @@ example_OBJS_vxWorks += $(EPICS_BASE_BIN)/vxComLibrary
 # xxx Support Module
 example_LIBS += pmacUtil
 example_LIBS += calc
+example_LIBS += std
 example_LIBS += asyn
 example_LIBS += seq pv
 
