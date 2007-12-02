@@ -20,6 +20,9 @@ $(VXWORKS_ONLY)ld < bin/$(ARCH)/example.munch
 dbLoadDatabase("dbd/example.dbd")
 example_registerRecordDeviceDriver(pdbbase)
 
+$(LINUX_ONLY)epicsEnvSet("EPICS_CA_SERVER_PORT","6064")
+$(LINUX_ONLY)epicsEnvSet("EPICS_CA_REPEATER_PORT","6065")
+
 ## Load record instances
 dbLoadRecords("db/example.db")
 
@@ -30,5 +33,5 @@ iocInit()
 
 ## Start any sequence programs
 #seq sncExample,"user=xxx"
-$(LINUX_ONLY)seq(gather)
+$(LINUX_ONLY)seq(gather,"P=P,M=:M")
 

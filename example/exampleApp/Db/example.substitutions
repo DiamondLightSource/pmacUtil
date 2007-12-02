@@ -1,6 +1,6 @@
 file gather.template
 {
-pattern { P, R }
-		{ P:, R: }
+pattern { P, M }
+		{ P, :M }
 }
 
