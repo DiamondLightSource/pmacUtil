@@ -1,6 +1,12 @@
 file gather.template
 {
-pattern { P, M }
-		{ P, :M }
+pattern { P, M, PORT }
+		{ P, :M, "PMAC_S0" }
 }
 
+file basic_asyn_motor.template
+{
+pattern {P,M,DESC,DTYP,C,S,PORT,ADDR,DIR,VELO,VMAX,VBAS,ACCL,MRES,ERES,PREC,EGU,DHLM,DLLM,HLSV,OFF,INIT,SREV,RRES,TWV,BDST,BVEL,BACC,JVEL,JAR,UEIP,RDBD}
+{M1,:AXIS1,"axis 1",asynMotor,1,1,pmac1,1,Pos,1,1,0,1,0.001,0.001,3,mm,20,-20,MAJOR,0,0,200,0,1,0,0,0,1,1,0,0}
+{M2,:AXIS2,"axis 2",asynMotor,1,2,pmac1,2,Pos,1,1,0,1,0.001,0.001,3,mm,20,-20,MAJOR,0,0,200,0,1,0,0,0,1,1,0,0}
+}

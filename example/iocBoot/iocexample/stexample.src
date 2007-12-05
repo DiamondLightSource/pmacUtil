@@ -20,11 +20,16 @@ $(VXWORKS_ONLY)ld < bin/$(ARCH)/example.munch
 dbLoadDatabase("dbd/example.dbd")
 example_registerRecordDeviceDriver(pdbbase)
 
-$(LINUX_ONLY)epicsEnvSet("EPICS_CA_SERVER_PORT","6064")
-$(LINUX_ONLY)epicsEnvSet("EPICS_CA_REPEATER_PORT","6065")
+#$(LINUX_ONLY)epicsEnvSet("EPICS_CA_SERVER_PORT","6064")
+#$(LINUX_ONLY)epicsEnvSet("EPICS_CA_REPEATER_PORT","6065")
 
 ## Load record instances
 dbLoadRecords("db/example.db")
+
+# Create simulated motors: ( start card , start axis , low limit, high limit, home posn, # cards, # axes to setup)
+motorSimCreate( 0, 0, -15000, 1500000, 5000, 1, 3 )
+# Setup the Asyn layer (portname, low-level driver drvet name, card, number of axes on card)
+drvAsynMotorConfigure("pmac1", "motorSim", 0, 3)
 
 ## Set this to see messages from mySub
 #mySubDebug 1

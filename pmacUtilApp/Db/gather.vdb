@@ -4,15 +4,6 @@
 #! DBDEND
 
 
-# Just a test record for SNL...
-record(ao, "$(P)$(R)trigger") {
-  field(DESC, "trigger for SNL")
-  field(SCAN, "Passive")
-  field(DTYP, "Soft Channel")
-  field(VAL, "0")
-  field(PINI, "YES")
-}
-
 # Send the "list gather" command to the PMAC and receives the whole ASCII array
 # of data which will be parsed by the SNL.
 # It has to be Hybrid in order to receive all this data.
@@ -122,18 +113,149 @@ record(busy, "$(P)$(M):EXECUTE") {
   field(VAL, "Done")
 }
 
+record(stringout, "$(P)$(M):MOTOR") {
+  field(DESC, "motor record name")
+  field(DTYP, "Soft Channel")
+}
+
+record(ao, "$(P)$(M):DEMAND") {
+  field(DESC, "set demand position")
+  field(DTYP, "Soft Channel")
+  field(LINR, "NO CONVERSION")
+  field(FLNK, "$(P)$(M):CALCTIME")
+  field(PINI, "YES")
+  field(PREC, "3")
+}
+
+record(ao, "$(P)$(M):MOVE") {
+  field(DESC, "send cmd to motorrec")
+  field(DTYP, "Soft Channel")
+  field(PREC, "3")
+}
+
+record(scalcout, "$(P)$(M):MRBV") {
+  field(DESC, "Motor RBV")
+  field(SCAN, "Passive")
+  field(DTYP, "Soft Channel")
+  field(CALC, "A")
+  field(OOPT, "On Change")
+  field(DOPT, "Use CALC")
+  field(PINI, "YES")
+  field(PREC, "3")
+}
+
+record(scalcout, "$(P)$(M):AXISNO") {
+  field(DESC, "get axis no from motor")
+  field(SCAN, "Passive")
+  field(PINI, "YES")
+  field(DTYP, "Soft Channel")
+  field(DOPT, "Use CALC")
+  field(CALC, "AA")
+  field(OOPT, "Every Time")
+}
+
+record(calcout, "$(P)$(M):CALCTIME") {
+  field(DESC, "calculate move time")
+  field(PINI, "YES")
+  field(DTYP, "Soft Channel")
+  field(CALC, "((abs(A-D))/B)+(2*C)")
+  field(INPD, "$(P)$(M):DEMAND PP")
+  field(OOPT, "On Change")
+  field(DOPT, "Use CALC")
+  field(EGU, "s")
+  field(PREC, "3")
+  field(SCAN, "Passive")
+}
+
+# Use this to force processing of settings records: axis no, move time and so on.
+record(fanout, "$(P)$(M):PSETTINGS") {
+  field(DESC, "process settings records")
+  field(SCAN, "Passive")
+  field(PINI, "YES")
+  field(FLNK, "$(P)$(M):AXISNO")
+  field(LNK1, "$(P)$(M):DEMAND")
+}
+
+record(ai, "$(P)$(M):TSAMPLE") {
+  field(DESC, "time per sample")
+  field(SCAN, "Passive")
+  field(PINI, "YES")
+  field(DTYP, "Soft Channel")
+  field(PREC, "3")
+  field(LINR, "NO CONVERSION")
+  field(EGU, "ms")
+}
+
+record(ai, "$(P)$(M):TGATHER") {
+  field(DESC, "entire gather time")
+  field(SCAN, "Passive")
+  field(PINI, "YES")
+  field(DTYP, "Soft Channel")
+  field(PREC, "3")
+  field(LINR, "NO CONVERSION")
+  field(EGU, "s")
+}
+
+record(ai, "$(P)$(M):FSAMPLE") {
+  field(DESC, "sample frequency")
+  field(SCAN, "Passive")
+  field(PINI, "YES")
+  field(DTYP, "Soft Channel")
+  field(PREC, "3")
+  field(LINR, "NO CONVERSION")
+  field(EGU, "kHz")
+}
+
+record(bi, "$(P)$(M):GATHERING") {
+  field(DESC, "set when gathering data")
+  field(PINI, "YES")
+  field(DTYP, "Soft Channel")
+  field(VAL, "0")
+  field(ZNAM, "done")
+  field(ONAM, "busy")
+}
+
 #! Further lines contain data used by VisualDCT
-#! View(0,383,1.2)
-#! Record("$(P)$(R)trigger",820,751,0,1,"$(P)$(R)trigger")
-#! Record("$(P)$(M):GETDATA",540,97,0,1,"$(P)$(M):GETDATA")
-#! Record("$(P)$(M):SETUP",540,325,0,1,"$(P)$(M):SETUP")
-#! Record("$(P)$(M):PMACTRIG",540,525,0,1,"$(P)$(M):PMACTRIG")
-#! Record("$(P)$(M):VELO",800,111,0,1,"$(P)$(M):VELO")
-#! Record("$(P)$(M):FERR",800,291,0,1,"$(P)$(M):FERR")
-#! Record("$(P)$(M):POSN",800,471,0,1,"$(P)$(M):POSN")
-#! Record("$(P)$(M):STATE",580,760,0,1,"$(P)$(M):STATE")
-#! Record("$(P)$(M):MSG",380,765,0,1,"$(P)$(M):MSG")
-#! Record("$(P)$(M):SPERIOD",120,97,0,1,"$(P)$(M):SPERIOD")
-#! Record("$(P)$(M):PARSING",120,317,0,1,"$(P)$(M):PARSING")
-#! Record("$(P)$(M):COLLECTING",120,497,0,1,"$(P)$(M):COLLECTING")
-#! Record("$(P)$(M):EXECUTE",120,740,0,1,"$(P)$(M):EXECUTE")
+#! View(0,256,1.1)
+#! Record("$(P)$(M):GETDATA",380,60,0,1,"$(P)$(M):GETDATA")
+#! Record("$(P)$(M):SETUP",560,68,0,1,"$(P)$(M):SETUP")
+#! Record("$(P)$(M):PMACTRIG",740,68,0,1,"$(P)$(M):PMACTRIG")
+#! Record("$(P)$(M):VELO",520,314,0,1,"$(P)$(M):VELO")
+#! Record("$(P)$(M):FERR",920,314,0,1,"$(P)$(M):FERR")
+#! Record("$(P)$(M):POSN",720,314,0,1,"$(P)$(M):POSN")
+#! Record("$(P)$(M):STATE",240,381,0,1,"$(P)$(M):STATE")
+#! Record("$(P)$(M):MSG",40,388,0,1,"$(P)$(M):MSG")
+#! Record("$(P)$(M):SPERIOD",520,740,0,1,"$(P)$(M):SPERIOD")
+#! Record("$(P)$(M):PARSING",40,680,0,1,"$(P)$(M):PARSING")
+#! Record("$(P)$(M):COLLECTING",240,520,0,1,"$(P)$(M):COLLECTING")
+#! Record("$(P)$(M):EXECUTE",100,161,0,1,"$(P)$(M):EXECUTE")
+#! Record("$(P)$(M):MOTOR",520,636,0,1,"$(P)$(M):MOTOR")
+#! Record("$(P)$(M):DEMAND",760,660,0,1,"$(P)$(M):DEMAND")
+#! Field("$(P)$(M):DEMAND.FLNK",16777215,1,"$(P)$(M):DEMAND.FLNK")
+#! Link("$(P)$(M):DEMAND.FLNK","$(P)$(M):CALCTIME")
+#! Field("$(P)$(M):DEMAND.VAL",16777215,1,"$(P)$(M):DEMAND.VAL")
+#! Record("$(P)$(M):MOVE",260,941,0,1,"$(P)$(M):MOVE")
+#! Record("$(P)$(M):MRBV",40,891,0,1,"$(P)$(M):MRBV")
+#! Record("$(P)$(M):AXISNO",1420,466,0,0,"$(P)$(M):AXISNO")
+#! Record("$(P)$(M):CALCTIME",1140,704,0,0,"$(P)$(M):CALCTIME")
+#! Field("$(P)$(M):CALCTIME.INPD",16777215,0,"$(P)$(M):CALCTIME.INPD")
+#! Link("$(P)$(M):CALCTIME.INPD","$(P)$(M):DEMAND.VAL")
+#! Record("$(P)$(M):PSETTINGS",1140,454,0,1,"$(P)$(M):PSETTINGS")
+#! Field("$(P)$(M):PSETTINGS.LNK1",16777215,0,"$(P)$(M):PSETTINGS.LNK1")
+#! Link("$(P)$(M):PSETTINGS.LNK1","$(P)$(M):DEMAND")
+#! Field("$(P)$(M):PSETTINGS.FLNK",16777215,1,"$(P)$(M):PSETTINGS.FLNK")
+#! Link("$(P)$(M):PSETTINGS.FLNK","$(P)$(M):AXISNO")
+#! Record("$(P)$(M):TSAMPLE",520,926,0,1,"$(P)$(M):TSAMPLE")
+#! Record("$(P)$(M):TGATHER",740,926,0,1,"$(P)$(M):TGATHER")
+#! Record("$(P)$(M):FSAMPLE",940,926,0,1,"$(P)$(M):FSAMPLE")
+#! Box(Box0,40,40,320,280,1,16711731,null)
+#! Box(Box4,500,540,1100,900,1,16711731,null)
+#! Box(Box3,500,300,1100,520,1,16711731,null)
+#! Box(Box2,360,40,920,260,1,16711731,null)
+#! Box(Box1,20,320,440,860,1,16711731,null)
+#! TextBox(TB0,60,60,320,140,0,"Dialog",12,1,16777215,"Start the gather function\nfrom this record.\nThis record returns when the whole\nprocess is complete (or failed).",null)
+#! TextBox(TB4,520,620,800,560,0,"Dialog",12,1,16777215,"User selectable settings: all the settings the user need to\ncontrol to configure a specific gather setup.",null)
+#! TextBox(TB3,520,460,840,500,0,"Dialog",12,1,16777215,"The waveform records will contain the sampled\ndata when the gather is successfully completed.",null)
+#! TextBox(TB2,400,220,760,260,0,"Dialog",12,1,16777215,"The ASYN records do the direct communication with \nthe PMAC through the 'serial' port $(PORT)",null)
+#! TextBox(TB1,40,320,420,380,0,"Dialog",12,1,16777215,"These records are used for keeping\ntrack of the current state and status\nof the gather application",null)
+#! Record("$(P)$(M):GATHERING",40,520,0,1,"$(P)$(M):GATHERING")

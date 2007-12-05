@@ -18,6 +18,9 @@ example_DBD += calcSupport.dbd
 #example_DBD += stdSupport.dbd
 example_DBD += sscanSupport.dbd
 example_DBD += pmacUtilSupport.dbd
+example_DBD += motorSupport.dbd
+example_DBD += motorSimSupport.dbd
+#example_DBD += pmacAsynMotor.dbd
 
 # example_registerRecordDeviceDriver.cpp will be created
 # example.dbd
@@ -39,6 +42,9 @@ example_LIBS += pmacUtil
 example_LIBS += calc
 example_LIBS += sscan
 #example_LIBS += std
+#example_LIBS += pmacAsynMotor
+example_LIBS += motor
+example_LIBS += motorSimSupport
 example_LIBS += asyn
 example_LIBS += seq pv
 
