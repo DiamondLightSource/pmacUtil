@@ -18,7 +18,8 @@ SUPPORT=	/dls_sw/prod/R3.14.8.2/support
 
 ASYN=		$(SUPPORT)/asyn/4-9
 CALC=		$(SUPPORT)/calc/2-6-3dls1
-STD=		$(SUPPORT)/std/2-5-4dls4
+#STD=		$(SUPPORT)/std/2-5-4dls4
+SSCAN=		$(SUPPORT)/sscan/2-5-6dls1
 #STREAM=		$(SUPPORT)/streamDevice/2-1dls4
 
 SNCSEQ=     $(SUPPORT)/seq/2-0-11dls1
