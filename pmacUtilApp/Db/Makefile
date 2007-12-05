@@ -12,6 +12,7 @@ include $(TOP)/configure/CONFIG
 # templates like this
 #
 DB += energise.template
+DB += pmacVariableWrite.template
 DB += gather.template
 
 # not using streams since this doesnt work with tpmac
