@@ -40,3 +40,4 @@ iocInit()
 #seq sncExample,"user=xxx"
 $(LINUX_ONLY)seq(gather,"P=P,M=:M")
 
+
