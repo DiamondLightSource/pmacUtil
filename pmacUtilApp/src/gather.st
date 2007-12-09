@@ -9,6 +9,7 @@ option +r;
    = 39938 chars */
 #define MAX_RAW_CHARS 39938
 #define N_ELEMENTS 1024
+#define MAX_N_DATASRC 3
 
 int execute; 					assign execute 			to "{P}{M}:EXECUTE.VAL";
 string motorRecord;				assign motorRecord 		to "{P}{M}:MOTOR";
@@ -48,6 +49,11 @@ char rawData[MAX_RAW_CHARS]; 	assign rawData 			to "BL16B-MO-IOC-02:asyn.BINP";
 /*string asynPmacTrigAout;		assign asynPmacTrigAout	to "{P}{M}:PMACTRIG.AOUT";*/
 string asynPmacTrigAout;		assign asynPmacTrigAout	to "BL16B-MO-IOC-02:asyn.AOUT";
 
+double waveformRecs[MAX_N_DATASRC][N_ELEMENTS];
+assign waveformRecs to {
+	"{P}{M}:POSN",
+	"{P}{M}:FERR",
+	"{P}{M}:VELO"};
 
 int axisNo;
 int pmacNo;
@@ -60,19 +66,20 @@ int M72;
 
 monitor execute;
 monitor demandVal;
-monitor rawData;
 monitor motorRecord;
 monitor samplePeriod;
 monitor moveTime;
+monitor rawData;
 
 evflag executeMon; 		sync execute 			executeMon;
 evflag motorRecordMon; 	sync motorRecord 		motorRecordMon;
-evflag rawDataMon; 		sync rawData 			rawDataMon;
 evflag samplePeriodMon; sync samplePeriod		samplePeriodMon;
+evflag rawDataMon;		sync rawData			rawDataMon;
 
 /* define exacaped C functions at end of the file. */
 %{
-#define MAX_N_DATASRC 3
+
+int i;
 
 unsigned int motorBaseAddr[33] = {0,	0x080, 0x100, 0x180, 0x200, 0x280, 0x300, 0x380, 0x400,
 			  							0x480, 0x500, 0x580, 0x600, 0x680, 0x700, 0x780, 0x800,
@@ -86,6 +93,13 @@ typedef struct {
 	unsigned int type;
 	double scalingFactor;
 	} dataSrcStruct_t;
+/*
+	 valid types are (according to Turbo SRM p.225:
+	0x0: Y-register only 24 bits
+	0x4: X-register only 24 bits
+	0x8: X/Y double register 48 bits interpret as integer.
+	0xC: X/Y double register 48 bits interpret as floating point.
+*/
 static dataSrcStruct_t dataSrc[MAX_N_DATASRC] = {
 	{ 0x0B, "Actual position", 8, 0x8, 1 },					/* scaling: 1.0/( Ixx08 * 32.0 ) */
 	{ 0x11, "Following error", 8, 0x8, 1 },					/* scaling: 1.0/( Ixx08 * 32.0 ) */
@@ -93,6 +107,8 @@ static dataSrcStruct_t dataSrc[MAX_N_DATASRC] = {
 };
 
 static int getAxisNo(char* motorOutField);
+static int parseRawData(struct UserVar *pVar);
+
 }%
 
 ss ssGather 
@@ -109,7 +125,6 @@ ss ssGather
 		{
 			printf("ssGather: clearing all event flags.\n");
 			efClear(executeMon);
-			efClear(rawDataMon);
 			efClear(motorRecordMon);
 			efClear(samplePeriodMon);
 			axisNo = 0;
@@ -225,18 +240,18 @@ ss ssGather
 			printf("ssGather: actual position factor = %lf\n", dataSrc[0].scalingFactor);
 			
 			if( Ixx08 != 0.0) dataSrc[1].scalingFactor = 1.0/(Ixx08 * 32.0);
-			printf("ssGather: actual position factor = %lf\n", dataSrc[1].scalingFactor);
+			printf("ssGather: following error factor = %lf\n", dataSrc[1].scalingFactor);
 
 			if (Ixx09 != 0.0 && Ixx60 != -1.0) 
 				dataSrc[2].scalingFactor = 1.0/(Ixx09 * 32.0)/(Ixx60 + 1);
-			printf("ssGather: actual position factor = %lf\n", dataSrc[2].scalingFactor);
+			printf("ssGather: actual velocity factor = %lf\n", dataSrc[2].scalingFactor);
 			
 			printf("ssGather: setting up all ivars for gathering...\n");
 			/* i5050, i5051: select gather channels.
 			   i5001..3: gather channels - contain the data src address.
 			   i5049: sample period in servo cycles.
 			 */
-			strcpy(asynSetupAout, "i5050=3 i5051=0");
+			strcpy(asynSetupAout, "i5050=7 i5051=0");
 			pvPut(asynSetupAout, SYNC);
 			sprintf(asynSetupAout, "i5049=%d", samplePeriod);
 			pvPut(asynSetupAout, SYNC);
@@ -298,18 +313,19 @@ ss ssGather
 			printf("ssGather: sending list gather cmd to collect data from PMAC.\n");
 			collecting = 1;
 			pvPut(collecting, SYNC);
-			pvFlush();
 			strcpy(listGatherCmd, "list gather");
 			pvPut(listGatherCmd, ASYNC);
 		}
 /*		when( efTestAndClear(rawDataMon) )*/
-		when( pvPutComplete(listGatherCmd) )
+		when( pvPutComplete(listGatherCmd) && efTestAndClear(rawDataMon))
 		{
 			pvGet(nRawChars);
-			printf("ssGather: got raw data: %d ASCII chars!\n", nRawChars);
-
-
+/*			pvGet(rawData, SYNC);*/
+			printf("ssGather: rawdata: \n" );
+			%%for(i = 0; i < 16; i++) printf("%d:%d ", i, (int)pVar->rawData[i]);
+			printf("\nssGather: got raw data: %d ASCII chars!\n", nRawChars);
 		} state PARSE
+		
 		when( delay(10.0))
 		{
 			printf("ssGather: timeout - got tired of waiting for data from list gather.\n");
@@ -330,21 +346,24 @@ ss ssGather
 			pvPut(stateMsg);
 			parsing = 1;
 			pvPut(parsing, SYNC);
-			pvFlush();
 		}
 		when()
 		{
 			printf("ssGather: parsing the raw ASCII data...\n");
+			%%parseRawData( pVar );
 			printf("ssGather: posting the parsed data to the waveform records.\n");
-			execute = 0;
-			pvPut(execute);
-			efClear(executeMon);
+			pvPut(waveformRecs[0], SYNC);
+			pvPut(waveformRecs[1], SYNC);
+			pvPut(waveformRecs[2], SYNC);
 		} state MONITOR_INPUT
 		exit
 		{
 			printf("ssGather: all done!\n");
 			parsing = 0;
 			pvPut(parsing, SYNC);
+			execute = 0;
+			pvPut(execute);
+			efClear(executeMon);
 		}
 	}
 }
@@ -360,6 +379,72 @@ int getAxisNo(char* motorOutField)
 	retval = sscanf(motorOutField, "@asyn(pmac%d,%d)", &pmacNo, &axisNo);
 	printf("getAxisNo: sscan returned: %d. PMAC: %d AXIS: %d\n", retval, pmacNo, axisNo);
 	return axisNo;
+}
+
+static int parseRawData(struct UserVar *pVar)
+{
+	int i, ret, dataSrcCounter = 3;
+	unsigned int sampleCounter = 0;
+	unsigned int charCounter = 0;
+	int MSBY, LSBX;
+	double scaling;
+	char *substr1;
+	char *substr2;
+	char *substr3;
+	
+	substr1 = calloc(13, sizeof(char));
+	substr2 = calloc(13, sizeof(char));
+	substr3 = calloc(13, sizeof(char));
+	
+	printf("parseRawData: nChars = %d\n", pVar->nRawChars);
+	
+	for(	i = 0, sampleCounter = 0, dataSrcCounter = 0; 
+			i < (N_ELEMENTS * MAX_N_DATASRC) && charCounter < (pVar->nRawChars - 13);
+			i++, charCounter += 13, dataSrcCounter++)
+	{
+		if (dataSrcCounter == MAX_N_DATASRC)
+		{
+			strncpy(substr1, (char*)(pVar->rawData + charCounter), 12);
+			strncpy(substr2, (char*)(pVar->rawData + charCounter + 13), 12);
+			strncpy(substr3, (char*)(pVar->rawData + charCounter + 26), 12);
+			printf("-- %s %s %s --\n", substr1, substr2, substr3);
+			dataSrcCounter = 0;
+			sampleCounter++;
+		}
+
+		if (sscanf( (char*)(pVar->rawData + charCounter), "%06X%06X", &MSBY, &LSBX) != 2)
+		{
+			printf(	"parseRawData: failed sscanf... returned: %d iteration: %d charCounter=%d sampleCounter=%d\n", 
+					ret, i, charCounter, sampleCounter);
+			printf("parseRawData: rest of string: %s\n", (char*)(pVar->rawData + charCounter));
+			break;
+		}
+		
+		scaling = dataSrc[dataSrcCounter].scalingFactor;
+		switch ( dataSrc[dataSrcCounter].type )
+		{
+			case 0x0:
+				pVar->waveformRecs[dataSrcCounter][sampleCounter] = ((signed int)MSBY) * scaling;
+				break;
+			case 0x4:
+				pVar->waveformRecs[dataSrcCounter][sampleCounter] = ((signed int)LSBX) * scaling;
+				break;
+			case 0x8:
+				pVar->waveformRecs[dataSrcCounter][sampleCounter] = ((long int)((MSBY << 24) | LSBX)) * scaling;
+				break;
+			case 0xC:
+				pVar->waveformRecs[dataSrcCounter][sampleCounter] = ((double)((MSBY << 24) | LSBX)) * scaling;
+				break;
+			default:
+				printf("parseRawData: this should not happen!\n");
+				pVar->waveformRecs[dataSrcCounter][sampleCounter] = 0.0;
+				break;
+		}
+		printf(	"parseRawData: ch: %d MSB=0x%X LSB=0x%X scaled=%lf\n",
+				dataSrcCounter, MSBY, LSBX, pVar->waveformRecs[dataSrcCounter][sampleCounter]);
+	}
+	printf("parseRawData: iterations=%d sampleCounter=%d\n", i, sampleCounter);
+	return 0;
 }
 
 }%
