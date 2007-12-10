@@ -6,48 +6,44 @@ program gather("P=P,R=:M")
 option +r;
 /* number of raw chars to receive from gathering 
    = 3 data sources x 1024 samples x (12 hex-chars + 1 lineend) + 2 end of stream chars
-   = 39938 chars */
-#define MAX_RAW_CHARS 39938
+   = 39938 chars 
+   Rounded to 40K = 40960
+ */
+   
+#define MAX_RAW_CHARS 40960
 #define N_ELEMENTS 1024
 #define MAX_N_DATASRC 3
 
 int execute; 					assign execute 			to "{P}{M}:EXECUTE.VAL";
-string motorRecord;				assign motorRecord 		to "{P}{M}:MOTOR";
+string motor;					assign motor	 		to "{P}{M}:MOTOR";
 string moveOut; 				assign moveOut 			to "{P}{M}:MOVE.OUT";
 double moveVal; 				assign moveVal 			to "{P}{M}:MOVE.VAL";
 double demandVal; 				assign demandVal 		to "{P}{M}:DEMAND.VAL";
-string rbvInpa; 				assign rbvInpa 			to "{P}{M}:MRBV.INPA";
-int samplePeriod;				assign samplePeriod 	to "{P}{M}:SPERIOD";
-double Tgather;					assign Tgather			to "{P}{M}:TGATHER";
-double Fsample;					assign Fsample			to "{P}{M}:FSAMPLE";
-double Tsample;					assign Tsample			to "{P}{M}:TSAMPLE";
-string stateMsg; 				assign stateMsg 		to "{P}{M}:STATE.VAL";
-string motorOutInp;				assign motorOutInp		to "{P}{M}:AXISNO.INAA";
-string strAxisNo;				assign strAxisNo		to "{P}{M}:AXISNO.SVAL";
-int AxisNoProc;					assign AxisNoProc		to "{P}{M}:AXISNO.PROC";
+string mrbvInpA; 				assign mrbvInpA 		to "{P}{M}:MRBV.INPA";
+int sPeriod;					assign sPeriod 			to "{P}{M}:SPERIOD";
+double tGather;					assign tGather			to "{P}{M}:TGATHER";
+double fSample;					assign fSample			to "{P}{M}:FSAMPLE";
+double tSample;					assign tSample			to "{P}{M}:TSAMPLE";
+string stateMsg;				assign stateMsg			to "{P}{M}:STATE.VAL";
+string axisNoInAA;				assign axisNoInAA		to "{P}{M}:AXISNO.INAA";
+string axisNoSval;				assign axisNoSval		to "{P}{M}:AXISNO.SVAL";
+int    axisNoProc;				assign axisNoProc		to "{P}{M}:AXISNO.PROC";
 string calcTimeInpA;			assign calcTimeInpA		to "{P}{M}:CALCTIME.INPA";
 string calcTimeInpB;			assign calcTimeInpB		to "{P}{M}:CALCTIME.INPB";
 string calcTimeInpC;			assign calcTimeInpC		to "{P}{M}:CALCTIME.INPC";
-double moveTime;				assign moveTime			to "{P}{M}:CALCTIME.VAL";
+double calcTimeVal;				assign calcTimeVal		to "{P}{M}:CALCTIME.VAL";
 int collecting;					assign collecting		to "{P}{M}:COLLECTING";
 int parsing;					assign parsing			to "{P}{M}:PARSING";
 int gathering;					assign gathering		to "{P}{M}:GATHERING";
 
-/*string asynSetupAout;			assign asynSetupAout	to "{P}{M}:SETUP.AOUT";*/
-string asynSetupAout;			assign asynSetupAout	to "BL16B-MO-IOC-02:asyn.AOUT";
-/*string asynSetupAin;			assign asynSetupAin		to "{P}{M}:SETUP.AINP";*/
-string asynSetupAin;			assign asynSetupAin		to "BL16B-MO-IOC-02:asyn.AINP";
-
-string asynGetDataIfmt;			assign asynGetDataIfmt	to "BL16B-MO-IOC-02:asyn.IFMT";
-/*string listGatherCmd;			assign listGatherCmd	to "{P}{M}:GETDATA.AOUT";*/
-string listGatherCmd;			assign listGatherCmd	to "BL16B-MO-IOC-02:asyn.AOUT";
-/*int nRawChars; 				assign nRawChars 		to "{P}{M}:GETDATA.NORD";*/
-int nRawChars; 					assign nRawChars 		to "BL16B-MO-IOC-02:asyn.NORD";
-/*char rawData[MAX_RAW_CHARS]; 	assign rawData 			to "{P}{M}:GETDATA.BINP";*/
-char rawData[MAX_RAW_CHARS]; 	assign rawData 			to "BL16B-MO-IOC-02:asyn.BINP";
-
-/*string asynPmacTrigAout;		assign asynPmacTrigAout	to "{P}{M}:PMACTRIG.AOUT";*/
-string asynPmacTrigAout;		assign asynPmacTrigAout	to "BL16B-MO-IOC-02:asyn.AOUT";
+/* place holders for the asyn record
+ * use either {P}{M}:ASYN or for testing BL16B-MO-IOC-02:asyn
+ */
+string asynIfmt;				assign asynIfmt			to "";
+string asynAout;				assign asynAout			to "";
+string asynAinp;				assign asynAinp			to "";
+int asynNord;					assign asynNord			to "";
+char asynBinp[MAX_RAW_CHARS];	assign asynBinp			to "";
 
 double waveformRecs[MAX_N_DATASRC][N_ELEMENTS];
 assign waveformRecs to {
@@ -66,15 +62,15 @@ int M72;
 
 monitor execute;
 monitor demandVal;
-monitor motorRecord;
-monitor samplePeriod;
-monitor moveTime;
-monitor rawData;
+monitor motor;
+monitor sPeriod;
+monitor calcTimeVal;
+monitor asynBinp;
 
 evflag executeMon; 		sync execute 			executeMon;
-evflag motorRecordMon; 	sync motorRecord 		motorRecordMon;
-evflag samplePeriodMon; sync samplePeriod		samplePeriodMon;
-evflag rawDataMon;		sync rawData			rawDataMon;
+evflag motorMon;	 	sync motor		 		motorMon;
+evflag sPeriodMon; 		sync sPeriod			sPeriodMon;
+evflag asynBinpMon;		sync asynBinp			asynBinpMon;
 
 /* define exacaped C functions at end of the file. */
 %{
@@ -106,8 +102,8 @@ static dataSrcStruct_t dataSrc[MAX_N_DATASRC] = {
 	{ 0x1D, "Actual unfiltered velocity", 4, 0x4, 1 },		/* scaling: 1.0/( Ixx09 * 32.0 )/( Ixx60 + 1 ) */ 
 };
 
-static int getAxisNo(char* motorOutField);
-static int parseRawData(struct UserVar *pVar);
+static int pu_getAxisNo(char* motorOutField);
+static int pu_parseRawData(struct UserVar *pVar);
 
 }%
 
@@ -125,8 +121,8 @@ ss ssGather
 		{
 			printf("ssGather: clearing all event flags.\n");
 			efClear(executeMon);
-			efClear(motorRecordMon);
-			efClear(samplePeriodMon);
+			efClear(motorMon);
+			efClear(sPeriodMon);
 			axisNo = 0;
 			collecting = 0;
 			pvPut(collecting, SYNC);
@@ -147,52 +143,52 @@ ss ssGather
 
 			/* only for testing!!! */
 			printf("sending IFMT=ASCII\n");
-			strcpy(asynGetDataIfmt, "ASCII");
-			pvPut(asynGetDataIfmt);
+			strcpy(asynIfmt, "ASCII");
+			pvPut(asynIfmt);
 		}
 		when( efTestAndClear(executeMon) && (execute == 1) )
 		{
 			printf("ssGather: got execute trigger from user.\n");
 		} state SETUP
 
-		when( efTestAndClear(motorRecordMon) )
+		when( efTestAndClear(motorMon) )
 		{
-			sprintf(moveOut, "%s.VAL CA", motorRecord);
+			sprintf(moveOut, "%s.VAL CA", motor);
 			printf("ssGather: moveOut = %s\n", moveOut);
 			pvPut(moveOut);
-			sprintf(rbvInpa, "%s.RBV CPP", motorRecord);
-			printf("ssGather: rbvInpa = %s\n", rbvInpa);
-			pvPut(rbvInpa);
-			sprintf(motorOutInp, "%s.OUT CA", motorRecord);
-			printf("ssGather: motorOutInp = %s\n", motorOutInp);
-			pvPut(motorOutInp);
-			sprintf(calcTimeInpA, "%s.RBV NPP NMS", motorRecord);
+			sprintf(mrbvInpA, "%s.RBV CPP", motor);
+			printf("ssGather: mrbvInpA = %s\n", mrbvInpA);
+			pvPut(mrbvInpA);
+			sprintf(axisNoInAA, "%s.OUT CA", motor);
+			printf("ssGather: axisNoInAA = %s\n", axisNoInAA);
+			pvPut(axisNoInAA);
+			sprintf(calcTimeInpA, "%s.RBV NPP NMS", motor);
 			printf("ssGather: calcTiemInpA = %s\n", calcTimeInpA);
 			pvPut(calcTimeInpA);
-			sprintf(calcTimeInpB, "%s.VELO NPP NMS", motorRecord);
+			sprintf(calcTimeInpB, "%s.VELO NPP NMS", motor);
 			printf("ssGather: calcTiemInpB = %s\n", calcTimeInpB);
 			pvPut(calcTimeInpB);
-			sprintf(calcTimeInpC, "%s.ACCL NPP NMS", motorRecord);
+			sprintf(calcTimeInpC, "%s.ACCL NPP NMS", motor);
 			printf("ssGather: calcTiemInpC = %s\n", calcTimeInpC);
 			pvPut(calcTimeInpC);
 			} state MONITOR_INPUT
 
-		when( efTestAndClear(samplePeriodMon) )
+		when( efTestAndClear(sPeriodMon) )
 		{
 			/* calculate the sample and sampling time */
-			strcpy(asynSetupAout, "M72->Y:$000037,0,24 M72 I52");
-			pvPut(asynSetupAout, SYNC);
-			pvGet(asynSetupAin);
-			sscanf(asynSetupAin, "%d\r%d", &M72, &I52);
+			strcpy(asynAout, "M72->Y:$000037,0,24 M72 I52");
+			pvPut(asynAout, SYNC);
+			pvGet(asynAinp);
+			sscanf(asynAinp, "%d\r%d", &M72, &I52);
 			printf("ssGather: I52=%d M72=%d\n", I52, M72);
 			lenClkTick = 203.4/(I52 + 1);
-			Tsample = samplePeriod * lenClkTick * M72/1000000.0; /* milliseconds */
-			pvPut(Tsample);
-			Fsample = 1.0/Tsample; /* kHz */
-			pvPut(Fsample);
-			Tgather = N_ELEMENTS * Tsample / 1000.0; /* seconds */
-			pvPut(Tgather);
-			printf("ssGather: Tsample=%lfms Fsample=%lfkHz gather time: %lfs\n", Tsample, Fsample, Tgather);
+			tSample = sPeriod * lenClkTick * M72/1000000.0; /* milliseconds */
+			pvPut(tSample);
+			fSample = 1.0/tSample; /* kHz */
+			pvPut(fSample);
+			tGather = N_ELEMENTS * tSample / 1000.0; /* seconds */
+			pvPut(tGather);
+			printf("ssGather: tSample=%fms fSample=%fkHz gather time: %fs\n", tSample, fSample, tGather);
 		} state MONITOR_INPUT
 	}
 	
@@ -203,11 +199,11 @@ ss ssGather
 			printf("ssGather: state SETUP\n");
 			strcpy(stateMsg, "SETUP");
 			pvPut(stateMsg);
-			AxisNoProc = 1;
-			pvPut(AxisNoProc);
-			pvGet(strAxisNo);
-			sscanf(strAxisNo, "@asyn(pmac%d,%d)", &pmacNo, &axisNo);
-			printf("ssGather: got axis no: %d (%s)\n", axisNo, strAxisNo);
+			axisNoProc = 1;
+			pvPut(axisNoProc);
+			pvGet(axisNoSval);
+			sscanf(axisNoSval, "@asyn(pmac%d,%d)", &pmacNo, &axisNo);
+			printf("ssGather: got axis no: %d (%s)\n", axisNo, axisNoSval);
 		}
 		when( axisNo < 1 || axisNo > 32)
 		{
@@ -217,56 +213,56 @@ ss ssGather
 		{
 			printf("ssGather: getting scaling ivars...\n");
 			
-			sprintf(asynSetupAout, "i%d08", axisNo);
-			pvPut(asynSetupAout, SYNC);
-			pvGet(asynSetupAin);
-			sscanf(asynSetupAin, "%lf", &Ixx08);
-			printf("ssGather: %s = %lf\n", asynSetupAout, Ixx08);
+			sprintf(asynAout, "i%d08", axisNo);
+			pvPut(asynAout, SYNC);
+			pvGet(asynAinp);
+			sscanf(asynAinp, "%lf", &Ixx08);
+			printf("ssGather: %s = %f\n", asynAout, Ixx08);
 
-			sprintf(asynSetupAout, "i%d09", axisNo);
-			pvPut(asynSetupAout, SYNC);
-			pvGet(asynSetupAin);
-			sscanf(asynSetupAin, "%lf", &Ixx09);
-			printf("ssGather: %s = %lf\n", asynSetupAout, Ixx09);
+			sprintf(asynAout, "i%d09", axisNo);
+			pvPut(asynAout, SYNC);
+			pvGet(asynAinp);
+			sscanf(asynAinp, "%lf", &Ixx09);
+			printf("ssGather: %s = %.3f\n", asynAout, Ixx09);
 		
-			sprintf(asynSetupAout, "i%d60", axisNo);
-			pvPut(asynSetupAout, SYNC);
-			pvGet(asynSetupAin);
-			sscanf(asynSetupAin, "%lf", &Ixx60);
-			printf("ssGather: %s = %lf\n", asynSetupAout, Ixx60);
+			sprintf(asynAout, "i%d60", axisNo);
+			pvPut(asynAout, SYNC);
+			pvGet(asynAinp);
+			sscanf(asynAinp, "%lf", &Ixx60);
+			printf("ssGather: %s = %f\n", asynAout, Ixx60);
 			
 			printf("ssGather: calculating the scaling factors...\n");
 			if( Ixx08 != 0.0) dataSrc[0].scalingFactor = 1.0/(Ixx08 * 32.0);
-			printf("ssGather: actual position factor = %lf\n", dataSrc[0].scalingFactor);
+			printf("ssGather: actual position factor = %f\n", dataSrc[0].scalingFactor);
 			
 			if( Ixx08 != 0.0) dataSrc[1].scalingFactor = 1.0/(Ixx08 * 32.0);
-			printf("ssGather: following error factor = %lf\n", dataSrc[1].scalingFactor);
+			printf("ssGather: following error factor = %f\n", dataSrc[1].scalingFactor);
 
 			if (Ixx09 != 0.0 && Ixx60 != -1.0) 
 				dataSrc[2].scalingFactor = 1.0/(Ixx09 * 32.0)/(Ixx60 + 1);
-			printf("ssGather: actual velocity factor = %lf\n", dataSrc[2].scalingFactor);
+			printf("ssGather: actual velocity factor = %f\n", dataSrc[2].scalingFactor);
 			
 			printf("ssGather: setting up all ivars for gathering...\n");
 			/* i5050, i5051: select gather channels.
 			   i5001..3: gather channels - contain the data src address.
 			   i5049: sample period in servo cycles.
 			 */
-			strcpy(asynSetupAout, "i5050=7 i5051=0");
-			pvPut(asynSetupAout, SYNC);
-			sprintf(asynSetupAout, "i5049=%d", samplePeriod);
-			pvPut(asynSetupAout, SYNC);
+			strcpy(asynAout, "i5050=7 i5051=0");
+			pvPut(asynAout, SYNC);
+			sprintf(asynAout, "i5049=%d", sPeriod);
+			pvPut(asynAout, SYNC);
 			
-			sprintf(asynSetupAout, "i5001=$%X%05X", dataSrc[0].type, dataSrc[0].offset + motorBaseAddr[axisNo] );
-			pvPut(asynSetupAout, SYNC);
-			sprintf(asynSetupAout, "i5002=$%X%05X", dataSrc[1].type, dataSrc[1].offset + motorBaseAddr[axisNo] );
-			pvPut(asynSetupAout, SYNC);
-			sprintf(asynSetupAout, "i5003=$%X%05X", dataSrc[2].type, dataSrc[2].offset + motorBaseAddr[axisNo] );
-			pvPut(asynSetupAout, SYNC);
+			sprintf(asynAout, "i5001=$%X%05X", dataSrc[0].type, dataSrc[0].offset + motorBaseAddr[axisNo] );
+			pvPut(asynAout, SYNC);
+			sprintf(asynAout, "i5002=$%X%05X", dataSrc[1].type, dataSrc[1].offset + motorBaseAddr[axisNo] );
+			pvPut(asynAout, SYNC);
+			sprintf(asynAout, "i5003=$%X%05X", dataSrc[2].type, dataSrc[2].offset + motorBaseAddr[axisNo] );
+			pvPut(asynAout, SYNC);
 
 			printf("ssGather: sending define gather cmd...\n");
-			sprintf(asynSetupAout, "define gather %d", 47 + (MAX_N_DATASRC * N_ELEMENTS));
-			pvPut(asynSetupAout);
-			printf("ssGather: sent out: %s\n", asynSetupAout);
+			sprintf(asynAout, "define gather %d", 47 + (MAX_N_DATASRC * N_ELEMENTS));
+			pvPut(asynAout);
+			printf("ssGather: sent out: %s\n", asynAout);
 			
 		} state GATHER
 	}
@@ -282,14 +278,14 @@ ss ssGather
 			pvPut(gathering, SYNC);
 			
 			printf("ssGather: sending gather command to trigger gathering\n");
-			strcpy(asynPmacTrigAout, "gather");
-			pvPut(asynPmacTrigAout);
+			strcpy(asynAout, "gather");
+			pvPut(asynAout);
 			
 			printf("ssGather: sending demand command to motor to start moving.\n");
 			moveVal = demandVal;
 			pvPut(moveVal);
 		}
-		when(delay(Tgather + 0.5))
+		when(delay(tGather + 0.5))
 		{
 			printf("ssGather: timeout - gathering must have stopped now...(I guess)\n");
 			gathering = 0;
@@ -307,23 +303,23 @@ ss ssGather
 			
 			/* only for testing!!! */
 			printf("sending IFMT=Hybrid\n");
-			strcpy(asynGetDataIfmt, "Hybrid");
-			pvPut(asynGetDataIfmt);
+			strcpy(asynIfmt, "Hybrid");
+			pvPut(asynIfmt);
 			
 			printf("ssGather: sending list gather cmd to collect data from PMAC.\n");
 			collecting = 1;
 			pvPut(collecting, SYNC);
-			strcpy(listGatherCmd, "list gather");
-			pvPut(listGatherCmd, ASYNC);
+			strcpy(asynAout, "list gather");
+			pvPut(asynAout, ASYNC);
 		}
-/*		when( efTestAndClear(rawDataMon) )*/
-		when( pvPutComplete(listGatherCmd) && efTestAndClear(rawDataMon))
+/*		when( efTestAndClear(asynBinpMon) )*/
+		when( pvPutComplete(asynAout) && efTestAndClear(asynBinpMon))
 		{
-			pvGet(nRawChars);
-/*			pvGet(rawData, SYNC);*/
+			pvGet(asynBinp);
+/*			pvGet(asynBinp, SYNC);*/
 			printf("ssGather: rawdata: \n" );
-			%%for(i = 0; i < 16; i++) printf("%d:%d ", i, (int)pVar->rawData[i]);
-			printf("\nssGather: got raw data: %d ASCII chars!\n", nRawChars);
+			%%for(i = 0; i < 16; i++) printf("%d:%d ", i, (int)pVar->asynBinp[i]);
+			printf("\nssGather: got raw data: %d ASCII chars!\n", asynNord);
 		} state PARSE
 		
 		when( delay(10.0))
@@ -350,7 +346,7 @@ ss ssGather
 		when()
 		{
 			printf("ssGather: parsing the raw ASCII data...\n");
-			%%parseRawData( pVar );
+			%%pu_parseRawData( pVar );
 			printf("ssGather: posting the parsed data to the waveform records.\n");
 			pvPut(waveformRecs[0], SYNC);
 			pvPut(waveformRecs[1], SYNC);
@@ -370,20 +366,20 @@ ss ssGather
 
 /* C functions */
 %{
-int getAxisNo(char* motorOutField)
+int pu_getAxisNo(char* motorOutField)
 {
 	int pmacNo = 0;
 	int axisNo = 0;
 	int retval;
-	printf("getAxisNo: got string: \"%s\"\n", motorOutField);
+	printf("pu_getAxisNo: got string: \"%s\"\n", motorOutField);
 	retval = sscanf(motorOutField, "@asyn(pmac%d,%d)", &pmacNo, &axisNo);
-	printf("getAxisNo: sscan returned: %d. PMAC: %d AXIS: %d\n", retval, pmacNo, axisNo);
+	printf("pu_getAxisNo: sscan returned: %d. PMAC: %d AXIS: %d\n", retval, pmacNo, axisNo);
 	return axisNo;
 }
 
-static int parseRawData(struct UserVar *pVar)
+static int pu_parseRawData(struct UserVar *pVar)
 {
-	int i, ret, dataSrcCounter = 3;
+	int i, ret=0, dataSrcCounter = 3;
 	unsigned int sampleCounter = 0;
 	unsigned int charCounter = 0;
 	int MSBY, LSBX;
@@ -396,27 +392,27 @@ static int parseRawData(struct UserVar *pVar)
 	substr2 = calloc(13, sizeof(char));
 	substr3 = calloc(13, sizeof(char));
 	
-	printf("parseRawData: nChars = %d\n", pVar->nRawChars);
+	printf("pu_parseRawData: nChars = %d\n", pVar->asynNord);
 	
 	for(	i = 0, sampleCounter = 0, dataSrcCounter = 0; 
-			i < (N_ELEMENTS * MAX_N_DATASRC) && charCounter < (pVar->nRawChars - 13);
+			i < (N_ELEMENTS * MAX_N_DATASRC) && charCounter < (pVar->asynNord - 13);
 			i++, charCounter += 13, dataSrcCounter++)
 	{
 		if (dataSrcCounter == MAX_N_DATASRC)
 		{
-			strncpy(substr1, (char*)(pVar->rawData + charCounter), 12);
-			strncpy(substr2, (char*)(pVar->rawData + charCounter + 13), 12);
-			strncpy(substr3, (char*)(pVar->rawData + charCounter + 26), 12);
+			strncpy(substr1, (char*)(pVar->asynBinp + charCounter), 12);
+			strncpy(substr2, (char*)(pVar->asynBinp + charCounter + 13), 12);
+			strncpy(substr3, (char*)(pVar->asynBinp + charCounter + 26), 12);
 			printf("-- %s %s %s --\n", substr1, substr2, substr3);
 			dataSrcCounter = 0;
 			sampleCounter++;
 		}
 
-		if (sscanf( (char*)(pVar->rawData + charCounter), "%06X%06X", &MSBY, &LSBX) != 2)
+		if (sscanf( (char*)(pVar->asynBinp + charCounter), "%06X%06X", &MSBY, &LSBX) != 2)
 		{
-			printf(	"parseRawData: failed sscanf... returned: %d iteration: %d charCounter=%d sampleCounter=%d\n", 
+			printf(	"pu_parseRawData: failed sscanf... returned: %d iteration: %d charCounter=%d sampleCounter=%d\n", 
 					ret, i, charCounter, sampleCounter);
-			printf("parseRawData: rest of string: %s\n", (char*)(pVar->rawData + charCounter));
+			printf("pu_parseRawData: rest of string: %s\n", (char*)(pVar->asynBinp + charCounter));
 			break;
 		}
 		
@@ -436,14 +432,14 @@ static int parseRawData(struct UserVar *pVar)
 				pVar->waveformRecs[dataSrcCounter][sampleCounter] = ((double)((MSBY << 24) | LSBX)) * scaling;
 				break;
 			default:
-				printf("parseRawData: this should not happen!\n");
+				printf("pu_parseRawData: this should not happen!\n");
 				pVar->waveformRecs[dataSrcCounter][sampleCounter] = 0.0;
 				break;
 		}
-		printf(	"parseRawData: ch: %d MSB=0x%X LSB=0x%X scaled=%lf\n",
+		printf(	"pu_parseRawData: ch: %d MSB=0x%X LSB=0x%X scaled=%.3f\n",
 				dataSrcCounter, MSBY, LSBX, pVar->waveformRecs[dataSrcCounter][sampleCounter]);
 	}
-	printf("parseRawData: iterations=%d sampleCounter=%d\n", i, sampleCounter);
+	printf("pu_parseRawData: iterations=%d sampleCounter=%d\n", i, sampleCounter);
 	return 0;
 }
 
