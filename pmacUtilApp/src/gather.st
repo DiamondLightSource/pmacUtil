@@ -13,6 +13,7 @@ option +r;
 #define MAX_RAW_CHARS 40960
 #define N_ELEMENTS 1024
 #define MAX_N_DATASRC 3
+#define MAX_PV_STR_LEN 30
 
 int execute; 					assign execute 			to "{P}{M}:EXECUTE.VAL";
 string motor;					assign motor	 		to "{P}{M}:MOTOR";
@@ -35,6 +36,7 @@ double calcTimeVal;				assign calcTimeVal		to "{P}{M}:CALCTIME.VAL";
 int collecting;					assign collecting		to "{P}{M}:COLLECTING";
 int parsing;					assign parsing			to "{P}{M}:PARSING";
 int gathering;					assign gathering		to "{P}{M}:GATHERING";
+string asynRec;					assign asynRec			to "{P}{M}:ASYNREC.VAL";
 
 /* place holders for the asyn record
  * use either {P}{M}:ASYN or for testing BL16B-MO-IOC-02:asyn
@@ -42,6 +44,8 @@ int gathering;					assign gathering		to "{P}{M}:GATHERING";
 string asynIfmt;				assign asynIfmt			to "";
 string asynAout;				assign asynAout			to "";
 string asynAinp;				assign asynAinp			to "";
+string asynPcnct;				assign asynPcnct		to "";
+string asynPort;				assign asynPort			to "";
 int asynNord;					assign asynNord			to "";
 char asynBinp[MAX_RAW_CHARS];	assign asynBinp			to "";
 
@@ -56,9 +60,10 @@ int pmacNo;
 double Ixx08;
 double Ixx09;
 double Ixx60;
-double lenClkTick; 
+double lenClkTick;
 int I52;
 int M72;
+string tmpPvStr;
 
 monitor execute;
 monitor demandVal;
@@ -66,11 +71,15 @@ monitor motor;
 monitor sPeriod;
 monitor calcTimeVal;
 monitor asynBinp;
+monitor asynRec;
+monitor asynPort;
 
-evflag executeMon; 		sync execute 			executeMon;
-evflag motorMon;	 	sync motor		 		motorMon;
-evflag sPeriodMon; 		sync sPeriod			sPeriodMon;
-evflag asynBinpMon;		sync asynBinp			asynBinpMon;
+evflag executeMon; 		sync execute 		executeMon;
+evflag motorMon;	 	sync motor		 	motorMon;
+evflag sPeriodMon; 		sync sPeriod		sPeriodMon;
+evflag asynBinpMon;		sync asynBinp		asynBinpMon;
+evflag asynRecMon;		sync asynRec		asynRecMon;
+evflag asynPortMon;		sync asynPort		asynPortMon;
 
 /* define exacaped C functions at end of the file. */
 %{
@@ -90,7 +99,7 @@ typedef struct {
 	double scalingFactor;
 	} dataSrcStruct_t;
 /*
-	 valid types are (according to Turbo SRM p.225:
+	 valid types are (according to Turbo SRM p.225):
 	0x0: Y-register only 24 bits
 	0x4: X-register only 24 bits
 	0x8: X/Y double register 48 bits interpret as integer.
@@ -113,9 +122,9 @@ ss ssGather
 	{
 		entry
 		{
-			printf("ssGather: state INIT entry.\n");
+			printf("ssGather: ### state INIT entry. ###\n");
 			strcpy(stateMsg, "INIT");
-			pvPut(stateMsg);
+			pvPut(stateMsg, SYNC);
 		}
 		when()
 		{
@@ -130,26 +139,145 @@ ss ssGather
 			pvPut(parsing, SYNC);
 			gathering = 0;
 			pvPut(gathering, SYNC);
-		} state MONITOR_INPUT
+		} state CONNECT_ASYN
+	}
+	
+	state CONNECT_ASYN
+	{
+		entry
+		{
+			printf("ssGather: ### state CONNECT_ASYN entry.\n");
+			strcpy(stateMsg, "CONNECT_ASYN");
+			pvPut(stateMsg, SYNC);
+		
+			printf("ssGather: asynRec currently: %s\n", asynRec);
+		}
+		
+		when( efTestAndClear( asynRecMon ) && strlen( asynRec ) > 1 )
+		{
+			sprintf(tmpPvStr, "%s.PORT", asynRec);
+			printf("ssGather: assigning %s\n", tmpPvStr);
+			pvAssign(asynPort, tmpPvStr);
+			
+			sprintf(tmpPvStr, "%s.IFMT", asynRec);
+			printf("ssGather: assigning %s\n", tmpPvStr);
+			pvAssign(asynIfmt , tmpPvStr);
+			
+			sprintf(tmpPvStr, "%s.AOUT", asynRec);
+			printf("ssGather: assigning %s\n", tmpPvStr);
+			pvAssign(asynAout , tmpPvStr);
+			
+			sprintf(tmpPvStr, "%s.AINP", asynRec);
+			printf("ssGather: assigning %s\n", tmpPvStr);
+			pvAssign(asynAinp , tmpPvStr);
+			
+			sprintf(tmpPvStr, "%s.NORD", asynRec);
+			printf("ssGather: assigning %s\n", tmpPvStr);
+			pvAssign(asynNord , tmpPvStr);
+			
+			sprintf(tmpPvStr, "%s.PCNCT", asynRec);
+			printf("ssGather: assigning %s\n", tmpPvStr);
+			pvAssign(asynPcnct, tmpPvStr);
+			
+			sprintf(tmpPvStr, "%s.BINP", asynRec);
+			printf("ssGather: assigning %s\n", tmpPvStr);
+			pvAssign(asynBinp , tmpPvStr);
+			
+			pvMonitor(asynBinp);
+			pvMonitor(asynPort);
+		} state CONNECT_ASYN
+		
+		when( pvConnectCount() == pvChannelCount() )
+		{
+			printf("ssGather: all channels finally connected...\n");
+			pvGet(asynPcnct, SYNC);
+			if (strcmp(asynPcnct, "Connect") != 0) printf("ssGather: WARNING asyn record %s is not connected!\n", asynRec);
+
+			/* ensure that the asyn record is in ASCII mode */
+			printf("sending IFMT=ASCII\n");
+			strcpy(asynIfmt, "ASCII");
+			pvPut(asynIfmt);
+		} state GET_SAMPLING_SETTINGS
+		
+	}
+	
+	state GET_SAMPLING_SETTINGS
+	{
+		entry
+		{
+			printf("ssGather: ### state GET_SAMPLING_SETTINGS entry. ###\n");
+			strcpy(stateMsg, "GET_SAMPLING_SETTINGS");
+			pvPut(stateMsg, SYNC);
+		
+		}
+		
+		when( )
+		{
+			/* Get the sample time settings from this new PMAC */
+			strcpy(asynAout, "M72->Y:$000037,0,24 M72 I52");
+			pvPut(asynAout, SYNC);
+			pvGet(asynAinp);
+			sscanf(asynAinp, "%d\r%d", &M72, &I52);
+			printf("ssGather: I52=%d M72=%d\n", I52, M72);
+			
+			strcpy(asynAout, "I5049");
+			pvPut(asynAout, SYNC);
+			pvGet(asynAinp, SYNC);
+			sscanf(asynAinp, "%d", &sPeriod);
+			pvPut(sPeriod, SYNC);
+			efClear(sPeriodMon);
+			
+
+		} state CALC_SAMPLING_SETTINGS
 	}
 
+	state CALC_SAMPLING_SETTINGS
+	{
+		entry
+		{
+			printf("ssGather: ### state CALC_SAMPLING_SETTINGS entry. ###\n");
+			strcpy(stateMsg, "CALC_SAMPLING_SETTINGS");
+			pvPut(stateMsg, SYNC);
+		}
+		when()
+		{
+			/* calculate sample time, frequency and gathering time */
+			lenClkTick = 203.4/(I52 + 1);
+			tSample = sPeriod * lenClkTick * M72/1000000.0; /* milliseconds */
+			pvPut(tSample);
+			fSample = 1.0/tSample; /* kHz */
+			pvPut(fSample);
+			tGather = N_ELEMENTS * tSample / 1000.0; /* seconds */
+			pvPut(tGather);
+			printf("ssGather: tSample=%fms fSample=%fkHz gather time: %fs\n", tSample, fSample, tGather);
+		} state MONITOR_INPUT
+	}
+	
 	state MONITOR_INPUT
 	{
 		entry
 		{
-			printf("ssGather: state MONITOR_INPUT\n");
+			printf("ssGather: ### state MONITOR_INPUT ###\n");
 			strcpy(stateMsg, "MONITOR_INPUT");
-			pvPut(stateMsg);
-
-			/* only for testing!!! */
-			printf("sending IFMT=ASCII\n");
-			strcpy(asynIfmt, "ASCII");
-			pvPut(asynIfmt);
+			pvPut(stateMsg, SYNC);
 		}
+		
 		when( efTestAndClear(executeMon) && (execute == 1) )
 		{
 			printf("ssGather: got execute trigger from user.\n");
 		} state SETUP
+		
+		when( efTestAndClear(sPeriodMon) )
+		{
+		} state CALC_SAMPLING_SETTINGS
+		
+		when (efTestAndClear( asynPortMon ))
+		{
+		} state GET_SAMPLING_SETTINGS
+		
+		when( efTest( asynRecMon ))
+		{
+		} state CONNECT_ASYN
 
 		when( efTestAndClear(motorMon) )
 		{
@@ -172,31 +300,13 @@ ss ssGather
 			printf("ssGather: calcTiemInpC = %s\n", calcTimeInpC);
 			pvPut(calcTimeInpC);
 			} state MONITOR_INPUT
-
-		when( efTestAndClear(sPeriodMon) )
-		{
-			/* calculate the sample and sampling time */
-			strcpy(asynAout, "M72->Y:$000037,0,24 M72 I52");
-			pvPut(asynAout, SYNC);
-			pvGet(asynAinp);
-			sscanf(asynAinp, "%d\r%d", &M72, &I52);
-			printf("ssGather: I52=%d M72=%d\n", I52, M72);
-			lenClkTick = 203.4/(I52 + 1);
-			tSample = sPeriod * lenClkTick * M72/1000000.0; /* milliseconds */
-			pvPut(tSample);
-			fSample = 1.0/tSample; /* kHz */
-			pvPut(fSample);
-			tGather = N_ELEMENTS * tSample / 1000.0; /* seconds */
-			pvPut(tGather);
-			printf("ssGather: tSample=%fms fSample=%fkHz gather time: %fs\n", tSample, fSample, tGather);
-		} state MONITOR_INPUT
 	}
 	
 	state SETUP
 	{
 		entry
 		{
-			printf("ssGather: state SETUP\n");
+			printf("ssGather: ### state SETUP ###\n");
 			strcpy(stateMsg, "SETUP");
 			pvPut(stateMsg);
 			axisNoProc = 1;
@@ -209,6 +319,7 @@ ss ssGather
 		{
 			printf("ssGather: invalid axis no:  %d [1..32]\n", axisNo);
 		} state MONITOR_INPUT
+		
 		when()
 		{
 			printf("ssGather: getting scaling ivars...\n");
@@ -271,7 +382,7 @@ ss ssGather
 	{
 		entry
 		{
-			printf("ssGather: state GATHER\n");
+			printf("ssGather: ### state GATHER ###\n");
 			strcpy(stateMsg, "GATHER");
 			pvPut(stateMsg);
 			gathering = 1;
@@ -297,12 +408,12 @@ ss ssGather
 	{
 		entry
 		{
-			printf("ssGather: state COLLECT\n");
+			printf("ssGather: ### state COLLECT ###\n");
 			strcpy(stateMsg, "COLLECT");
 			pvPut(stateMsg);
 			
 			/* only for testing!!! */
-			printf("sending IFMT=Hybrid\n");
+			printf("ssGather: sending IFMT=Hybrid\n");
 			strcpy(asynIfmt, "Hybrid");
 			pvPut(asynIfmt);
 			
@@ -315,10 +426,11 @@ ss ssGather
 /*		when( efTestAndClear(asynBinpMon) )*/
 		when( pvPutComplete(asynAout) && efTestAndClear(asynBinpMon))
 		{
-			pvGet(asynBinp);
-/*			pvGet(asynBinp, SYNC);*/
+/*			pvGet(asynBinp);*/
+			pvGet(asynBinp, SYNC);
 			printf("ssGather: rawdata: \n" );
 			%%for(i = 0; i < 16; i++) printf("%d:%d ", i, (int)pVar->asynBinp[i]);
+			pvGet(asynNord, SYNC);
 			printf("\nssGather: got raw data: %d ASCII chars!\n", asynNord);
 		} state PARSE
 		
@@ -337,7 +449,7 @@ ss ssGather
 	{
 		entry
 		{
-			printf("ssGather: state PARSE\n");
+			printf("ssGather: ### state PARSE ###\n");
 			strcpy(stateMsg, "PARSE");
 			pvPut(stateMsg);
 			parsing = 1;
