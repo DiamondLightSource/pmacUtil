@@ -22,6 +22,7 @@ example_registerRecordDeviceDriver(pdbbase)
 
 #$(LINUX_ONLY)epicsEnvSet("EPICS_CA_SERVER_PORT","6064")
 #$(LINUX_ONLY)epicsEnvSet("EPICS_CA_REPEATER_PORT","6065")
+epicsEnvSet("EPICS_CA_MAX_ARRAY_BYTES","3000000")
 
 ## Load record instances
 dbLoadRecords("db/example.db")

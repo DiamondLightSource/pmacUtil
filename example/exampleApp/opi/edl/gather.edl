@@ -3,8 +3,8 @@ beginScreenProperties
 major 4
 minor 0
 release 1
-x 802
-y 46
+x 673
+y 62
 w 889
 h 441
 font "arial-medium-r-12.0"
@@ -250,29 +250,6 @@ bgColor index 10
 fill
 font "arial-medium-r-12.0"
 fontAlign "center"
-endObjectProperties
-
-# (Text Control)
-object activeXTextDspClass
-beginObjectProperties
-major 4
-minor 1
-release 0
-x 10
-y 310
-w 280
-h 30
-controlPv "$(P)$(M):MOTOR"
-font "arial-medium-r-12.0"
-fontAlign "center"
-fgColor index 25
-bgColor index 10
-editable
-limitsFromDb
-nullColor index 0
-useHexPrefix
-newPos
-objType "controls"
 endObjectProperties
 
 # (Textentry)
@@ -548,5 +525,24 @@ plotColor {
   0 index 15
   1 index 20
 }
+endObjectProperties
+
+# (Textentry)
+object TextentryClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 10
+y 310
+w 280
+h 40
+controlPv "$(P)$(M):ASYNREC"
+precision 3
+fgColor index 25
+bgColor index 0
+fill
+font "arial-medium-r-12.0"
+fontAlign "center"
 endObjectProperties
 
