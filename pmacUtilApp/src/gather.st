@@ -14,6 +14,7 @@ option +r;
 #define N_ELEMENTS 1024
 #define MAX_N_DATASRC 3
 #define MAX_PV_STR_LEN 30
+#define SIZE_DOUBLE 8
 
 int execute; 					assign execute 			to "{P}{M}:EXECUTE.VAL";
 string motor;					assign motor	 		to "{P}{M}:MOTOR";
@@ -36,6 +37,7 @@ double calcTimeVal;				assign calcTimeVal		to "{P}{M}:CALCTIME.VAL";
 int collecting;					assign collecting		to "{P}{M}:COLLECTING";
 int parsing;					assign parsing			to "{P}{M}:PARSING";
 int gathering;					assign gathering		to "{P}{M}:GATHERING";
+double timeRec[N_ELEMENTS];		assign timeRec			to "{P}{M}:TIME";
 string asynRec;					assign asynRec			to "{P}{M}:ASYNREC.VAL";
 
 /* place holders for the asyn record
@@ -55,6 +57,7 @@ assign waveformRecs to {
 	"{P}{M}:FERR",
 	"{P}{M}:VELO"};
 
+int c;
 int axisNo;
 int pmacNo;
 double Ixx08;
@@ -243,7 +246,7 @@ ss ssGather
 		{
 			/* calculate sample time, frequency and gathering time */
 			lenClkTick = 203.4/(I52 + 1);
-			tSample = sPeriod * lenClkTick * M72/1000000.0; /* milliseconds */
+			tSample = sPeriod * lenClkTick * (2*M72)/1000000.0; /* milliseconds */
 			pvPut(tSample);
 			fSample = 1.0/tSample; /* kHz */
 			pvPut(fSample);
@@ -369,10 +372,30 @@ ss ssGather
 			pvPut(asynAout, SYNC);
 			sprintf(asynAout, "i5003=$%X%05X", dataSrc[2].type, dataSrc[2].offset + motorBaseAddr[axisNo] );
 			pvPut(asynAout, SYNC);
+			
+			printf("ssGather: clearing out the current waveforms...\n");
+			memset(waveformRecs[0], 0, SIZE_DOUBLE*N_ELEMENTS);
+			memset(waveformRecs[1], 0, SIZE_DOUBLE*N_ELEMENTS);
+			memset(waveformRecs[2], 0, SIZE_DOUBLE*N_ELEMENTS);
+			pvPut(waveformRecs[0], SYNC);
+			pvPut(waveformRecs[1], SYNC);
+			pvPut(waveformRecs[2], SYNC);
+			
+			printf("ssGather: calculating the time axis\n");
+			for(c=0; c<N_ELEMENTS; c++) timeRec[c] = c * tSample;
+			pvPut(timeRec, SYNC);
+
+			printf("ssGather: sending endgather cmd to end any possible ongoing gathering.\n");
+			sprintf(asynAout, "endgather");
+			pvPut(asynAout, SYNC);
+			
+			printf("ssGather: sending delete gather cmd to clear any current buffer.\n");
+			sprintf(asynAout, "delete gather");
+			pvPut(asynAout, SYNC);
 
 			printf("ssGather: sending define gather cmd...\n");
 			sprintf(asynAout, "define gather %d", 47 + (MAX_N_DATASRC * N_ELEMENTS));
-			pvPut(asynAout);
+			pvPut(asynAout, SYNC);
 			printf("ssGather: sent out: %s\n", asynAout);
 			
 		} state GATHER
@@ -390,15 +413,17 @@ ss ssGather
 			
 			printf("ssGather: sending gather command to trigger gathering\n");
 			strcpy(asynAout, "gather");
-			pvPut(asynAout);
+			pvPut(asynAout, SYNC);
 			
 			printf("ssGather: sending demand command to motor to start moving.\n");
 			moveVal = demandVal;
-			pvPut(moveVal);
+			pvPut(moveVal, SYNC);
+			
+			printf("ssGather: waiting for gathering to stop... (%.3f + 1.0s)\n", tGather );
 		}
-		when(delay(tGather + 0.5))
+		when(delay(tGather + 1.0))
 		{
-			printf("ssGather: timeout - gathering must have stopped now...(I guess)\n");
+			printf("ssGather: timeout - gathering must have stopped now...(after %.2fs gather + 1.0s)\n", tGather);
 			gathering = 0;
 			pvPut(gathering, SYNC);
 		} state COLLECT
@@ -516,6 +541,9 @@ static int pu_parseRawData(struct UserVar *pVar)
 			strncpy(substr2, (char*)(pVar->asynBinp + charCounter + 13), 12);
 			strncpy(substr3, (char*)(pVar->asynBinp + charCounter + 26), 12);
 			printf("-- %s %s %s --\n", substr1, substr2, substr3);
+			printf("-- %.3f %.3f %.3f --\n", 	pVar->waveformRecs[0][sampleCounter], 
+												pVar->waveformRecs[1][sampleCounter],
+												pVar->waveformRecs[2][sampleCounter]);
 			dataSrcCounter = 0;
 			sampleCounter++;
 		}
@@ -532,10 +560,16 @@ static int pu_parseRawData(struct UserVar *pVar)
 		switch ( dataSrc[dataSrcCounter].type )
 		{
 			case 0x0:
-				pVar->waveformRecs[dataSrcCounter][sampleCounter] = ((signed int)MSBY) * scaling;
+				if (MSBY && 0x800000)
+					pVar->waveformRecs[dataSrcCounter][sampleCounter] = ((signed int)MSBY) * scaling;					
+				else
+					pVar->waveformRecs[dataSrcCounter][sampleCounter] = ((signed int)(MSBY - 0xFFFFFF) * scaling);
 				break;
 			case 0x4:
-				pVar->waveformRecs[dataSrcCounter][sampleCounter] = ((signed int)LSBX) * scaling;
+				if (LSBX && 0x800000)
+					pVar->waveformRecs[dataSrcCounter][sampleCounter] = ((signed int)LSBX) * scaling;					
+				else
+					pVar->waveformRecs[dataSrcCounter][sampleCounter] = ((signed int)(LSBX - 0xFFFFFF) * scaling);
 				break;
 			case 0x8:
 				pVar->waveformRecs[dataSrcCounter][sampleCounter] = ((long int)((MSBY << 24) | LSBX)) * scaling;
@@ -548,10 +582,10 @@ static int pu_parseRawData(struct UserVar *pVar)
 				pVar->waveformRecs[dataSrcCounter][sampleCounter] = 0.0;
 				break;
 		}
-		printf(	"pu_parseRawData: ch: %d MSB=0x%X LSB=0x%X scaled=%.3f\n",
-				dataSrcCounter, MSBY, LSBX, pVar->waveformRecs[dataSrcCounter][sampleCounter]);
+/*		printf(	"pu_parseRawData: ch: %d MSB=0x%X LSB=0x%X scaled=%.3f\n",
+				dataSrcCounter, MSBY, LSBX, pVar->waveformRecs[dataSrcCounter][sampleCounter]);*/
 	}
-	printf("pu_parseRawData: iterations=%d sampleCounter=%d\n", i, sampleCounter);
+	printf("pu_parseRawData: iterations=%d sampleCounter=%d\n", i+1, sampleCounter+1);
 	return 0;
 }
 

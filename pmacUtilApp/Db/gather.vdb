@@ -220,8 +220,16 @@ record(stringout, "$(P)$(M):ASYNREC") {
   field(DTYP, "Soft Channel")
 }
 
+record(waveform, "$(P)$(M):TIME") {
+  field(DESC, "sampling time")
+  field(PINI, "YES")
+  field(DTYP, "Soft Channel")
+  field(NELM, "1024")
+  field(FTVL, "DOUBLE")
+}
+
 #! Further lines contain data used by VisualDCT
-#! View(435,389,1.1)
+#! View(90,63,1.1)
 #! Record("$(P)$(M):GETDATA",380,60,0,1,"$(P)$(M):GETDATA")
 #! Record("$(P)$(M):SETUP",560,68,0,1,"$(P)$(M):SETUP")
 #! Record("$(P)$(M):PMACTRIG",740,68,0,1,"$(P)$(M):PMACTRIG")
@@ -241,11 +249,11 @@ record(stringout, "$(P)$(M):ASYNREC") {
 #! Field("$(P)$(M):DEMAND.VAL",16777215,1,"$(P)$(M):DEMAND.VAL")
 #! Record("$(P)$(M):MOVE",260,941,0,1,"$(P)$(M):MOVE")
 #! Record("$(P)$(M):MRBV",40,891,0,1,"$(P)$(M):MRBV")
-#! Record("$(P)$(M):AXISNO",1420,466,0,0,"$(P)$(M):AXISNO")
-#! Record("$(P)$(M):CALCTIME",1140,704,0,0,"$(P)$(M):CALCTIME")
+#! Record("$(P)$(M):AXISNO",1440,546,0,0,"$(P)$(M):AXISNO")
+#! Record("$(P)$(M):CALCTIME",1140,764,0,0,"$(P)$(M):CALCTIME")
 #! Field("$(P)$(M):CALCTIME.INPD",16777215,0,"$(P)$(M):CALCTIME.INPD")
 #! Link("$(P)$(M):CALCTIME.INPD","$(P)$(M):DEMAND.VAL")
-#! Record("$(P)$(M):PSETTINGS",1140,454,0,1,"$(P)$(M):PSETTINGS")
+#! Record("$(P)$(M):PSETTINGS",1140,554,0,1,"$(P)$(M):PSETTINGS")
 #! Field("$(P)$(M):PSETTINGS.LNK1",16777215,0,"$(P)$(M):PSETTINGS.LNK1")
 #! Link("$(P)$(M):PSETTINGS.LNK1","$(P)$(M):DEMAND")
 #! Field("$(P)$(M):PSETTINGS.FLNK",16777215,1,"$(P)$(M):PSETTINGS.FLNK")
@@ -254,9 +262,10 @@ record(stringout, "$(P)$(M):ASYNREC") {
 #! Record("$(P)$(M):TGATHER",740,1086,0,1,"$(P)$(M):TGATHER")
 #! Record("$(P)$(M):FSAMPLE",940,1086,0,1,"$(P)$(M):FSAMPLE")
 #! Record("$(P)$(M):GATHERING",40,520,0,1,"$(P)$(M):GATHERING")
+#! Record("$(P)$(M):ASYNREC",520,756,0,1,"$(P)$(M):ASYNREC")
 #! Box(Box0,40,40,320,280,1,16711731,null)
 #! Box(Box4,500,540,1100,1060,1,16711731,null)
-#! Box(Box3,500,300,1100,520,1,16711731,null)
+#! Box(Box3,500,300,1280,520,1,16711731,null)
 #! Box(Box2,360,40,920,260,1,16711731,null)
 #! Box(Box1,20,320,440,860,1,16711731,null)
 #! TextBox(TB0,60,60,320,140,0,"Dialog",12,1,16777215,"Start the gather function\nfrom this record.\nThis record returns when the whole\nprocess is complete (or failed).",null)
@@ -264,4 +273,4 @@ record(stringout, "$(P)$(M):ASYNREC") {
 #! TextBox(TB3,520,460,840,500,0,"Dialog",12,1,16777215,"The waveform records will contain the sampled\ndata when the gather is successfully completed.",null)
 #! TextBox(TB2,400,220,760,260,0,"Dialog",12,1,16777215,"The ASYN records do the direct communication with \nthe PMAC through the 'serial' port $(PORT)",null)
 #! TextBox(TB1,40,320,420,380,0,"Dialog",12,1,16777215,"These records are used for keeping\ntrack of the current state and status\nof the gather application",null)
-#! Record("$(P)$(M):ASYNREC",520,756,0,1,"$(P)$(M):ASYNREC")
+#! Record("$(P)$(M):TIME",1100,314,0,1,"$(P)$(M):TIME")
