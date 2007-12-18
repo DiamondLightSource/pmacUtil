@@ -3,10 +3,10 @@ beginScreenProperties
 major 4
 minor 0
 release 1
-x 673
-y 62
+x 276
+y 77
 w 889
-h 441
+h 492
 font "arial-medium-r-12.0"
 ctlFont "arial-medium-r-12.0"
 btnFont "arial-medium-r-12.0"
@@ -430,16 +430,18 @@ topShadowColor index 1
 botShadowColor index 11
 font "arial-bold-r-12.0"
 buttonLabel "ASYN"
-numCmds 3
+numCmds 4
 commandLabel {
   0 "BL16B-MO-IOC-02:asyn"
   1 "$(P)$(M):SETUP"
   2 "$(P)$(M):PMACTRIG"
+  3 "BL16B-MO-IOC-01:asyn"
 }
 command {
   0 "medm -x -macro \"P=BL16B-MO-IOC-02,R=:asyn\" asynRecord.adl &"
   1 "medm -x -macro \"P=$(P)$(M),R=:SETUP\" asynRecord.adl &"
   2 "medm -x -macro \"P=$(P)$(M),R=:PMACTRIG\" asynRecord.adl &"
+  3 "medm -x -macro \"P=BL16B-MO-IOC-01,R=:asyn\" asynRecord.adl &"
 }
 endObjectProperties
 
@@ -453,9 +455,10 @@ release 0
 x 300
 y 60
 w 580
-h 170
+h 130
 # Appearance
 border
+xLabel "time [ms]"
 yLabel "position"
 fgColor index 14
 bgColor index 3
@@ -476,8 +479,14 @@ y2AxisSrc "AutoScale"
 y2Max 1
 # Trace Properties
 numTraces 1
+xPv {
+  0 "$(P)$(M):TIME"
+}
 yPv {
   0 "$(P)$(M):POSN"
+}
+opMode {
+  0 "plot"
 }
 plotColor {
   0 index 25
@@ -492,12 +501,13 @@ minor 3
 release 0
 # Geometry
 x 300
-y 250
+y 200
 w 580
-h 180
+h 130
 # Appearance
 border
-yLabel "velocity foll err."
+xLabel "time [ms]"
+yLabel "velocity"
 fgColor index 14
 bgColor index 3
 gridColor index 14
@@ -516,14 +526,18 @@ yMax 1
 y2AxisSrc "AutoScale"
 y2Max 1
 # Trace Properties
-numTraces 2
+numTraces 1
+xPv {
+  0 "$(P)$(M):TIME"
+}
 yPv {
   0 "$(P)$(M):VELO"
-  1 "$(P)$(M):FERR"
+}
+opMode {
+  0 "plot"
 }
 plotColor {
   0 index 15
-  1 index 20
 }
 endObjectProperties
 
@@ -544,5 +558,53 @@ bgColor index 0
 fill
 font "arial-medium-r-12.0"
 fontAlign "center"
+endObjectProperties
+
+# (X-Y Graph)
+object xyGraphClass
+beginObjectProperties
+major 4
+minor 3
+release 0
+# Geometry
+x 300
+y 340
+w 580
+h 130
+# Appearance
+border
+xLabel "time [ms]"
+yLabel "foll err."
+fgColor index 14
+bgColor index 3
+gridColor index 14
+font "arial-medium-r-10.0"
+# Operating Modes
+nPts 1
+# X axis properties
+showXAxis
+xAxisSrc "AutoScale"
+xMax 1
+# Y axis properties
+showYAxis
+yAxisSrc "AutoScale"
+yMax 1
+# Y2 axis properties
+y2AxisSrc "AutoScale"
+y2Max 1
+# Trace Properties
+numTraces 1
+xPv {
+  0 "$(P)$(M):TIME"
+}
+yPv {
+  0 "$(P)$(M):FERR"
+}
+opMode {
+  0 "plot"
+}
+plotColor {
+  0 index 20
+}
 endObjectProperties
 
