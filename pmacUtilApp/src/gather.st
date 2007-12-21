@@ -24,21 +24,22 @@ double demandVal; 				assign demandVal 		to "{P}{M}:DEMAND.VAL";
 string mrbvInpA; 				assign mrbvInpA 		to "{P}{M}:MRBV.INPA";
 int sPeriod;					assign sPeriod 			to "{P}{M}:SPERIOD";
 double tGather;					assign tGather			to "{P}{M}:TGATHER";
-double fSample;					assign fSample			to "{P}{M}:FSAMPLE";
 double tSample;					assign tSample			to "{P}{M}:TSAMPLE";
+double tSampleB;				assign tSampleB			to "{P}{M}:TSAMPLE.B";
+double tSampleC;				assign tSampleC			to "{P}{M}:TSAMPLE.C";
 string stateMsg;				assign stateMsg			to "{P}{M}:STATE.VAL";
-string axisNoInAA;				assign axisNoInAA		to "{P}{M}:AXISNO.INAA";
-string axisNoSval;				assign axisNoSval		to "{P}{M}:AXISNO.SVAL";
-int    axisNoProc;				assign axisNoProc		to "{P}{M}:AXISNO.PROC";
-string calcTimeInpA;			assign calcTimeInpA		to "{P}{M}:CALCTIME.INPA";
-string calcTimeInpB;			assign calcTimeInpB		to "{P}{M}:CALCTIME.INPB";
-string calcTimeInpC;			assign calcTimeInpC		to "{P}{M}:CALCTIME.INPC";
-double calcTimeVal;				assign calcTimeVal		to "{P}{M}:CALCTIME.VAL";
+int axisNo;						assign axisNo			to "{P}{M}:AXISNO";
+int pmacNo;						assign pmacNo			to "{P}{M}:PMACNO";
+string moveTimeInpB;			assign moveTimeInpB		to "{P}{M}:MOVETIME.INPB";
+string moveTimeInpC;			assign moveTimeInpC		to "{P}{M}:MOVETIME.INPC";
+double moveTimeVal;				assign moveTimeVal		to "{P}{M}:MOVETIME.VAL";
 int collecting;					assign collecting		to "{P}{M}:COLLECTING";
 int parsing;					assign parsing			to "{P}{M}:PARSING";
 int gathering;					assign gathering		to "{P}{M}:GATHERING";
+string movingInpA;				assign movingInpA		to "{P}{M}:MOVING.INPA";
 double timeRec[N_ELEMENTS];		assign timeRec			to "{P}{M}:TIME";
 string asynRec;					assign asynRec			to "{P}{M}:ASYNREC.VAL";
+string port;					assign port				to "{P}{M}:PORT.VAL";
 
 /* place holders for the asyn record
  * use either {P}{M}:ASYN or for testing BL16B-MO-IOC-02:asyn
@@ -50,6 +51,8 @@ string asynPcnct;				assign asynPcnct		to "";
 string asynPort;				assign asynPort			to "";
 int asynNord;					assign asynNord			to "";
 char asynBinp[MAX_RAW_CHARS];	assign asynBinp			to "";
+string motorOut;				assign motorOut			to "";
+
 
 double waveformRecs[MAX_N_DATASRC][N_ELEMENTS];
 assign waveformRecs to {
@@ -58,8 +61,6 @@ assign waveformRecs to {
 	"{P}{M}:VELO"};
 
 int c;
-int axisNo;
-int pmacNo;
 double Ixx08;
 double Ixx09;
 double Ixx60;
@@ -71,18 +72,18 @@ string tmpPvStr;
 monitor execute;
 monitor demandVal;
 monitor motor;
-monitor sPeriod;
-monitor calcTimeVal;
+monitor moveTimeVal;
 monitor asynBinp;
 monitor asynRec;
 monitor asynPort;
+monitor port;
 
 evflag executeMon; 		sync execute 		executeMon;
 evflag motorMon;	 	sync motor		 	motorMon;
-evflag sPeriodMon; 		sync sPeriod		sPeriodMon;
 evflag asynBinpMon;		sync asynBinp		asynBinpMon;
 evflag asynRecMon;		sync asynRec		asynRecMon;
 evflag asynPortMon;		sync asynPort		asynPortMon;
+evflag portMon;			sync port			portMon;
 
 /* define exacaped C functions at end of the file. */
 %{
@@ -134,7 +135,7 @@ ss ssGather
 			printf("ssGather: clearing all event flags.\n");
 			efClear(executeMon);
 			efClear(motorMon);
-			efClear(sPeriodMon);
+			efClear(portMon);
 			axisNo = 0;
 			collecting = 0;
 			pvPut(collecting, SYNC);
@@ -158,6 +159,9 @@ ss ssGather
 		
 		when( efTestAndClear( asynRecMon ) && strlen( asynRec ) > 1 )
 		{
+			/* dynamically reconnect to all the interesting 
+			 * fields of the asyn record 
+			 */
 			sprintf(tmpPvStr, "%s.PORT", asynRec);
 			printf("ssGather: assigning %s\n", tmpPvStr);
 			pvAssign(asynPort, tmpPvStr);
@@ -190,28 +194,47 @@ ss ssGather
 			pvMonitor(asynPort);
 		} state CONNECT_ASYN
 		
-		when( pvConnectCount() == pvChannelCount() )
+		/* wait for all dynamically assigned PVs to connect */
+		when( 	pvConnected(asynPort) &&
+				pvConnected(asynIfmt) && 
+				pvConnected(asynAout) &&
+				pvConnected(asynAinp) &&
+				pvConnected(asynNord) &&
+				pvConnected(asynPcnct) &&
+				pvConnected(asynBinp))
 		{
 			printf("ssGather: all channels finally connected...\n");
 			pvGet(asynPcnct, SYNC);
-			if (strcmp(asynPcnct, "Connect") != 0) printf("ssGather: WARNING asyn record %s is not connected!\n", asynRec);
+			if (strcmp(asynPcnct, "Connect") != 0) printf("ssGather: WARNING asyn record %s is not connected to a PMAC!\n", asynRec);
 
 			/* ensure that the asyn record is in ASCII mode */
-			printf("sending IFMT=ASCII\n");
+			printf("ssGather: sending IFMT=ASCII\n");
 			strcpy(asynIfmt, "ASCII");
 			pvPut(asynIfmt);
-		} state GET_SAMPLING_SETTINGS
-		
+		} state CONNECT_PMAC
 	}
 	
-	state GET_SAMPLING_SETTINGS
+	state CONNECT_PMAC
 	{
 		entry
 		{
-			printf("ssGather: ### state GET_SAMPLING_SETTINGS entry. ###\n");
-			strcpy(stateMsg, "GET_SAMPLING_SETTINGS");
+			printf("ssGather: ### state CONNECT_PMAC entry. ###\n");
+			strcpy(stateMsg, "CONNECT_PMAC");
 			pvPut(stateMsg, SYNC);
-		
+			
+			if (efTestAndClear(portMon))
+			{
+				/* port changed in stringout record */
+				strcpy(asynPort, port);
+				pvPut(asynPort, SYNC);
+			} else 
+			{
+				/* port changed directly on asyn record */
+				strcpy(port, asynPort);
+				pvPut(port, SYNC);
+			}
+			efClear(portMon);
+			efClear(asynPortMon);
 		}
 		
 		when( )
@@ -228,34 +251,62 @@ ss ssGather
 			pvGet(asynAinp, SYNC);
 			sscanf(asynAinp, "%d", &sPeriod);
 			pvPut(sPeriod, SYNC);
-			efClear(sPeriodMon);
 			
-
-		} state CALC_SAMPLING_SETTINGS
-	}
-
-	state CALC_SAMPLING_SETTINGS
-	{
-		entry
-		{
-			printf("ssGather: ### state CALC_SAMPLING_SETTINGS entry. ###\n");
-			strcpy(stateMsg, "CALC_SAMPLING_SETTINGS");
-			pvPut(stateMsg, SYNC);
-		}
-		when()
-		{
-			/* calculate sample time, frequency and gathering time */
-			lenClkTick = 203.4/(I52 + 1);
-			tSample = sPeriod * lenClkTick * (2*M72)/1000000.0; /* milliseconds */
-			pvPut(tSample);
-			fSample = 1.0/tSample; /* kHz */
-			pvPut(fSample);
-			tGather = N_ELEMENTS * tSample / 1000.0; /* seconds */
-			pvPut(tGather);
-			printf("ssGather: tSample=%fms fSample=%fkHz gather time: %fs\n", tSample, fSample, tGather);
 		} state MONITOR_INPUT
 	}
 	
+	state CONNECT_MOTOR
+	{
+		entry
+		{
+			printf("ssGather: ### state CONNECT_MOTOR entry. ###\n");
+			strcpy(stateMsg, "CONNECT_MOTOR");
+			pvPut(stateMsg, SYNC);
+
+			/* connect to the new motor records out field */
+			sprintf(tmpPvStr, "%s.OUT", motor);
+			printf("ssGather: assigning %s\n", tmpPvStr);
+			pvAssign(motorOut, tmpPvStr);
+		}
+		when( pvConnected(motorOut) )
+		{
+			sprintf(moveOut, "%s.VAL CA", motor);
+			printf("ssGather: moveOut = %s\n", moveOut);
+			pvPut(moveOut);
+			sprintf(mrbvInpA, "%s.RBV CPP", motor);
+			printf("ssGather: mrbvInpA = %s\n", mrbvInpA);
+			pvPut(mrbvInpA);
+			sprintf(movingInpA, "%s.MOVN CPP", motor);
+			printf("ssGather: movingInpA = %s\n", movingInpA);
+			pvPut(movingInpA);
+			sprintf(moveTimeInpB, "%s.VELO CA", motor);
+			pvPut(moveTimeInpB);
+			sprintf(moveTimeInpC, "%s.ACCL CA", motor);
+			pvPut(moveTimeInpC);
+			
+			/* parse the PMAC number and axis number from the 
+			   motor records OUT field. */
+			pvGet(motorOut);
+			sscanf(motorOut, "@asyn(pmac%d,%d)", &pmacNo, &axisNo);
+			printf("ssGather: got axis no: %d PMAC no: %d\n", axisNo, pmacNo);
+			pvPut(pmacNo);
+			pvPut(axisNo);
+			
+			/* set I52 and M72 to the frequency calculation records here... */
+			tSampleB = I52;
+			pvPut(tSampleB);
+			tSampleC = M72;
+			pvPut(tSampleC);
+		} state MONITOR_INPUT
+
+		/* this doesn't get executed... need to find different place for it */
+		when( axisNo < 1 || axisNo > 32)
+		{
+			printf("ssGather: invalid axis no:  %d [1..32]\n", axisNo);
+		} state MONITOR_INPUT
+	}
+	
+
 	state MONITOR_INPUT
 	{
 		entry
@@ -270,39 +321,17 @@ ss ssGather
 			printf("ssGather: got execute trigger from user.\n");
 		} state SETUP
 		
-		when( efTestAndClear(sPeriodMon) )
+		when (efTest( asynPortMon ) || efTest(portMon) )
 		{
-		} state CALC_SAMPLING_SETTINGS
+		} state CONNECT_PMAC
 		
-		when (efTestAndClear( asynPortMon ))
-		{
-		} state GET_SAMPLING_SETTINGS
-		
-		when( efTest( asynRecMon ))
+		when( efTest( asynRecMon ) )
 		{
 		} state CONNECT_ASYN
 
 		when( efTestAndClear(motorMon) )
 		{
-			sprintf(moveOut, "%s.VAL CA", motor);
-			printf("ssGather: moveOut = %s\n", moveOut);
-			pvPut(moveOut);
-			sprintf(mrbvInpA, "%s.RBV CPP", motor);
-			printf("ssGather: mrbvInpA = %s\n", mrbvInpA);
-			pvPut(mrbvInpA);
-			sprintf(axisNoInAA, "%s.OUT CA", motor);
-			printf("ssGather: axisNoInAA = %s\n", axisNoInAA);
-			pvPut(axisNoInAA);
-			sprintf(calcTimeInpA, "%s.RBV NPP NMS", motor);
-			printf("ssGather: calcTiemInpA = %s\n", calcTimeInpA);
-			pvPut(calcTimeInpA);
-			sprintf(calcTimeInpB, "%s.VELO NPP NMS", motor);
-			printf("ssGather: calcTiemInpB = %s\n", calcTimeInpB);
-			pvPut(calcTimeInpB);
-			sprintf(calcTimeInpC, "%s.ACCL NPP NMS", motor);
-			printf("ssGather: calcTiemInpC = %s\n", calcTimeInpC);
-			pvPut(calcTimeInpC);
-			} state MONITOR_INPUT
+		} state CONNECT_MOTOR
 	}
 	
 	state SETUP
@@ -312,17 +341,7 @@ ss ssGather
 			printf("ssGather: ### state SETUP ###\n");
 			strcpy(stateMsg, "SETUP");
 			pvPut(stateMsg);
-			axisNoProc = 1;
-			pvPut(axisNoProc);
-			pvGet(axisNoSval);
-			sscanf(axisNoSval, "@asyn(pmac%d,%d)", &pmacNo, &axisNo);
-			printf("ssGather: got axis no: %d (%s)\n", axisNo, axisNoSval);
 		}
-		when( axisNo < 1 || axisNo > 32)
-		{
-			printf("ssGather: invalid axis no:  %d [1..32]\n", axisNo);
-		} state MONITOR_INPUT
-		
 		when()
 		{
 			printf("ssGather: getting scaling ivars...\n");
@@ -382,6 +401,7 @@ ss ssGather
 			pvPut(waveformRecs[2], SYNC);
 			
 			printf("ssGather: calculating the time axis\n");
+			pvGet(tSample);
 			for(c=0; c<N_ELEMENTS; c++) timeRec[c] = c * tSample;
 			pvPut(timeRec, SYNC);
 
@@ -448,10 +468,8 @@ ss ssGather
 			strcpy(asynAout, "list gather");
 			pvPut(asynAout, ASYNC);
 		}
-/*		when( efTestAndClear(asynBinpMon) )*/
 		when( pvPutComplete(asynAout) && efTestAndClear(asynBinpMon))
 		{
-/*			pvGet(asynBinp);*/
 			pvGet(asynBinp, SYNC);
 			printf("ssGather: rawdata: \n" );
 			%%for(i = 0; i < 16; i++) printf("%d:%d ", i, (int)pVar->asynBinp[i]);
@@ -467,6 +485,9 @@ ss ssGather
 		{
 			collecting = 0;
 			pvPut(collecting, SYNC);
+			strcpy(asynIfmt, "ASCII");
+			pvPut(asynIfmt);
+
 		}
 	}
 
