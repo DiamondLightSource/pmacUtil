@@ -3,10 +3,10 @@ beginScreenProperties
 major 4
 minor 0
 release 1
-x 276
-y 77
-w 889
-h 492
+x 53
+y 58
+w 910
+h 597
 font "arial-medium-r-12.0"
 ctlFont "arial-medium-r-12.0"
 btnFont "arial-medium-r-12.0"
@@ -23,6 +23,36 @@ showGrid
 snapToGrid
 endScreenProperties
 
+# (Rectangle)
+object activeRectangleClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 290
+y 490
+w 450
+h 100
+lineColor index 14
+fill
+fillColor index 5
+endObjectProperties
+
+# (Rectangle)
+object activeRectangleClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 750
+y 490
+w 150
+h 60
+lineColor index 14
+fill
+fillColor index 5
+endObjectProperties
+
 # (Static Text)
 object activeXTextClass
 beginObjectProperties
@@ -31,8 +61,8 @@ minor 1
 release 0
 x 0
 y 0
-w 890
-h 50
+w 910
+h 30
 font "arial-bold-r-16.0"
 fontAlign "center"
 fgColor index 14
@@ -48,8 +78,8 @@ beginObjectProperties
 major 4
 minor 1
 release 0
-x 210
-y 400
+x 790
+y 560
 w 80
 h 30
 fgColor index 46
@@ -67,10 +97,10 @@ beginObjectProperties
 major 4
 minor 0
 release 0
-x 10
-y 60
+x 300
+y 510
 w 90
-h 40
+h 30
 fgColor index 25
 bgColor index 3
 inconsistentColor index 3
@@ -87,10 +117,10 @@ beginObjectProperties
 major 4
 minor 1
 release 0
-x 10
-y 110
-w 140
-h 40
+x 560
+y 510
+w 170
+h 30
 controlPv "$(P)$(M):STATE"
 font "arial-medium-r-12.0"
 fontAlign "center"
@@ -104,46 +134,21 @@ newPos
 objType "monitors"
 endObjectProperties
 
-# (Text Monitor)
-object activeXTextDspClass:noedit
-beginObjectProperties
-major 4
-minor 1
-release 0
-x 10
-y 210
-w 140
-h 40
-controlPv "$(P)$(M):MRBV"
-font "arial-medium-r-12.0"
-fontAlign "center"
-fgColor index 16
-fgAlarm
-bgColor index 10
-precision 3
-nullColor index 0
-fastUpdate
-useHexPrefix
-useAlarmBorder
-newPos
-objType "monitors"
-endObjectProperties
-
 # (Related Display)
 object relatedDisplayClass
 beginObjectProperties
 major 4
 minor 2
 release 0
-x 110
-y 60
-w 90
+x 760
+y 510
+w 60
 h 30
 fgColor index 43
 bgColor index 3
 topShadowColor index 1
 botShadowColor index 11
-font "arial-medium-r-12.0"
+font "arial-bold-r-12.0"
 buttonLabel "motors"
 numPvs 4
 numDsps 2
@@ -164,121 +169,14 @@ propagateMacros {
 }
 endObjectProperties
 
-# (Text Monitor)
-object activeXTextDspClass:noedit
-beginObjectProperties
-major 4
-minor 1
-release 0
-x 10
-y 160
-w 140
-h 40
-controlPv "$(P)$(M):MOVE"
-font "arial-medium-r-12.0"
-fontAlign "center"
-fgColor index 16
-bgColor index 10
-limitsFromDb
-nullColor index 0
-fastUpdate
-useHexPrefix
-newPos
-objType "monitors"
-endObjectProperties
-
-# (Text Monitor)
-object activeXTextDspClass:noedit
-beginObjectProperties
-major 4
-minor 1
-release 0
-x 160
-y 160
-w 130
-h 40
-controlPv "$(P)$(M):AXISNO.SVAL"
-font "arial-medium-r-12.0"
-fontAlign "center"
-fgColor index 16
-bgColor index 10
-limitsFromDb
-nullColor index 0
-fastUpdate
-useHexPrefix
-newPos
-objType "monitors"
-endObjectProperties
-
-# (Text Monitor)
-object activeXTextDspClass:noedit
-beginObjectProperties
-major 4
-minor 1
-release 0
-x 160
-y 110
-w 130
-h 40
-controlPv "$(P)$(M):CALCTIME"
-font "arial-medium-r-12.0"
-fontAlign "center"
-fgColor index 16
-bgColor index 10
-limitsFromDb
-nullColor index 0
-fastUpdate
-useHexPrefix
-newPos
-objType "monitors"
-endObjectProperties
-
-# (Textentry)
-object TextentryClass
-beginObjectProperties
-major 10
-minor 0
-release 0
-x 160
-y 210
-w 130
-h 40
-controlPv "$(P)$(M):DEMAND"
-precision 3
-fgColor index 25
-bgColor index 10
-fill
-font "arial-medium-r-12.0"
-fontAlign "center"
-endObjectProperties
-
-# (Textentry)
-object TextentryClass
-beginObjectProperties
-major 10
-minor 0
-release 0
-x 10
-y 350
-w 280
-h 40
-controlPv "$(P)$(M):MOTOR"
-precision 3
-fgColor index 25
-bgColor index 0
-fill
-font "arial-medium-r-12.0"
-fontAlign "center"
-endObjectProperties
-
 # (Byte)
 object ByteClass
 beginObjectProperties
 major 4
 minor 0
 release 0
-x 90
-y 400
+x 480
+y 510
 w 30
 h 30
 controlPv "$(P)$(M):COLLECTING"
@@ -295,8 +193,8 @@ beginObjectProperties
 major 4
 minor 0
 release 0
-x 130
-y 400
+x 520
+y 510
 w 30
 h 30
 controlPv "$(P)$(M):PARSING"
@@ -313,8 +211,8 @@ beginObjectProperties
 major 4
 minor 0
 release 0
-x 10
-y 400
+x 400
+y 510
 w 30
 h 30
 controlPv "$(P)$(M):MOVING"
@@ -325,85 +223,14 @@ lineWidth 0
 numBits 1
 endObjectProperties
 
-# (Textentry)
-object TextentryClass
-beginObjectProperties
-major 10
-minor 0
-release 0
-x 190
-y 260
-w 100
-h 40
-controlPv "$(P)$(M):SPERIOD"
-precision 3
-fgColor index 25
-bgColor index 10
-fill
-font "arial-medium-r-12.0"
-fontAlign "center"
-endObjectProperties
-
-# (Text Monitor)
-object activeXTextDspClass:noedit
-beginObjectProperties
-major 4
-minor 1
-release 0
-x 10
-y 260
-w 80
-h 40
-controlPv "$(P)$(M):TSAMPLE"
-font "arial-medium-r-12.0"
-fontAlign "center"
-fgColor index 16
-fgAlarm
-bgColor index 10
-limitsFromDb
-precision 3
-nullColor index 0
-useHexPrefix
-showUnits
-useAlarmBorder
-newPos
-objType "monitors"
-endObjectProperties
-
-# (Text Monitor)
-object activeXTextDspClass:noedit
-beginObjectProperties
-major 4
-minor 1
-release 0
-x 100
-y 260
-w 80
-h 40
-controlPv "$(P)$(M):TGATHER"
-font "arial-medium-r-12.0"
-fontAlign "center"
-fgColor index 16
-fgAlarm
-bgColor index 10
-limitsFromDb
-precision 3
-nullColor index 0
-useHexPrefix
-showUnits
-useAlarmBorder
-newPos
-objType "monitors"
-endObjectProperties
-
 # (Byte)
 object ByteClass
 beginObjectProperties
 major 4
 minor 0
 release 0
-x 50
-y 400
+x 440
+y 510
 w 30
 h 30
 controlPv "$(P)$(M):GATHERING"
@@ -420,11 +247,11 @@ beginObjectProperties
 major 4
 minor 2
 release 0
-x 210
-y 60
-w 80
+x 830
+y 510
+w 60
 h 30
-fgColor index 40
+fgColor index 43
 bgColor index 3
 topShadowColor index 1
 botShadowColor index 11
@@ -433,13 +260,13 @@ buttonLabel "ASYN"
 numCmds 4
 commandLabel {
   0 "BL16B-MO-IOC-02:asyn"
-  1 "$(P)$(M):SETUP"
+  1 "$(P)$(M):ASYN"
   2 "$(P)$(M):PMACTRIG"
   3 "BL16B-MO-IOC-01:asyn"
 }
 command {
   0 "medm -x -macro \"P=BL16B-MO-IOC-02,R=:asyn\" asynRecord.adl &"
-  1 "medm -x -macro \"P=$(P)$(M),R=:SETUP\" asynRecord.adl &"
+  1 "medm -x -macro \"P=$(P)$(M),R=:ASYN\" asynRecord.adl &"
   2 "medm -x -macro \"P=$(P)$(M),R=:PMACTRIG\" asynRecord.adl &"
   3 "medm -x -macro \"P=BL16B-MO-IOC-01,R=:asyn\" asynRecord.adl &"
 }
@@ -453,9 +280,9 @@ minor 3
 release 0
 # Geometry
 x 300
-y 60
+y 40
 w 580
-h 130
+h 140
 # Appearance
 border
 xLabel "time [ms]"
@@ -501,7 +328,7 @@ minor 3
 release 0
 # Geometry
 x 300
-y 200
+y 190
 w 580
 h 130
 # Appearance
@@ -541,25 +368,6 @@ plotColor {
 }
 endObjectProperties
 
-# (Textentry)
-object TextentryClass
-beginObjectProperties
-major 10
-minor 0
-release 0
-x 10
-y 310
-w 280
-h 40
-controlPv "$(P)$(M):ASYNREC"
-precision 3
-fgColor index 25
-bgColor index 0
-fill
-font "arial-medium-r-12.0"
-fontAlign "center"
-endObjectProperties
-
 # (X-Y Graph)
 object xyGraphClass
 beginObjectProperties
@@ -568,9 +376,9 @@ minor 3
 release 0
 # Geometry
 x 300
-y 340
+y 330
 w 580
-h 130
+h 140
 # Appearance
 border
 xLabel "time [ms]"
@@ -606,5 +414,628 @@ opMode {
 plotColor {
   0 index 20
 }
+endObjectProperties
+
+# (Rectangle)
+object activeRectangleClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 10
+y 60
+w 270
+h 110
+lineColor index 14
+fill
+fillColor index 5
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 10
+y 50
+w 81
+h 14
+font "arial-medium-r-12.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 8
+value {
+  " ASYN record "
+}
+autoSize
+border
+endObjectProperties
+
+# (Textentry)
+object TextentryClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 20
+y 70
+w 250
+h 34
+controlPv "$(P)$(M):ASYNREC"
+precision 3
+fgColor index 25
+bgColor index 0
+fill
+font "arial-medium-r-12.0"
+fontAlign "center"
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 750
+y 480
+w 98
+h 14
+font "arial-medium-r-12.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 8
+value {
+  " Related screens "
+}
+autoSize
+border
+endObjectProperties
+
+# (Rectangle)
+object activeRectangleClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 10
+y 190
+w 270
+h 210
+lineColor index 14
+fill
+fillColor index 5
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 10
+y 180
+w 37
+h 14
+font "arial-medium-r-12.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 8
+value {
+  " Motor "
+}
+autoSize
+border
+endObjectProperties
+
+# (Textentry)
+object TextentryClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 20
+y 200
+w 250
+h 34
+controlPv "$(P)$(M):MOTOR"
+precision 3
+fgColor index 25
+bgColor index 0
+fill
+font "arial-medium-r-12.0"
+fontAlign "center"
+endObjectProperties
+
+# (Textentry)
+object TextentryClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 170
+y 280
+w 100
+h 31
+controlPv "$(P)$(M):DEMAND"
+precision 3
+fgColor index 25
+bgColor index 10
+fill
+font "arial-medium-r-12.0"
+fontAlign "center"
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 170
+y 240
+w 100
+h 30
+controlPv "$(P)$(M):MRBV"
+font "arial-medium-r-12.0"
+fontAlign "center"
+fgColor index 16
+fgAlarm
+bgColor index 10
+precision 3
+nullColor index 0
+fastUpdate
+useHexPrefix
+showUnits
+useAlarmBorder
+newPos
+objType "monitors"
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 40
+y 250
+w 90
+h 14
+font "arial-medium-r-12.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Current position:"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 40
+y 290
+w 100
+h 14
+font "arial-medium-r-12.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Position demand:"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 40
+y 330
+w 60
+h 14
+font "arial-medium-r-12.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Move time:"
+}
+autoSize
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 200
+y 360
+w 40
+h 30
+controlPv "$(P)$(M):PMACNO"
+font "arial-medium-r-12.0"
+fontAlign "center"
+fgColor index 16
+bgColor index 10
+limitsFromDb
+nullColor index 0
+useHexPrefix
+showUnits
+newPos
+objType "monitors"
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 170
+y 320
+w 100
+h 30
+controlPv "$(P)$(M):MOVETIME"
+font "arial-medium-r-12.0"
+fontAlign "center"
+fgColor index 16
+bgColor index 10
+limitsFromDb
+nullColor index 0
+fastUpdate
+useHexPrefix
+showUnits
+newPos
+objType "monitors"
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 90
+y 360
+w 40
+h 30
+controlPv "$(P)$(M):AXISNO"
+font "arial-medium-r-12.0"
+fontAlign "center"
+fgColor index 16
+bgColor index 10
+limitsFromDb
+nullColor index 0
+fastUpdate
+useHexPrefix
+newPos
+objType "monitors"
+endObjectProperties
+
+# (Rectangle)
+object activeRectangleClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 10
+y 420
+w 270
+h 170
+lineColor index 14
+fill
+fillColor index 5
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 10
+y 410
+w 108
+h 14
+font "arial-medium-r-12.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 8
+value {
+  " Sampling settings "
+}
+autoSize
+border
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 170
+y 550
+w 100
+h 30
+controlPv "$(P)$(M):TGATHER"
+font "arial-medium-r-12.0"
+fontAlign "center"
+fgColor index 16
+fgAlarm
+bgColor index 10
+limitsFromDb
+precision 3
+nullColor index 0
+useHexPrefix
+showUnits
+useAlarmBorder
+newPos
+objType "monitors"
+endObjectProperties
+
+# (Textentry)
+object TextentryClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 170
+y 430
+w 100
+h 31
+controlPv "$(P)$(M):SPERIOD"
+precision 3
+fgColor index 25
+bgColor index 10
+fill
+font "arial-medium-r-12.0"
+fontAlign "center"
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 40
+y 430
+w 87
+h 28
+font "arial-medium-r-12.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Sample period:"
+  "[servo cycles]"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 40
+y 480
+w 86
+h 14
+font "arial-medium-r-12.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Sampling time:"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 40
+y 560
+w 69
+h 14
+font "arial-medium-r-12.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Gather time:"
+}
+autoSize
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 170
+y 470
+w 100
+h 30
+controlPv "$(P)$(M):TSAMPLE"
+font "arial-medium-r-12.0"
+fontAlign "center"
+fgColor index 16
+fgAlarm
+bgColor index 10
+limitsFromDb
+precision 3
+nullColor index 0
+useHexPrefix
+showUnits
+useAlarmBorder
+newPos
+objType "monitors"
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 170
+y 510
+w 100
+h 30
+controlPv "$(P)$(M):FSAMPLE"
+font "arial-medium-r-12.0"
+fontAlign "center"
+fgColor index 16
+fgAlarm
+bgColor index 10
+limitsFromDb
+precision 3
+nullColor index 0
+useHexPrefix
+showUnits
+useAlarmBorder
+newPos
+objType "monitors"
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 40
+y 520
+w 118
+h 14
+font "arial-medium-r-12.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Sampling frequency:"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 40
+y 370
+w 36
+h 14
+font "arial-medium-r-12.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Axis #:"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 140
+y 370
+w 49
+h 14
+font "arial-medium-r-12.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "PMAC #:"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 290
+y 480
+w 42
+h 14
+font "arial-medium-r-12.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 8
+value {
+  " Status "
+}
+autoSize
+border
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 300
+y 550
+w 430
+h 30
+controlPv "$(P)$(M):MSG"
+font "arial-medium-r-12.0"
+fontAlign "center"
+fgColor index 16
+bgColor index 10
+limitsFromDb
+nullColor index 0
+fastUpdate
+useHexPrefix
+newPos
+objType "monitors"
+endObjectProperties
+
+# (Textentry)
+object TextentryClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 20
+y 110
+w 250
+h 34
+controlPv "$(P)$(M):PORT"
+precision 3
+fgColor index 25
+bgColor index 0
+fill
+font "arial-medium-r-12.0"
+fontAlign "center"
 endObjectProperties
 
