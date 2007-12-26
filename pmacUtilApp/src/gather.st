@@ -250,8 +250,7 @@ ss ssGather
 			pvPut(asynAout, SYNC);
 			pvGet(asynAinp, SYNC);
 			sscanf(asynAinp, "%d", &sPeriod);
-			pvPut(sPeriod, SYNC);
-			
+			pvPut(sPeriod, SYNC);			
 		} state MONITOR_INPUT
 	}
 	
@@ -540,11 +539,14 @@ static int pu_parseRawData(struct UserVar *pVar)
 	int i, ret=0, dataSrcCounter = 3;
 	unsigned int sampleCounter = 0;
 	unsigned int charCounter = 0;
-	int MSBY, LSBX;
+	unsigned int MSBY, LSBX;
 	double scaling;
 	char *substr1;
 	char *substr2;
 	char *substr3;
+	double tmpDouble;
+	long long int *tmpPtr;
+	long long int tmpLong;
 	
 	substr1 = calloc(13, sizeof(char));
 	substr2 = calloc(13, sizeof(char));
@@ -581,22 +583,37 @@ static int pu_parseRawData(struct UserVar *pVar)
 		switch ( dataSrc[dataSrcCounter].type )
 		{
 			case 0x0:
+				/* get the 24bit Y word as a signed integer and fit it in a signed 32 bit word */
 				if (MSBY && 0x800000)
-					pVar->waveformRecs[dataSrcCounter][sampleCounter] = ((signed int)MSBY) * scaling;					
-				else
 					pVar->waveformRecs[dataSrcCounter][sampleCounter] = ((signed int)(MSBY - 0xFFFFFF) * scaling);
+				else
+					pVar->waveformRecs[dataSrcCounter][sampleCounter] = ((signed int)MSBY) * scaling;					
 				break;
 			case 0x4:
+				/* get the 24bit X word as a signed integer and fit it in a signed 32 bit word */
 				if (LSBX && 0x800000)
-					pVar->waveformRecs[dataSrcCounter][sampleCounter] = ((signed int)LSBX) * scaling;					
-				else
 					pVar->waveformRecs[dataSrcCounter][sampleCounter] = ((signed int)(LSBX - 0xFFFFFF) * scaling);
+				else
+					pVar->waveformRecs[dataSrcCounter][sampleCounter] = ((signed int)LSBX) * scaling;									
 				break;
 			case 0x8:
-				pVar->waveformRecs[dataSrcCounter][sampleCounter] = ((long int)((MSBY << 24) | LSBX)) * scaling;
+				/* get the 48 bit word (X and Y) as a signed integer and fit it in a 64 bit word */
+				tmpLong = ((long long int)MSBY << 24) | LSBX;
+				if (MSBY && 0x800000)
+				{
+					tmpLong = tmpLong - 0xFFFFFFFFFFFF;
+					pVar->waveformRecs[dataSrcCounter][sampleCounter] = tmpLong * scaling;
+				}
+				else
+					pVar->waveformRecs[dataSrcCounter][sampleCounter] = tmpLong * scaling;
 				break;
 			case 0xC:
-				pVar->waveformRecs[dataSrcCounter][sampleCounter] = ((double)((MSBY << 24) | LSBX)) * scaling;
+				/* get the 48 bit word (X and Y) as a double precision floating point value
+				   and fit it in a 64 bit double (as it uses 12 bit exponent it is simply a 16 bit shift) */
+				tmpPtr = (long long int*)&tmpDouble;
+				*tmpPtr = ((long long int)MSBY << 24) | LSBX;
+				*tmpPtr = *tmpPtr << 16;
+				pVar->waveformRecs[dataSrcCounter][sampleCounter] = tmpDouble * scaling;
 				break;
 			default:
 				printf("pu_parseRawData: this should not happen!\n");
