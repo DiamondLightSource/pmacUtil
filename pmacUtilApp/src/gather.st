@@ -77,6 +77,7 @@ monitor asynBinp;
 monitor asynRec;
 monitor asynPort;
 monitor port;
+monitor tGather;
 
 evflag executeMon; 		sync execute 		executeMon;
 evflag motorMon;	 	sync motor		 	motorMon;
