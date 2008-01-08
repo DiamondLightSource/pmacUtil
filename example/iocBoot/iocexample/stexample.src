@@ -28,9 +28,9 @@ epicsEnvSet("EPICS_CA_MAX_ARRAY_BYTES","3000000")
 dbLoadRecords("db/example.db")
 
 # Create simulated motors: ( start card , start axis , low limit, high limit, home posn, # cards, # axes to setup)
-motorSimCreate( 0, 0, -15000, 1500000, 5000, 1, 3 )
+motorSimCreate( 0, 0, -15000, 1500000, 5000, 1, 32 )
 # Setup the Asyn layer (portname, low-level driver drvet name, card, number of axes on card)
-drvAsynMotorConfigure("pmac1", "motorSim", 0, 3)
+drvAsynMotorConfigure("pmac1", "motorSim", 0, 32)
 
 ## Set this to see messages from mySub
 #mySubDebug 1
