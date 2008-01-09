@@ -585,24 +585,24 @@ static int pu_parseRawData(struct UserVar *pVar)
 		{
 			case 0x0:
 				/* get the 24bit Y word as a signed integer and fit it in a signed 32 bit word */
-				if (MSBY && 0x800000)
-					pVar->waveformRecs[dataSrcCounter][sampleCounter] = ((signed int)(MSBY - 0xFFFFFF) * scaling);
+				if ((MSBY & 0x800000) > 0)
+					pVar->waveformRecs[dataSrcCounter][sampleCounter] = ((signed int)(MSBY | 0xFF000000) * scaling);
 				else
 					pVar->waveformRecs[dataSrcCounter][sampleCounter] = ((signed int)MSBY) * scaling;					
 				break;
 			case 0x4:
 				/* get the 24bit X word as a signed integer and fit it in a signed 32 bit word */
-				if (LSBX && 0x800000)
-					pVar->waveformRecs[dataSrcCounter][sampleCounter] = ((signed int)(LSBX - 0xFFFFFF) * scaling);
+				if ((LSBX & 0x800000) > 0)
+					pVar->waveformRecs[dataSrcCounter][sampleCounter] = ((signed int)(LSBX | 0xFF000000) * scaling);
 				else
 					pVar->waveformRecs[dataSrcCounter][sampleCounter] = ((signed int)LSBX) * scaling;									
 				break;
 			case 0x8:
 				/* get the 48 bit word (X and Y) as a signed integer and fit it in a 64 bit word */
 				tmpLong = ((long long int)MSBY << 24) | LSBX;
-				if (MSBY && 0x800000)
+				if ((MSBY & 0x800000) > 0)
 				{
-					tmpLong = tmpLong - 0xFFFFFFFFFFFF;
+					tmpLong = tmpLong | 0xFFFF000000000000;
 					pVar->waveformRecs[dataSrcCounter][sampleCounter] = tmpLong * scaling;
 				}
 				else
