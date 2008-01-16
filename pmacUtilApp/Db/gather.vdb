@@ -54,6 +54,7 @@ record(ao, "$(P)$(M):SPERIOD") {
   field(LOPR, "1")
   field(FLNK, "$(P)$(M):TSAMPLE")
   field(OUT, "$(P)$(M):TSAMPLE.A PP")
+  field(PINI, "YES")
 }
 
 # SNL will set this to 1 (parsing) when parsing the data from PMAC.
@@ -126,7 +127,6 @@ record(ai, "$(P)$(M):AXISNO") {
   field(DTYP, "Soft Channel")
 }
 
-
 record(calcout, "$(P)$(M):TSAMPLE") {
   field(DESC, "time per sample")
   field(SCAN, "Passive")
@@ -140,7 +140,6 @@ record(calcout, "$(P)$(M):TSAMPLE") {
   field(EGU, "ms")
   field(PREC, "3")
 }
-
 
 record(calcout, "$(P)$(M):TGATHER") {
   field(DESC, "entire gather time")
@@ -207,6 +206,8 @@ record(asyn, "$(P)$(M):ASYN") {
   field(DESC, "communicate with PMAC")
   field(DTYP, "asynRecordDevice")
   field(TMOT, "5")
+  field(IMAX, "40960")
+  field(OMAX, "1024")
   field(IFMT, "ASCII")
 }
 
@@ -214,7 +215,7 @@ record(calcout, "$(P)$(M):MOVETIME") {
   field(DESC, "calculate move time")
   field(PINI, "YES")
   field(DTYP, "Soft Channel")
-  field(CALC, "((abs(A-D))/B)+(2*C)")
+  field(CALC, "((abs(A-D))/B)")
   field(INPD, "$(P)$(M):DEMAND PP")
   field(OOPT, "On Change")
   field(DOPT, "Use CALC")
@@ -249,7 +250,7 @@ record(calcout, "$(P)$(M):MOVING") {
 #! Record("$(P)$(M):POSN",720,314,0,1,"$(P)$(M):POSN")
 #! Record("$(P)$(M):STATE",240,381,0,1,"$(P)$(M):STATE")
 #! Record("$(P)$(M):MSG",40,388,0,1,"$(P)$(M):MSG")
-#! Record("$(P)$(M):SPERIOD",520,851,0,1,"$(P)$(M):SPERIOD")
+#! Record("$(P)$(M):SPERIOD",520,838,0,1,"$(P)$(M):SPERIOD")
 #! Field("$(P)$(M):SPERIOD.FLNK",16777215,1,"$(P)$(M):SPERIOD.FLNK")
 #! Link("$(P)$(M):SPERIOD.FLNK","$(P)$(M):TSAMPLE")
 #! Field("$(P)$(M):SPERIOD.OUT",16777215,1,"$(P)$(M):SPERIOD.OUT")
@@ -287,6 +288,13 @@ record(calcout, "$(P)$(M):MOVING") {
 #! Record("$(P)$(M):ASYNREC",620,61,0,1,"$(P)$(M):ASYNREC")
 #! Record("$(P)$(M):TIME",1100,314,0,1,"$(P)$(M):TIME")
 #! Record("$(P)$(M):PORT",840,81,0,1,"$(P)$(M):PORT")
+#! Record("$(P)$(M):ASYN",420,60,0,1,"$(P)$(M):ASYN")
+#! Record("$(P)$(M):MOVETIME",1480,644,0,0,"$(P)$(M):MOVETIME")
+#! Field("$(P)$(M):MOVETIME.INPD",16777215,0,"$(P)$(M):MOVETIME.INPD")
+#! Link("$(P)$(M):MOVETIME.INPD","$(P)$(M):DEMAND.VAL")
+#! Field("$(P)$(M):MOVETIME.A",16777215,0,"$(P)$(M):MOVETIME.A")
+#! Record("$(P)$(M):PMACNO",1120,548,0,1,"$(P)$(M):PMACNO")
+#! Record("$(P)$(M):MOVING",240,678,0,1,"$(P)$(M):MOVING")
 #! Box(Box0,40,40,320,280,1,16711731,null)
 #! Box(Box4,500,540,1100,1080,1,16711731,null)
 #! Box(Box3,500,300,1280,520,1,16711731,null)
@@ -297,10 +305,3 @@ record(calcout, "$(P)$(M):MOVING") {
 #! TextBox(TB3,520,460,840,500,0,"Dialog",12,1,16777215,"The waveform records will contain the sampled\ndata when the gather is successfully completed.",null)
 #! TextBox(TB2,400,220,760,260,0,"Dialog",12,1,16777215,"The ASYN records do the direct communication with \nthe PMAC through the 'serial' port $(PORT)",null)
 #! TextBox(TB1,40,320,420,380,0,"Dialog",12,1,16777215,"These records are used for keeping\ntrack of the current state and status\nof the gather application",null)
-#! Record("$(P)$(M):ASYN",420,68,0,1,"$(P)$(M):ASYN")
-#! Record("$(P)$(M):MOVETIME",1480,644,0,0,"$(P)$(M):MOVETIME")
-#! Field("$(P)$(M):MOVETIME.INPD",16777215,0,"$(P)$(M):MOVETIME.INPD")
-#! Link("$(P)$(M):MOVETIME.INPD","$(P)$(M):DEMAND.VAL")
-#! Field("$(P)$(M):MOVETIME.A",16777215,0,"$(P)$(M):MOVETIME.A")
-#! Record("$(P)$(M):PMACNO",1120,548,0,1,"$(P)$(M):PMACNO")
-#! Record("$(P)$(M):MOVING",240,684,0,1,"$(P)$(M):MOVING")
