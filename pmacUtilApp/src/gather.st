@@ -15,6 +15,7 @@ option +r;
 #define MAX_N_DATASRC 3
 #define MAX_PV_STR_LEN 30
 #define SIZE_DOUBLE 8
+#define PMAC_N_CHAR_PER_WORD 13
 
 int execute; 					assign execute 			to "{P}{M}:EXECUTE.VAL";
 string motor;					assign motor	 		to "{P}{M}:MOTOR";
@@ -73,18 +74,19 @@ monitor execute;
 monitor demandVal;
 monitor motor;
 monitor moveTimeVal;
-monitor asynBinp;
 monitor asynRec;
 monitor asynPort;
 monitor port;
 monitor tGather;
+monitor asynNord;
+monitor sPeriod;
 
 evflag executeMon; 		sync execute 		executeMon;
 evflag motorMon;	 	sync motor		 	motorMon;
-evflag asynBinpMon;		sync asynBinp		asynBinpMon;
 evflag asynRecMon;		sync asynRec		asynRecMon;
 evflag asynPortMon;		sync asynPort		asynPortMon;
 evflag portMon;			sync port			portMon;
+evflag sPeriodMon;		sync sPeriod		sPeriodMon;
 
 /* define exacaped C functions at end of the file. */
 %{
@@ -116,7 +118,6 @@ static dataSrcStruct_t dataSrc[MAX_N_DATASRC] = {
 	{ 0x1D, "Actual unfiltered velocity", 4, 0x4, 1 },		/* scaling: 1.0/( Ixx09 * 32.0 )/( Ixx60 + 1 ) */ 
 };
 
-static int pu_getAxisNo(char* motorOutField);
 static int pu_parseRawData(struct UserVar *pVar);
 
 }%
@@ -127,13 +128,13 @@ ss ssGather
 	{
 		entry
 		{
-			printf("ssGather: ### state INIT entry. ###\n");
+/*			printf("ssGather: ### state INIT entry. ###\n");*/
 			strcpy(stateMsg, "INIT");
 			pvPut(stateMsg, SYNC);
 		}
 		when()
 		{
-			printf("ssGather: clearing all event flags.\n");
+/*			printf("ssGather: clearing all event flags.\n");*/
 			efClear(executeMon);
 			efClear(motorMon);
 			efClear(portMon);
@@ -151,11 +152,11 @@ ss ssGather
 	{
 		entry
 		{
-			printf("ssGather: ### state CONNECT_ASYN entry.\n");
+/*			printf("ssGather: ### state CONNECT_ASYN entry.\n");*/
 			strcpy(stateMsg, "CONNECT_ASYN");
 			pvPut(stateMsg, SYNC);
 		
-			printf("ssGather: asynRec currently: %s\n", asynRec);
+/*			printf("ssGather: asynRec currently: %s\n", asynRec);*/
 		}
 		
 		when( efTestAndClear( asynRecMon ) && strlen( asynRec ) > 1 )
@@ -164,31 +165,31 @@ ss ssGather
 			 * fields of the asyn record 
 			 */
 			sprintf(tmpPvStr, "%s.PORT", asynRec);
-			printf("ssGather: assigning %s\n", tmpPvStr);
+/*			printf("ssGather: assigning %s\n", tmpPvStr);*/
 			pvAssign(asynPort, tmpPvStr);
 			
 			sprintf(tmpPvStr, "%s.IFMT", asynRec);
-			printf("ssGather: assigning %s\n", tmpPvStr);
+/*			printf("ssGather: assigning %s\n", tmpPvStr);*/
 			pvAssign(asynIfmt , tmpPvStr);
 			
 			sprintf(tmpPvStr, "%s.AOUT", asynRec);
-			printf("ssGather: assigning %s\n", tmpPvStr);
+/*			printf("ssGather: assigning %s\n", tmpPvStr);*/
 			pvAssign(asynAout , tmpPvStr);
 			
 			sprintf(tmpPvStr, "%s.AINP", asynRec);
-			printf("ssGather: assigning %s\n", tmpPvStr);
+/*			printf("ssGather: assigning %s\n", tmpPvStr);*/
 			pvAssign(asynAinp , tmpPvStr);
 			
 			sprintf(tmpPvStr, "%s.NORD", asynRec);
-			printf("ssGather: assigning %s\n", tmpPvStr);
+/*			printf("ssGather: assigning %s\n", tmpPvStr);*/
 			pvAssign(asynNord , tmpPvStr);
 			
 			sprintf(tmpPvStr, "%s.PCNCT", asynRec);
-			printf("ssGather: assigning %s\n", tmpPvStr);
+/*			printf("ssGather: assigning %s\n", tmpPvStr);*/
 			pvAssign(asynPcnct, tmpPvStr);
 			
 			sprintf(tmpPvStr, "%s.BINP", asynRec);
-			printf("ssGather: assigning %s\n", tmpPvStr);
+/*			printf("ssGather: assigning %s\n", tmpPvStr);*/
 			pvAssign(asynBinp , tmpPvStr);
 			
 			pvMonitor(asynBinp);
@@ -204,12 +205,11 @@ ss ssGather
 				pvConnected(asynPcnct) &&
 				pvConnected(asynBinp))
 		{
-			printf("ssGather: all channels finally connected...\n");
+/*			printf("ssGather: all channels finally connected...\n");*/
 			pvGet(asynPcnct, SYNC);
 			if (strcmp(asynPcnct, "Connect") != 0) printf("ssGather: WARNING asyn record %s is not connected to a PMAC!\n", asynRec);
 
 			/* ensure that the asyn record is in ASCII mode */
-			printf("ssGather: sending IFMT=ASCII\n");
 			strcpy(asynIfmt, "ASCII");
 			pvPut(asynIfmt);
 		} state CONNECT_PMAC
@@ -219,18 +219,18 @@ ss ssGather
 	{
 		entry
 		{
-			printf("ssGather: ### state CONNECT_PMAC entry. ###\n");
+/*			printf("ssGather: ### state CONNECT_PMAC entry. ###\n");*/
 			strcpy(stateMsg, "CONNECT_PMAC");
 			pvPut(stateMsg, SYNC);
 			
 			if (efTestAndClear(portMon))
 			{
-				/* port changed in stringout record */
+				/* if port changed in stringout record */
 				strcpy(asynPort, port);
 				pvPut(asynPort, SYNC);
 			} else 
 			{
-				/* port changed directly on asyn record */
+				/* else port changed directly on asyn record */
 				strcpy(port, asynPort);
 				pvPut(port, SYNC);
 			}
@@ -245,7 +245,7 @@ ss ssGather
 			pvPut(asynAout, SYNC);
 			pvGet(asynAinp);
 			sscanf(asynAinp, "%d\r%d", &M72, &I52);
-			printf("ssGather: I52=%d M72=%d\n", I52, M72);
+/*			printf("ssGather: I52=%d M72=%d\n", I52, M72);*/
 			
 			strcpy(asynAout, "I5049");
 			pvPut(asynAout, SYNC);
@@ -259,25 +259,25 @@ ss ssGather
 	{
 		entry
 		{
-			printf("ssGather: ### state CONNECT_MOTOR entry. ###\n");
+/*			printf("ssGather: ### state CONNECT_MOTOR entry. ###\n");*/
 			strcpy(stateMsg, "CONNECT_MOTOR");
 			pvPut(stateMsg, SYNC);
 
 			/* connect to the new motor records out field */
 			sprintf(tmpPvStr, "%s.OUT", motor);
-			printf("ssGather: assigning %s\n", tmpPvStr);
+/*			printf("ssGather: assigning %s\n", tmpPvStr);*/
 			pvAssign(motorOut, tmpPvStr);
 		}
 		when( pvConnected(motorOut) )
 		{
 			sprintf(moveOut, "%s.VAL CA", motor);
-			printf("ssGather: moveOut = %s\n", moveOut);
+/*			printf("ssGather: moveOut = %s\n", moveOut);*/
 			pvPut(moveOut);
 			sprintf(mrbvInpA, "%s.RBV CPP", motor);
-			printf("ssGather: mrbvInpA = %s\n", mrbvInpA);
+/*			printf("ssGather: mrbvInpA = %s\n", mrbvInpA);*/
 			pvPut(mrbvInpA);
 			sprintf(movingInpA, "%s.MOVN CPP", motor);
-			printf("ssGather: movingInpA = %s\n", movingInpA);
+/*			printf("ssGather: movingInpA = %s\n", movingInpA);*/
 			pvPut(movingInpA);
 			sprintf(moveTimeInpB, "%s.VELO CA", motor);
 			pvPut(moveTimeInpB);
@@ -288,7 +288,7 @@ ss ssGather
 			   motor records OUT field. */
 			pvGet(motorOut);
 			sscanf(motorOut, "@asyn(pmac%d,%d)", &pmacNo, &axisNo);
-			printf("ssGather: got axis no: %d PMAC no: %d\n", axisNo, pmacNo);
+/*			printf("ssGather: got axis no: %d PMAC no: %d\n", axisNo, pmacNo);*/
 			pvPut(pmacNo);
 			pvPut(axisNo);
 			
@@ -311,7 +311,7 @@ ss ssGather
 	{
 		entry
 		{
-			printf("ssGather: ### state MONITOR_INPUT ###\n");
+/*			printf("ssGather: ### state MONITOR_INPUT ###\n");*/
 			strcpy(stateMsg, "MONITOR_INPUT");
 			pvPut(stateMsg, SYNC);
 		}
@@ -332,50 +332,56 @@ ss ssGather
 		when( efTestAndClear(motorMon) )
 		{
 		} state CONNECT_MOTOR
+		
+		when( efTestAndClear(sPeriodMon) )
+		{
+			sprintf(asynAout, "I5049=%d", sPeriod);
+			pvPut(asynAout, SYNC);
+		} state MONITOR_INPUT
 	}
 	
 	state SETUP
 	{
 		entry
 		{
-			printf("ssGather: ### state SETUP ###\n");
+/*			printf("ssGather: ### state SETUP ###\n");*/
 			strcpy(stateMsg, "SETUP");
 			pvPut(stateMsg);
 		}
 		when()
 		{
-			printf("ssGather: getting scaling ivars...\n");
+/*			printf("ssGather: getting scaling ivars...\n");*/
 			
 			sprintf(asynAout, "i%d08", axisNo);
 			pvPut(asynAout, SYNC);
 			pvGet(asynAinp);
 			sscanf(asynAinp, "%lf", &Ixx08);
-			printf("ssGather: %s = %f\n", asynAout, Ixx08);
+/*			printf("ssGather: %s = %f\n", asynAout, Ixx08);*/
 
 			sprintf(asynAout, "i%d09", axisNo);
 			pvPut(asynAout, SYNC);
 			pvGet(asynAinp);
 			sscanf(asynAinp, "%lf", &Ixx09);
-			printf("ssGather: %s = %.3f\n", asynAout, Ixx09);
+/*			printf("ssGather: %s = %.3f\n", asynAout, Ixx09);*/
 		
 			sprintf(asynAout, "i%d60", axisNo);
 			pvPut(asynAout, SYNC);
 			pvGet(asynAinp);
 			sscanf(asynAinp, "%lf", &Ixx60);
-			printf("ssGather: %s = %f\n", asynAout, Ixx60);
+/*			printf("ssGather: %s = %f\n", asynAout, Ixx60);*/
 			
-			printf("ssGather: calculating the scaling factors...\n");
+/*			printf("ssGather: calculating the scaling factors...\n");*/
 			if( Ixx08 != 0.0) dataSrc[0].scalingFactor = 1.0/(Ixx08 * 32.0);
-			printf("ssGather: actual position factor = %f\n", dataSrc[0].scalingFactor);
+/*			printf("ssGather: actual position factor = %f\n", dataSrc[0].scalingFactor);*/
 			
 			if( Ixx08 != 0.0) dataSrc[1].scalingFactor = 1.0/(Ixx08 * 32.0);
-			printf("ssGather: following error factor = %f\n", dataSrc[1].scalingFactor);
+/*			printf("ssGather: following error factor = %f\n", dataSrc[1].scalingFactor);*/
 
 			if (Ixx09 != 0.0 && Ixx60 != -1.0) 
 				dataSrc[2].scalingFactor = 1.0/(Ixx09 * 32.0)/(Ixx60 + 1);
-			printf("ssGather: actual velocity factor = %f\n", dataSrc[2].scalingFactor);
+/*			printf("ssGather: actual velocity factor = %f\n", dataSrc[2].scalingFactor);*/
 			
-			printf("ssGather: setting up all ivars for gathering...\n");
+/*			printf("ssGather: setting up all ivars for gathering...\n");*/
 			/* i5050, i5051: select gather channels.
 			   i5001..3: gather channels - contain the data src address.
 			   i5049: sample period in servo cycles.
@@ -392,7 +398,7 @@ ss ssGather
 			sprintf(asynAout, "i5003=$%X%05X", dataSrc[2].type, dataSrc[2].offset + motorBaseAddr[axisNo] );
 			pvPut(asynAout, SYNC);
 			
-			printf("ssGather: clearing out the current waveforms...\n");
+/*			printf("ssGather: clearing out the current waveforms...\n");*/
 			memset(waveformRecs[0], 0, SIZE_DOUBLE*N_ELEMENTS);
 			memset(waveformRecs[1], 0, SIZE_DOUBLE*N_ELEMENTS);
 			memset(waveformRecs[2], 0, SIZE_DOUBLE*N_ELEMENTS);
@@ -400,23 +406,23 @@ ss ssGather
 			pvPut(waveformRecs[1], SYNC);
 			pvPut(waveformRecs[2], SYNC);
 			
-			printf("ssGather: calculating the time axis\n");
+/*			printf("ssGather: calculating the time axis\n");*/
 			pvGet(tSample);
 			for(c=0; c<N_ELEMENTS; c++) timeRec[c] = c * tSample;
 			pvPut(timeRec, SYNC);
 
-			printf("ssGather: sending endgather cmd to end any possible ongoing gathering.\n");
+/*			printf("ssGather: sending endgather cmd to end any possible ongoing gathering.\n");*/
 			sprintf(asynAout, "endgather");
 			pvPut(asynAout, SYNC);
 			
-			printf("ssGather: sending delete gather cmd to clear any current buffer.\n");
+/*			printf("ssGather: sending delete gather cmd to clear any current buffer.\n");*/
 			sprintf(asynAout, "delete gather");
 			pvPut(asynAout, SYNC);
 
-			printf("ssGather: sending define gather cmd...\n");
+/*			printf("ssGather: sending define gather cmd...\n");*/
 			sprintf(asynAout, "define gather %d", 47 + (MAX_N_DATASRC * N_ELEMENTS));
 			pvPut(asynAout, SYNC);
-			printf("ssGather: sent out: %s\n", asynAout);
+/*			printf("ssGather: sent out: %s\n", asynAout);*/
 			
 		} state GATHER
 	}
@@ -425,25 +431,25 @@ ss ssGather
 	{
 		entry
 		{
-			printf("ssGather: ### state GATHER ###\n");
+/*			printf("ssGather: ### state GATHER ###\n");*/
 			strcpy(stateMsg, "GATHER");
 			pvPut(stateMsg);
 			gathering = 1;
 			pvPut(gathering, SYNC);
 			
-			printf("ssGather: sending gather command to trigger gathering\n");
+/*			printf("ssGather: sending gather command to trigger gathering\n");*/
 			strcpy(asynAout, "gather");
 			pvPut(asynAout, SYNC);
 			
-			printf("ssGather: sending demand command to motor to start moving.\n");
+/*			printf("ssGather: sending demand command to motor to start moving.\n");*/
 			moveVal = demandVal;
 			pvPut(moveVal, SYNC);
 			
-			printf("ssGather: waiting for gathering to stop... (%.3f + 1.0s)\n", tGather );
+/*			printf("ssGather: waiting for gathering to stop... (%.3f + 1.0s)\n", tGather );*/
 		}
 		when(delay(tGather + 1.0))
 		{
-			printf("ssGather: timeout - gathering must have stopped now...(after %.2fs gather + 1.0s)\n", tGather);
+/*			printf("ssGather: timeout - gathering must have stopped now...(after %.2fs gather + 1.0s)\n", tGather);*/
 			gathering = 0;
 			pvPut(gathering, SYNC);
 		} state COLLECT
@@ -453,28 +459,33 @@ ss ssGather
 	{
 		entry
 		{
-			printf("ssGather: ### state COLLECT ###\n");
+/*			printf("ssGather: ### state COLLECT ###\n");*/
 			strcpy(stateMsg, "COLLECT");
 			pvPut(stateMsg);
 			
-			/* only for testing!!! */
-			printf("ssGather: sending IFMT=Hybrid\n");
 			strcpy(asynIfmt, "Hybrid");
 			pvPut(asynIfmt);
 			
-			printf("ssGather: sending list gather cmd to collect data from PMAC.\n");
+/*			printf("ssGather: sending list gather cmd to collect data from PMAC.\n");*/
 			collecting = 1;
 			pvPut(collecting, SYNC);
 			strcpy(asynAout, "list gather");
 			pvPut(asynAout, ASYNC);
 		}
-		when( pvPutComplete(asynAout) && efTestAndClear(asynBinpMon))
+
+		when( pvPutComplete(asynAout) && (asynNord < (N_ELEMENTS * MAX_N_DATASRC * PMAC_N_CHAR_PER_WORD)))
+		{
+			printf("ssGather: not enough number of chars in asyn record (%d) lets try again...\n", asynNord);
+			pvPut(asynAout, ASYNC);
+			delay(0.5);
+		} state COLLECT
+		
+		when( pvPutComplete(asynAout) && (asynNord >= (N_ELEMENTS * MAX_N_DATASRC * PMAC_N_CHAR_PER_WORD)))
 		{
 			pvGet(asynBinp, SYNC);
-			printf("ssGather: rawdata: \n" );
+/*			printf("ssGather: rawdata: \n" );*/
 			%%for(i = 0; i < 16; i++) printf("%d:%d ", i, (int)pVar->asynBinp[i]);
-			pvGet(asynNord, SYNC);
-			printf("\nssGather: got raw data: %d ASCII chars!\n", asynNord);
+/*			printf("\nssGather: got raw data: %d ASCII chars!\n", asynNord);*/
 		} state PARSE
 		
 		when( delay(10.0))
@@ -487,7 +498,6 @@ ss ssGather
 			pvPut(collecting, SYNC);
 			strcpy(asynIfmt, "ASCII");
 			pvPut(asynIfmt);
-
 		}
 	}
 
@@ -495,7 +505,7 @@ ss ssGather
 	{
 		entry
 		{
-			printf("ssGather: ### state PARSE ###\n");
+/*			printf("ssGather: ### state PARSE ###\n");*/
 			strcpy(stateMsg, "PARSE");
 			pvPut(stateMsg);
 			parsing = 1;
@@ -503,16 +513,16 @@ ss ssGather
 		}
 		when()
 		{
-			printf("ssGather: parsing the raw ASCII data...\n");
+/*			printf("ssGather: parsing the raw ASCII data...\n");*/
 			%%pu_parseRawData( pVar );
-			printf("ssGather: posting the parsed data to the waveform records.\n");
+/*			printf("ssGather: posting the parsed data to the waveform records.\n");*/
 			pvPut(waveformRecs[0], SYNC);
 			pvPut(waveformRecs[1], SYNC);
 			pvPut(waveformRecs[2], SYNC);
 		} state MONITOR_INPUT
 		exit
 		{
-			printf("ssGather: all done!\n");
+/*			printf("ssGather: all done!\n");*/
 			parsing = 0;
 			pvPut(parsing, SYNC);
 			execute = 0;
@@ -524,16 +534,7 @@ ss ssGather
 
 /* C functions */
 %{
-int pu_getAxisNo(char* motorOutField)
-{
-	int pmacNo = 0;
-	int axisNo = 0;
-	int retval;
-	printf("pu_getAxisNo: got string: \"%s\"\n", motorOutField);
-	retval = sscanf(motorOutField, "@asyn(pmac%d,%d)", &pmacNo, &axisNo);
-	printf("pu_getAxisNo: sscan returned: %d. PMAC: %d AXIS: %d\n", retval, pmacNo, axisNo);
-	return axisNo;
-}
+
 
 static int pu_parseRawData(struct UserVar *pVar)
 {
@@ -549,25 +550,25 @@ static int pu_parseRawData(struct UserVar *pVar)
 	long long int *tmpPtr;
 	long long int tmpLong;
 	
-	substr1 = calloc(13, sizeof(char));
-	substr2 = calloc(13, sizeof(char));
-	substr3 = calloc(13, sizeof(char));
+	substr1 = calloc(PMAC_N_CHAR_PER_WORD, sizeof(char));
+	substr2 = calloc(PMAC_N_CHAR_PER_WORD, sizeof(char));
+	substr3 = calloc(PMAC_N_CHAR_PER_WORD, sizeof(char));
 	
-	printf("pu_parseRawData: nChars = %d\n", pVar->asynNord);
+/*	printf("pu_parseRawData: nChars = %d\n", pVar->asynNord);*/
 	
 	for(	i = 0, sampleCounter = 0, dataSrcCounter = 0; 
-			i < (N_ELEMENTS * MAX_N_DATASRC) && charCounter < (pVar->asynNord - 13);
-			i++, charCounter += 13, dataSrcCounter++)
+			i < (N_ELEMENTS * MAX_N_DATASRC) && charCounter < (pVar->asynNord - PMAC_N_CHAR_PER_WORD);
+			i++, charCounter += PMAC_N_CHAR_PER_WORD, dataSrcCounter++)
 	{
 		if (dataSrcCounter == MAX_N_DATASRC)
 		{
-			strncpy(substr1, (char*)(pVar->asynBinp + charCounter), 12);
-			strncpy(substr2, (char*)(pVar->asynBinp + charCounter + 13), 12);
-			strncpy(substr3, (char*)(pVar->asynBinp + charCounter + 26), 12);
-			printf("-- %s %s %s --\n", substr1, substr2, substr3);
-			printf("-- %.3f %.3f %.3f --\n", 	pVar->waveformRecs[0][sampleCounter], 
+			strncpy(substr1, (char*)(pVar->asynBinp + charCounter), PMAC_N_CHAR_PER_WORD - 1);
+			strncpy(substr2, (char*)(pVar->asynBinp + charCounter + PMAC_N_CHAR_PER_WORD), PMAC_N_CHAR_PER_WORD - 1);
+			strncpy(substr3, (char*)(pVar->asynBinp + charCounter + (2*PMAC_N_CHAR_PER_WORD)), PMAC_N_CHAR_PER_WORD - 1);
+			/*printf("-- %s %s %s --\n", substr1, substr2, substr3);*/
+			/*printf("-- %.3f %.3f %.3f --\n", 	pVar->waveformRecs[0][sampleCounter], 
 												pVar->waveformRecs[1][sampleCounter],
-												pVar->waveformRecs[2][sampleCounter]);
+												pVar->waveformRecs[2][sampleCounter]);*/
 			dataSrcCounter = 0;
 			sampleCounter++;
 		}
@@ -617,7 +618,7 @@ static int pu_parseRawData(struct UserVar *pVar)
 				pVar->waveformRecs[dataSrcCounter][sampleCounter] = tmpDouble * scaling;
 				break;
 			default:
-				printf("pu_parseRawData: this should not happen!\n");
+				printf("pu_parseRawData: ERROR: unknown case - this should not happen!\n");
 				pVar->waveformRecs[dataSrcCounter][sampleCounter] = 0.0;
 				break;
 		}
