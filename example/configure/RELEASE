@@ -21,7 +21,7 @@ CALC=		$(SUPPORT)/calc/2-6-3dls1
 #STD=		$(SUPPORT)/std/2-5-4dls4
 SSCAN=		$(SUPPORT)/sscan/2-5-6dls1
 MOTOR=		$(SUPPORT)/motor/6-2-2dls3
-PMACUTIL=   $(WORK)/pmacUtil
+PMACUTIL=   $(SUPPORT)/pmacUtil/1-0
 #STREAM=		$(SUPPORT)/streamDevice/2-1dls4
 
 SNCSEQ=     $(SUPPORT)/seq/2-0-11dls1
