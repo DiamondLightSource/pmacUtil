@@ -78,3 +78,40 @@ record(asyn, "$(P)$(M):OFFASET") {
   field(PORT, "$(SPORT)")
   field(DESC, "Set PMAC variable")
 }
+
+record(scalcout, "$(P)$(M):ELOSSRC") {
+  field(DESC, "Write 0 to A to reset Eloss")
+  field(DTYP, "Soft Channel")
+  field(CALC, "A")
+  field(OUT, "$(P)$(M):ELOSSA.AOUT PP")
+  field(OOPT, "On Change")
+  field(DOPT, "Use OCAL")
+  field(OCAL, "$P('P4%02d',64+$(ADDR))+$P('=%f',A)")
+  field(PINI, "YES")
+}
+
+record(scalcout, "$(P)$(M):ELOSSC") {
+  field(DESC, "Calculate Eloss address")
+  field(DTYP, "Soft Channel")
+  field(SCAN, "2 second")
+  field(OUT, "$(P)$(M):ELOSSA.AOUT PP")
+  field(DOPT, "Use OCAL")
+  field(OCAL, "$P('P4%02d',64+$(ADDR))")
+  field(PINI, "YES")
+}
+
+record(asyn, "$(P)$(M):ELOSSA") {
+  field(SCAN, "Passive")
+  field(DTYP, "asynRecordDevice")
+  field(PORT, "$(SPORT)")
+  field(DESC, "Set Eloss variable")
+  field(FLNK, "$(P)$(M):ELOSS")
+}
+
+record(scalcout, "$(P)$(M):ELOSS") {
+  field(SCAN, "Passive")
+  field(DTYP, "Soft Channel")
+  field(CALC, "SSCANF(AA, '%f')")
+  field(INAA, "$(P)$(M):ELOSSA.AINP")
+  field(PREC, "0")
+}
