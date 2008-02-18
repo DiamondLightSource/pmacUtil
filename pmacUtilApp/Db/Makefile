@@ -14,6 +14,7 @@ include $(TOP)/configure/CONFIG
 DB += energise.template
 DB += pmacVariableWrite.template
 DB += gather.template
+DB += motorstatus.template
 DB += mres_reporting_motor.template
 
 # not using streams since this doesnt work with tpmac

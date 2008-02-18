@@ -3,9 +3,9 @@ beginScreenProperties
 major 4
 minor 0
 release 1
-x 148
-y 55
-w 910
+x 79
+y 49
+w 890
 h 597
 font "arial-medium-r-12.0"
 ctlFont "arial-medium-r-12.0"
@@ -21,6 +21,7 @@ topShadowColor index 1
 botShadowColor index 11
 showGrid
 snapToGrid
+disableScroll
 endScreenProperties
 
 # (Rectangle)
@@ -46,8 +47,8 @@ minor 0
 release 0
 x 750
 y 490
-w 150
-h 60
+w 130
+h 50
 lineColor index 14
 fill
 fillColor index 5
@@ -61,7 +62,7 @@ minor 1
 release 0
 x 0
 y 0
-w 910
+w 890
 h 30
 font "arial-bold-r-16.0"
 fontAlign "center"
@@ -132,41 +133,6 @@ fastUpdate
 useHexPrefix
 newPos
 objType "monitors"
-endObjectProperties
-
-# (Related Display)
-object relatedDisplayClass
-beginObjectProperties
-major 4
-minor 2
-release 0
-x 760
-y 510
-w 60
-h 30
-fgColor index 43
-bgColor index 3
-topShadowColor index 1
-botShadowColor index 11
-font "arial-bold-r-12.0"
-buttonLabel "motors"
-numPvs 4
-numDsps 2
-displayFileName {
-  0 "motor"
-  1 "motor"
-}
-menuLabel {
-  0 "M1:AXIS1"
-  1 "M2:AXIS2"
-}
-symbols {
-  0 "motor=M1:AXIS1"
-  1 "motor=M2:AXIS2"
-}
-propagateMacros {
-  0 0
-}
 endObjectProperties
 
 # (Byte)
@@ -247,9 +213,9 @@ beginObjectProperties
 major 4
 minor 2
 release 0
-x 830
-y 510
-w 60
+x 760
+y 500
+w 110
 h 30
 fgColor index 43
 bgColor index 3
@@ -257,18 +223,14 @@ topShadowColor index 1
 botShadowColor index 11
 font "arial-bold-r-12.0"
 buttonLabel "ASYN"
-numCmds 4
+numCmds 2
 commandLabel {
-  0 "BL16B-MO-IOC-02:asyn"
-  1 "$(P)$(M):ASYN"
-  2 "$(P)$(M):PMACTRIG"
-  3 "BL16B-MO-IOC-01:asyn"
+  0 "$(P)$(M):ASYN"
+  1 "$(P)$(M):PMACTRIG"
 }
 command {
-  0 "export EPICS_DISPLAY_PATH=$(MEDMDP);medm -x -macro \"P=BL16B-MO-IOC-02,R=:asyn\" asynRecord.adl &"
-  1 "medm -x -macro \"P=$(P)$(M),R=:ASYN\" asynRecord.adl &"
-  2 "medm -x -macro \"P=$(P)$(M),R=:PMACTRIG\" asynRecord.adl &"
-  3 "medm -x -macro \"P=BL16B-MO-IOC-01,R=:asyn\" asynRecord.adl &"
+  0 "export EPICS_DISPLAY_PATH=$(MEDMDP);medm -x -macro \"P=$(P)$(M),R=:ASYN\" asynRecord.adl &"
+  1 "export EPICS_DISPLAY_PATH=$(MEDMDP);medm -x -macro \"P=$(P)$(M),R=:PMACTRIG\" asynRecord.adl &"
 }
 endObjectProperties
 

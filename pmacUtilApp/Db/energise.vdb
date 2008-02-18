@@ -511,7 +511,7 @@ record(fanout, "$(PMAC)$(UMAC):FLNK4") {
 
 record(asyn, "$(PMAC)$(UMAC):ASYN_GET") {
   field(DESC, "Get $(MVAR) $(PORT)")
-  field(SCAN, "2 second")
+  field(SCAN, "1 second")
   field(PORT, "$(PORT)")
   field(AOUT, "$(MVAR)")
   field(FLNK, "$(PMAC)$(UMAC):GETENERGISE")
@@ -536,7 +536,7 @@ record(scalcout, "$(PMAC)$(UMAC):SET_E") {
 }
 
 #! Further lines contain data used by VisualDCT
-#! View(861,1742,1.2)
+#! View(593,1348,1.2)
 #! Record("$(PMAC)$(UMAC):GETENERGISE",1120,1363,0,0,"$(PMAC)$(UMAC):GETENERGISE")
 #! Field("$(PMAC)$(UMAC):GETENERGISE.FLNK",16777215,1,"$(PMAC)$(UMAC):GETENERGISE.FLNK")
 #! Link("$(PMAC)$(UMAC):GETENERGISE.FLNK","$(PMAC)$(UMAC):INBITS")
