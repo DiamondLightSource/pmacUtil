@@ -1,0 +1,66 @@
+# % gdatag,template,simpleMotor,$(gda_name),$(gda_desc)
+# % gdatag,motor,rw,$(gda_name),RECORD,Motor Record
+record(motor, "$(P)$(SM)") {
+  field(DESC, "$(DESC)")
+  field(DTYP, "Soft Channel")
+  field(VELO, "1")
+  field(VMAX, "10")
+  field(MRES, "0.0001")
+  field(PREC, "$(PREC)")
+  field(EGU, "$(EGU)")
+  field(DHLM, "$(DHLM)")
+  field(DLLM, "$(DLLM)")
+  field(RTRY, "0")
+  field(STOO, "$(P)$(M).STOP PP")
+  field(RRES, "1")
+  field(URIP, "Yes")
+  field(NTM, "NO")
+  field(OUT, "$(P)$(SM):VALF.A PP")
+  field(RDBL, "$(P)$(SM):RDBL.VAL")
+  field(TWV, "$(TWV)")
+  field(DINP, "$(P)$(M).DMOV")
+}
+
+record(calcout, "$(P)$(SM):STOP") {
+  field(PINI, "YES")
+  field(CALC, "1")
+  field(OUT, "$(P)$(M).STOP PP")
+}
+
+record(calcout, "$(P)$(SM):VELOF") {
+  field(CALC, "$(FWD)")
+  field(INPA, "$(P)$(SM).VELO CP")
+  field(OUT, "$(P)$(M).VELO PP")
+}
+
+
+record(calcout, "$(P)$(SM):VELOB") {
+  field(PINI, "YES")
+  field(CALC, "$(BWD)")
+  field(INPA, "$(P)$(M).VELO CP")
+  field(OUT, "$(P)$(SM).VELO PP")
+}
+
+record(calcout, "$(P)$(SM):VMAXF") {
+  field(CALC, "$(FWD)")
+  field(INPA, "$(P)$(SM).VMAX CP")
+  field(OUT, "$(P)$(M).VMAX PP")
+}
+
+record(calcout, "$(P)$(SM):VMAXB") {
+  field(PINI, "YES")
+  field(CALC, "$(BWD)")
+  field(INPA, "$(P)$(M).VMAX CP")
+  field(OUT, "$(P)$(SM).VMAX")
+}
+
+record(calcout, "$(P)$(SM):VALF") {
+  field(CALC, "$(FWD)")
+  field(OUT, "$(P)$(M).DVAL PP")
+}
+
+record(calcout, "$(P)$(SM):RDBL") {
+  field(PINI, "YES")
+  field(CALC, "$(BWD)")
+  field(INPA, "$(P)$(M).RBV CP")
+}

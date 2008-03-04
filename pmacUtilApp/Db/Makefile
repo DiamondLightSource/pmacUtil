@@ -16,6 +16,7 @@ DB += pmacVariableWrite.template
 DB += gather.template
 DB += motorstatus.template
 DB += mres_reporting_motor.template
+DB += translated_motor.template
 
 # not using streams since this doesnt work with tpmac
 #DB += energise_streams.template
