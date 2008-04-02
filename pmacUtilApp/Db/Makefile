@@ -17,6 +17,7 @@ DB += gather.template
 DB += motorstatus.template
 DB += mres_reporting_motor.template
 DB += translated_motor.template
+DB += homingplc.template
 
 # not using streams since this doesnt work with tpmac
 #DB += energise_streams.template
