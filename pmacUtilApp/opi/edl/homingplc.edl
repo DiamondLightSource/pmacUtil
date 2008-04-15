@@ -3,10 +3,10 @@ beginScreenProperties
 major 4
 minor 0
 release 1
-x 1312
-y 379
-w 381
-h 308
+x 823
+y 87
+w 380
+h 187
 font "arial-medium-r-18.0"
 ctlFont "arial-medium-r-18.0"
 btnFont "arial-medium-r-18.0"
@@ -134,7 +134,7 @@ major 4
 minor 1
 release 0
 x 290
-y 275
+y 155
 w 80
 h 25
 fgColor index 46
@@ -155,7 +155,7 @@ release 0
 x 5
 y 45
 w 365
-h 220
+h 100
 lineColor index 14
 fill
 fillColor index 5
@@ -167,35 +167,16 @@ beginObjectProperties
 major 4
 minor 1
 release 0
-x 175
-y 55
-w 75
-h 20
-font "arial-medium-r-12.0"
-fgColor index 14
-bgColor index 3
-useDisplayBg
-value {
-  "update rate:"
-}
-endObjectProperties
-
-# (Static Text)
-object activeXTextClass
-beginObjectProperties
-major 4
-minor 1
-release 0
 x 200
-y 95
-w 40
+y 85
+w 60
 h 20
-font "arial-medium-r-12.0"
+font "arial-bold-r-14.0"
 fgColor index 14
 bgColor index 3
 useDisplayBg
 value {
-  "status:"
+  "status"
 }
 endObjectProperties
 
@@ -205,16 +186,16 @@ beginObjectProperties
 major 4
 minor 1
 release 0
-x 10
-y 95
-w 35
+x 15
+y 85
+w 55
 h 20
-font "arial-medium-r-12.0"
+font "arial-bold-r-14.0"
 fgColor index 14
 bgColor index 3
 useDisplayBg
 value {
-  "state:"
+  "state"
 }
 endObjectProperties
 
@@ -245,12 +226,11 @@ beginObjectProperties
 major 4
 minor 1
 release 0
-x 245
-y 95
-w 115
+x 195
+y 105
+w 165
 h 25
 controlPv "$(P)$(M):STATUS"
-format "hex"
 font "arial-medium-r-12.0"
 fontAlign "center"
 fgColor index 16
@@ -259,7 +239,6 @@ bgColor index 10
 limitsFromDb
 nullColor index 30
 fastUpdate
-useHexPrefix
 useAlarmBorder
 newPos
 objType "monitors"
@@ -270,85 +249,12 @@ object activeXTextDspClass:noedit
 beginObjectProperties
 major 4
 minor 1
-release 0
-x 55
-y 95
-w 115
-h 25
-controlPv "$(P)$(M):STATE"
-format "hex"
-font "arial-medium-r-12.0"
-fontAlign "center"
-fgColor index 16
-fgAlarm
-bgColor index 10
-limitsFromDb
-nullColor index 30
-fastUpdate
-useHexPrefix
-useAlarmBorder
-newPos
-objType "monitors"
-endObjectProperties
-
-# (Menu Button)
-object activeMenuButtonClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 245
-y 55
-w 115
-h 25
-fgColor index 14
-bgColor index 3
-inconsistentColor index 20
-topShadowColor index 1
-botShadowColor index 11
-controlPv "$(P)$(M):ASYN2.SCAN"
-font "arial-medium-r-12.0"
-endObjectProperties
-
-# (Button)
-object activeButtonClass
-beginObjectProperties
-major 4
-minor 0
 release 0
 x 15
-y 55
-w 75
+y 105
+w 165
 h 25
-fgColor index 14
-onColor index 4
-offColor index 3
-inconsistentColor index 3
-topShadowColor index 1
-botShadowColor index 11
-controlPv "$(P)$(M):HOME"
-indicatorPv "$(P)$(M):HOMING"
-onLabel "Homing"
-offLabel "Home"
-labelType "literal"
-buttonType "push"
-3d
-font "arial-medium-r-14.0"
-objType "controls"
-endObjectProperties
-
-# (Text Monitor)
-object activeXTextDspClass:noedit
-beginObjectProperties
-major 4
-minor 1
-release 0
-x 60
-y 215
-w 115
-h 25
-controlPv "$(P)$(M):PARSE2.SVAL"
-format "hex"
+controlPv "$(P)$(M):STATE"
 font "arial-medium-r-12.0"
 fontAlign "center"
 fgColor index 16
@@ -357,121 +263,6 @@ bgColor index 10
 limitsFromDb
 nullColor index 30
 fastUpdate
-useHexPrefix
-useAlarmBorder
-newPos
-objType "monitors"
-endObjectProperties
-
-# (Text Monitor)
-object activeXTextDspClass:noedit
-beginObjectProperties
-major 4
-minor 1
-release 0
-x 180
-y 215
-w 115
-h 25
-controlPv "$(P)$(M):PARSE1.SVAL"
-format "hex"
-font "arial-medium-r-12.0"
-fontAlign "center"
-fgColor index 16
-fgAlarm
-bgColor index 10
-limitsFromDb
-nullColor index 30
-fastUpdate
-useHexPrefix
-useAlarmBorder
-newPos
-objType "monitors"
-endObjectProperties
-
-# (Text Monitor)
-object activeXTextDspClass:noedit
-beginObjectProperties
-major 4
-minor 1
-release 0
-x 155
-y 140
-w 115
-h 25
-controlPv "$(P)$(M):ASYN1.AINP"
-format "hex"
-font "arial-medium-r-12.0"
-fontAlign "center"
-fgColor index 16
-fgAlarm
-bgColor index 10
-limitsFromDb
-nullColor index 30
-fastUpdate
-useHexPrefix
-useAlarmBorder
-newPos
-objType "monitors"
-endObjectProperties
-
-# (Textentry)
-object TextentryClass
-beginObjectProperties
-major 10
-minor 0
-release 0
-x 25
-y 135
-w 125
-h 35
-controlPv "$(P)$(M):ASYN1.AOUT"
-fgColor index 25
-fgAlarm
-bgColor index 10
-fill
-font "arial-medium-r-12.0"
-endObjectProperties
-
-# (Textentry)
-object TextentryClass
-beginObjectProperties
-major 10
-minor 0
-release 0
-x 25
-y 175
-w 125
-h 35
-controlPv "$(P)$(M):ASYN2.AOUT"
-fgColor index 25
-fgAlarm
-bgColor index 10
-fill
-font "arial-medium-r-12.0"
-endObjectProperties
-
-# (Text Monitor)
-object activeXTextDspClass:noedit
-beginObjectProperties
-major 4
-minor 1
-release 0
-x 155
-y 180
-w 115
-h 25
-controlPv "$(P)$(M):ASYN2.AINP"
-format "hex"
-font "arial-medium-r-12.0"
-fontAlign "center"
-fgColor index 16
-fgAlarm
-bgColor index 10
-limitsFromDb
-nullColor index 30
-fastUpdate
-useHexPrefix
 useAlarmBorder
 newPos
 objType "monitors"
@@ -483,11 +274,11 @@ beginObjectProperties
 major 4
 minor 0
 release 0
-x 95
+x 265
 y 55
-w 70
+w 60
 h 25
-fgColor index 14
+fgColor index 20
 onColor index 3
 offColor index 3
 topShadowColor index 1
@@ -498,5 +289,66 @@ onLabel "Abort"
 offLabel "Abort"
 3d
 font "arial-medium-r-14.0"
+endObjectProperties
+
+# (Menu Button)
+object activeMenuButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 15
+y 55
+w 165
+h 25
+fgColor index 25
+bgColor index 3
+inconsistentColor index 0
+topShadowColor index 1
+botShadowColor index 11
+controlPv "$(P)$(M):HMGRP"
+font "arial-medium-r-12.0"
+endObjectProperties
+
+# (Message Button)
+object activeMessageButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 195
+y 55
+w 60
+h 25
+fgColor index 25
+onColor index 4
+offColor index 3
+topShadowColor index 1
+botShadowColor index 11
+controlPv "$(P)$(M):HOME"
+pressValue "1"
+onLabel "Home"
+offLabel "Home"
+3d
+useEnumNumeric
+font "arial-medium-r-12.0"
+endObjectProperties
+
+# (Byte)
+object ByteClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 335
+y 55
+w 25
+h 25
+controlPv "$(P)$(M):HOMING"
+lineColor index 14
+onColor index 15
+offColor index 19
+lineWidth 0
+numBits 1
 endObjectProperties
 

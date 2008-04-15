@@ -13,8 +13,10 @@ include $(TOP)/configure/CONFIG
 #
 #DB += BL06I-MO-IOC-01.db
 DB += example.db
+DB += homingexample.db
 
 USES_TEMPLATE += $(PMACUTIL)/db/gather.template
+USES_TEMPLATE += $(PMACUTIL)/db/homingplc.template
 #USES_TEMPLATE += $(MOTOR)/db/basic_motor.template
 
 include $(TOP)/configure/RULES

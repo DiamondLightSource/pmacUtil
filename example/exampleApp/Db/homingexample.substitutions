@@ -1,0 +1,6 @@
+file homingplc.template
+{
+pattern {P, M,  PORT,      STARTCMD,   PVARSTATUS, PVARSTATE, PVARGROUP, GRP1,        GRP2,  GRP3,  GRP4,      GRP5,    GRP6,    GRP7,            STATE10, STATE11, STATE12, STATE13, STATE14, STATE15 }
+        {P, M1, "pmac_S0", "ENA PLC7", P1030,      P1031,     P1032,     "all",       "",    "",    "",        "",      "",      "",              "",      "",      "",      "",      "",      "" }
+        {P, M2, "pmac_S0", "ENA PLC8", P1033,      P1034,     P1035,     "XYZ stage", "PHI", "CHI", "2 THETA", "THETA", "ALPHA", "X and Y jacks", "",      "",      "",      "",      "",      "" }
+}

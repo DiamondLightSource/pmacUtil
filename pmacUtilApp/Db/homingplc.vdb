@@ -4,15 +4,6 @@
 #! DBDEND
 
 
-record(stringout, "$(P)$(M):ENAPLC") {
-  field(DESC, "Send enable plc cmd")
-  field(SCAN, "Passive")
-  field(PINI, "NO")
-  field(DTYP, "Soft Channel")
-  field(VAL, "ENABLE PLC $(PLC)")
-  field(OUT, "$(P)$(M):ASYN1.AOUT PP")
-}
-
 record(asyn, "$(P)$(M):ASYN1") {
   field(DESC, "User cmd to PMAC")
   field(SCAN, "Passive")
@@ -26,11 +17,11 @@ record(stringout, "$(P)$(M):ABORT") {
   field(SCAN, "Passive")
   field(PINI, "NO")
   field(DTYP, "Soft Channel")
-  field(VAL, "$(STATUS)=2")
+  field(VAL, "$(PVARSTATUS)=2")
   field(OUT, "$(P)$(M):ASYN1.AOUT PP")
 }
 
-# This will read the P variables $(STATUS) and $(STATE)
+# This will read the P variables $(PVARSTATUS) and $(PVARSTATE)
 # from the PMAC in one command.
 record(asyn, "$(P)$(M):ASYN2") {
   field(DESC, "Read homing status from PMAC")
@@ -38,12 +29,12 @@ record(asyn, "$(P)$(M):ASYN2") {
   field(PINI, "NO")
   field(DTYP, "asynRecordDevice")
   field(PORT, "$(PORT)")
-  field(AOUT, "$(STATUS) $(STATE)")
+  field(AOUT, "$(PVARSTATUS) $(PVARSTATE)")
   field(FLNK, "$(P)$(M):FAN1")
 }
 
 record(scalcout, "$(P)$(M):PARSE1") {
-  field(DESC, "Parse PMAC response to $(STATUS)")
+  field(DESC, "Parse PMAC response to $(PVARSTATUS)")
   field(DTYP, "Soft Channel")
   field(SCAN, "Passive")
   field(PINI, "NO")
@@ -56,7 +47,7 @@ record(scalcout, "$(P)$(M):PARSE1") {
 }
 
 record(scalcout, "$(P)$(M):PARSE2") {
-  field(DESC, "Parse PMAC response to $(STATE)")
+  field(DESC, "Parse PMAC response to $(PVARSTATE)")
   field(DTYP, "Soft Channel")
   field(SCAN, "Passive")
   field(PINI, "NO")
@@ -80,9 +71,22 @@ record(mbbi, "$(P)$(M):STATUS") {
   field(ZRST, "Done")
   field(ONST, "Homing")
   field(TWST, "Aborted")
-  field(THST, "Error")
+  field(THST, "Timeout")
   field(FLNK, "$(P)$(M):CHECK")
   field(INP, "$(P)$(M):PARSE1 PP")
+  field(FRVL, "4")
+  field(FVVL, "5")
+  field(SXVL, "6")
+  field(ZRSV, "NO_ALARM")
+  field(ONSV, "NO_ALARM")
+  field(TWSV, "MINOR")
+  field(THSV, "MAJOR")
+  field(FRSV, "MAJOR")
+  field(FVSV, "MAJOR")
+  field(SXSV, "MAJOR")
+  field(FRST, "Fatal foll err")
+  field(FVST, "Stopped on lim")
+  field(SXST, "Incomplete Home")
 }
 
 record(mbbi, "$(P)$(M):STATE") {
@@ -94,24 +98,40 @@ record(mbbi, "$(P)$(M):STATE") {
   field(ONVL, "1")
   field(TWVL, "2")
   field(THVL, "3")
-  field(ZRST, "Inactive")
+  field(ZRST, "Idle")
   field(ONST, "Configuring")
-  field(TWST, "Move to lim.")
-  field(THST, "Homing")
+  field(TWST, "Move to neg lim")
+  field(THST, "Move to pos lim")
   field(FRVL, "4")
-  field(FRST, "Complete")
+  field(FRST, "Homing")
   field(INP, "$(P)$(M):PARSE2 PP")
+  field(FVVL, "5")
+  field(FVST, "Drive safe pos")
+  field(SXVL, "6")
+  field(SVVL, "7")
+  field(TEVL, "10")
+  field(ELVL, "11")
+  field(TVVL, "12")
+  field(TTVL, "13")
+  field(FTVL, "14")
+  field(SXST, "Aligning")
+  field(SVST, "Done")
+  field(TEST, "$(STATE10)")
+  field(ELST, "$(STATE11)")
+  field(TVST, "$(STATE12)")
+  field(TTST, "$(STATE13)")
+  field(FTST, "$(STATE14)")
 }
 
 record(busy, "$(P)$(M):HOMING") {
+  field(FLNK, "$(P)$(M):HOMED")
 }
 
 record(bo, "$(P)$(M):HOME") {
   field(SCAN, "Passive")
   field(PINI, "NO")
   field(DTYP, "Soft Channel")
-  field(FLNK, "$(P)$(M):ENAPLC")
-  field(OUT, "$(P)$(M):HOMING PP")
+  field(FLNK, "$(P)$(M):START")
 }
 
 record(calcout, "$(P)$(M):CHECK") {
@@ -127,11 +147,83 @@ record(fanout, "$(P)$(M):FAN1") {
   field(LNK1, "$(P)$(M):PARSE2")
 }
 
+record(bo, "$(P)$(M):HOMED") {
+  field(SCAN, "Passive")
+  field(PINI, "NO")
+  field(DTYP, "Soft Channel")
+  field(FLNK, "$(P)$(M):HOME")
+  field(OUT, "$(P)$(M):HOME PP")
+  field(VAL, "0")
+}
+
+record(bo, "$(P)$(M):BUF1") {
+  field(SCAN, "Passive")
+  field(PINI, "NO")
+  field(DTYP, "Soft Channel")
+  field(FLNK, "$(P)$(M):STARTHMP")
+  field(OUT, "$(P)$(M):HOMING PP")
+}
+
+record(calcout, "$(P)$(M):START") {
+  field(DESC, "Check if usr started")
+  field(SCAN, "Passive")
+  field(PINI, "NO")
+  field(DTYP, "Soft Channel")
+  field(FLNK, "$(P)$(M):BUF1")
+  field(CALC, "A")
+  field(INPA, "$(P)$(M):HOME PP")
+  field(OUT, "$(P)$(M):BUF1 PP")
+  field(OOPT, "Transition To Non-zero")
+  field(DOPT, "Use CALC")
+}
+
+record(stringout, "$(P)$(M):STARTHMP") {
+  field(DESC, "Start homing plc/prog")
+  field(SCAN, "Passive")
+  field(PINI, "NO")
+  field(DTYP, "Soft Channel")
+  field(VAL, "$(STARTCMD)")
+  field(OUT, "$(P)$(M):ASYN1.AOUT PP")
+}
+
+record(mbbo, "$(P)$(M):HMGRP") {
+  field(DESC, "Homing group")
+  field(SCAN, "Passive")
+  field(PINI, "YES")
+  field(DTYP, "Soft Channel")
+  field(FLNK, "$(P)$(M):SENDGRP")
+  field(ZRVL, "0")
+  field(ONVL, "1")
+  field(TWVL, "2")
+  field(THVL, "3")
+  field(FRVL, "4")
+  field(FVVL, "5")
+  field(SXVL, "6")
+  field(SVVL, "7")
+  field(ZRST, "none")
+  field(ONST, "$(GRP1)")
+  field(TWST, "$(GRP2)")
+  field(THST, "$(GRP3)")
+  field(FRST, "$(GRP4)")
+  field(FVST, "$(GRP5)")
+  field(SXST, "$(GRP6)")
+  field(SVST, "$(GRP7)")
+  field(UNSV, "INVALID")
+  field(IVOA, "Set output to IVOV")
+  field(IVOV, "0")
+}
+
+record(scalcout, "$(P)$(M):SENDGRP") {
+  field(DESC, "Select group on pmac")
+  field(SCAN, "Passive")
+  field(DTYP, "Soft Channel")
+  field(CALC, "PRINTF('$(PVARGROUP)=%i',A)")
+  field(INPA, "$(P)$(M):HMGRP PP")
+  field(OUT, "$(P)$(M):ASYN1.AOUT PP")
+}
+
 #! Further lines contain data used by VisualDCT
-#! View(3237,2555,1.2)
-#! Record("$(P)$(M):ENAPLC",2120,2237,0,0,"$(P)$(M):ENAPLC")
-#! Field("$(P)$(M):ENAPLC.OUT",16777215,0,"$(P)$(M):ENAPLC.OUT")
-#! Link("$(P)$(M):ENAPLC.OUT","$(P)$(M):ASYN1.AOUT")
+#! View(2848,2333,1.2)
 #! Record("$(P)$(M):ASYN1",1840,2411,0,1,"$(P)$(M):ASYN1")
 #! Field("$(P)$(M):ASYN1.AOUT",16777215,1,"$(P)$(M):ASYN1.AOUT")
 #! Record("$(P)$(M):ABORT",2120,2497,0,1,"$(P)$(M):ABORT")
@@ -153,24 +245,27 @@ record(fanout, "$(P)$(M):FAN1") {
 #! Link("$(P)$(M):PARSE2.FLNK","$(P)$(M):STATE")
 #! Field("$(P)$(M):PARSE2.INAA",16777215,0,"$(P)$(M):PARSE2.INAA")
 #! Link("$(P)$(M):PARSE2.INAA","$(P)$(M):PARSE2/INAA")
-#! Field("$(P)$(M):PARSE2.VAL",16777215,0,"$(P)$(M):PARSE2.VAL")
+#! Field("$(P)$(M):PARSE2.VAL",16777215,1,"$(P)$(M):PARSE2.VAL")
 #! Connector("$(P)$(M):PARSE2/INAA","$(P)$(M):ASYN2.AINP",2660,2750,16777215,"",0)
-#! Record("$(P)$(M):STATUS",3180,2182,0,0,"$(P)$(M):STATUS")
+#! Record("$(P)$(M):STATUS",3180,1995,0,0,"$(P)$(M):STATUS")
 #! Field("$(P)$(M):STATUS.FLNK",16777215,1,"$(P)$(M):STATUS.FLNK")
-#! Link("$(P)$(M):STATUS.FLNK","$(P)$(M):STATUS/FLNK")
+#! Link("$(P)$(M):STATUS.FLNK","$(P)$(M):STATUS/FLNK1")
 #! Field("$(P)$(M):STATUS.INP",16777215,0,"$(P)$(M):STATUS.INP")
 #! Link("$(P)$(M):STATUS.INP","$(P)$(M):PARSE1.VAL")
-#! Connector("$(P)$(M):STATUS/FLNK","$(P)$(M):CHECK",3420,2262,16777215,"",0)
-#! Record("$(P)$(M):STATE",3180,2548,0,0,"$(P)$(M):STATE")
+#! Connector("$(P)$(M):STATUS/FLNK1","$(P)$(M):STATUS/FLNK",3420,2225,16777215,"",0)
+#! Connector("$(P)$(M):STATUS/FLNK","$(P)$(M):CHECK",3107,2000,16777215,"",0)
+#! Record("$(P)$(M):STATE",3200,2538,0,0,"$(P)$(M):STATE")
 #! Field("$(P)$(M):STATE.INP",16777215,0,"$(P)$(M):STATE.INP")
 #! Link("$(P)$(M):STATE.INP","$(P)$(M):PARSE2.VAL")
-#! Record("$(P)$(M):HOMING",2120,2103,0,1,"$(P)$(M):HOMING")
+#! Record("$(P)$(M):HOMING",2320,1789,0,1,"$(P)$(M):HOMING")
+#! Field("$(P)$(M):HOMING.FLNK",16777215,0,"$(P)$(M):HOMING.FLNK")
+#! Link("$(P)$(M):HOMING.FLNK","$(P)$(M):HOMING/FLNK")
 #! Field("$(P)$(M):HOMING.VAL",16777215,1,"$(P)$(M):HOMING.VAL")
-#! Record("$(P)$(M):HOME",1820,2151,0,1,"$(P)$(M):HOME")
-#! Field("$(P)$(M):HOME.OUT",16777215,1,"$(P)$(M):HOME.OUT")
-#! Link("$(P)$(M):HOME.OUT","$(P)$(M):HOMING.VAL")
+#! Connector("$(P)$(M):HOMING/FLNK","$(P)$(M):HOMED",2180,1869,16777215,"",0)
+#! Record("$(P)$(M):HOME",1500,2005,0,0,"$(P)$(M):HOME")
 #! Field("$(P)$(M):HOME.FLNK",16777215,1,"$(P)$(M):HOME.FLNK")
-#! Link("$(P)$(M):HOME.FLNK","$(P)$(M):ENAPLC")
+#! Link("$(P)$(M):HOME.FLNK","$(P)$(M):START")
+#! Field("$(P)$(M):HOME.VAL",16777215,1,"$(P)$(M):HOME.VAL")
 #! Record("$(P)$(M):CHECK",2600,2011,0,1,"$(P)$(M):CHECK")
 #! Field("$(P)$(M):CHECK.INPA",16777215,1,"$(P)$(M):CHECK.INPA")
 #! Link("$(P)$(M):CHECK.INPA","$(P)$(M):PARSE1.VAL")
@@ -182,3 +277,34 @@ record(fanout, "$(P)$(M):FAN1") {
 #! Field("$(P)$(M):FAN1.LNK1",16777215,1,"$(P)$(M):FAN1.LNK1")
 #! Link("$(P)$(M):FAN1.LNK1","$(P)$(M):FAN1/LNK1")
 #! Connector("$(P)$(M):FAN1/LNK1","$(P)$(M):PARSE2",2840,2515,16777215,"",0)
+#! Record("$(P)$(M):HOMED",1540,1797,0,1,"$(P)$(M):HOMED")
+#! Field("$(P)$(M):HOMED.OUT",16777215,0,"$(P)$(M):HOMED.OUT")
+#! Link("$(P)$(M):HOMED.OUT","$(P)$(M):HOMED/OUT")
+#! Field("$(P)$(M):HOMED.FLNK",16777215,0,"$(P)$(M):HOMED.FLNK")
+#! Link("$(P)$(M):HOMED.FLNK","$(P)$(M):HOME")
+#! Connector("$(P)$(M):HOMED/OUT","$(P)$(M):HOME.VAL",1420,2050,16777215,"",0)
+#! Record("$(P)$(M):BUF1",2040,2031,0,0,"$(P)$(M):BUF1")
+#! Field("$(P)$(M):BUF1.VAL",16777215,1,"$(P)$(M):BUF1.VAL")
+#! Field("$(P)$(M):BUF1.OUT",16777215,1,"$(P)$(M):BUF1.OUT")
+#! Link("$(P)$(M):BUF1.OUT","$(P)$(M):HOMING.VAL")
+#! Field("$(P)$(M):BUF1.FLNK",16777215,1,"$(P)$(M):BUF1.FLNK")
+#! Link("$(P)$(M):BUF1.FLNK","$(P)$(M):STARTHMP")
+#! Record("$(P)$(M):START",1780,1920,0,0,"$(P)$(M):START")
+#! Field("$(P)$(M):START.FLNK",16777215,1,"$(P)$(M):START.FLNK")
+#! Link("$(P)$(M):START.FLNK","$(P)$(M):BUF1")
+#! Field("$(P)$(M):START.INPA",16777215,0,"$(P)$(M):START.INPA")
+#! Link("$(P)$(M):START.INPA","$(P)$(M):HOME.VAL")
+#! Field("$(P)$(M):START.OUT",16777215,1,"$(P)$(M):START.OUT")
+#! Link("$(P)$(M):START.OUT","$(P)$(M):BUF1.VAL")
+#! Record("$(P)$(M):STARTHMP",2120,2257,0,1,"$(P)$(M):STARTHMP")
+#! Field("$(P)$(M):STARTHMP.OUT",16777215,0,"$(P)$(M):STARTHMP.OUT")
+#! Link("$(P)$(M):STARTHMP.OUT","$(P)$(M):ASYN1.AOUT")
+#! Record("$(P)$(M):HMGRP",1480,2418,0,1,"$(P)$(M):HMGRP")
+#! Field("$(P)$(M):HMGRP.FLNK",16777215,1,"$(P)$(M):HMGRP.FLNK")
+#! Link("$(P)$(M):HMGRP.FLNK","$(P)$(M):SENDGRP")
+#! Field("$(P)$(M):HMGRP.VAL",16777215,1,"$(P)$(M):HMGRP.VAL")
+#! Record("$(P)$(M):SENDGRP",1760,2697,0,0,"$(P)$(M):SENDGRP")
+#! Field("$(P)$(M):SENDGRP.INPA",16777215,0,"$(P)$(M):SENDGRP.INPA")
+#! Link("$(P)$(M):SENDGRP.INPA","$(P)$(M):HMGRP.VAL")
+#! Field("$(P)$(M):SENDGRP.OUT",16777215,1,"$(P)$(M):SENDGRP.OUT")
+#! Link("$(P)$(M):SENDGRP.OUT","$(P)$(M):ASYN1.AOUT")
