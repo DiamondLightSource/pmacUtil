@@ -1,4 +1,4 @@
-file homingplc.template
+file autohome.template
 {
 pattern {P, M,  PORT,      STARTCMD,   PVARSTATUS, PVARSTATE, PVARGROUP, GRP1,        GRP2,  GRP3,  GRP4,      GRP5,    GRP6,    GRP7,            STATE10, STATE11, STATE12, STATE13, STATE14, STATE15 }
         {P, M1, "pmac_S0", "ENA PLC7", P1030,      P1031,     P1032,     "all",       "",    "",    "",        "",      "",      "",              "",      "",      "",      "",      "",      "" }
