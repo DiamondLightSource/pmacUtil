@@ -3,8 +3,8 @@ beginScreenProperties
 major 4
 minor 0
 release 1
-x 823
-y 87
+x 828
+y 108
 w 380
 h 187
 font "arial-medium-r-18.0"
@@ -220,54 +220,6 @@ autoSize
 border
 endObjectProperties
 
-# (Text Monitor)
-object activeXTextDspClass:noedit
-beginObjectProperties
-major 4
-minor 1
-release 0
-x 195
-y 105
-w 165
-h 25
-controlPv "$(P)$(M):STATUS"
-font "arial-medium-r-12.0"
-fontAlign "center"
-fgColor index 16
-fgAlarm
-bgColor index 10
-limitsFromDb
-nullColor index 30
-fastUpdate
-useAlarmBorder
-newPos
-objType "monitors"
-endObjectProperties
-
-# (Text Monitor)
-object activeXTextDspClass:noedit
-beginObjectProperties
-major 4
-minor 1
-release 0
-x 15
-y 105
-w 165
-h 25
-controlPv "$(P)$(M):STATE"
-font "arial-medium-r-12.0"
-fontAlign "center"
-fgColor index 16
-fgAlarm
-bgColor index 10
-limitsFromDb
-nullColor index 30
-fastUpdate
-useAlarmBorder
-newPos
-objType "monitors"
-endObjectProperties
-
 # (Message Button)
 object activeMessageButtonClass
 beginObjectProperties
@@ -350,5 +302,47 @@ onColor index 15
 offColor index 19
 lineWidth 0
 numBits 1
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 195
+y 105
+w 165
+h 25
+controlPv "$(P)$(M):STATUS"
+fgColor index 16
+fgAlarm
+bgColor index 10
+fill
+font "arial-bold-r-14.0"
+fontAlign "center"
+lineWidth 1
+lineAlarm
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 15
+y 105
+w 165
+h 25
+controlPv "$(P)$(M):STATE"
+fgColor index 16
+fgAlarm
+bgColor index 10
+fill
+font "arial-bold-r-14.0"
+fontAlign "center"
+lineWidth 1
+lineAlarm
 endObjectProperties
 
