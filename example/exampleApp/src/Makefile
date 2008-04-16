@@ -5,6 +5,7 @@ include $(TOP)/configure/CONFIG
 # ------------------------
 # Build an IOC Application
 # ------------------------
+DATA += autohoming_sim.py
 
 PROD_IOC = example
 
@@ -14,6 +15,9 @@ DBD += example.dbd
 # example.dbd will be created from these files
 example_DBD += base.dbd
 example_DBD += asyn.dbd
+example_DBD += drvAsynSerialPort.dbd
+example_DBD += drvAsynIPPort.dbd
+example_DBD += PythonEmbed.dbd
 example_DBD += calcSupport.dbd
 #example_DBD += stdSupport.dbd
 example_DBD += sscanSupport.dbd
@@ -46,6 +50,7 @@ example_LIBS += sscan
 example_LIBS += motor
 example_LIBS += motorSimSupport
 example_LIBS += asyn
+example_LIBS += PythonEmbed
 example_LIBS += seq pv
 
 # We need to link this IOC Application against the EPICS Base libraries

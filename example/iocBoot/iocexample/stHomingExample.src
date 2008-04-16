@@ -13,12 +13,28 @@ cd "$(INSTALL)"
 # specific file.
 $(VXWORKS_ONLY)ld < bin/$(ARCH)/example.munch
 
-## This drvTS initializer is needed if the IOC has a hardware event system
-#TSinit
+
 
 ## Register all support components
 dbLoadDatabase("dbd/example.dbd")
 example_registerRecordDeviceDriver(pdbbase)
+
+
+##### configure simulation of autohoming directly on the IOC #####
+epicsEnvSet "PYTHONPATH", "$(INSTALL)/data"
+Python("from autohoming_sim import AutoHomePmac")
+#Python("sim = AutoHomePmac(1030,1031,1032,7)")
+Python("sim = AutoHomePmac('P1030','P1031','P1032','ENA PLC7')")
+Python("sim.start_ip(9005)")
+
+#drvAsynSerialPortConfigure("pmac_S0","/dev/pts/10")
+drvAsynIPPortConfigure("pmac_S0","172.23.244.42:9005")
+
+# Setting IO end-of-string terminators is only necessasry for simulator
+asynOctetSetInputEos("pmac_S0", 0,'\r')
+asynOctetSetOutputEos("pmac_S0", 0,'\r')
+
+Python("sim.start_debug(9006)")
 
 ## Load record instances
 dbLoadRecords("db/homingexample.db")
@@ -30,3 +46,9 @@ dbLoadRecords("db/homingexample.db")
 
 iocInit()
 
+# set line termination so that the Python
+# simulation will work.
+#dbpf("PM1:ASYN2.IEOS", "\r")
+#dbpf("PM1:ASYN2.OEOS", "\r")
+#dbpf("PM1:ASYN1.IEOS", "\r")
+#dbpf("PM1:ASYN1.OEOS", "\r")

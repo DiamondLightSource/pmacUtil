@@ -24,6 +24,7 @@ MOTOR=		$(SUPPORT)/motor/6-2-2dls3
 #PMACUTIL=   $(SUPPORT)/pmacUtil/1-0
 PMACUTIL=   $(WORK)/pmacUtil
 #STREAM=		$(SUPPORT)/streamDevice/2-1dls4
+PYIOC=		$(SUPPORT)/pyIoc/1-2
 
 SNCSEQ=     $(SUPPORT)/seq/2-0-11dls1
 
