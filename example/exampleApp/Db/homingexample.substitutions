@@ -5,7 +5,7 @@ pattern {P, PORT,      PLC,    GRP1,         GRP2,  GRP3,  GRP4,      GRP5,    G
         {QP, "pmac_S0", "8",    "XYZ stage", "PHI", "CHI", "2 THETA", "THETA", "ALPHA", "X and Y jacks", "",      "",      "",      "",     }
 }
 
-file dls_asyn_motor.template
+file dls_pmac_asyn_motor.template
 {
 pattern {P,M,DESC,DTYP,C,S,SPORT,HOME,PORT,ADDR,DIR,VELO,VMAX,VBAS,ACCL,MRES,ERES,PREC,EGU,DHLM,DLLM,HLSV,OFF,INIT,SREV,RRES,TWV,BDST,BVEL,BACC,JVEL,JAR,UEIP,RDBD}
         {P,M1,"axis 1",asynMotor,1,1,pmac_S0,HP,pmac1,1,Pos,1,1,0,1,0.001,0.001,3,mm,20,-20,MAJOR,0,0,200,0,1,0,0,0,1,1,0,0}
