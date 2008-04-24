@@ -24,7 +24,7 @@ example_registerRecordDeviceDriver(pdbbase)
 epicsEnvSet "PYTHONPATH", "$(INSTALL)/data"
 Python("from autohoming_sim import AutoHomePmac")
 #Python("sim = AutoHomePmac(1030,1031,1032,7)")
-Python("sim = AutoHomePmac('P1030','P1031','P1032','ENA PLC7')")
+Python("sim = AutoHomePmac(range(32))")
 Python("sim.start_ip(9005)")
 
 #drvAsynSerialPortConfigure("pmac_S0","/dev/pts/10")
@@ -40,9 +40,9 @@ Python("sim.start_debug(9006)")
 dbLoadRecords("db/homingexample.db")
 
 # Create simulated motors: ( start card , start axis , low limit, high limit, home posn, # cards, # axes to setup)
-# motorSimCreate( 0, 0, -15000, 1500000, 5000, 1, 32 )
+motorSimCreate( 0, 0, -15000, 1500000, 5000, 1, 5 )
 # Setup the Asyn layer (portname, low-level driver drvet name, card, number of axes on card)
-# drvAsynMotorConfigure("pmac1", "motorSim", 0, 32)
+drvAsynMotorConfigure("pmac1", "motorSim", 0, 5)
 
 iocInit()
 

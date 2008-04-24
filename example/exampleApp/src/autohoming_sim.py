@@ -4,57 +4,87 @@ from pkg_resources import require
 require("dls.serial_sim==1.2")
 
 from dls.serial_sim import serial_device
+import re, os
 
 class AutoHomePmac(serial_device):
 	term = "\r"
 	
-	def __init__(self, status, state, group, startPlc):
-		self.pvarStatus = str(status).lower()
-		#self.pvarStatus = "p%d"%status
-		self.pvarState = str(state).lower()
-		#self.pvarState = "p%d"%state
-		self.pvarGroup = str(group).lower()
-		#self.pvarGroup = "p%d"%group
-		self.startCmd = str(startPlc).lower()
-		#self.startCmd = "ena plc%d"%startPlc
+	def __init__(self, plcs):
 		
-		self.status = 0
-		self.state  = 0
-		self.group  = 0
+		self.homingDb = {}
 		
+		# Create a dictionary with all the PLC P variables
+		# The variables in the list are:
+		# 00: State
+		# 01: Status
+		# 02: Group
+		for plc in plcs:
+			self.homingDb.update( {plc: [0.0]*100} )
+		self.motors = [0]*32
+		
+		self.verbose = 1
+		
+	def state(self, plc, state):
+		self.homingDb[plc][0] = int(state)
+		
+	def status(self, plc, status):
+		self.homingDb[plc][1] = int(status)
+		
+	def pos(self, motor, position):
+		self.motors[motor] = int(position)
 		
 	# This function must be defined. This is called by the serial_sim system
 	# whenever an asyn command is send down the line. Must return a string
 	# with a response to the command.
 	def reply (self, command):
-		print "Got cmd: %s"%[command]
+		if self.verbose > 0:
+			print "Got cmd: %s"%[command]
 		cmd = command.lower().strip()
 		retVal = ""
 		
 		# if user starts the homing procedure
-		if (cmd == self.startCmd):
-			self.status = 1
-			self.state = 1
+		if (cmd[:10] == "enable plc"):
+			plc = int(cmd[10:])
+			self.homingDb[plc][0] = 1
+			self.homingDb[plc][1] = 1
+
+		# if user is writing to a P variable
+		elif ( re.match(r'p\d{3,4}\s*=\s*\d+', cmd) ):
+			pvar = cmd.split("=")[0]
+			plc = int(pvar[1:][:(len(pvar)-3)])
+			var = int(pvar[1:][(len(pvar)-3):])
+			
+			value = float(cmd.split("=")[1])
+			print "Writing: PLC = %d Var = %d Value = %.3f"%(plc, var, value)
+			self.homingDb[plc][var] = value
 			
 		# status and state update (EPICS template will poll this cmd regularly)
-		elif (cmd == "%s %s"%(self.pvarStatus, self.pvarState)):
-			retVal = "%d %d"%(self.status, self.state)
-			
-		# user send abort command
-		elif (cmd == "%s=2"%self.pvarStatus):
-			self.status = 2
+		elif ( re.match(r'p\d{3,4} p\d{3,4}', cmd) ):
+			for pvar in cmd.split():
+				plc = int(pvar[1:][:(len(pvar)-3)])
+				var = int(pvar[1:][(len(pvar)-3):])
+				retVal += "%d "%self.homingDb[plc][var]
 		
-		# user changes which group to home
-		elif (cmd[:6] == "%s="%self.pvarGroup):
-			try:
-				self.group = int(cmd[6:])
-			except:
-				print "autohoming simulation error: invalid int: %s"%cmd[6:]
+		# if asking for individual P variable
+		elif ( re.match(r'p\d{3,4}', cmd) ):
+			plc = int(cmd[1:][:(len(cmd)-3)])
+			var = int(cmd[1:][(len(cmd)-3):])
+			retVal += "%d"%self.homingDb[plc][var]
+		
+		# Homing record asking motor status or position
+		elif (re.match(r'#\d{1,2}p', cmd) ):
+			regmatch = re.match(r'(#)(\d{1,2})(p)', cmd)
+			motor = int(regmatch.group(2))
+			request = regmatch.group(3)
+			retVal = "%d"%self.motors[motor]
+			
 		
 		# fall through to unknown command...
 		else:
 			print "autohoming simulation error: unknown command %s (%s)"%(command, cmd)
 
+		if self.verbose > 0:
+			print "Returning: \'%s\'"%retVal
 		return retVal
 		
 if __name__ == "__main__":
