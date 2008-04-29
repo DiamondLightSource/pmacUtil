@@ -135,14 +135,13 @@ record(ai, "$(P)$(M):HMPOS") {
 
 record(asyn, "$(P)$(M):HMGETPOS") {
   field(DESC, "Get position from PMAC")
-  field(SCAN, "1 second")
+  field(SCAN, ".2 second")
   field(PORT, "$(SPORT)")
   field(AOUT, "#$(ADDR)P")
   field(DISV, "0")
   field(SDIS, "$(P)$(M):HMSTATE")
   field(FLNK, "$(P)$(M):HMPARSPOS")
 }
-
 
 record(scalcout, "$(P)$(M):HMPARSPOS") {
   field(DESC, "Parse position string")
@@ -154,8 +153,15 @@ record(scalcout, "$(P)$(M):HMPARSPOS") {
   field(INAA, "$(P)$(M):HMGETPOS.AINP")
 }
 
+
+record(stringout, "$(P)$(M):SETHMPV") {
+  field(PINI, "YES")
+  field(VAL, "$(P)$(M)")
+  field(OUT, "$(HOME):HM:M$(ADDR)PV PP")
+}
+
 #! Further lines contain data used by VisualDCT
-#! View(940,324,1.2)
+#! View(603,208,1.2)
 #! Record("$(P)$(M)",580,312,0,0,"$(P)$(M)")
 #! Field("$(P)$(M).OFF",16777215,0,"$(P)$(M).OFF")
 #! Field("$(P)$(M).MRES",16777215,0,"$(P)$(M).MRES")
@@ -203,3 +209,5 @@ record(scalcout, "$(P)$(M):HMPARSPOS") {
 #! Link("$(P)$(M):HMPARSPOS.OUT","$(P)$(M):HMPOS.RVAL")
 #! Field("$(P)$(M):HMPARSPOS.INAA",16777215,1,"$(P)$(M):HMPARSPOS.INAA")
 #! Link("$(P)$(M):HMPARSPOS.INAA","$(P)$(M):HMGETPOS.AINP")
+#! Record("$(P)$(M):SETHMPV",920,200,0,1,"$(P)$(M):SETHMPV")
+#! Field("$(P)$(M):SETHMPV.OUT",16777215,1,"$(P)$(M):SETHMPV.OUT")
