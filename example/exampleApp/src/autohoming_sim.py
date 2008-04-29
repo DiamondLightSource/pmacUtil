@@ -81,7 +81,8 @@ class AutoHomePmac(serial_device):
 		
 		# fall through to unknown command...
 		else:
-			print "autohoming simulation error: unknown command %s (%s)"%(command, cmd)
+			if self.verbose > 0:
+				print "autohoming simulation error: unknown command %s (%s)"%(command, cmd)
 
 		if self.verbose > 0:
 			print "Returning: \'%s\'"%retVal
