@@ -3,8 +3,8 @@ beginScreenProperties
 major 4
 minor 0
 release 1
-x 268
-y 126
+x 587
+y 321
 w 684
 h 331
 font "arial-medium-r-18.0"
@@ -19,7 +19,7 @@ ctlBgColor1 index 0
 ctlBgColor2 index 14
 topShadowColor index 0
 botShadowColor index 14
-title "Homing"
+title "Homing - $(P)"
 showGrid
 snapToGrid
 gridSize 5
@@ -94,7 +94,7 @@ fontAlign "center"
 fgColor index 14
 bgColor index 48
 value {
-  "$(P) - Automated homing"
+  "Homing - $(P)"
 }
 endObjectProperties
 
