@@ -80,6 +80,7 @@ record(mbbi, "$(P):HM:STATUS") {
   field(FRVL, "4")
   field(FVVL, "5")
   field(SXVL, "6")
+  field(SVVL, "7")  
   field(ZRSV, "NO_ALARM")
   field(ONSV, "NO_ALARM")
   field(TWSV, "MINOR")
@@ -87,9 +88,11 @@ record(mbbi, "$(P):HM:STATUS") {
   field(FRSV, "MAJOR")
   field(FVSV, "MAJOR")
   field(SXSV, "MAJOR")
+  field(SVSV, "MAJOR")
   field(FRST, "Fatal foll err")
   field(FVST, "Stopped on lim")
   field(SXST, "Incomplete Home")
+  field(SVST, "Invalid Setting")  
 }
 
 
