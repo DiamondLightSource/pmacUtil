@@ -120,6 +120,7 @@ record(bi, "$(P)$(M):HMSTATE") {
   field(VAL, "0")
   field(ZNAM, "inactive")
   field(ONAM, "active")
+  field(FLNK, "$(P)$(M)")
 }
 
 record(ai, "$(P)$(M):HMPOS") {
