@@ -14,6 +14,7 @@ include $(TOP)/configure/CONFIG
 #DB += BL06I-MO-IOC-01.db
 DB += example.db
 DB += homingexample.db
+DB += posCompEx.db
 
 USES_TEMPLATE += $(PMACUTIL)/db/gather.template
 USES_TEMPLATE += $(PMACUTIL)/db/autohome.template

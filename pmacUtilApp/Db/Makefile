@@ -20,6 +20,7 @@ DB += translated_motor.template
 DB += autohome.template
 DB += dls_pmac_asyn_motor.template
 DB += dls_pmac_cs_asyn_motor.template
+DB += positioncompare.template
 
 # not using streams since this doesnt work with tpmac
 #DB += energise_streams.template

@@ -1,0 +1,44 @@
+#!$(INSTALL)/bin/$(ARCH)/example
+
+## You may have to change example to something else
+## everywhere it appears in this file
+
+cd "$(INSTALL)"
+
+# Load binaries on architectures that need to do so.
+# VXWORKS_ONLY, LINUX_ONLY and RTEMS_ONLY are macros that resolve
+# to a comment symbol on architectures that are not the current
+# build architecture, so they can be used liberally to do architecture
+# specific things. Alternatively, you can include an architecture
+# specific file.
+$(VXWORKS_ONLY)ld < bin/$(ARCH)/example.munch
+
+## Register all support components
+dbLoadDatabase("dbd/example.dbd")
+example_registerRecordDeviceDriver(pdbbase)
+
+##### configure simulation of autohoming directly on the IOC #####
+epicsEnvSet "PYTHONPATH", "$(INSTALL)/data:/home/ulrik/epics/python/serial_sim/src"
+Python("from posComp_sim import PosComp")
+Python("sim = PosComp()")
+Python("sim.start_ip(9005)")
+
+#drvAsynSerialPortConfigure("pmac_S0","/dev/pts/7")
+drvAsynIPPortConfigure("pmac_S0","192.168.1.5:9005")
+
+# Setting IO end-of-string terminators is only necessasry for simulator
+asynOctetSetInputEos("pmac_S0", 0,'\r')
+asynOctetSetOutputEos("pmac_S0", 0,'\r')
+
+Python("sim.start_debug(9006)")
+
+## Load record instances
+dbLoadRecords("db/posCompEx.db")
+
+# Create simulated motors: ( start card , start axis , low limit, high limit, home posn, # cards, # axes to setup)
+motorSimCreate( 0, 0, -15000, 1500000, 5000, 1, 5 )
+# Setup the Asyn layer (portname, low-level driver drvet name, card, number of axes on card)
+drvAsynMotorConfigure("pmac1", "motorSim", 0, 5)
+
+iocInit()
+

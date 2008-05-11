@@ -1,0 +1,6 @@
+file positioncompare.template
+{
+pattern { P, PORT, PLC }
+		{ P, pmac_S0, 15 }
+}
+
