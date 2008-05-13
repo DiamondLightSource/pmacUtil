@@ -13,7 +13,7 @@ record(scalcout, "$(P):PC:RBC:STATE") {
   field(CALC, "SSCANF(AA,'%*d %d %*d %*d %*d %*f')")
   field(OOPT, "On Change")
   field(DOPT, "Use CALC")
-  field(OUT, "$(P):PC:RBV:STATE PP")
+  field(OUT, "$(P):PC:LO:STATE PP")
   field(INAA, "$(P):PC:ASYNPOLL1.AINP")
 }
 
@@ -29,7 +29,7 @@ record(asyn, "$(P):PC:ASYNPOLL2") {
 
 record(asyn, "$(P):PC:ASYNPOLL1") {
   field(DESC, "Poll PLC status")
-  field(SCAN, ".5 second")
+  field(SCAN, "2 second")
   field(PINI, "YES")
   field(FLNK, "$(P):PC:FAN1")
   field(PORT, "$(PORT)")
@@ -38,7 +38,6 @@ record(asyn, "$(P):PC:ASYNPOLL1") {
   field(DISV, "0")
   field(SDIS, "$(P):PC:ENABLED")
 }
-
 
 record(scalcout, "$(P):PC:RBC:CMD") {
   field(CALC, "SSCANF(AA,'%*d %*d %d %*d %*d %*f')")
@@ -54,7 +53,7 @@ record(scalcout, "$(P):PC:RBC:GATE") {
   field(CALC, "SSCANF(AA,'%*d %*d %*d %d %*d %*f')")
   field(OOPT, "On Change")
   field(DOPT, "Use CALC")
-  field(OUT, "$(P):PC:RBV:GATE PP")
+  field(OUT, "$(P):PC:LO:GATE PP")
   field(INAA, "$(P):PC:ASYNPOLL1.AINP")
 }
 
@@ -62,7 +61,7 @@ record(scalcout, "$(P):PC:RBC:PULSE") {
   field(CALC, "SSCANF(AA,'%*d %*d %*d %*d %d %*f')")
   field(OOPT, "On Change")
   field(DOPT, "Use CALC")
-  field(OUT, "$(P):PC:RBV:PULSE PP")
+  field(OUT, "$(P):PC:LO:PULSE PP")
   field(INAA, "$(P):PC:ASYNPOLL1.AINP")
 }
 
@@ -71,6 +70,8 @@ record(scalcout, "$(P):PC:RBC:PWIDTH") {
   field(OOPT, "On Change")
   field(DOPT, "Use CALC")
   field(INAA, "$(P):PC:ASYNPOLL1.AINP")
+  field(EGU, "ms")
+  field(PREC, "3")
 }
 
 record(fanout, "$(P):PC:FAN1") {
@@ -83,44 +84,44 @@ record(fanout, "$(P):PC:FAN1") {
 }
 
 record(scalcout, "$(P):PC:RBC:ROI") {
-  field(CALC, "SSCANF(AA,'%*i %*i %*i %*i %*i %*i')")
+  field(CALC, "SSCANF(AA,'%i %*i %*i %*i %*i %*i')")
   field(OOPT, "On Change")
   field(DOPT, "Use CALC")
-  field(OUT, "$(P):PC:RBV:ROI PP")
+  field(OUT, "$(P):PC:LO:ROI PP")
   field(INAA, "$(P):PC:ASYNPOLL2.AINP")
 }
 
 record(scalcout, "$(P):PC:RBC:LOROI") {
-  field(CALC, "SSCANF(AA,'%*i %*i %*i %*i %*i %*i')")
+  field(CALC, "SSCANF(AA,'%*i %i %*i %*i %*i %*i')")
   field(OOPT, "On Change")
   field(DOPT, "Use CALC")
   field(INAA, "$(P):PC:ASYNPOLL2.AINP")
 }
 
 record(scalcout, "$(P):PC:RBC:HIROI") {
-  field(CALC, "SSCANF(AA,'%*i %*i %*i %*i %*i %*i')")
+  field(CALC, "SSCANF(AA,'%*i %*i %i %*i %*i %*i')")
   field(OOPT, "On Change")
   field(DOPT, "Use CALC")
   field(INAA, "$(P):PC:ASYNPOLL2.AINP")
 }
 
 record(scalcout, "$(P):PC:RBC:STEPSIZE") {
-  field(CALC, "SSCANF(AA,'%*i %*i %*i %*i %*i %*i')")
+  field(CALC, "SSCANF(AA,'%*i %*i %*i %i %*i %*i')")
   field(OOPT, "On Change")
   field(DOPT, "Use CALC")
   field(INAA, "$(P):PC:ASYNPOLL2.AINP")
 }
 
 record(scalcout, "$(P):PC:RBC:AXISN") {
-  field(CALC, "SSCANF(AA,'%*i %*i %*i %*i %*i %*i')")
+  field(CALC, "SSCANF(AA,'%*i %*i %*i %*i %i %*i')")
   field(OOPT, "On Change")
   field(DOPT, "Use CALC")
   field(INAA, "$(P):PC:ASYNPOLL2.AINP")
 }
 
 record(scalcout, "$(P):PC:RBC:DIR") {
-  field(CALC, "SSCANF(AA,'%*i %*i %*i %*i %*i %*i')")
-  field(OUT, "$(P):PC:RBV:DIR.VAL PP")
+  field(CALC, "SSCANF(AA,'%*i %*i %*i %*i %*i %i')")
+  field(OUT, "$(P):PC:LO:DIR.VAL PP")
   field(OOPT, "On Change")
   field(DOPT, "Use CALC")
   field(INAA, "$(P):PC:ASYNPOLL2.AINP")
@@ -185,6 +186,9 @@ record(mbbo, "$(P):PC:GATE") {
   field(OUT, "$(P):PC:WR:GATE.A PP")
   field(UNSV, "INVALID")
   field(IVOA, "Don't drive outputs")
+  field(ZRST, "position")
+  field(ONST, "external input")
+  field(TWST, "software")
 }
 
 record(mbbo, "$(P):PC:PULSE") {
@@ -193,6 +197,8 @@ record(mbbo, "$(P):PC:PULSE") {
   field(OUT, "$(P):PC:WR:PULSE.A PP")
   field(UNSV, "INVALID")
   field(IVOA, "Don't drive outputs")
+  field(ZRST, "toggle")
+  field(ONST, "pulse")
 }
 
 record(mbbo, "$(P):PC:ROI") {
@@ -201,6 +207,8 @@ record(mbbo, "$(P):PC:ROI") {
   field(OUT, "$(P):PC:WR:ROI.A PP")
   field(UNSV, "INVALID")
   field(IVOA, "Don't drive outputs")
+  field(ZRST, "OUT")
+  field(ONST, "IN")
 }
 
 record(scalcout, "$(P):PC:WR:GATE") {
@@ -233,6 +241,8 @@ record(scalcout, "$(P):PC:WR:PWIDTH") {
   field(OUT, "$(P):PC:ASYNCMD.AOUT PP")
   field(OOPT, "Every Time")
   field(DOPT, "Use CALC")
+  field(EGU, "ms")
+  field(PREC, "3")
 }
 
 record(scalcout, "$(P):PC:WR:LOROI") {
@@ -266,17 +276,18 @@ record(scalcout, "$(P):PC:WR:AXISN") {
   field(OOPT, "Every Time")
   field(DOPT, "Use OCAL")
   field(OCAL, "PRINTF('P$(PLC)10=%i',A)")
+  field(PREC, "0")
 }
-
 
 record(stringout, "$(P):PC:ENAPLC") {
   field(DTYP, "Soft Channel")
   field(VAL, "ENABLE PLC $(PLC)")
+  field(OUT, "$(P):PC:ASYNCMD.AOUT PP")
 }
 
 record(mbbo, "$(P):PC:ENABLE") {
   field(PINI, "YES")
-  field(DTYP, "Soft Channel")
+  field(DTYP, "Raw Soft Channel")
   field(OUT, "$(P):PC:ENASEQ.SELN PP")
   field(UNSV, "INVALID")
   field(IVOA, "Don't drive outputs")
@@ -287,33 +298,33 @@ record(mbbo, "$(P):PC:ENABLE") {
   field(ONST, "enable")
 }
 
-
 record(seq, "$(P):PC:ENASEQ") {
   field(DESC, "enable disable sequence")
   field(SELM, "Mask")
-  field(DOL1, "$(P):PC:CMDDISA")
-  field(LNK1, "$(P):PC:ASYNCMD.AOUT")
-  field(DOL2, "$(P):PC:CMDENA")
-  field(LNK2, "$(P):PC:ASYNCMD.AOUT")
+  field(DOL1, "1")
+  field(LNK1, "$(P):PC:CMDDISA.PROC PP")
+  field(DOL2, "1")
+  field(LNK2, "$(P):PC:CMDENA.PROC")
   field(DLY3, "0.2")
-  field(DOL3, "$(P):PC:ENAPLC")
-  field(LNK3, "$(P):PC:ASYNCMD.AOUT")
+  field(DOL3, "1")
+  field(LNK3, "$(P):PC:ENAPLC.PROC")
 }
 
 record(stringout, "$(P):PC:CMDENA") {
   field(DTYP, "Soft Channel")
   field(VAL, "P$(PLC)02=1")
+  field(OUT, "$(P):PC:ASYNCMD.AOUT PP")
 }
 
 record(stringout, "$(P):PC:CMDDISA") {
   field(DTYP, "Soft Channel")
   field(VAL, "P$(PLC)02=2")
+  field(OUT, "$(P):PC:ASYNCMD.AOUT PP")
 }
-
 
 record(calcout, "$(P):PC:CALCENA") {
   field(DTYP, "Soft Channel")
-  field(CALC, "A=6")
+  field(CALC, "A")
   field(INPA, "$(P):PC:ENABLE")
   field(OUT, "$(P):PC:ENABLED PP")
   field(OOPT, "Transition To Non-zero")
@@ -329,55 +340,130 @@ record(bo, "$(P):PC:ENABLED") {
   field(ONAM, "enabled")
 }
 
-
 record(calcout, "$(P):PC:CALCDISA") {
   field(DTYP, "Soft Channel")
-  field(CALC, "NOT(A=2)")
+  field(CALC, "A=2")
   field(OUT, "$(P):PC:ENABLED PP")
-  field(OOPT, "Transition To Zero")
+  field(OOPT, "Transition To Non-zero")
+  field(DOPT, "Use OCAL")
+  field(OCAL, "0")
+}
+
+record(longout, "$(P):PC:LO:STATE") {
+  field(DESC, "translate double to int")
+  field(OUT, "$(P):PC:RBV:STATE PP")
+}
+
+record(longout, "$(P):PC:LO:GATE") {
+  field(DESC, "translate double to int")
+  field(OUT, "$(P):PC:RBV:GATE PP")
+}
+
+record(longout, "$(P):PC:LO:PULSE") {
+  field(DESC, "translate double to int")
+  field(OUT, "$(P):PC:RBV:PULSE PP")
+}
+
+record(longout, "$(P):PC:LO:DIR") {
+  field(DESC, "translate double to int")
+  field(OUT, "$(P):PC:RBV:DIR PP")
+}
+
+record(longout, "$(P):PC:LO:ROI") {
+  field(DESC, "translate double to int")
+  field(OUT, "$(P):PC:RBV:ROI PP")
+}
+
+record(stringout, "$(P):PC:MOTOR") {
+  field(DESC, "Name of motorrecord")
+  field(DTYP, "Soft Channel")
+  field(FLNK, "$(P):PC:MOUTPV1")
+}
+
+
+record(scalcout, "$(P):PC:CLC:AXISN") {
+  field(CALC, "SSCANF(AA,'@asyn(pmac%*i,%i)')")
+  field(OOPT, "Every Time")
   field(DOPT, "Use CALC")
+  field(OUT, "$(P):PC:WR:AXISN.A PP")
+  field(IVOA, "Don't drive outputs")
+  field(HIHI, "32")
+  field(LOLO, "1")
+  field(HHSV, "MAJOR")
+  field(LLSV, "MAJOR")
+}
+
+
+record(scalcout, "$(P):PC:CLC:PMACN") {
+  field(CALC, "SSCANF(AA,'@asyn(pmac%i,%*i)')")
+  field(OOPT, "Every Time")
+  field(DOPT, "Use CALC")
+  field(OUT, "$(P):PC:CLC:AXISN.B PP")
+  field(IVOA, "Don't drive outputs")
+  field(HIHI, "$(PMAC)")
+  field(LOLO, "$(PMAC)")
+  field(HHSV, "MAJOR")
+  field(LLSV, "MAJOR")
+}
+
+record(scalcout, "$(P):PC:MOUTPV2") {
+  field(CALC, "PRINTF('%s.OUT CP',AA)")
+  field(OUT, "$(P):PC:CLC:PMACN.INAA CA")
+  field(OOPT, "Every Time")
+  field(DOPT, "Use CALC")
+  field(INAA, "$(P):PC:MOTOR")
+  field(FLNK, "$(P):PC:CLC:PMACN")
+}
+
+record(scalcout, "$(P):PC:MOUTPV1") {
+  field(FLNK, "$(P):PC:MOUTPV2")
+  field(CALC, "PRINTF('%s.OUT CP',AA)")
+  field(OUT, "$(P):PC:CLC:AXISN.INAA CA")
+  field(OOPT, "Every Time")
+  field(DOPT, "Use CALC")
+  field(INAA, "$(P):PC:MOTOR")
 }
 
 #! Further lines contain data used by VisualDCT
-#! View(719,905,0.9)
+#! View(2525,1665,1.1)
 #! Record("$(P):PC:ASYNCMD",2120,1036,0,1,"$(P):PC:ASYNCMD")
 #! Field("$(P):PC:ASYNCMD.AOUT",16777215,1,"$(P):PC:ASYNCMD.AOUT")
 #! Record("$(P):PC:RBC:STATE",720,2334,0,0,"$(P):PC:RBC:STATE")
 #! Field("$(P):PC:RBC:STATE.OUT",16777215,1,"$(P):PC:RBC:STATE.OUT")
-#! Link("$(P):PC:RBC:STATE.OUT","$(P):PC:RBV:STATE.VAL")
+#! Link("$(P):PC:RBC:STATE.OUT","$(P):PC:LO:STATE.VAL")
 #! Field("$(P):PC:RBC:STATE.INAA",16777215,0,"$(P):PC:RBC:STATE.INAA")
 #! Link("$(P):PC:RBC:STATE.INAA","$(P):PC:ASYNPOLL1.AINP")
-#! Record("$(P):PC:ASYNPOLL2",980,2285,0,0,"$(P):PC:ASYNPOLL2")
+#! Record("$(P):PC:ASYNPOLL2",1240,2246,0,0,"$(P):PC:ASYNPOLL2")
 #! Field("$(P):PC:ASYNPOLL2.FLNK",16777215,1,"$(P):PC:ASYNPOLL2.FLNK")
 #! Link("$(P):PC:ASYNPOLL2.FLNK","$(P):PC:FAN2")
 #! Field("$(P):PC:ASYNPOLL2.AINP",16777215,1,"$(P):PC:ASYNPOLL2.AINP")
-#! Record("$(P):PC:ASYNPOLL1",100,2257,0,1,"$(P):PC:ASYNPOLL1")
+#! Record("$(P):PC:ASYNPOLL1",100,2258,0,1,"$(P):PC:ASYNPOLL1")
 #! Field("$(P):PC:ASYNPOLL1.SDIS",16777215,0,"$(P):PC:ASYNPOLL1.SDIS")
 #! Link("$(P):PC:ASYNPOLL1.SDIS","$(P):PC:ASYNPOLL1/SDIS")
 #! Field("$(P):PC:ASYNPOLL1.FLNK",16777215,1,"$(P):PC:ASYNPOLL1.FLNK")
 #! Link("$(P):PC:ASYNPOLL1.FLNK","$(P):PC:FAN1")
 #! Field("$(P):PC:ASYNPOLL1.AINP",16777215,1,"$(P):PC:ASYNPOLL1.AINP")
 #! Connector("$(P):PC:ASYNPOLL1/SDIS","$(P):PC:ENABLED.VAL",40,2040,16777215,"",0)
-#! Record("$(P):PC:RBC:CMD",720,2505,0,0,"$(P):PC:RBC:CMD")
+#! Record("$(P):PC:RBC:CMD",720,2526,0,0,"$(P):PC:RBC:CMD")
 #! Field("$(P):PC:RBC:CMD.INAA",16777215,0,"$(P):PC:RBC:CMD.INAA")
 #! Link("$(P):PC:RBC:CMD.INAA","$(P):PC:ASYNPOLL1.AINP")
 #! Field("$(P):PC:RBC:CMD.OUT",16777215,0,"$(P):PC:RBC:CMD.OUT")
 #! Link("$(P):PC:RBC:CMD.OUT","$(P):PC:RBC:CMD/OUT")
-#! Connector("$(P):PC:RBC:CMD/OUT","$(P):PC:CALCDISA.A",20,2140,16777215,"",0)
-#! Record("$(P):PC:RBC:GATE",720,2714,0,0,"$(P):PC:RBC:GATE")
+#! Connector("$(P):PC:RBC:CMD/OUT","$(P):PC:CALCDISA.A",20,2150,16777215,"",0)
+#! Record("$(P):PC:RBC:GATE",720,2774,0,0,"$(P):PC:RBC:GATE")
 #! Field("$(P):PC:RBC:GATE.OUT",16777215,1,"$(P):PC:RBC:GATE.OUT")
-#! Link("$(P):PC:RBC:GATE.OUT","$(P):PC:RBV:GATE.VAL")
+#! Link("$(P):PC:RBC:GATE.OUT","$(P):PC:LO:GATE.VAL")
 #! Field("$(P):PC:RBC:GATE.INAA",16777215,0,"$(P):PC:RBC:GATE.INAA")
 #! Link("$(P):PC:RBC:GATE.INAA","$(P):PC:ASYNPOLL1.AINP")
-#! Record("$(P):PC:RBC:PULSE",720,2894,0,0,"$(P):PC:RBC:PULSE")
+#! Record("$(P):PC:RBC:PULSE",720,2974,0,0,"$(P):PC:RBC:PULSE")
 #! Field("$(P):PC:RBC:PULSE.OUT",16777215,1,"$(P):PC:RBC:PULSE.OUT")
-#! Link("$(P):PC:RBC:PULSE.OUT","$(P):PC:RBV:PULSE.VAL")
+#! Link("$(P):PC:RBC:PULSE.OUT","$(P):PC:LO:PULSE.VAL")
 #! Field("$(P):PC:RBC:PULSE.INAA",16777215,0,"$(P):PC:RBC:PULSE.INAA")
 #! Link("$(P):PC:RBC:PULSE.INAA","$(P):PC:ASYNPOLL1.AINP")
-#! Record("$(P):PC:RBC:PWIDTH",720,3087,0,0,"$(P):PC:RBC:PWIDTH")
+#! Record("$(P):PC:RBC:PWIDTH",720,3160,0,0,"$(P):PC:RBC:PWIDTH")
 #! Field("$(P):PC:RBC:PWIDTH.INAA",16777215,0,"$(P):PC:RBC:PWIDTH.INAA")
 #! Link("$(P):PC:RBC:PWIDTH.INAA","$(P):PC:ASYNPOLL1.AINP")
-#! Record("$(P):PC:FAN1",360,2179,0,0,"$(P):PC:FAN1")
+#! Record("$(P):PC:FAN1",360,2180,0,0,"$(P):PC:FAN1")
 #! Field("$(P):PC:FAN1.FLNK",16777215,1,"$(P):PC:FAN1.FLNK")
 #! Link("$(P):PC:FAN1.FLNK","$(P):PC:ASYNPOLL2")
 #! Field("$(P):PC:FAN1.LNK1",16777215,1,"$(P):PC:FAN1.LNK1")
@@ -390,36 +476,36 @@ record(calcout, "$(P):PC:CALCDISA") {
 #! Link("$(P):PC:FAN1.LNK4","$(P):PC:FAN1/LNK4")
 #! Field("$(P):PC:FAN1.LNK5",16777215,1,"$(P):PC:FAN1.LNK5")
 #! Link("$(P):PC:FAN1.LNK5","$(P):PC:FAN1/LNK5")
-#! Connector("$(P):PC:FAN1/LNK5","$(P):PC:RBC:PWIDTH",600,2786,16777215,"",0)
-#! Connector("$(P):PC:FAN1/LNK4","$(P):PC:RBC:PULSE",620,2683,16777215,"",0)
-#! Connector("$(P):PC:FAN1/LNK3","$(P):PC:RBC:GATE",640,2583,16777215,"",0)
-#! Connector("$(P):PC:FAN1/LNK2","$(P):PC:RBC:CMD",660,2476,16777215,"",0)
+#! Connector("$(P):PC:FAN1/LNK5","$(P):PC:RBC:PWIDTH",600,2830,16777215,"",0)
+#! Connector("$(P):PC:FAN1/LNK4","$(P):PC:RBC:PULSE",620,2723,16777215,"",0)
+#! Connector("$(P):PC:FAN1/LNK3","$(P):PC:RBC:GATE",640,2613,16777215,"",0)
+#! Connector("$(P):PC:FAN1/LNK2","$(P):PC:RBC:CMD",660,2486,16777215,"",0)
 #! Connector("$(P):PC:FAN1/LNK1","$(P):PC:RBC:STATE",680,2373,16777215,"",0)
-#! Record("$(P):PC:RBC:ROI",1520,2334,0,0,"$(P):PC:RBC:ROI")
+#! Record("$(P):PC:RBC:ROI",1780,2354,0,0,"$(P):PC:RBC:ROI")
 #! Field("$(P):PC:RBC:ROI.OUT",16777215,1,"$(P):PC:RBC:ROI.OUT")
-#! Link("$(P):PC:RBC:ROI.OUT","$(P):PC:RBV:ROI.VAL")
+#! Link("$(P):PC:RBC:ROI.OUT","$(P):PC:LO:ROI.VAL")
 #! Field("$(P):PC:RBC:ROI.INAA",16777215,0,"$(P):PC:RBC:ROI.INAA")
 #! Link("$(P):PC:RBC:ROI.INAA","$(P):PC:ASYNPOLL2.AINP")
-#! Record("$(P):PC:RBC:LOROI",1520,2527,0,0,"$(P):PC:RBC:LOROI")
+#! Record("$(P):PC:RBC:LOROI",1780,2548,0,0,"$(P):PC:RBC:LOROI")
 #! Field("$(P):PC:RBC:LOROI.INAA",16777215,0,"$(P):PC:RBC:LOROI.INAA")
 #! Link("$(P):PC:RBC:LOROI.INAA","$(P):PC:ASYNPOLL2.AINP")
-#! Record("$(P):PC:RBC:HIROI",1520,2707,0,0,"$(P):PC:RBC:HIROI")
+#! Record("$(P):PC:RBC:HIROI",1780,2728,0,0,"$(P):PC:RBC:HIROI")
 #! Field("$(P):PC:RBC:HIROI.INAA",16777215,0,"$(P):PC:RBC:HIROI.INAA")
 #! Link("$(P):PC:RBC:HIROI.INAA","$(P):PC:ASYNPOLL2.AINP")
-#! Record("$(P):PC:RBC:STEPSIZE",1520,2887,0,0,"$(P):PC:RBC:STEPSIZE")
+#! Record("$(P):PC:RBC:STEPSIZE",1780,2908,0,0,"$(P):PC:RBC:STEPSIZE")
 #! Field("$(P):PC:RBC:STEPSIZE.INAA",16777215,0,"$(P):PC:RBC:STEPSIZE.INAA")
 #! Link("$(P):PC:RBC:STEPSIZE.INAA","$(P):PC:ASYNPOLL2.AINP")
-#! Record("$(P):PC:RBC:AXISN",1520,3047,0,0,"$(P):PC:RBC:AXISN")
+#! Record("$(P):PC:RBC:AXISN",1780,3068,0,0,"$(P):PC:RBC:AXISN")
 #! Field("$(P):PC:RBC:AXISN.INAA",16777215,0,"$(P):PC:RBC:AXISN.INAA")
 #! Link("$(P):PC:RBC:AXISN.INAA","$(P):PC:ASYNPOLL2.AINP")
-#! Record("$(P):PC:RBC:DIR",1520,3214,0,0,"$(P):PC:RBC:DIR")
+#! Record("$(P):PC:RBC:DIR",1780,3234,0,0,"$(P):PC:RBC:DIR")
 #! Field("$(P):PC:RBC:DIR.OUT",16777215,1,"$(P):PC:RBC:DIR.OUT")
-#! Link("$(P):PC:RBC:DIR.OUT","$(P):PC:RBV:DIR.VAL")
+#! Link("$(P):PC:RBC:DIR.OUT","$(P):PC:LO:DIR.VAL")
 #! Field("$(P):PC:RBC:DIR.INAA",16777215,0,"$(P):PC:RBC:DIR.INAA")
 #! Link("$(P):PC:RBC:DIR.INAA","$(P):PC:ASYNPOLL2.AINP")
-#! Record("$(P):PC:RBV:DIR",1780,3219,0,1,"$(P):PC:RBV:DIR")
-#! Field("$(P):PC:RBV:DIR.VAL",16777215,0,"$(P):PC:RBV:DIR.VAL")
-#! Record("$(P):PC:FAN2",1240,2179,0,0,"$(P):PC:FAN2")
+#! Record("$(P):PC:RBV:DIR",2060,3220,0,1,"$(P):PC:RBV:DIR")
+#! Field("$(P):PC:RBV:DIR.VAL",16777215,1,"$(P):PC:RBV:DIR.VAL")
+#! Record("$(P):PC:FAN2",1500,2200,0,0,"$(P):PC:FAN2")
 #! Field("$(P):PC:FAN2.LNK1",16777215,1,"$(P):PC:FAN2.LNK1")
 #! Link("$(P):PC:FAN2.LNK1","$(P):PC:RBC:ROI")
 #! Field("$(P):PC:FAN2.LNK2",16777215,1,"$(P):PC:FAN2.LNK2")
@@ -432,21 +518,21 @@ record(calcout, "$(P):PC:CALCDISA") {
 #! Link("$(P):PC:FAN2.LNK5","$(P):PC:RBC:AXISN")
 #! Field("$(P):PC:FAN2.LNK6",16777215,1,"$(P):PC:FAN2.LNK6")
 #! Link("$(P):PC:FAN2.LNK6","$(P):PC:RBC:DIR")
-#! Record("$(P):PC:RBV:PULSE",980,2914,0,1,"$(P):PC:RBV:PULSE")
+#! Record("$(P):PC:RBV:PULSE",1260,2994,0,1,"$(P):PC:RBV:PULSE")
 #! Field("$(P):PC:RBV:PULSE.VAL",16777215,0,"$(P):PC:RBV:PULSE.VAL")
-#! Record("$(P):PC:RBV:GATE",980,2719,0,1,"$(P):PC:RBV:GATE")
+#! Record("$(P):PC:RBV:GATE",1260,2740,0,1,"$(P):PC:RBV:GATE")
 #! Field("$(P):PC:RBV:GATE.VAL",16777215,0,"$(P):PC:RBV:GATE.VAL")
-#! Record("$(P):PC:RBV:STATE",980,2490,0,1,"$(P):PC:RBV:STATE")
+#! Record("$(P):PC:RBV:STATE",1260,2491,0,1,"$(P):PC:RBV:STATE")
 #! Field("$(P):PC:RBV:STATE.VAL",16777215,0,"$(P):PC:RBV:STATE.VAL")
-#! Record("$(P):PC:RBV:ROI",1800,2367,0,1,"$(P):PC:RBV:ROI")
-#! Field("$(P):PC:RBV:ROI.VAL",16777215,0,"$(P):PC:RBV:ROI.VAL")
-#! Record("$(P):PC:GATE",1520,1214,0,1,"$(P):PC:GATE")
+#! Record("$(P):PC:RBV:ROI",2080,2448,0,1,"$(P):PC:RBV:ROI")
+#! Field("$(P):PC:RBV:ROI.VAL",16777215,1,"$(P):PC:RBV:ROI.VAL")
+#! Record("$(P):PC:GATE",1520,1171,0,1,"$(P):PC:GATE")
 #! Field("$(P):PC:GATE.OUT",16777215,1,"$(P):PC:GATE.OUT")
 #! Link("$(P):PC:GATE.OUT","$(P):PC:WR:GATE.A")
-#! Record("$(P):PC:PULSE",1520,1414,0,1,"$(P):PC:PULSE")
+#! Record("$(P):PC:PULSE",1520,1386,0,1,"$(P):PC:PULSE")
 #! Field("$(P):PC:PULSE.OUT",16777215,1,"$(P):PC:PULSE.OUT")
 #! Link("$(P):PC:PULSE.OUT","$(P):PC:WR:PULSE.A")
-#! Record("$(P):PC:ROI",1520,1614,0,1,"$(P):PC:ROI")
+#! Record("$(P):PC:ROI",1520,1586,0,1,"$(P):PC:ROI")
 #! Field("$(P):PC:ROI.OUT",16777215,1,"$(P):PC:ROI.OUT")
 #! Link("$(P):PC:ROI.OUT","$(P):PC:WR:ROI.A")
 #! Record("$(P):PC:WR:GATE",1780,1194,0,1,"$(P):PC:WR:GATE")
@@ -461,7 +547,7 @@ record(calcout, "$(P):PC:CALCDISA") {
 #! Field("$(P):PC:WR:ROI.OUT",16777215,1,"$(P):PC:WR:ROI.OUT")
 #! Link("$(P):PC:WR:ROI.OUT","$(P):PC:ASYNCMD.AOUT")
 #! Field("$(P):PC:WR:ROI.A",16777215,1,"$(P):PC:WR:ROI.A")
-#! Record("$(P):PC:WR:PWIDTH",1780,1794,0,1,"$(P):PC:WR:PWIDTH")
+#! Record("$(P):PC:WR:PWIDTH",1780,1786,0,1,"$(P):PC:WR:PWIDTH")
 #! Field("$(P):PC:WR:PWIDTH.OUT",16777215,1,"$(P):PC:WR:PWIDTH.OUT")
 #! Link("$(P):PC:WR:PWIDTH.OUT","$(P):PC:ASYNCMD.AOUT")
 #! Record("$(P):PC:WR:LOROI",2440,1194,0,1,"$(P):PC:WR:LOROI")
@@ -473,45 +559,89 @@ record(calcout, "$(P):PC:CALCDISA") {
 #! Record("$(P):PC:WR:STEPSIZE",2440,1554,0,1,"$(P):PC:WR:STEPSIZE")
 #! Field("$(P):PC:WR:STEPSIZE.OUT",16777215,0,"$(P):PC:WR:STEPSIZE.OUT")
 #! Link("$(P):PC:WR:STEPSIZE.OUT","$(P):PC:ASYNCMD.AOUT")
-#! Record("$(P):PC:WR:AXISN",2440,1719,0,1,"$(P):PC:WR:AXISN")
+#! Record("$(P):PC:WR:AXISN",2440,1726,0,1,"$(P):PC:WR:AXISN")
 #! Field("$(P):PC:WR:AXISN.OUT",16777215,0,"$(P):PC:WR:AXISN.OUT")
 #! Link("$(P):PC:WR:AXISN.OUT","$(P):PC:ASYNCMD.AOUT")
-#! Box(Box0,60,2140,2000,3400,1,3355647,null)
-#! TextBox(TB0,580,2160,1040,2260,1,"Dialog",12,1,16777215,"The readback system reads P variables from the PMAC which are used\nin the communication between PMAC PLC and IOC.\n\nThe P variables are read out in two batches of 6 from two asyn records.\nThe parsing to numerical values are done by the scalcout records, using\nthe SSCANF function.",null)
-#! Record("$(P):PC:ENAPLC",1480,776,0,1,"$(P):PC:ENAPLC")
-#! Field("$(P):PC:ENAPLC.VAL",16777215,1,"$(P):PC:ENAPLC.VAL")
-#! Record("$(P):PC:ENABLE",1160,943,0,1,"$(P):PC:ENABLE")
+#! Field("$(P):PC:WR:AXISN.A",16777215,1,"$(P):PC:WR:AXISN.A")
+#! Record("$(P):PC:ENAPLC",1780,721,0,1,"$(P):PC:ENAPLC")
+#! Field("$(P):PC:ENAPLC.PROC",16777215,0,"$(P):PC:ENAPLC.PROC")
+#! Field("$(P):PC:ENAPLC.OUT",16777215,1,"$(P):PC:ENAPLC.OUT")
+#! Link("$(P):PC:ENAPLC.OUT","$(P):PC:ASYNCMD.AOUT")
+#! Record("$(P):PC:ENABLE",1180,884,0,1,"$(P):PC:ENABLE")
 #! Field("$(P):PC:ENABLE.OUT",16777215,1,"$(P):PC:ENABLE.OUT")
 #! Link("$(P):PC:ENABLE.OUT","$(P):PC:ENASEQ.SELN")
 #! Field("$(P):PC:ENABLE.FLNK",16777215,0,"$(P):PC:ENABLE.FLNK")
 #! Link("$(P):PC:ENABLE.FLNK","$(P):PC:CALCENA")
 #! Field("$(P):PC:ENABLE.VAL",16777215,0,"$(P):PC:ENABLE.VAL")
-#! Record("$(P):PC:ENASEQ",1780,837,0,1,"$(P):PC:ENASEQ")
-#! Field("$(P):PC:ENASEQ.LNK1",16777215,1,"$(P):PC:ENASEQ.LNK1")
-#! Link("$(P):PC:ENASEQ.LNK1","$(P):PC:ASYNCMD.AOUT")
-#! Field("$(P):PC:ENASEQ.LNK2",16777215,1,"$(P):PC:ENASEQ.LNK2")
-#! Link("$(P):PC:ENASEQ.LNK2","$(P):PC:ASYNCMD.AOUT")
-#! Field("$(P):PC:ENASEQ.DOL3",16777215,0,"$(P):PC:ENASEQ.DOL3")
-#! Link("$(P):PC:ENASEQ.DOL3","$(P):PC:ENAPLC.VAL")
-#! Field("$(P):PC:ENASEQ.DOL2",16777215,0,"$(P):PC:ENASEQ.DOL2")
-#! Link("$(P):PC:ENASEQ.DOL2","$(P):PC:CMDENA.VAL")
-#! Field("$(P):PC:ENASEQ.DOL1",16777215,0,"$(P):PC:ENASEQ.DOL1")
-#! Link("$(P):PC:ENASEQ.DOL1","$(P):PC:CMDDISA.VAL")
+#! Record("$(P):PC:ENASEQ",1460,778,0,1,"$(P):PC:ENASEQ")
 #! Field("$(P):PC:ENASEQ.LNK3",16777215,1,"$(P):PC:ENASEQ.LNK3")
-#! Link("$(P):PC:ENASEQ.LNK3","$(P):PC:ASYNCMD.AOUT")
+#! Link("$(P):PC:ENASEQ.LNK3","$(P):PC:ENAPLC.PROC")
+#! Field("$(P):PC:ENASEQ.LNK2",16777215,1,"$(P):PC:ENASEQ.LNK2")
+#! Link("$(P):PC:ENASEQ.LNK2","$(P):PC:CMDENA.PROC")
+#! Field("$(P):PC:ENASEQ.LNK1",16777215,1,"$(P):PC:ENASEQ.LNK1")
+#! Link("$(P):PC:ENASEQ.LNK1","$(P):PC:CMDDISA.PROC")
 #! Field("$(P):PC:ENASEQ.SELN",16777215,0,"$(P):PC:ENASEQ.SELN")
-#! Record("$(P):PC:CMDENA",1460,896,0,1,"$(P):PC:CMDENA")
-#! Field("$(P):PC:CMDENA.VAL",16777215,1,"$(P):PC:CMDENA.VAL")
-#! Record("$(P):PC:CMDDISA",1480,1016,0,1,"$(P):PC:CMDDISA")
-#! Field("$(P):PC:CMDDISA.VAL",16777215,1,"$(P):PC:CMDDISA.VAL")
-#! Record("$(P):PC:CALCENA",880,1219,0,1,"$(P):PC:CALCENA")
+#! Record("$(P):PC:CMDENA",1780,881,0,1,"$(P):PC:CMDENA")
+#! Field("$(P):PC:CMDENA.PROC",16777215,0,"$(P):PC:CMDENA.PROC")
+#! Field("$(P):PC:CMDENA.OUT",16777215,1,"$(P):PC:CMDENA.OUT")
+#! Link("$(P):PC:CMDENA.OUT","$(P):PC:ASYNCMD.AOUT")
+#! Record("$(P):PC:CMDDISA",1780,1041,0,1,"$(P):PC:CMDDISA")
+#! Field("$(P):PC:CMDDISA.PROC",16777215,0,"$(P):PC:CMDDISA.PROC")
+#! Field("$(P):PC:CMDDISA.OUT",16777215,1,"$(P):PC:CMDDISA.OUT")
+#! Link("$(P):PC:CMDDISA.OUT","$(P):PC:ASYNCMD.AOUT")
+#! Record("$(P):PC:CALCENA",880,1220,0,1,"$(P):PC:CALCENA")
 #! Field("$(P):PC:CALCENA.INPA",16777215,1,"$(P):PC:CALCENA.INPA")
 #! Link("$(P):PC:CALCENA.INPA","$(P):PC:ENABLE.VAL")
 #! Field("$(P):PC:CALCENA.OUT",16777215,1,"$(P):PC:CALCENA.OUT")
 #! Link("$(P):PC:CALCENA.OUT","$(P):PC:ENABLED.VAL")
-#! Record("$(P):PC:ENABLED",1260,1479,0,1,"$(P):PC:ENABLED")
+#! Record("$(P):PC:ENABLED",1260,1480,0,1,"$(P):PC:ENABLED")
 #! Field("$(P):PC:ENABLED.VAL",16777215,0,"$(P):PC:ENABLED.VAL")
-#! Record("$(P):PC:CALCDISA",880,1434,0,1,"$(P):PC:CALCDISA")
+#! Record("$(P):PC:CALCDISA",880,1420,0,1,"$(P):PC:CALCDISA")
 #! Field("$(P):PC:CALCDISA.OUT",16777215,1,"$(P):PC:CALCDISA.OUT")
 #! Link("$(P):PC:CALCDISA.OUT","$(P):PC:ENABLED.VAL")
 #! Field("$(P):PC:CALCDISA.A",16777215,0,"$(P):PC:CALCDISA.A")
+#! Record("$(P):PC:LO:STATE",980,2376,0,1,"$(P):PC:LO:STATE")
+#! Field("$(P):PC:LO:STATE.VAL",16777215,0,"$(P):PC:LO:STATE.VAL")
+#! Field("$(P):PC:LO:STATE.OUT",16777215,1,"$(P):PC:LO:STATE.OUT")
+#! Link("$(P):PC:LO:STATE.OUT","$(P):PC:RBV:STATE.VAL")
+#! Record("$(P):PC:LO:GATE",980,2796,0,1,"$(P):PC:LO:GATE")
+#! Field("$(P):PC:LO:GATE.OUT",16777215,1,"$(P):PC:LO:GATE.OUT")
+#! Link("$(P):PC:LO:GATE.OUT","$(P):PC:RBV:GATE.VAL")
+#! Field("$(P):PC:LO:GATE.VAL",16777215,1,"$(P):PC:LO:GATE.VAL")
+#! Record("$(P):PC:LO:PULSE",980,3016,0,1,"$(P):PC:LO:PULSE")
+#! Field("$(P):PC:LO:PULSE.VAL",16777215,0,"$(P):PC:LO:PULSE.VAL")
+#! Field("$(P):PC:LO:PULSE.OUT",16777215,1,"$(P):PC:LO:PULSE.OUT")
+#! Link("$(P):PC:LO:PULSE.OUT","$(P):PC:RBV:PULSE.VAL")
+#! Record("$(P):PC:LO:DIR",2040,3056,0,1,"$(P):PC:LO:DIR")
+#! Field("$(P):PC:LO:DIR.VAL",16777215,0,"$(P):PC:LO:DIR.VAL")
+#! Field("$(P):PC:LO:DIR.OUT",16777215,1,"$(P):PC:LO:DIR.OUT")
+#! Link("$(P):PC:LO:DIR.OUT","$(P):PC:RBV:DIR.VAL")
+#! Record("$(P):PC:LO:ROI",2060,2296,0,1,"$(P):PC:LO:ROI")
+#! Field("$(P):PC:LO:ROI.VAL",16777215,0,"$(P):PC:LO:ROI.VAL")
+#! Field("$(P):PC:LO:ROI.OUT",16777215,1,"$(P):PC:LO:ROI.OUT")
+#! Link("$(P):PC:LO:ROI.OUT","$(P):PC:RBV:ROI.VAL")
+#! Record("$(P):PC:MOTOR",2840,2021,0,1,"$(P):PC:MOTOR")
+#! Field("$(P):PC:MOTOR.FLNK",16777215,1,"$(P):PC:MOTOR.FLNK")
+#! Link("$(P):PC:MOTOR.FLNK","$(P):PC:MOUTPV1")
+#! Field("$(P):PC:MOTOR.VAL",16777215,1,"$(P):PC:MOTOR.VAL")
+#! Record("$(P):PC:CLC:AXISN",3520,1718,0,1,"$(P):PC:CLC:AXISN")
+#! Field("$(P):PC:CLC:AXISN.OUT",16777215,0,"$(P):PC:CLC:AXISN.OUT")
+#! Link("$(P):PC:CLC:AXISN.OUT","$(P):PC:WR:AXISN.A")
+#! Field("$(P):PC:CLC:AXISN.B",16777215,1,"$(P):PC:CLC:AXISN.B")
+#! Record("$(P):PC:CLC:PMACN",3460,2118,0,0,"$(P):PC:CLC:PMACN")
+#! Field("$(P):PC:CLC:PMACN.OUT",16777215,1,"$(P):PC:CLC:PMACN.OUT")
+#! Link("$(P):PC:CLC:PMACN.OUT","$(P):PC:CLC:AXISN.B")
+#! Record("$(P):PC:MOUTPV2",3140,2220,0,0,"$(P):PC:MOUTPV2")
+#! Field("$(P):PC:MOUTPV2.INAA",16777215,0,"$(P):PC:MOUTPV2.INAA")
+#! Link("$(P):PC:MOUTPV2.INAA","$(P):PC:MOTOR.VAL")
+#! Field("$(P):PC:MOUTPV2.OUT",16777215,1,"$(P):PC:MOUTPV2.OUT")
+#! Field("$(P):PC:MOUTPV2.FLNK",16777215,1,"$(P):PC:MOUTPV2.FLNK")
+#! Link("$(P):PC:MOUTPV2.FLNK","$(P):PC:CLC:PMACN")
+#! Record("$(P):PC:MOUTPV1",3160,2000,0,0,"$(P):PC:MOUTPV1")
+#! Field("$(P):PC:MOUTPV1.INAA",16777215,0,"$(P):PC:MOUTPV1.INAA")
+#! Link("$(P):PC:MOUTPV1.INAA","$(P):PC:MOTOR.VAL")
+#! Field("$(P):PC:MOUTPV1.OUT",16777215,1,"$(P):PC:MOUTPV1.OUT")
+#! Field("$(P):PC:MOUTPV1.FLNK",16777215,0,"$(P):PC:MOUTPV1.FLNK")
+#! Link("$(P):PC:MOUTPV1.FLNK","$(P):PC:MOUTPV2")
+#! Box(Box0,0,2160,2380,3440,1,3355647,null)
+#! TextBox(TB0,580,2160,1040,2260,1,"Dialog",12,1,16777215,"The readback system reads P variables from the PMAC which are used\nin the communication between PMAC PLC and IOC.\n\nThe P variables are read out in two batches of 6 from two asyn records.\nThe parsing to numerical values are done by the scalcout records, using\nthe SSCANF function.",null)

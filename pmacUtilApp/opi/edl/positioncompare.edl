@@ -1,0 +1,1289 @@
+4 0 1
+beginScreenProperties
+major 4
+minor 0
+release 1
+x 495
+y 494
+w 684
+h 415
+font "arial-medium-r-18.0"
+ctlFont "arial-medium-r-18.0"
+btnFont "arial-medium-r-18.0"
+fgColor index 14
+bgColor index 3
+textColor index 14
+ctlFgColor1 index 14
+ctlFgColor2 index 0
+ctlBgColor1 index 0
+ctlBgColor2 index 14
+topShadowColor index 0
+botShadowColor index 14
+title "Position Compare"
+showGrid
+snapToGrid
+gridSize 5
+disableScroll
+endScreenProperties
+
+# (Rectangle)
+object activeRectangleClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 255
+y 45
+w 240
+h 150
+lineColor index 14
+fill
+fillColor index 5
+endObjectProperties
+
+# (Rectangle)
+object activeRectangleClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 5
+y 45
+w 240
+h 150
+lineColor index 14
+fill
+fillColor index 5
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 0
+y 0
+w 685
+h 30
+
+beginGroup
+
+# (Rectangle)
+object activeRectangleClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 0
+y 0
+w 685
+h 30
+lineColor index 3
+fill
+fillColor index 3
+endObjectProperties
+
+# (Lines)
+object activeLineClass
+beginObjectProperties
+major 4
+minor 0
+release 1
+x 0
+y 3
+w 685
+h 24
+lineColor index 11
+fillColor index 0
+numPoints 3
+xPoints {
+  0 0
+  1 685
+  2 685
+}
+yPoints {
+  0 27
+  1 27
+  2 3
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 0
+y 3
+w 685
+h 24
+font "arial-bold-r-16.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 48
+value {
+  "Position Compare - $(P)"
+}
+endObjectProperties
+
+# (Lines)
+object activeLineClass
+beginObjectProperties
+major 4
+minor 0
+release 1
+x 0
+y 3
+w 685
+h 24
+lineColor index 1
+fillColor index 0
+numPoints 3
+xPoints {
+  0 0
+  1 0
+  2 685
+}
+yPoints {
+  0 27
+  1 3
+  2 3
+}
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Exit Button)
+object activeExitButtonClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 595
+y 305
+w 80
+h 20
+fgColor index 46
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+label "EXIT"
+font "arial-bold-r-14.0"
+3d
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 5
+y 35
+w 48
+h 14
+font "arial-medium-r-12.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 8
+value {
+  "  Status  "
+}
+autoSize
+border
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 10
+y 60
+w 100
+h 25
+font "arial-bold-r-12.0"
+fgColor index 14
+bgColor index 3
+useDisplayBg
+value {
+  "State:"
+}
+endObjectProperties
+
+# (Rectangle)
+object activeRectangleClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 5
+y 215
+w 360
+h 185
+lineColor index 14
+fill
+fillColor index 5
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 5
+y 205
+w 45
+h 14
+font "arial-medium-r-12.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 8
+value {
+  "  Setup  "
+}
+autoSize
+border
+endObjectProperties
+
+# (Message Button)
+object activeMessageButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 575
+y 190
+w 70
+h 30
+fgColor index 25
+onColor index 4
+offColor index 3
+topShadowColor index 1
+botShadowColor index 11
+controlPv "$(P):HM:HOME"
+pressValue "1"
+onLabel "Home"
+offLabel "Home"
+3d
+useEnumNumeric
+font "arial-bold-r-14.0"
+endObjectProperties
+
+# (Byte)
+object ByteClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 610
+y 140
+w 25
+h 25
+controlPv "$(P):PC:ENABLED"
+lineColor index 14
+onColor index 15
+offColor index 19
+lineWidth 0
+numBits 1
+endObjectProperties
+
+# (Menu Button)
+object activeMenuButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 505
+y 140
+w 100
+h 25
+fgColor index 25
+bgColor index 3
+inconsistentColor index 0
+topShadowColor index 1
+botShadowColor index 11
+controlPv "$(P):PC:ENABLE"
+font "arial-medium-r-12.0"
+endObjectProperties
+
+# (Menu Mux PV)
+object menuMuxPVClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 3550
+y 3050
+w 50
+h 25
+fgColour index 14
+bgColour index 0
+topShadowColour index 0
+botShadowColour index 14
+font "arial-medium-r-18.0"
+numItems 1
+symbolTag {
+  0 "?"
+}
+symbol0 {
+  0 "M1"
+}
+PV0 {
+  0 "$(P):HM:M1PV"
+}
+symbol1 {
+  0 "M2"
+}
+PV1 {
+  0 "$(P):HM:M2PV"
+}
+symbol2 {
+  0 "M3"
+}
+PV2 {
+  0 "$(P):HM:M3PV"
+}
+symbol3 {
+  0 "M4"
+}
+PV3 {
+  0 "$(P):HM:M4PV"
+}
+endObjectProperties
+
+# (Menu Mux PV)
+object menuMuxPVClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 3550
+y 3050
+w 50
+h 25
+fgColour index 14
+bgColour index 0
+topShadowColour index 0
+botShadowColour index 14
+font "arial-medium-r-18.0"
+numItems 1
+symbolTag {
+  0 "?"
+}
+symbol0 {
+  0 "M5"
+}
+PV0 {
+  0 "$(P):HM:M5PV"
+}
+symbol1 {
+  0 "M6"
+}
+PV1 {
+  0 "$(P):HM:M6PV"
+}
+symbol2 {
+  0 "M7"
+}
+PV2 {
+  0 "$(P):HM:M7PV"
+}
+symbol3 {
+  0 "M8"
+}
+PV3 {
+  0 "$(P):HM:M8PV"
+}
+endObjectProperties
+
+# (Menu Mux PV)
+object menuMuxPVClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 3550
+y 3050
+w 50
+h 25
+fgColour index 14
+bgColour index 0
+topShadowColour index 0
+botShadowColour index 14
+font "arial-medium-r-18.0"
+numItems 1
+symbolTag {
+  0 "?"
+}
+symbol0 {
+  0 "M9"
+}
+PV0 {
+  0 "$(P):HM:M9PV"
+}
+symbol1 {
+  0 "M10"
+}
+PV1 {
+  0 "$(P):HM:M10PV"
+}
+symbol2 {
+  0 "M11"
+}
+PV2 {
+  0 "$(P):HM:M11PV"
+}
+symbol3 {
+  0 "M12"
+}
+PV3 {
+  0 "$(P):HM:M12PV"
+}
+endObjectProperties
+
+# (Menu Mux PV)
+object menuMuxPVClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 3550
+y 3050
+w 50
+h 25
+fgColour index 14
+bgColour index 0
+topShadowColour index 0
+botShadowColour index 14
+font "arial-medium-r-18.0"
+numItems 1
+symbolTag {
+  0 "?"
+}
+symbol0 {
+  0 "M13"
+}
+PV0 {
+  0 "$(P):HM:M13PV"
+}
+symbol1 {
+  0 "M14"
+}
+PV1 {
+  0 "$(P):HM:M14PV"
+}
+symbol2 {
+  0 "M15"
+}
+PV2 {
+  0 "$(P):HM:M15PV"
+}
+symbol3 {
+  0 "M16"
+}
+PV3 {
+  0 "$(P):HM:M16PV"
+}
+endObjectProperties
+
+# (Menu Mux PV)
+object menuMuxPVClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 3550
+y 3050
+w 50
+h 25
+fgColour index 14
+bgColour index 0
+topShadowColour index 0
+botShadowColour index 14
+font "arial-medium-r-18.0"
+numItems 1
+symbolTag {
+  0 "?"
+}
+symbol0 {
+  0 "M17"
+}
+PV0 {
+  0 "$(P):HM:M17PV"
+}
+symbol1 {
+  0 "M18"
+}
+PV1 {
+  0 "$(P):HM:M18PV"
+}
+symbol2 {
+  0 "M19"
+}
+PV2 {
+  0 "$(P):HM:M19PV"
+}
+symbol3 {
+  0 "M20"
+}
+PV3 {
+  0 "$(P):HM:M20PV"
+}
+endObjectProperties
+
+# (Menu Mux PV)
+object menuMuxPVClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 3550
+y 3050
+w 50
+h 25
+fgColour index 14
+bgColour index 0
+topShadowColour index 0
+botShadowColour index 14
+font "arial-medium-r-18.0"
+numItems 1
+symbolTag {
+  0 "?"
+}
+symbol0 {
+  0 "M21"
+}
+PV0 {
+  0 "$(P):HM:M21PV"
+}
+symbol1 {
+  0 "M22"
+}
+PV1 {
+  0 "$(P):HM:M22PV"
+}
+symbol2 {
+  0 "M23"
+}
+PV2 {
+  0 "$(P):HM:M23PV"
+}
+symbol3 {
+  0 "M24"
+}
+PV3 {
+  0 "$(P):HM:M24PV"
+}
+endObjectProperties
+
+# (Menu Mux PV)
+object menuMuxPVClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 3550
+y 3050
+w 50
+h 25
+fgColour index 14
+bgColour index 0
+topShadowColour index 0
+botShadowColour index 14
+font "arial-medium-r-18.0"
+numItems 1
+symbolTag {
+  0 "?"
+}
+symbol0 {
+  0 "M25"
+}
+PV0 {
+  0 "$(P):HM:M25PV"
+}
+symbol1 {
+  0 "M26"
+}
+PV1 {
+  0 "$(P):HM:M26PV"
+}
+symbol2 {
+  0 "M27"
+}
+PV2 {
+  0 "$(P):HM:M27PV"
+}
+symbol3 {
+  0 "M28"
+}
+PV3 {
+  0 "$(P):HM:M28PV"
+}
+endObjectProperties
+
+# (Menu Mux PV)
+object menuMuxPVClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 3550
+y 3050
+w 50
+h 25
+fgColour index 14
+bgColour index 0
+topShadowColour index 0
+botShadowColour index 14
+font "arial-medium-r-18.0"
+numItems 1
+symbolTag {
+  0 "?"
+}
+symbol0 {
+  0 "M29"
+}
+PV0 {
+  0 "$(P):HM:M29PV"
+}
+symbol1 {
+  0 "M30"
+}
+PV1 {
+  0 "$(P):HM:M30PV"
+}
+symbol2 {
+  0 "M31"
+}
+PV2 {
+  0 "$(P):HM:M31PV"
+}
+symbol3 {
+  0 "M32"
+}
+PV3 {
+  0 "$(P):HM:M32PV"
+}
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 125
+y 60
+w 110
+h 25
+controlPv "$(P):PC:RBV:STATE"
+font "arial-medium-r-14.0"
+fontAlign "center"
+fgColor index 16
+bgColor index 10
+limitsFromDb
+nullColor index 0
+fastUpdate
+useHexPrefix
+newPos
+objType "monitors"
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 125
+y 90
+w 110
+h 25
+controlPv "$(P):PC:RBV:DIR"
+font "arial-medium-r-14.0"
+fontAlign "center"
+fgColor index 16
+bgColor index 10
+limitsFromDb
+nullColor index 0
+fastUpdate
+useHexPrefix
+newPos
+objType "monitors"
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 125
+y 120
+w 110
+h 25
+controlPv "$(P):PC:RBV:ROI"
+font "arial-medium-r-14.0"
+fontAlign "center"
+fgColor index 16
+bgColor index 10
+limitsFromDb
+nullColor index 0
+fastUpdate
+useHexPrefix
+newPos
+objType "monitors"
+endObjectProperties
+
+# (Shell Command)
+object shellCmdClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 565
+y 240
+w 110
+h 30
+fgColor index 43
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-bold-r-12.0"
+buttonLabel "ASYN"
+numCmds 3
+commandLabel {
+  0 "asyn cmd"
+  1 "asyn poll 1"
+  2 "asyn poll 2"
+}
+command {
+  0 "medm -x -macro \"P=$(P),R=:PC:ASYNCMD\" asynRecord.adl &"
+  1 "medm -x -macro \"P=$(P),R=:PC:ASYNPOLL1\" asynRecord.adl &"
+  2 "medm -x -macro \"P=$(P),R=:PC:ASYNPOLL2\" asynRecord.adl &"
+}
+endObjectProperties
+
+# (Menu Button)
+object activeMenuButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 385
+y 60
+w 100
+h 25
+fgColor index 25
+bgColor index 3
+inconsistentColor index 0
+topShadowColor index 1
+botShadowColor index 11
+controlPv "$(P):PC:GATE"
+indicatorPv "$(P):PC:RBV:GATE"
+font "arial-medium-r-12.0"
+endObjectProperties
+
+# (Menu Button)
+object activeMenuButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 385
+y 90
+w 100
+h 25
+fgColor index 25
+bgColor index 3
+inconsistentColor index 0
+topShadowColor index 1
+botShadowColor index 11
+controlPv "$(P):PC:PULSE"
+indicatorPv "$(P):PC:RBV:PULSE"
+font "arial-medium-r-12.0"
+endObjectProperties
+
+# (Menu Button)
+object activeMenuButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 385
+y 120
+w 100
+h 25
+fgColor index 25
+bgColor index 3
+inconsistentColor index 0
+topShadowColor index 1
+botShadowColor index 11
+controlPv "$(P):PC:ROI"
+indicatorPv "$(P):PC:RBV:ROI"
+font "arial-medium-r-12.0"
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 10
+y 90
+w 100
+h 25
+font "arial-bold-r-12.0"
+fgColor index 14
+bgColor index 3
+useDisplayBg
+value {
+  "Scan direction:"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 10
+y 120
+w 110
+h 25
+font "arial-bold-r-12.0"
+fgColor index 14
+bgColor index 3
+useDisplayBg
+value {
+  "Range of Interest:"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 265
+y 120
+w 110
+h 25
+font "arial-bold-r-12.0"
+fgColor index 14
+bgColor index 3
+useDisplayBg
+value {
+  "Range of Interest:"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 265
+y 90
+w 100
+h 25
+font "arial-bold-r-12.0"
+fgColor index 14
+bgColor index 3
+useDisplayBg
+value {
+  "Pulse mode:"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 265
+y 60
+w 100
+h 25
+font "arial-bold-r-12.0"
+fgColor index 14
+bgColor index 3
+useDisplayBg
+value {
+  "Gate signal:"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 255
+y 35
+w 107
+h 14
+font "arial-medium-r-12.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 8
+value {
+  "  I/O Configuration  "
+}
+autoSize
+border
+endObjectProperties
+
+# (Textentry)
+object TextentryClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 385
+y 150
+w 100
+h 35
+controlPv "$(P):PC:WR:PWIDTH.A"
+precision 3
+fgColor index 25
+fgAlarm
+bgColor index 10
+fill
+font "arial-medium-r-12.0"
+fontAlign "center"
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 265
+y 155
+w 110
+h 25
+font "arial-bold-r-12.0"
+fgColor index 14
+bgColor index 3
+useDisplayBg
+value {
+  "Pulse Width:"
+}
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 125
+y 150
+w 110
+h 25
+controlPv "$(P):PC:RBC:AXISN"
+fgColor index 16
+bgColor index 10
+fill
+font "arial-medium-r-14.0"
+fontAlign "center"
+lineWidth 1
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 10
+y 150
+w 110
+h 25
+font "arial-bold-r-12.0"
+fgColor index 14
+bgColor index 3
+useDisplayBg
+value {
+  "PMAC axis #:"
+}
+endObjectProperties
+
+# (Textentry)
+object TextentryClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 125
+y 225
+w 100
+h 35
+controlPv "$(P):PC:WR:HIROI.A"
+precision 3
+fgColor index 25
+fgAlarm
+bgColor index 10
+fill
+font "arial-medium-r-12.0"
+fontAlign "center"
+endObjectProperties
+
+# (Textentry)
+object TextentryClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 125
+y 265
+w 100
+h 35
+controlPv "$(P):PC:WR:LOROI.A"
+precision 3
+fgColor index 25
+fgAlarm
+bgColor index 10
+fill
+font "arial-medium-r-12.0"
+fontAlign "center"
+endObjectProperties
+
+# (Textentry)
+object TextentryClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 125
+y 305
+w 100
+h 35
+controlPv "$(P):PC:WR:STEPSIZE.A"
+precision 3
+fgColor index 25
+fgAlarm
+bgColor index 10
+fill
+font "arial-medium-r-12.0"
+fontAlign "center"
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 230
+y 225
+w 125
+h 35
+controlPv "$(P):PC:RBC:HIROI"
+fgColor index 16
+fgAlarm
+bgColor index 10
+fill
+font "arial-medium-r-14.0"
+fontAlign "center"
+lineWidth 1
+lineAlarm
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 230
+y 265
+w 125
+h 35
+controlPv "$(P):PC:RBC:LOROI"
+fgColor index 16
+fgAlarm
+bgColor index 10
+fill
+font "arial-medium-r-14.0"
+fontAlign "center"
+lineWidth 1
+lineAlarm
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 230
+y 305
+w 125
+h 35
+controlPv "$(P):PC:RBC:STEPSIZE"
+fgColor index 16
+fgAlarm
+bgColor index 10
+fill
+font "arial-medium-r-14.0"
+fontAlign "center"
+lineWidth 1
+lineAlarm
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 10
+y 300
+w 115
+h 35
+font "arial-bold-r-12.0"
+fgColor index 14
+bgColor index 3
+useDisplayBg
+value {
+  "PMAC axis #:"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 10
+y 265
+w 115
+h 35
+font "arial-bold-r-12.0"
+fgColor index 14
+bgColor index 3
+useDisplayBg
+value {
+  "Range of Interest:"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 10
+y 225
+w 115
+h 35
+font "arial-bold-r-12.0"
+fgColor index 14
+bgColor index 3
+useDisplayBg
+value {
+  "Scan direction:"
+}
+endObjectProperties
+
+# (Textentry)
+object TextentryClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 375
+y 255
+w 175
+h 35
+controlPv "$(P):PC:MOTOR"
+precision 3
+fgColor index 25
+fgAlarm
+bgColor index 10
+fill
+font "arial-medium-r-12.0"
+fontAlign "center"
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 400
+y 320
+w 125
+h 35
+controlPv "$(P):PC:WR:AXISN.A"
+fgColor index 16
+fgAlarm
+bgColor index 10
+fill
+font "arial-medium-r-14.0"
+fontAlign "center"
+lineWidth 1
+lineAlarm
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 400
+y 365
+w 125
+h 35
+controlPv "$(P):PC:CLC:AXISN"
+fgColor index 16
+fgAlarm
+bgColor index 10
+fill
+font "arial-medium-r-14.0"
+fontAlign "center"
+lineWidth 1
+lineAlarm
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 540
+y 365
+w 125
+h 35
+controlPv "$(P):PC:CLC:PMACN"
+fgColor index 16
+fgAlarm
+bgColor index 10
+fill
+font "arial-medium-r-14.0"
+fontAlign "center"
+lineWidth 1
+lineAlarm
+endObjectProperties
+
