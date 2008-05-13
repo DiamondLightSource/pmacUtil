@@ -6,6 +6,7 @@ include $(TOP)/configure/CONFIG
 # Build an IOC Application
 # ------------------------
 DATA += autohoming_sim.py
+DATA += posComp_sim.py
 
 PROD_IOC = example
 

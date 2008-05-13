@@ -18,13 +18,13 @@ dbLoadDatabase("dbd/example.dbd")
 example_registerRecordDeviceDriver(pdbbase)
 
 ##### configure simulation of autohoming directly on the IOC #####
-epicsEnvSet "PYTHONPATH", "$(INSTALL)/data:/home/ulrik/epics/python/serial_sim/src"
+epicsEnvSet "PYTHONPATH", "$(INSTALL)/data"
 Python("from posComp_sim import PosComp")
 Python("sim = PosComp()")
 Python("sim.start_ip(9005)")
 
 #drvAsynSerialPortConfigure("pmac_S0","/dev/pts/7")
-drvAsynIPPortConfigure("pmac_S0","192.168.1.5:9005")
+drvAsynIPPortConfigure("pmac_S0","172.23.244.42:9005")
 
 # Setting IO end-of-string terminators is only necessasry for simulator
 asynOctetSetInputEos("pmac_S0", 0,'\r')

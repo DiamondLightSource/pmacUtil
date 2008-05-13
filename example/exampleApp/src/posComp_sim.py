@@ -2,14 +2,15 @@
 
 from pkg_resources import require
 require("dls.serial_sim==1.2")
+from dls.serial_sim import serial_device
 
-#from dls.serial_sim import serial_device
 #from serial_sim import serial_device
 
 import re, os
 
 class PosComp(serial_device):
 	Terminator = "\r"
+	term = "\r"
 	
 	def __init__(self):
 		self.verbose = 1
