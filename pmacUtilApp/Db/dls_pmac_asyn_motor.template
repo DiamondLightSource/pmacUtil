@@ -50,18 +50,18 @@ record(scalcout, "$(P)$(M):MRESSET") {
   field(DTYP, "Soft Channel")
   field(CALC, "A")
   field(INPA, "$(P)$(M).MRES CP")
-  field(OUT, "$(P)$(M):ASET.AOUT PP")
+  field(OUT, "$(P)$(M):MRESASET.AOUT PP")
   field(OOPT, "On Change")
   field(DOPT, "Use OCAL")
   field(OCAL, "$P('P1%02d',$(ADDR))+$P('=%f',A)")
   field(PINI, "YES")
 }
 
-record(asyn, "$(P)$(M):ASET") {
+record(asyn, "$(P)$(M):MRESASET") {
   field(SCAN, "Passive")
   field(DTYP, "asynRecordDevice")
   field(PORT, "$(SPORT)")
-  field(DESC, "Set PMAC variable")
+  field(DESC, "Set PMAC MRES")
 }
 
 record(scalcout, "$(P)$(M):OFFSET") {
@@ -69,21 +69,35 @@ record(scalcout, "$(P)$(M):OFFSET") {
   field(DTYP, "Soft Channel")
   field(CALC, "A")
   field(INPA, "$(P)$(M).OFF CP")
-  field(OUT, "$(P)$(M):ASET.AOUT PP")
+  field(OUT, "$(P)$(M):OFFASET.AOUT PP")
   field(OOPT, "On Change")
   field(DOPT, "Use OCAL")
   field(OCAL, "$P('P3%02d',$(ADDR))+$P('=%f',A)")
   field(PINI, "YES")
 }
 
+record(asyn, "$(P)$(M):OFFASET") {
+  field(SCAN, "Passive")
+  field(DTYP, "asynRecordDevice")
+  field(PORT, "$(SPORT)")
+  field(DESC, "Set PMAC OFF")
+}
+
 record(scalcout, "$(P)$(M):ELOSSRC") {
   field(DESC, "Write 0 to A to reset Eloss")
   field(DTYP, "Soft Channel")
   field(CALC, "A")
-  field(OUT, "$(P)$(M):ASET.AOUT PP")
+  field(OUT, "$(P)$(M):ELOSSASET.AOUT PP")
   field(DOPT, "Use OCAL")
   field(OCAL, "$P('P4%02d',64+$(ADDR))+$P('=%f',A)")
   field(A, "0")
+}
+
+record(asyn, "$(P)$(M):ELOSSASET") {
+  field(SCAN, "Passive")
+  field(DTYP, "asynRecordDevice")
+  field(PORT, "$(SPORT)")
+  field(DESC, "Set PMAC ELOSS")
 }
 
 record(scalcout, "$(P)$(M):ELOSSC") {
