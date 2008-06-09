@@ -3,8 +3,8 @@ beginScreenProperties
 major 4
 minor 0
 release 1
-x 495
-y 494
+x 500
+y 515
 w 684
 h 415
 font "arial-medium-r-18.0"
@@ -1162,7 +1162,7 @@ fgColor index 14
 bgColor index 3
 useDisplayBg
 value {
-  "PMAC axis #:"
+  "Stepsize:"
 }
 endObjectProperties
 
@@ -1181,7 +1181,7 @@ fgColor index 14
 bgColor index 3
 useDisplayBg
 value {
-  "Range of Interest:"
+  "Low position:"
 }
 endObjectProperties
 
@@ -1200,7 +1200,7 @@ fgColor index 14
 bgColor index 3
 useDisplayBg
 value {
-  "Scan direction:"
+  "High position:"
 }
 endObjectProperties
 
