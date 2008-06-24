@@ -175,6 +175,14 @@ record(stringout, "$(P)$(M):SETHMPV") {
   field(OUT, "$(HOME):HM:M$(ADDR)PV PP")
 }
 
+record(asyn, "$(P)$(M):KILL") {
+  field(SCAN, "Passive")
+  field(DTYP, "asynRecordDevice")
+  field(PORT, "$(SPORT)")
+  field(DESC, "Kill pmac motor $(ADDR)")
+  field(AOUT, "#$(ADDR)k")
+}
+
 #! Further lines contain data used by VisualDCT
 #! View(603,208,1.2)
 #! Record("$(P)$(M)",580,312,0,0,"$(P)$(M)")
