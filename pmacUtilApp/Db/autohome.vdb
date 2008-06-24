@@ -61,7 +61,6 @@ record(scalcout, "$(P):HM:PARSE2") {
   field(PREC, "0")
 }
 
-
 record(mbbi, "$(P):HM:STATUS") {
   field(DESC, "Homing status")
   field(SCAN, "Passive")
@@ -80,7 +79,7 @@ record(mbbi, "$(P):HM:STATUS") {
   field(FRVL, "4")
   field(FVVL, "5")
   field(SXVL, "6")
-  field(SVVL, "7")  
+  field(SVVL, "7")
   field(ZRSV, "NO_ALARM")
   field(ONSV, "NO_ALARM")
   field(TWSV, "MINOR")
@@ -92,9 +91,8 @@ record(mbbi, "$(P):HM:STATUS") {
   field(FRST, "Fatal foll err")
   field(FVST, "Stopped on lim")
   field(SXST, "Incomplete Home")
-  field(SVST, "Invalid Setting")  
+  field(SVST, "Invalid Setting")
 }
-
 
 record(mbbi, "$(P):HM:STATE") {
   field(DESC, "Homing state")
@@ -148,7 +146,7 @@ record(bo, "$(P):HM:HOME") {
 record(calcout, "$(P):HM:CHECK") {
   field(CALC, "A==1")
   field(INPA, "$(P):HM:PARSE1 PP")
-  field(OUT, "$(P):HM:HOMING PP")
+  field(OUT, "$(P):HM:HOMING CA")
   field(OOPT, "Transition To Zero")
   field(DOPT, "Use CALC")
 }
@@ -422,7 +420,7 @@ record(longout, "$(P):HM:PARSE4") {
 }
 
 #! Further lines contain data used by VisualDCT
-#! View(2509,2312,1.1)
+#! View(1957,1699,1.1)
 #! Record("$(P):HM:ASYN1",2060,2274,0,1,"$(P):HM:ASYN1")
 #! Field("$(P):HM:ASYN1.AOUT",16777215,0,"$(P):HM:ASYN1.AOUT")
 #! Record("$(P):HM:ABORT",2080,2500,0,1,"$(P):HM:ABORT")
@@ -441,19 +439,19 @@ record(longout, "$(P):HM:PARSE4") {
 #! Link("$(P):HM:PARSE1.FLNK","$(P):HM:PARSE1/FLNK")
 #! Field("$(P):HM:PARSE1.INAA",16777215,0,"$(P):HM:PARSE1.INAA")
 #! Link("$(P):HM:PARSE1.INAA","$(P):HM:ASYN2.AINP")
-#! Connector("$(P):HM:PARSE1/FLNK","$(P):HM:STATUS",3200,2176,16777215,"",0)
+#! Connector("$(P):HM:PARSE1/FLNK","$(P):HM:STATUS",3200,2186,16777215,"",0)
 #! Record("$(P):HM:PARSE2",2960,2424,0,0,"$(P):HM:PARSE2")
 #! Field("$(P):HM:PARSE2.FLNK",16777215,1,"$(P):HM:PARSE2.FLNK")
 #! Link("$(P):HM:PARSE2.FLNK","$(P):HM:STATE")
 #! Field("$(P):HM:PARSE2.INAA",16777215,0,"$(P):HM:PARSE2.INAA")
 #! Link("$(P):HM:PARSE2.INAA","$(P):HM:ASYN2.AINP")
 #! Field("$(P):HM:PARSE2.VAL",16777215,1,"$(P):HM:PARSE2.VAL")
-#! Record("$(P):HM:STATUS",3260,1826,0,0,"$(P):HM:STATUS")
+#! Record("$(P):HM:STATUS",3260,1824,0,0,"$(P):HM:STATUS")
 #! Field("$(P):HM:STATUS.FLNK",16777215,0,"$(P):HM:STATUS.FLNK")
 #! Link("$(P):HM:STATUS.FLNK","$(P):HM:STATUS/FLNK1")
 #! Field("$(P):HM:STATUS.INP",16777215,0,"$(P):HM:STATUS.INP")
 #! Link("$(P):HM:STATUS.INP","$(P):HM:PARSE1.VAL")
-#! Connector("$(P):HM:STATUS/FLNK1","$(P):HM:STATUS/FLNK",3180,2095,16777215,"",0)
+#! Connector("$(P):HM:STATUS/FLNK1","$(P):HM:STATUS/FLNK",3180,2115,16777215,"",0)
 #! Connector("$(P):HM:STATUS/FLNK","$(P):HM:CHECK",3037,1920,16777215,"",0)
 #! Record("$(P):HM:STATE",3260,2334,0,0,"$(P):HM:STATE")
 #! Field("$(P):HM:STATE.INP",16777215,0,"$(P):HM:STATE.INP")
