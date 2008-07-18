@@ -143,11 +143,12 @@ record(bo, "$(P):HM:HOME") {
   field(FLNK, "$(P):HM:START")
 }
 
+
 record(calcout, "$(P):HM:CHECK") {
   field(CALC, "A==1")
   field(INPA, "$(P):HM:PARSE1 PP")
   field(OUT, "$(P):HM:HOMING CA")
-  field(OOPT, "Transition To Zero")
+  field(OOPT, "When Zero")
   field(DOPT, "Use CALC")
 }
 
@@ -420,7 +421,7 @@ record(longout, "$(P):HM:PARSE4") {
 }
 
 #! Further lines contain data used by VisualDCT
-#! View(1957,1699,1.1)
+#! View(1720,1811,1.1)
 #! Record("$(P):HM:ASYN1",2060,2274,0,1,"$(P):HM:ASYN1")
 #! Field("$(P):HM:ASYN1.AOUT",16777215,0,"$(P):HM:ASYN1.AOUT")
 #! Record("$(P):HM:ABORT",2080,2500,0,1,"$(P):HM:ABORT")
