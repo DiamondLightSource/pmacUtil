@@ -19,7 +19,7 @@ SUPPORT=	/dls_sw/prod/R3.14.8.2/support
 ASYN=		$(SUPPORT)/asyn/4-9
 CALC=		$(SUPPORT)/calc/2-6-3dls1
 SSCAN=		$(SUPPORT)/sscan/2-5-6dls1
-MOTOR=		$(SUPPORT)/motor/6-3dls5
+MOTOR=		$(SUPPORT)/motor/6-3dls6
 
 SNCSEQ=		$(SUPPORT)/seq/2-0-11dls1
 
