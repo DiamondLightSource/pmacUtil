@@ -33,15 +33,15 @@ record(mbbi, "$(P):$(R):STATE") {
   field(DESC, "Nanomotor state")
   field(INP, "$(P):$(R):PARSESTATE CP")
   field(ZRST, "READY")
-  field(ONST, "MOVING")
-  field(TWST, "RESTING")
+  field(ONST, "RESTING")
+  field(TWST, "MOVING")
 }
 
 # If motor is 'Moving' then countdown=(max move time - counter)*PLC period
 # If motor is 'Resting' then countdown=(rest time - counter)*PLC period
 record(calcout, "$(P):$(R):COUNTDOWN") {
   field(SCAN, "$(SCAN)")
-  field(CALC, "(A=1)?(D-B)*F:(A=2)?(C-B)*F:0")
+  field(CALC, "(A=2)?(D-B)*F:(A=1)?(C-B)*F:0")
   field(INPA, "$(P):$(R):PARSESTATE PP")
   field(INPB, "$(P):$(R):TIMER.VAL PP")
   field(INPC, "$(P):$(R):RESTTIME.VAL PP")
