@@ -45,7 +45,7 @@ record(calcout, "$(P):$(R):COUNTDOWN") {
   field(INPA, "$(P):$(R):PARSESTATE PP")
   field(INPB, "$(P):$(R):TIMER.VAL PP")
   field(INPC, "$(P):$(R):RESTTIME.VAL PP")
-  field(INPD, "$(P):$(R):MAXMOVETIME")
+  field(INPD, "$(P):$(R):MAXMOVETIME PP")
   field(EGU, "s")
   field(DESC, "Nanomotor countdown")
   field(INPF, "$(P):PLCPERIOD")
@@ -60,13 +60,12 @@ record(asyn, "$(P):$(R):READMAXMOVETIME") {
   field(SCAN, "Passive")
 }
 
-# Read max move time once at startup
+
 record(scalcout, "$(P):$(R):MAXMOVETIME") {
   field(DESC, "Parse readback")
   field(INAA, "$(P):$(R):READMAXMOVETIME.TINP PP")
   field(CALC, "SSCANF(AA,'%d')")
   field(PREC, "1")
-  field(PINI, "YES")
 }
 
 record(scalcout, "$(P):$(R):TIMER") {
@@ -85,7 +84,6 @@ record(asyn, "$(P):$(R):READTIMER") {
   field(SCAN, "Passive")
 }
 
-
 record(asyn, "$(P):$(R):READRESTTIME") {
   field(PORT, "$(PORT)")
   field(AOUT, "$(RESTTIME)")
@@ -101,11 +99,10 @@ record(scalcout, "$(P):$(R):RESTTIME") {
   field(INAA, "$(P):$(R):READRESTTIME.TINP PP")
   field(CALC, "SSCANF(AA,'%d')")
   field(PREC, "1")
-  field(PINI, "YES")
 }
 
 #! Further lines contain data used by VisualDCT
-#! View(0,103,1.2)
+#! View(0,0,1.2)
 #! Record("$(P):$(R):READSTATE",160,37,0,0,"$(P):$(R):READSTATE")
 #! Field("$(P):$(R):READSTATE.TINP",16777215,1,"$(P):$(R):READSTATE.TINP")
 #! Record("$(P):$(R):PARSESTATE",440,65,0,0,"$(P):$(R):PARSESTATE")
@@ -127,7 +124,7 @@ record(scalcout, "$(P):$(R):RESTTIME") {
 #! Field("$(P):$(R):COUNTDOWN.INPF",16777215,1,"$(P):$(R):COUNTDOWN.INPF")
 #! Record("$(P):$(R):READMAXMOVETIME",160,577,0,1,"$(P):$(R):READMAXMOVETIME")
 #! Field("$(P):$(R):READMAXMOVETIME.TINP",16777215,1,"$(P):$(R):READMAXMOVETIME.TINP")
-#! Record("$(P):$(R):MAXMOVETIME",440,591,0,0,"$(P):$(R):MAXMOVETIME")
+#! Record("$(P):$(R):MAXMOVETIME",440,605,0,0,"$(P):$(R):MAXMOVETIME")
 #! Field("$(P):$(R):MAXMOVETIME.INAA",16777215,0,"$(P):$(R):MAXMOVETIME.INAA")
 #! Link("$(P):$(R):MAXMOVETIME.INAA","$(P):$(R):READMAXMOVETIME.TINP")
 #! Field("$(P):$(R):MAXMOVETIME.VAL",16777215,1,"$(P):$(R):MAXMOVETIME.VAL")
@@ -139,7 +136,7 @@ record(scalcout, "$(P):$(R):RESTTIME") {
 #! Field("$(P):$(R):READTIMER.TINP",16777215,1,"$(P):$(R):READTIMER.TINP")
 #! Record("$(P):$(R):READRESTTIME",160,397,0,1,"$(P):$(R):READRESTTIME")
 #! Field("$(P):$(R):READRESTTIME.TINP",16777215,1,"$(P):$(R):READRESTTIME.TINP")
-#! Record("$(P):$(R):RESTTIME",420,411,0,1,"$(P):$(R):RESTTIME")
+#! Record("$(P):$(R):RESTTIME",420,425,0,1,"$(P):$(R):RESTTIME")
 #! Field("$(P):$(R):RESTTIME.INAA",16777215,0,"$(P):$(R):RESTTIME.INAA")
 #! Link("$(P):$(R):RESTTIME.INAA","$(P):$(R):READRESTTIME.TINP")
 #! Field("$(P):$(R):RESTTIME.VAL",16777215,1,"$(P):$(R):RESTTIME.VAL")
