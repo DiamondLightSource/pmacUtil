@@ -44,6 +44,7 @@ record(motor, "$(P)$(M)") {
   field(OFF, "$(OFF)")
   field(RDBD, "$(RDBD)")
   field(SDIS, "$(P)$(M):HMSTATE.VAL")
+  field(FOFF, "$(FOFF)")
 }
 
 record(scalcout, "$(P)$(M):MRESSET") {
