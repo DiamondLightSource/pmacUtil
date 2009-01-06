@@ -1,0 +1,81 @@
+# Template for a patch panel motor
+# Includes extra autosave and archiver tags for MRES and ERES
+# Also includes records to enable/disable limits by setting ixx24 to $40001/$60001
+
+# AUTOSAVE: level 0 = before record init, level 1 = before AND after record init
+#% autosave 0 DVAL OFF
+#% autosave 1 DIR DHLM DLLM TWV SREV MRES ERES RRES VBAS VELO ACCL BDST BVEL BACC RDBD EGU RTRY UEIP URIP DLY PREC DISA DISP FOFF OFF FRAC OMSL JVEL JAR
+#% autosave 2 DESC
+#% archiver 0.5 Monitor
+#% archiver 0.5 Monitor RBV
+#% archiver 0.5 Monitor MRES
+#% archiver 0.5 Monitor VELO
+#% archiver 0.5 Monitor ACCL
+#% archiver 0.5 Monitor DHLM
+#% archiver 0.5 Monitor DLLM
+#% gdatag,template,simpleMotor,$(gda_name),$(gda_desc)
+#% gdatag,motor,rw,$(gda_name),RECORD,Motor
+#% alh $SEVRCOMMAND UP_ANY /dls_sw/tools/bin/dls-alh-handler.py $(P)$(M)
+record(motor,"$(P)$(M)")
+{
+	field(DESC,"$(DESC)")
+	field(DTYP,"$(DTYP)")
+	field(DIR,"$(DIR)")
+	field(VELO,"$(VELO)")
+	field(VBAS,"$(VBAS)")
+	field(ACCL,"$(ACCL)")
+	field(BDST,"$(BDST)")
+	field(BVEL,"$(BVEL)")
+	field(BACC,"$(BACC)")
+	field(OUT,"@asyn($(PORT),$(ADDR))")
+	field(MRES,"$(MRES)")
+	field(PREC,"$(PREC)")
+	field(EGU,"$(EGU)")
+	field(DHLM,"$(DHLM)")
+	field(DLLM,"$(DLLM)")
+	field(HLSV,"$(HLSV)")
+	field(INIT,"$(INIT)")
+	field(RTRY,"0")
+	field(HVEL,"0")
+	field(SREV, "$(SREV)")
+	field(RRES, "$(RRES)")
+	field(TWV, "$(TWV)")
+	field(ERES, "$(ERES)")
+	field(JVEL, "$(VELO)")
+	field(JAR, "$(JAR)")
+	field(UEIP, "$(UEIP)")
+	field(VMAX, "$(VMAX)")
+	field(OFF, "$(OFF)")
+	field(RDBD, "$(RDBD)")
+	field(FOFF, "$(FOFF)")
+}
+
+# Asyn record for communication with
+# PMAC
+record(asyn, "$(P)$(M):LIMSET") {
+  field(SCAN, "Passive")
+  field(DTYP, "asynRecordDevice")
+  field(PORT, "$(SPORT)")
+  field(DESC, "Set PMAC limits flag")
+}
+
+# Create command string to send to
+# PMAC
+record(scalcout, "$(P)$(M):LIMSTRING") {
+  field(DESC, "Limits flag setting string")
+  field(DTYP, "Soft Channel")
+  field(CALC, "A")
+  field(INPA, "$(P)$(M):LIMITS CP")
+  field(OUT, "$(P)$(M):LIMSET.AOUT PP")
+  field(OOPT, "On Change")
+  field(DOPT, "Use OCAL")
+  field(OCAL, "A?'i$(ADDR)24=$40001':'i$(ADDR)24=$60001'")
+}
+
+# User chooses to enable/disable limits
+# via this record
+#% autosave 2 VAL
+record(bo, "$(P)$(M):LIMITS") {
+  field(ZNAM, "DISABLED")
+  field(ONAM, "ENABLED")
+}
