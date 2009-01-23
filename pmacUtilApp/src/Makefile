@@ -30,6 +30,4 @@ pmacUtil_LIBS += seq pv
 # We need to link against the EPICS Base libraries
 pmacUtil_LIBS += $(EPICS_BASE_IOC_LIBS)
 
-
-
 include $(TOP)/configure/RULES

@@ -1,0 +1,97 @@
+CLOSE
+
+;###############################################################################
+; PLC to stop all motors if motion stop button is pressed
+; Original Author: Tom Cobb
+; Used variables: p200..202, i5211
+; Macros (and example values): 
+; STOPTIME=$(STOPTIME) ;Time taken for all motors to stop before they are killed
+; Needs the following line in the PMC file:
+; m7539->x:$7a420,23,1    ;Node 34 24 bit register (digital input 47)
+;###############################################################################
+
+; The stopping procedure will ensure all motors stop quickly and safely. First 
+; the co-ordinate systems are aborted and motors are stopped with a CTRL^A, 
+; which ensures the motors come to a halt in a controlled manner. Next the
+; feedrates are reduced to 0 to prevent any reve request from EPICS. Finally all
+; individual motors are killed - this ensures all motors cannot be moved again 
+; unless explicitly commanded to. When the motion stop is released it restores
+; the amps and feedrates
+
+; To make timeout more readable
+#define MilliSeconds               * 8388608/i10
+#define Timer                      i5211
+#define CurrentEstop               m7539
+#define LastEstop                  p200
+
+LastEstop = 1
+
+OPEN PLC2 CLEAR
+if (CurrentEstop!=LastEstop)
+	; CurrentEstop = 0 when pressed, 1 when reset
+	LastEstop = CurrentEstop	
+	; On press
+	if (LastEstop=0)
+		; Save amp status
+		p201 = m7501
+		p202 = m7503
+		; Abort all moves and stop all motors
+		CMD^A
+		; Wait $(STOPTIME)ms for them to stop
+		Timer = $(STOPTIME) MilliSeconds
+		WHILE (Timer > 0)
+		ENDW
+		; Reduce all feedrates to 0
+		CMD^O	
+		; Kill Motors
+		CMD^K
+		; Turn off amps
+		m7501 = 0
+		m7503 = 0
+	else
+		; Restore amps
+		m7501 = p201
+		m7503 = p202
+		; Restore all feedrates
+		ADDRESS&1
+		CMD "%100"
+		ADDRESS&2
+		CMD "%100"
+		ADDRESS&3
+		CMD "%100"
+		ADDRESS&4
+		CMD "%100"
+		ADDRESS&5
+		CMD "%100"
+		ADDRESS&6
+		CMD "%100"
+		ADDRESS&7
+		CMD "%100"
+		ADDRESS&8
+		CMD "%100"
+		ADDRESS&9
+		CMD "%100"
+		ADDRESS&10
+		CMD "%100"
+		ADDRESS&11
+		CMD "%100"
+		ADDRESS&12
+		CMD "%100"
+		ADDRESS&13
+		CMD "%100"
+		ADDRESS&14
+		CMD "%100"
+		ADDRESS&15
+		CMD "%100"
+		ADDRESS&16
+		CMD "%100"		
+	endif
+	
+endif
+
+CLOSE
+
+;Enable background PLCs
+i5=2
+
+ENABLE PLC2

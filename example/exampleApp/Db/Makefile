@@ -13,6 +13,7 @@ include $(TOP)/configure/CONFIG
 #
 #DB += BL06I-MO-IOC-01.db
 DB += example.db
+DB += 3jackexample.db
 DB += homingexample.db
 DB += posCompEx.db
 

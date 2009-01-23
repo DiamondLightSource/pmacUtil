@@ -1,0 +1,49 @@
+GPT	translation.x	(max(pv["$(MIRROR):J1X:RBV"],pv["$(MIRROR):J2X:RBV"],pv["$(MIRROR):J3X:RBV"]) + min(pv["$(MIRROR):J1X:RBV"],pv["$(MIRROR):J2X:RBV"],pv["$(MIRROR):J3X:RBV"]))/2
+GPT	translation.z	(max(pv["$(MIRROR):J1Z:RBV"],pv["$(MIRROR):J2Z:RBV"],pv["$(MIRROR):J3Z:RBV"]) + min(pv["$(MIRROR):J1Z:RBV"],pv["$(MIRROR):J2Z:RBV"],pv["$(MIRROR):J3Z:RBV"]))/2
+GP	size.x	max(pv["$(MIRROR):J1X:RBV"],pv["$(MIRROR):J2X:RBV"],pv["$(MIRROR):J3X:RBV"]) - min(pv["$(MIRROR):J1X:RBV"],pv["$(MIRROR):J2X:RBV"],pv["$(MIRROR):J3X:RBV"]) + 10
+GP	size.z	max(pv["$(MIRROR):J1Z:RBV"],pv["$(MIRROR):J2Z:RBV"],pv["$(MIRROR):J3Z:RBV"]) - min(pv["$(MIRROR):J1Z:RBV"],pv["$(MIRROR):J2Z:RBV"],pv["$(MIRROR):J3Z:RBV"]) + 10
+J1T	translation.x	pv["$(MIRROR):J1X:RBV"]
+J1T	translation.y	pv["$(MIRROR):J1.RBV"]/2
+J1T	translation.z	pv["$(MIRROR):J1Z:RBV"]
+J1	height	pv["$(MIRROR):J1.RBV"]
+J2T	translation.x	pv["$(MIRROR):J2X:RBV"]
+J2T	translation.y	pv["$(MIRROR):J2.RBV"]/2
+J2T	translation.z	pv["$(MIRROR):J2Z:RBV"]
+J2	height	pv["$(MIRROR):J2.RBV"]
+J3T	translation.x	pv["$(MIRROR):J3X:RBV"]
+J3T	translation.y	pv["$(MIRROR):J3.RBV"]/2
+J3T	translation.z	pv["$(MIRROR):J3Z:RBV"]
+J3	height	pv["$(MIRROR):J3.RBV"]
+JPTJ	translation.x	pv["$(MIRROR):J1X:RBV"]
+JPTJ	translation.y	pv["$(MIRROR):J1.RBV"]
+JPTJ	translation.z	pv["$(MIRROR):J1Z:RBV"]
+JPTP	rotation	pv["$(MIRROR):PITCH.RBV"]-pv["$(MIRROR):MP:RBV"]
+JPTR	rotation	pv["$(MIRROR):ROLL.RBV"]-pv["$(MIRROR):MR:RBV"]
+JPT	translation.x	(max(pv["$(MIRROR):J1X:RBV"],pv["$(MIRROR):J2X:RBV"],pv["$(MIRROR):J3X:RBV"]) - min(pv["$(MIRROR):J1X:RBV"],pv["$(MIRROR):J2X:RBV"],pv["$(MIRROR):J3X:RBV"]))*0.75-pv["$(MIRROR):JTX:RBV"]
+JPT	translation.z	(max(pv["$(MIRROR):J1Z:RBV"],pv["$(MIRROR):J2Z:RBV"],pv["$(MIRROR):J3Z:RBV"]) - min(pv["$(MIRROR):J1Z:RBV"],pv["$(MIRROR):J2Z:RBV"],pv["$(MIRROR):J3Z:RBV"]))*0.75-pv["$(MIRROR):JTZ:RBV"]
+JP	size.x	(max(pv["$(MIRROR):J1X:RBV"],pv["$(MIRROR):J2X:RBV"],pv["$(MIRROR):J3X:RBV"]) - min(pv["$(MIRROR):J1X:RBV"],pv["$(MIRROR):J2X:RBV"],pv["$(MIRROR):J3X:RBV"]))*1.5
+JP	size.z	(max(pv["$(MIRROR):J1Z:RBV"],pv["$(MIRROR):J2Z:RBV"],pv["$(MIRROR):J3Z:RBV"]) - min(pv["$(MIRROR):J1Z:RBV"],pv["$(MIRROR):J2Z:RBV"],pv["$(MIRROR):J3Z:RBV"]))*1.5
+MTJ	translation.x	-pv["$(MIRROR):JTX:RBV"]
+MTJ	translation.y	0
+MTJ	translation.z	-pv["$(MIRROR):JTZ:RBV"]
+MTP	rotation	pv["$(MIRROR):MP:RBV"]
+MTR	rotation	pv["$(MIRROR):MR:RBV"]
+MT	translation.x	(max(pv["$(MIRROR):J1X:RBV"],pv["$(MIRROR):J2X:RBV"],pv["$(MIRROR):J3X:RBV"]) - min(pv["$(MIRROR):J1X:RBV"],pv["$(MIRROR):J2X:RBV"],pv["$(MIRROR):J3X:RBV"]))*0.75
+MT	translation.y	pv["$(MIRROR):MD:RBV"]/2
+MT	translation.z	(max(pv["$(MIRROR):J1Z:RBV"],pv["$(MIRROR):J2Z:RBV"],pv["$(MIRROR):J3Z:RBV"]) - min(pv["$(MIRROR):J1Z:RBV"],pv["$(MIRROR):J2Z:RBV"],pv["$(MIRROR):J3Z:RBV"]))*0.75
+M	size.x	(max(pv["$(MIRROR):J1X:RBV"],pv["$(MIRROR):J2X:RBV"],pv["$(MIRROR):J3X:RBV"]) - min(pv["$(MIRROR):J1X:RBV"],pv["$(MIRROR):J2X:RBV"],pv["$(MIRROR):J3X:RBV"]))*1.5
+M	size.y	pv["$(MIRROR):MD:RBV"]
+M	size.z	(max(pv["$(MIRROR):J1Z:RBV"],pv["$(MIRROR):J2Z:RBV"],pv["$(MIRROR):J3Z:RBV"]) - min(pv["$(MIRROR):J1Z:RBV"],pv["$(MIRROR):J2Z:RBV"],pv["$(MIRROR):J3Z:RBV"]))*1.5
+MCT	translation.x	pv["$(MIRROR):MCX:RBV"]
+MCT	translation.z	pv["$(MIRROR):MCZ:RBV"]
+MCT	translation.y	pv["$(MIRROR):Y.RBV"]/2
+MC	height	pv["$(MIRROR):Y.RBV"]
+light	location.x	pv["$(MIRROR):MCX:RBV"]
+light	location.y	pv["$(MIRROR):Y.RBV"]*1.9
+light	location.z	pv["$(MIRROR):MCZ:RBV"]
+light	radius	pv["$(MIRROR):Y.RBV"]*2
+#VP	position.x	max(pv["$(MIRROR):J1X:RBV"],pv["$(MIRROR):J2X:RBV"],pv["$(MIRROR):J3X:RBV"]) - min(pv["$(MIRROR):J1X:RBV"],pv["$(MIRROR):J2X:RBV"],pv["$(MIRROR):J3X:RBV"])
+#VP	position.z	-(max(pv["$(MIRROR):J1Z:RBV"],pv["$(MIRROR):J2Z:RBV"],pv["$(MIRROR):J3Z:RBV"]) - min(pv["$(MIRROR):J1Z:RBV"],pv["$(MIRROR):J2Z:RBV"],pv["$(MIRROR):J3Z:RBV"]))
+#VP	position.y	(((pv["$(MIRROR):ROTX"]+1)%2)*((pv["$(MIRROR):ROTX"]/2)*-2+1))*pv["$(MIRROR):Y.RBV"]*0.4
+ROTY	rotation	90*pv["$(MIRROR):ROTY"]
+ROTX	rotation	90*pv["$(MIRROR):ROTX"]

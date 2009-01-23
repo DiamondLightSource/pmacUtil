@@ -12,6 +12,7 @@ include $(TOP)/configure/CONFIG
 # templates like this
 #
 DB += energise.template
+DB += 3jack.template
 DB += pmacVariableWrite.template
 DB += gather.template
 DB += motorstatus.template
@@ -24,6 +25,7 @@ DB += positioncompare.template
 DB += encoder_loss_detection.template
 DB += nanomotor_pmac.template
 DB += nanomotor_axis.template
+DB += patch_panel_asyn_motor.template
 
 # not using streams since this doesnt work with tpmac
 #DB += energise_streams.template

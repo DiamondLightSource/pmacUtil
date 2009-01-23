@@ -35,20 +35,20 @@ record(ao, "$(P)$(Q)") {
 record(asyn, "$(P)$(Q):ARBV") {
   field(DESC, "Get $(VAR) $(PORT)")
   field(SCAN, "2 second")
-  field(PORT, "$(PORT)")
   field(AOUT, "$(VAR)")
   field(FLNK, "$(P)$(Q):RBV")
+  field(PORT, "$(PORT)")
 }
 
 record(asyn, "$(P)$(Q):ASET") {
   field(SCAN, "Passive")
   field(DTYP, "asynRecordDevice")
-  field(PORT, "$(PORT)")
   field(DESC, "Asyn SE $(PORT) $(VAR)")
+  field(PORT, "$(PORT)")
 }
 
 #! Further lines contain data used by VisualDCT
-#! View(1660,1581,1.2)
+#! View(1217,1637,1.2)
 #! Record("$(P)$(Q):RBV",1160,1417,0,0,"$(P)$(Q):RBV")
 #! Field("$(P)$(Q):RBV.INAA",16777215,1,"$(P)$(Q):RBV.INAA")
 #! Link("$(P)$(Q):RBV.INAA","$(P)$(Q):ARBV.AINP")

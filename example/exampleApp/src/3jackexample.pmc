@@ -1,0 +1,29 @@
+;First of all we want to clear all CS and PLCs
+#include clear_PLC_CS.pmc
+
+;Now load our lab setup
+#include LAB_setup.pmc
+
+;Next we put in the generic program for moving CS axes
+#include PROG10_CS_motion.pmc
+
+;Finally we add the CS definition for the mirror
+#define $(COORD) 2
+#define $(PLC)   17
+#define $(J1)    1
+#define $(J1X)   0
+#define $(J1Z)   -100
+#define $(J2)    2
+#define $(J2X)   50
+#define $(J2Z)   100
+#define $(J3)    3
+#define $(J3X)   -50
+#define $(J3Z)   100
+#define $(JTX)   60
+#define $(JTZ)   20
+#define $(MP)    -15
+#define $(MR)    20
+#define $(MD)    20
+#define $(MCX)   0
+#define $(MCZ)   0
+#include CS_3jack.pmc
