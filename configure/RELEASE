@@ -16,10 +16,10 @@ TEMPLATE_TOP=$(EPICS_BASE)/templates/makeBaseApp/top
 WORK=		/dls_sw/work/R3.14.8.2/support
 SUPPORT=	/dls_sw/prod/R3.14.8.2/support
 
-ASYN=		$(SUPPORT)/asyn/4-9
+ASYN=		$(SUPPORT)/asyn/4-10
 CALC=		$(SUPPORT)/calc/2-6-3dls1
 SSCAN=		$(SUPPORT)/sscan/2-5-6dls1
-MOTOR=		$(SUPPORT)/motor/6-3dls7
+MOTOR=		$(SUPPORT)/motor/6-4dls3
 
 SNCSEQ=		$(SUPPORT)/seq/2-0-11dls1
 
