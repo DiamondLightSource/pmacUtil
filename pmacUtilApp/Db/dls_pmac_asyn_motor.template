@@ -118,6 +118,7 @@ record(asyn, "$(P)$(M):ELOSSA") {
   field(FLNK, "$(P)$(M):ELOSS")
 }
 
+#% alh $SEVRCOMMAND UP_ANY /dls_sw/tools/bin/dls-alh-handler.py $(P)$(M):ELOSS
 record(scalcout, "$(P)$(M):ELOSS") {
   field(SCAN, "Passive")
   field(DTYP, "Soft Channel")
@@ -126,6 +127,8 @@ record(scalcout, "$(P)$(M):ELOSS") {
   field(INAA, "$(P)$(M):ELOSSA.AINP")
   field(PREC, "0")
   field(OOPT, "On Change")
+  field(HIHI, "1")
+  field(HHSV, "MAJOR")
 }
 
 record(bi, "$(P)$(M):HMSTATE") {
