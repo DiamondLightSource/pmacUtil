@@ -2,7 +2,7 @@
 #include clear_PLC_CS.pmc
 
 ;Now load our lab setup
-#include LAB_setup.pmc
+;#include LAB_setup.pmc
 
 ;Next we put in the generic program for moving CS axes
 #include PROG10_CS_motion.pmc
@@ -24,6 +24,38 @@
 #define $(MP)    -15
 #define $(MR)    20
 #define $(MD)    20
-#define $(MCX)   0
-#define $(MCZ)   0
+#define $(MCX)   10
+#define $(MCZ)   10
 #include CS_3jack.pmc
+
+;Finally we add the CS definition for the mirror
+#define $(COORD) 3
+#define $(PLC)   18
+#define $(J1)    4
+#define $(J1X)   0
+#define $(J1Z)   -100
+#define $(J2)    5
+#define $(J2X)   50
+#define $(J2Z)   100
+#define $(J3)    6
+#define $(J3X)   -50
+#define $(J3Z)   100
+#define $(JTX)   60
+#define $(JTZ)   20
+#define $(MP)    -15
+#define $(MR)    20
+#define $(MD)    20
+#define $(MCX)   10
+#define $(MCZ)   10
+#include CS_3jack.pmc
+
+;Finally we add the CS definition for the aperture slits (X and Y)
+#define $(COORD) 4
+#define $(PLC)   19
+#define $(BP)    7
+#define $(BM)    8
+#include CS_blade_slits.pmc
+
+
+p101..108=0.001
+p301..308=0.0

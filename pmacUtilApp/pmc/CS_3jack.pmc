@@ -133,7 +133,7 @@ CLEAR
 	TP = JP + MP
 	TR = JR + MR
 	; Add the pitch and roll of the mirror support in and we have pitch and roll
-	Q7 = TP*10000*10000	
+	Q7 = TP*10000	
 	Q8 = TR*10000
 	; Now we work out Y
 	; First we calculate U, mirror plane normal
@@ -160,7 +160,7 @@ CLEAR
 	TP = Q7 * 0.0001
 	TR = Q8 * 0.0001
 	JP = TP - MP
-	JR = JR - MR
+	JR = TR - MR
 	; define U, normal to the mirror plane
 	UX = -tan(TR)
 	UY = 1.0
