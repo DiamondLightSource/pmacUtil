@@ -79,3 +79,24 @@ record(bo, "$(P)$(M):LIMITS") {
   field(ZNAM, "DISABLED")
   field(ONAM, "ENABLED")
 }
+
+record(ao, "$(P)$(M):KILL") {
+  field(FLNK, "$(P)$(M):KILLPROC")
+}
+
+record(asyn, "$(P)$(M):KILLPROC") {
+  field(SCAN, "Passive")
+  field(DTYP, "asynRecordDevice")
+  field(PORT, "$(SPORT)")
+  field(DESC, "Kill pmac motor $(ADDR)")
+  field(AOUT, "#$(ADDR)k")
+}
+
+
+# dummy record that looks like eloss status
+record(ai, "$(P)$(M):ELOSS") {
+}
+
+# dummy record that looks like an eloss reset
+record(calcout, "$(P)$(M):ELOSSRC") {
+}

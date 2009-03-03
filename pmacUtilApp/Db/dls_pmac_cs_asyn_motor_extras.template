@@ -1,0 +1,16 @@
+record(motor, "$(P)$(M)") {
+  field(SDIS, "$(P)$(M):HMSTATE.VAL")
+}
+
+record(bi, "$(P)$(M):HMSTATE") {
+  field(DESC, "Homing state")
+  field(SCAN, "Passive")
+  field(INP, "$(HOME):HM:HOMING CP")
+  field(VAL, "0")
+  field(ZNAM, "inactive")
+  field(ONAM, "active")
+  field(FLNK, "$(P)$(M)")
+}
+
+record(busy, "$(HOME):HM:HOMING") {
+}

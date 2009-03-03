@@ -1,0 +1,163 @@
+record(motor, "$(P)$(M)") {
+  field(SDIS, "$(P)$(M):HMSTATE.VAL")
+}
+
+record(scalcout, "$(P)$(M):MRESSET") {
+  field(DESC, "Mres setting string")
+  field(DTYP, "Soft Channel")
+  field(CALC, "A")
+  field(INPA, "$(P)$(M).MRES CP")
+  field(OUT, "$(P)$(M):MRESASET.AOUT PP")
+  field(OOPT, "On Change")
+  field(DOPT, "Use OCAL")
+  field(OCAL, "$P('P1%02d',$(ADDR))+$P('=%f',A)")
+  field(PINI, "YES")
+}
+
+record(asyn, "$(P)$(M):MRESASET") {
+  field(SCAN, "Passive")
+  field(DTYP, "asynRecordDevice")
+  field(PORT, "$(SPORT)")
+  field(DESC, "Set PMAC MRES")
+}
+
+record(scalcout, "$(P)$(M):OFFSET") {
+  field(DESC, "Offset setting string")
+  field(DTYP, "Soft Channel")
+  field(CALC, "A")
+  field(INPA, "$(P)$(M).OFF CP")
+  field(OUT, "$(P)$(M):OFFASET.AOUT PP")
+  field(OOPT, "On Change")
+  field(DOPT, "Use OCAL")
+  field(OCAL, "$P('P3%02d',$(ADDR))+$P('=%f',A)")
+  field(PINI, "YES")
+}
+
+record(asyn, "$(P)$(M):OFFASET") {
+  field(SCAN, "Passive")
+  field(DTYP, "asynRecordDevice")
+  field(PORT, "$(SPORT)")
+  field(DESC, "Set PMAC OFF")
+}
+
+record(calcout, "$(P)$(M):ELOSSRC") {
+  field(DESC, "Write 0 to A to reset Eloss")
+  field(DTYP, "Soft Channel")
+  field(CALC, "A")
+  field(A, "0")
+  field(OUT, "$(P)$(M):ELOSSRCA.A PP")
+}
+
+record(scalcout, "$(P)$(M):ELOSSRCA") {
+  field(DESC, "Write 0 to A to reset Eloss")
+  field(DTYP, "Soft Channel")
+  field(CALC, "A")
+  field(OUT, "$(P)$(M):ELOSSASET.AOUT PP")
+  field(DOPT, "Use OCAL")
+  field(OCAL, "$P('P4%02d',64+$(ADDR))+$P('=%f',A)")
+  field(A, "0")
+}
+
+record(asyn, "$(P)$(M):ELOSSASET") {
+  field(SCAN, "Passive")
+  field(DTYP, "asynRecordDevice")
+  field(PORT, "$(SPORT)")
+  field(DESC, "Set PMAC ELOSS")
+}
+
+record(scalcout, "$(P)$(M):ELOSSC") {
+  field(DESC, "Calculate Eloss address")
+  field(DTYP, "Soft Channel")
+  field(OUT, "$(P)$(M):ELOSSA.AOUT PP")
+  field(DOPT, "Use OCAL")
+  field(OCAL, "$P('P4%02d',64+$(ADDR))")
+  field(PINI, "YES")
+}
+
+record(asyn, "$(P)$(M):ELOSSA") {
+  field(DTYP, "asynRecordDevice")
+  field(SCAN, "2 second")
+  field(PORT, "$(SPORT)")
+  field(DESC, "Read Eloss variable")
+  field(FLNK, "$(P)$(M):ELOSSCALC")
+}
+
+#% alh $SEVRCOMMAND UP_ANY /dls_sw/tools/bin/dls-alh-handler.py $(P)$(M):ELOSS
+record(scalcout, "$(P)$(M):ELOSSCALC") {
+  field(SCAN, "Passive")
+  field(DTYP, "Soft Channel")
+  field(VAL, "0")
+  field(CALC, "SSCANF(AA, '%f')")
+  field(INAA, "$(P)$(M):ELOSSA.AINP")
+  field(PREC, "0")
+  field(OOPT, "On Change")
+  field(HIHI, "1")
+  field(HHSV, "MAJOR")
+  field(OUT, "$(P)$(M):ELOSS PP")
+}
+
+record(bi, "$(P)$(M):HMSTATE") {
+  field(DESC, "Homing state")
+  field(SCAN, "Passive")
+  field(INP, "$(HOME):HM:HOMING CP")
+  field(VAL, "0")
+  field(ZNAM, "inactive")
+  field(ONAM, "active")
+  field(FLNK, "$(P)$(M)")
+}
+
+record(busy, "$(HOME):HM:HOMING") {
+}
+
+record(ai, "$(P)$(M):HMPOS") {
+  field(DESC, "$(DESC)")
+  field(SCAN, "Passive")
+  field(PINI, "YES")
+  field(DTYP, "Raw Soft Channel")
+  field(PREC, "$(PREC)")
+  field(LINR, "LINEAR")
+  field(EGU, "$(EGU)")
+  field(ESLO, "$(MRES)")
+}
+
+record(asyn, "$(P)$(M):HMGETPOS") {
+  field(DESC, "Get position from PMAC")
+  field(SCAN, ".2 second")
+  field(PORT, "$(SPORT)")
+  field(AOUT, "#$(ADDR)P")
+  field(DISV, "0")
+  field(SDIS, "$(P)$(M):HMSTATE")
+  field(FLNK, "$(P)$(M):HMPARSPOS")
+}
+
+record(scalcout, "$(P)$(M):HMPARSPOS") {
+  field(DESC, "Parse position string")
+  field(SCAN, "Passive")
+  field(CALC, "SSCANF(AA,'%d')")
+  field(OUT, "$(P)$(M):HMPOS.RVAL PP")
+  field(OOPT, "On Change")
+  field(DOPT, "Use CALC")
+  field(INAA, "$(P)$(M):HMGETPOS.AINP")
+}
+
+record(stringout, "$(P)$(M):SETHMPV") {
+  field(PINI, "YES")
+  field(VAL, "$(P)$(M)")
+  field(OUT, "$(HOME):HM:M$(ADDR)PV PP")
+}
+
+record(stringout, "$(HOME):HM:M$(ADDR)PV"){
+}
+
+record(ao, "$(P)$(M):KILL") {
+  field(VAL, "0")
+  field(FLNK, "$(P)$(M):KILLPROC")
+}
+
+record(asyn, "$(P)$(M):KILLPROC") {
+  field(SCAN, "Passive")
+  field(DTYP, "asynRecordDevice")
+  field(PORT, "$(SPORT)")
+  field(DESC, "Kill pmac motor $(ADDR)")
+  field(AOUT, "#$(ADDR)k")
+}

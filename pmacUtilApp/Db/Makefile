@@ -16,7 +16,6 @@ DB += 3jack.template
 DB += pmacVariableWrite.template
 DB += gather.template
 DB += motorstatus.template
-DB += mres_reporting_motor.template
 DB += translated_motor.template
 DB += autohome.template
 DB += dls_pmac_asyn_motor.template
@@ -43,3 +42,11 @@ DB += patch_panel_asyn_motor.template
 include $(TOP)/configure/RULES
 #----------------------------------------
 #  ADD RULES AFTER THIS LINE
+
+../O.Common/dls_pmac_asyn_motor.template: ../dls_pmac_asyn_motor_extras.template
+	cat $(MOTOR)/db/basic_asyn_motor.template > $@
+	cat $< >> $@
+	
+../O.Common/dls_pmac_cs_asyn_motor.template: ../dls_pmac_cs_asyn_motor_extras.template
+	cat $(MOTOR)/db/basic_asyn_motor.template > $@
+	cat $< >> $@	

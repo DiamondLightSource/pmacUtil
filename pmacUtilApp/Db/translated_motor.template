@@ -21,6 +21,16 @@ record(motor, "$(P)$(SM)") {
   field(DINP, "$(P)$(M).DMOV")
 }
 
+record(ao, "$(P)$(M):KILL")
+{
+    field(VAL, "1")
+}
+
+record(ai, "$(P)$(M):ELOSS")
+{
+    field(VAL, "0")
+}
+
 record(calcout, "$(P)$(SM):STOP") {
   field(PINI, "YES")
   field(CALC, "1")
