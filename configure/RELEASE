@@ -17,11 +17,11 @@ WORK=		/dls_sw/work/R3.14.8.2/support
 SUPPORT=	/dls_sw/prod/R3.14.8.2/support
 
 ASYN=		$(SUPPORT)/asyn/4-10
-CALC=		$(SUPPORT)/calc/2-6-3dls1
-SSCAN=		$(SUPPORT)/sscan/2-5-6dls1
-MOTOR=		$(SUPPORT)/motor/6-4dls5
+CALC=		$(SUPPORT)/calc/2-6-7dls1
+SSCAN=		$(SUPPORT)/sscan/2-6-2dls1
+MOTOR=		$(SUPPORT)/motor/6-4dls7
 
-SNCSEQ=		$(SUPPORT)/seq/2-0-11dls1
+SNCSEQ=		$(SUPPORT)/seq/2-0-12
 
 # EPICS_BASE usually appears last so other apps can override stuff:
 EPICS_BASE=/dls_sw/epics/R3.14.8.2/base
