@@ -13,7 +13,11 @@ i6 = 1       ;Acknowledge invalid commands with <BELL>ERRxxx<CR> - Needed for dl
 
 ;Configure MACRO station node enable i variables
 i70..77=$3333;Macro IC0-3 Node Auxiliary Register Enable and Protocol Type Control
-i78=32       ;Macro timeout (in servo cycles)
+i78=32       ;Macro Master/Slave timeout (in servo cycles)
+i79=32       ;Macro Master/Master timeout (in servo cycles)
+i80=45       ;Macro ring check period (in servo cycles)
+i81=2        ;Macro Maximum Ring Error Count
+i82=10       ;Macro Minimum Sync Packet count, lower this if you get macro errors
 i6840=$30    ;Macro IC0 Ring Configuration
 i6841=$fffff ;Macro IC0 Node Activate Control
 i6890=$90    ;Macro IC1 Ring Configuration
