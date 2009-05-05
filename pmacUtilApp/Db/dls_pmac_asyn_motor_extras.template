@@ -82,7 +82,7 @@ record(asyn, "$(P)$(M):ELOSSA") {
   field(FLNK, "$(P)$(M):ELOSSCALC")
 }
 
-#% alh $SEVRCOMMAND UP_ANY /dls_sw/tools/bin/dls-alh-handler.py $(P)$(M):ELOSS
+#% alh $SEVRCOMMAND UP_ANY /dls_sw/tools/bin/dls-alh-handler.py $(P)$(M):ELOSSCALC
 record(scalcout, "$(P)$(M):ELOSSCALC") {
   field(SCAN, "Passive")
   field(DTYP, "Soft Channel")
