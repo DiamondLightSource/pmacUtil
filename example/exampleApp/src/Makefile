@@ -8,7 +8,8 @@ include $(TOP)/configure/CONFIG
 DATA += autohoming_sim.py
 DATA += posComp_sim.py
 
-PROD_IOC_vxWorks = example
+#PROD_IOC_vxWorks = example
+PROD_IOC = example
 
 # example.dbd will be installed into <top>/dbd
 DBD += example.dbd
@@ -28,7 +29,7 @@ example_DBD += motorSimSupport.dbd
 #example_DBD += pmacAsynMotor.dbd
 example_DBD += pmacAsynCoord.dbd
 example_DBD += pmacAsynMotor.dbd
-example_DBD += pmacInclude.dbd
+example_DBD_vxWorks += pmacInclude.dbd
 
 
 # example_registerRecordDeviceDriver.cpp will be created
@@ -47,6 +48,7 @@ example_OBJS_vxWorks += $(EPICS_BASE_BIN)/vxComLibrary
 
 # This line says that this IOC Application depends on the
 # xxx Support Module
+example_LIBS += asyn
 example_LIBS += pmacUtil
 example_LIBS += calc
 example_LIBS += sscan
@@ -54,10 +56,9 @@ example_LIBS += sscan
 #example_LIBS += pmacAsynMotor
 example_LIBS += pmacAsynCoord
 example_LIBS += pmacAsynMotor
-example_LIBS += pmacIoc
+example_LIBS_vxWorks += pmacIoc
 example_LIBS += motor
 example_LIBS += motorSimSupport
-example_LIBS += asyn
 #example_LIBS += PythonEmbed
 example_LIBS += seq pv
 

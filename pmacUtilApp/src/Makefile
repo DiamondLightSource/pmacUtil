@@ -23,6 +23,7 @@ pmacUtil_DBD += motorSupport.dbd
 
 # The following are compiled and added to the support library
 pmacUtil_SRCS += gather.st
+pmacUtil_SRCS += compensationtable.c
 #xxx_SRCS += xxxCodeB.c
 
 #pmacUtil_LIBS += asyn
