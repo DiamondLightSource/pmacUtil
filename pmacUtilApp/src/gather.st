@@ -498,6 +498,11 @@ ss ssGather
 			pvPut(collecting, SYNC);
 			strcpy(asynIfmt, "ASCII");
 			pvPut(asynIfmt);
+			
+			/* Delete the gather buffer now that we are done with it. This will allow other programs or users
+			   to define other types of buffers like compensation tables or similar... */
+			strcpy(asynAout, "delete gather");
+    		pvPut(asynAout, ASYNC);
 		}
 	}
 
