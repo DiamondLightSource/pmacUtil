@@ -20,6 +20,7 @@ ctlBgColor2 index 14
 topShadowColor index 1
 botShadowColor index 11
 showGrid
+snapToGrid
 disableScroll
 endScreenProperties
 
@@ -174,6 +175,181 @@ yPoints {
 }
 endObjectProperties
 
+# (Rectangle)
+object activeRectangleClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 620
+y 130
+w 10
+h 70
+lineColor index 33
+fill
+fillColor index 34
+endObjectProperties
+
+# (Rectangle)
+object activeRectangleClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 470
+y 40
+w 10
+h 110
+lineColor index 33
+fill
+fillColor index 34
+endObjectProperties
+
+# (Rectangle)
+object activeRectangleClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 180
+y 160
+w 10
+h 40
+lineColor index 33
+fill
+fillColor index 34
+endObjectProperties
+
+# (Lines)
+object activeLineClass
+beginObjectProperties
+major 4
+minor 0
+release 1
+x 170
+y 10
+w 470
+h 250
+lineColor index 24
+fillColor index 0
+numPoints 16
+xPoints {
+  0 330
+  1 170
+  2 170
+  3 480
+  4 480
+  5 640
+  6 640
+  7 330
+  8 170
+  9 170
+  10 480
+  11 480
+  12 640
+  13 640
+  14 330
+  15 330
+}
+yPoints {
+  0 260
+  1 160
+  2 140
+  3 10
+  4 30
+  5 130
+  6 110
+  7 240
+  8 140
+  9 160
+  10 30
+  11 10
+  12 110
+  13 130
+  14 260
+  15 240
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 360
+y 220
+w 34
+h 20
+font "arial-medium-r-18.0"
+fgColor index 24
+bgColor index 0
+useDisplayBg
+value {
+  "-MP"
+}
+autoSize
+endObjectProperties
+
+# (Arc)
+object activeArcClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 270
+y 210
+w 120
+h 100
+lineColor index 24
+fill
+fillColor index 20
+lineWidth 3
+startAngle 143
+totalAngle 12
+fillMode "pie"
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 270
+y 210
+w 28
+h 20
+font "arial-medium-r-18.0"
+fgColor index 24
+bgColor index 0
+useDisplayBg
+value {
+  "MR"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 90
+y 230
+w 85
+h 20
+font "arial-medium-r-18.0"
+fgColor index 34
+bgColor index 0
+useDisplayBg
+value {
+  "(JTX,JTZ)"
+}
+autoSize
+endObjectProperties
+
 # (Static Text)
 object activeXTextClass
 beginObjectProperties
@@ -212,6 +388,26 @@ value {
   "(J3X,J3Z)"
 }
 autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 220
+y 200
+w 20
+h 20
+font "arial-medium-r-18.0"
+fontAlign "center"
+fgColor index 34
+bgColor index 0
+useDisplayBg
+value {
+  "x"
+}
 endObjectProperties
 
 # (Static Text)
@@ -280,7 +476,7 @@ beginObjectProperties
 major 4
 minor 1
 release 0
-x 340
+x 320
 y 210
 w 28
 h 20
@@ -292,6 +488,26 @@ value {
   "MD"
 }
 autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 320
+y 250
+w 20
+h 20
+font "arial-medium-r-18.0"
+fontAlign "center"
+fgColor index 34
+bgColor index 0
+useDisplayBg
+value {
+  "x"
+}
 endObjectProperties
 
 # (Static Text)
@@ -467,6 +683,26 @@ beginObjectProperties
 major 4
 minor 1
 release 0
+x 30
+y 80
+w 117
+h 16
+font "arial-medium-r-14.0"
+fgColor index 24
+bgColor index 0
+useDisplayBg
+value {
+  "Mirror Plane Axes"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
 x 400
 y 130
 w 20
@@ -487,9 +723,9 @@ beginObjectProperties
 major 4
 minor 1
 release 0
-x 363
-y 44
-w 91
+x 370
+y 60
+w 88
 h 64
 font "arial-medium-r-14.0"
 fontAlign "center"
@@ -500,7 +736,7 @@ value {
   "Projection of"
   "Measurement"
   "Point in"
-  "Surface Plane"
+  "Mirror Plane"
 }
 autoSize
 endObjectProperties
@@ -585,6 +821,36 @@ value {
 autoSize
 endObjectProperties
 
+# (Lines)
+object activeLineClass
+beginObjectProperties
+major 4
+minor 0
+release 1
+x 170
+y 140
+w 470
+h 120
+lineColor index 34
+fillColor index 4
+lineWidth 2
+numPoints 5
+xPoints {
+  0 330
+  1 640
+  2 480
+  3 170
+  4 330
+}
+yPoints {
+  0 260
+  1 200
+  2 140
+  3 200
+  4 260
+}
+endObjectProperties
+
 # (Static Text)
 object activeXTextClass
 beginObjectProperties
@@ -592,7 +858,7 @@ major 4
 minor 1
 release 0
 x 240
-y 120
+y 110
 w 110
 h 20
 font "arial-medium-r-18.0"
@@ -612,7 +878,7 @@ major 4
 minor 1
 release 0
 x 470
-y 120
+y 110
 w 124
 h 20
 font "arial-medium-r-18.0"
@@ -621,6 +887,26 @@ bgColor index 0
 useDisplayBg
 value {
   "<-PITCH Axis>"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 220
+y 140
+w 80
+h 16
+font "arial-medium-r-14.0"
+fgColor index 24
+bgColor index 0
+useDisplayBg
+value {
+  "Mirror Plane"
 }
 autoSize
 endObjectProperties
@@ -731,6 +1017,27 @@ beginObjectProperties
 major 4
 minor 1
 release 0
+x 480
+y 60
+w 52
+h 32
+font "arial-medium-r-14.0"
+fgColor index 34
+bgColor index 0
+useDisplayBg
+value {
+  "Fixed"
+  "Support"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
 x 580
 y 240
 w 53
@@ -805,6 +1112,25 @@ yPoints {
 }
 endObjectProperties
 
+# (Arc)
+object activeArcClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 270
+y 210
+w 120
+h 100
+lineColor index 24
+fill
+fillColor index 20
+lineWidth 3
+startAngle 13
+totalAngle 13
+fillMode "pie"
+endObjectProperties
+
 # (Lines)
 object activeLineClass
 beginObjectProperties
@@ -812,9 +1138,9 @@ major 4
 minor 0
 release 1
 x 330
-y 180
-w 5
-h 80
+y 240
+w 0
+h 20
 lineColor index 22
 fillColor index 0
 lineWidth 2
@@ -822,11 +1148,11 @@ arrows "to"
 numPoints 2
 xPoints {
   0 330
-  1 335
+  1 330
 }
 yPoints {
   0 260
-  1 180
+  1 240
 }
 endObjectProperties
 
@@ -845,7 +1171,7 @@ fill
 fillColor index 4
 lineWidth 3
 startAngle 7
-totalAngle 12
+totalAngle 20
 fillMode "pie"
 endObjectProperties
 
@@ -863,8 +1189,8 @@ lineColor index 14
 fill
 fillColor index 4
 lineWidth 3
-startAngle 157
-totalAngle 15
+startAngle 143
+totalAngle 29
 fillMode "pie"
 endObjectProperties
 
@@ -940,6 +1266,77 @@ value {
 autoSize
 endObjectProperties
 
+# (Lines)
+object activeLineClass
+beginObjectProperties
+major 4
+minor 0
+release 1
+x 170
+y 210
+w 50
+h 30
+lineColor index 34
+fillColor index 0
+arrows "from"
+numPoints 2
+xPoints {
+  0 220
+  1 170
+}
+yPoints {
+  0 210
+  1 240
+}
+endObjectProperties
+
+# (Lines)
+object activeLineClass
+beginObjectProperties
+major 4
+minor 0
+release 1
+x 10
+y 90
+w 160
+h 40
+lineColor index 24
+fillColor index 0
+lineWidth 2
+arrows "both"
+numPoints 3
+xPoints {
+  0 10
+  1 70
+  2 170
+}
+yPoints {
+  0 90
+  1 130
+  2 90
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 20
+y 110
+w 130
+h 20
+font "arial-medium-r-18.0"
+fgColor index 24
+bgColor index 0
+useDisplayBg
+value {
+  "X                     Z"
+}
+autoSize
+endObjectProperties
+
 # (Exit Button)
 object activeExitButtonClass
 beginObjectProperties
@@ -959,135 +1356,23 @@ font "arial-bold-r-14.0"
 3d
 endObjectProperties
 
-# (Lines)
-object activeLineClass
+# (Static Text)
+object activeXTextClass
 beginObjectProperties
 major 4
-minor 0
-release 1
-x 170
-y 140
-w 470
-h 120
-lineColor index 34
-fillColor index 4
-lineWidth 2
-numPoints 5
-xPoints {
-  0 330
-  1 640
-  2 480
-  3 170
-  4 330
-}
-yPoints {
-  0 260
-  1 200
-  2 140
-  3 200
-  4 260
-}
-endObjectProperties
-
-# (Lines)
-object activeLineClass
-beginObjectProperties
-major 4
-minor 0
-release 1
-x 175
-y 60
-w 470
-h 120
-lineColor index 22
-fillColor index 4
-lineWidth 2
-numPoints 5
-xPoints {
-  0 335
-  1 645
-  2 485
-  3 175
-  4 335
-}
-yPoints {
-  0 180
-  1 120
-  2 60
-  3 120
-  4 180
-}
-endObjectProperties
-
-# (Lines)
-object activeLineClass
-beginObjectProperties
-major 4
-minor 0
-release 1
-x 170
-y 120
-w 5
-h 80
-lineColor index 22
-fillColor index 0
-lineWidth 2
-numPoints 2
-xPoints {
-  0 170
-  1 175
-}
-yPoints {
-  0 200
-  1 120
-}
-endObjectProperties
-
-# (Lines)
-object activeLineClass
-beginObjectProperties
-major 4
-minor 0
-release 1
-x 480
-y 60
-w 5
-h 80
-lineColor index 22
-fillColor index 0
-lineWidth 2
-numPoints 2
-xPoints {
-  0 480
-  1 485
-}
-yPoints {
-  0 140
-  1 60
-}
-endObjectProperties
-
-# (Lines)
-object activeLineClass
-beginObjectProperties
-major 4
-minor 0
-release 1
-x 640
-y 120
-w 5
-h 80
-lineColor index 22
-fillColor index 0
-lineWidth 2
-numPoints 2
-xPoints {
-  0 640
-  1 645
-}
-yPoints {
-  0 200
-  1 120
+minor 1
+release 0
+x 270
+y 280
+w 120
+h 20
+font "arial-medium-r-14.0"
+fontAlign "center"
+fgColor index 34
+bgColor index 0
+useDisplayBg
+value {
+  "Jack Plane Origin"
 }
 endObjectProperties
 
@@ -1097,63 +1382,39 @@ beginObjectProperties
 major 4
 minor 1
 release 0
-x 25
-y 57
-w 128
-h 16
-font "arial-medium-r-14.0"
-fgColor index 24
+x 310
+y 260
+w 40
+h 20
+font "arial-medium-r-18.0"
+fgColor index 34
 bgColor index 0
 useDisplayBg
 value {
-  "Surface Plane Axes"
+  "(0,0)"
 }
 autoSize
 endObjectProperties
 
-# (Lines)
-object activeLineClass
-beginObjectProperties
-major 4
-minor 0
-release 1
-x 12
-y 75
-w 160
-h 20
-lineColor index 22
-fillColor index 0
-lineWidth 2
-arrows "both"
-numPoints 3
-xPoints {
-  0 12
-  1 72
-  2 172
-}
-yPoints {
-  0 75
-  1 95
-  2 75
-}
-endObjectProperties
-
 # (Static Text)
 object activeXTextClass
 beginObjectProperties
 major 4
 minor 1
 release 0
-x 22
-y 85
-w 130
-h 20
-font "arial-medium-r-18.0"
-fgColor index 22
+x 10
+y 220
+w 85
+h 48
+font "arial-medium-r-14.0"
+fontAlign "center"
+fgColor index 34
 bgColor index 0
 useDisplayBg
 value {
-  "X                     Z"
+  "Jack 1 Top"
+  "Fix point"
+  "in Jack Plane"
 }
 autoSize
 endObjectProperties

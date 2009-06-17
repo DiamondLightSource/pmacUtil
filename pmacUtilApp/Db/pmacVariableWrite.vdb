@@ -11,6 +11,7 @@ record(scalcout, "$(P)$(Q):RBV") {
   field(CALC, "SSCANF(AA, '%f')")
   field(INAA, "$(P)$(Q):ARBV.AINP PP")
   field(PREC, "0")
+  field(EGU, "$(EGU)")  
 }
 
 record(scalcout, "$(P)$(Q):SET") {
@@ -30,6 +31,7 @@ record(ao, "$(P)$(Q)") {
   field(PREC, "0")
   field(LINR, "NO CONVERSION")
   field(FLNK, "$(P)$(Q):SET")
+  field(EGU, "$(EGU)")
 }
 
 record(asyn, "$(P)$(Q):ARBV") {

@@ -17,11 +17,20 @@ J3	height	pv["$(3jack):J3.RBV"]
 JPTJ	translation.x	pv["$(3jack):J1X:RBV"]
 JPTJ	translation.y	pv["$(3jack):J1.RBV"]
 JPTJ	translation.z	pv["$(3jack):J1Z:RBV"]
-JPTP	rotation	pv["$(3jack):PITCH.RRBV"]/10000.0
-JPTR	rotation	pv["$(3jack):ROLL.RRBV"]/10000.0
-JPT	translation.x	-pv["$(3jack):J1X:RBV"] + min(pv["$(3jack):J1X:RBV"],pv["$(3jack):J2X:RBV"],pv["$(3jack):J3X:RBV"]) + (max(pv["$(3jack):J1X:RBV"],pv["$(3jack):J2X:RBV"],pv["$(3jack):J3X:RBV"]) - min(pv["$(3jack):J1X:RBV"],pv["$(3jack):J2X:RBV"],pv["$(3jack):J3X:RBV"]))*0.5
-JPT	translation.y	pv["$(3jack):MD:RBV"]/2
-JPT	translation.z	-pv["$(3jack):J1Z:RBV"] + min(pv["$(3jack):J1Z:RBV"],pv["$(3jack):J2Z:RBV"],pv["$(3jack):J3Z:RBV"]) + (max(pv["$(3jack):J1Z:RBV"],pv["$(3jack):J2Z:RBV"],pv["$(3jack):J3Z:RBV"]) - min(pv["$(3jack):J1Z:RBV"],pv["$(3jack):J2Z:RBV"],pv["$(3jack):J3Z:RBV"]))*0.5
+JPTP	rotation	pv["$(3jack):PITCH.RRBV"]/10000.0-pv["$(3jack):MP:RBV"]
+JPTR	rotation	pv["$(3jack):ROLL.RRBV"]/10000.0-pv["$(3jack):MR:RBV"]
+JPT	translation.x	(max(pv["$(3jack):J1X:RBV"],pv["$(3jack):J2X:RBV"],pv["$(3jack):J3X:RBV"]) - min(pv["$(3jack):J1X:RBV"],pv["$(3jack):J2X:RBV"],pv["$(3jack):J3X:RBV"]))*0.75-pv["$(3jack):JTX:RBV"]
+JPT	translation.z	(max(pv["$(3jack):J1Z:RBV"],pv["$(3jack):J2Z:RBV"],pv["$(3jack):J3Z:RBV"]) - min(pv["$(3jack):J1Z:RBV"],pv["$(3jack):J2Z:RBV"],pv["$(3jack):J3Z:RBV"]))*0.75-pv["$(3jack):JTZ:RBV"]
+JP	size.x	(max(pv["$(3jack):J1X:RBV"],pv["$(3jack):J2X:RBV"],pv["$(3jack):J3X:RBV"]) - min(pv["$(3jack):J1X:RBV"],pv["$(3jack):J2X:RBV"],pv["$(3jack):J3X:RBV"]))*1.5
+JP	size.z	(max(pv["$(3jack):J1Z:RBV"],pv["$(3jack):J2Z:RBV"],pv["$(3jack):J3Z:RBV"]) - min(pv["$(3jack):J1Z:RBV"],pv["$(3jack):J2Z:RBV"],pv["$(3jack):J3Z:RBV"]))*1.5
+MTJ	translation.x	-pv["$(3jack):JTX:RBV"]
+MTJ	translation.y	0
+MTJ	translation.z	-pv["$(3jack):JTZ:RBV"]
+MTP	rotation	pv["$(3jack):MP:RBV"]
+MTR	rotation	pv["$(3jack):MR:RBV"]
+MT	translation.x	(max(pv["$(3jack):J1X:RBV"],pv["$(3jack):J2X:RBV"],pv["$(3jack):J3X:RBV"]) - min(pv["$(3jack):J1X:RBV"],pv["$(3jack):J2X:RBV"],pv["$(3jack):J3X:RBV"]))*0.75
+MT	translation.y	pv["$(3jack):MD:RBV"]/2
+MT	translation.z	(max(pv["$(3jack):J1Z:RBV"],pv["$(3jack):J2Z:RBV"],pv["$(3jack):J3Z:RBV"]) - min(pv["$(3jack):J1Z:RBV"],pv["$(3jack):J2Z:RBV"],pv["$(3jack):J3Z:RBV"]))*0.75
 M	size.x	(max(pv["$(3jack):J1X:RBV"],pv["$(3jack):J2X:RBV"],pv["$(3jack):J3X:RBV"]) - min(pv["$(3jack):J1X:RBV"],pv["$(3jack):J2X:RBV"],pv["$(3jack):J3X:RBV"]))*1.5
 M	size.y	pv["$(3jack):MD:RBV"]
 M	size.z	(max(pv["$(3jack):J1Z:RBV"],pv["$(3jack):J2Z:RBV"],pv["$(3jack):J3Z:RBV"]) - min(pv["$(3jack):J1Z:RBV"],pv["$(3jack):J2Z:RBV"],pv["$(3jack):J3Z:RBV"]))*1.5
@@ -30,6 +39,8 @@ MCT	translation.z	pv["$(3jack):MCZ:RBV"]
 MCT	translation.y	pv["$(3jack):Y.RRBV"]/20000.0
 MC	height	pv["$(3jack):Y.RRBV"]/10000.0
 light	location.x	pv["$(3jack):MCX:RBV"]
-light	location.y	1.9*pv["$(3jack):Y.RRBV"]/10000.0 + 2
+light	location.y	1.9*pv["$(3jack):Y.RRBV"]/10000.0
 light	location.z	pv["$(3jack):MCZ:RBV"]
-light	radius	pv["$(3jack):Y.RRBV"]*2
+light	radius	2*pv["$(3jack):Y.RRBV"]/10000.0
+ROTY	rotation	90*pv["$(3jack):ROTY"]
+ROTX	rotation	90*pv["$(3jack):ROTX"]

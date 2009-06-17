@@ -1,0 +1,109 @@
+CLOSE
+
+;################################################
+; Define motion for 2 jack system
+; Original Author: Tom Cobb
+; Used variables: Q71..Q79, Q81..Q89, Q91..Q99, Q100..101
+; Macros
+; COORD = $(COORD) ;CS number, e.g. 2
+; PLC = $(PLC) ;PLC number, should be CS number+15, e.g. 17
+; J1 = $(J1) ;Axisnum for Jack 1, e.g. 1
+; J2 = $(J2) ;Axisnum for Jack 2, e.g. 2
+; DIST = $(DIST) ;Distance between 2 jacks when they are in the zero position
+; PIVOT = $(PIVOT) ;Distance from jack 1 to pivot point of the surface
+; DEPTH = $(DEPTH) ;Depth of the surface on the mount
+; MRES = $(MRES) ;Desired MRES of CS motors, e.g. 0.0001
+;################################################
+
+; Note that we are providing a CS axis with an MRES of $(MRES) and EGU the same
+; as the underlying axes
+; This is needed as the motor record will only move in full steps
+
+; Change to CS$(COORD)
+&$(COORD)
+
+; Set relevant axes to use kinematics
+#$(J1)->I ; +ve blade
+#$(J2)->I ; -ve blade
+
+; These are set by mres_reporting_motor.template
+#define J1MRES P(100+$(J1))
+#define J1OFF  P(300+$(J1))
+#define J2MRES P(100+$(J2))
+#define J2OFF  P(300+$(J2))
+
+; This is the distance between the 2 jacks when they are in the zero position
+#define DIST Q100
+DIST = $(DIST)
+; This is the distance from jack 1 to pivot point of the surface
+#define PIVOT Q101
+PIVOT = $(PIVOT)
+; This is the depth of the surface on the mount
+#define DEPTH Q102
+DEPTH = $(DEPTH)
+
+; local variables
+#define RATIO Q103
+#define THETA Q104
+#define J1POS (J1MRES*P$(J1)+J1OFF)
+#define J2POS (J2MRES*P$(J2)+J2OFF)
+OPEN FORWARD
+; Calculate Gap and Centre
+; X = Q7 = height of the surface, PIVOT away from J1
+; YAW = Q8 = angle of the surface
+; Note that we divide by $(MRES) to give CS mres of $(MRES)
+; Also note the use of mres and offset in the calculation
+CLEAR
+; this is the difference in height of the jacks divided by their distance apart
+RATIO=(J2POS-J1POS)/DIST
+; this is the angle of the surface
+THETA=atan(RATIO)
+Q8=THETA/$(MRES)
+; the height of the surface
+Q7=(J1POS+RATIO*PIVOT+DEPTH/cos(THETA))/$(MRES)
+CLOSE
+
+; local variables
+#define SURFACE Q105
+#define TANTHETA Q106
+#define XPOS (Q7*$(MRES))
+#define YAWPOS (Q8*$(MRES))
+OPEN INVERSE
+; P$(J1) = position of jack 1
+; P$(J2) = position of jack 2
+CLEAR
+; this is the bottom edge of the surface
+SURFACE=XPOS-DEPTH/cos(YAWPOS)
+; store tan theta
+TANTHETA=tan(YAWPOS)
+; work out the jack positions
+P$(J1)=(SURFACE-PIVOT*TANTHETA-J1OFF)/J1MRES
+P$(J2)=(SURFACE+(DIST-PIVOT)*TANTHETA-J2OFF)/J2MRES
+CLOSE
+
+; local variables
+#define RATIO Q107
+#define THETA Q108
+; A PLC(sx+15) needs to be made to do position reporting
+; Readbacks should be in &{axisnum}Q81..89 
+OPEN PLC$(PLC)
+CLEAR
+; As forward kinematic, but with Px = mx62/(Ix08*32)
+#define J1POS (J1MRES*m$(J1)62/(I$(J1)08*32)+J1OFF)
+#define J2POS (J2MRES*m$(J2)62/(I$(J2)08*32)+J2OFF)
+; Put deadband into Q9x
+#define J1DB  i$(J1)65*J1MRES/16
+#define J2DB  i$(J2)65*J2MRES/16
+ADDRESS&$(COORD)
+; this is the difference in height of the jacks divided by their distance apart
+RATIO=(J2POS-J1POS)/DIST
+; this is the angle of the surface
+THETA=atan(RATIO)
+Q88=THETA/$(MRES)
+; the height of the surface
+Q87=(J1POS+RATIO*PIVOT+DEPTH/cos(THETA))/$(MRES)
+;TODO: do deadbands properly
+Q97=ABS(J1DB)/$(MRES)
+Q98=ABS(J1DB)/$(MRES)
+CLOSE
+ENABLE PLC$(PLC)

@@ -3,10 +3,10 @@ beginScreenProperties
 major 4
 minor 0
 release 1
-x 132
-y 458
+x 994
+y 282
 w 657
-h 348
+h 446
 font "helvetica-medium-r-18.0"
 ctlFont "courier-bold-r-18.0"
 btnFont "helvetica-medium-r-18.0"
@@ -531,7 +531,7 @@ major 4
 minor 0
 release 0
 x 5
-y 255
+y 250
 w 315
 h 85
 lineColor index 14
@@ -546,7 +546,7 @@ major 4
 minor 1
 release 0
 x 5
-y 265
+y 260
 w 45
 h 30
 font "helvetica-bold-r-14.0"
@@ -566,7 +566,7 @@ major 4
 minor 1
 release 0
 x 160
-y 265
+y 260
 w 45
 h 30
 font "helvetica-bold-r-14.0"
@@ -586,7 +586,7 @@ major 4
 minor 1
 release 0
 x 5
-y 245
+y 240
 w 54
 h 14
 font "helvetica-medium-r-12.0"
@@ -607,7 +607,7 @@ major 10
 minor 0
 release 0
 x 50
-y 260
+y 255
 w 110
 h 35
 controlPv "$(3jack):J3X"
@@ -626,7 +626,7 @@ major 10
 minor 0
 release 0
 x 205
-y 260
+y 255
 w 110
 h 35
 controlPv "$(3jack):J3X:RBV"
@@ -644,7 +644,7 @@ major 4
 minor 1
 release 0
 x 5
-y 305
+y 300
 w 45
 h 30
 font "helvetica-bold-r-14.0"
@@ -664,7 +664,7 @@ major 10
 minor 0
 release 0
 x 50
-y 300
+y 295
 w 110
 h 35
 controlPv "$(3jack):J3Z"
@@ -683,7 +683,7 @@ major 4
 minor 1
 release 0
 x 160
-y 305
+y 300
 w 45
 h 30
 font "helvetica-bold-r-14.0"
@@ -703,7 +703,7 @@ major 10
 minor 0
 release 0
 x 205
-y 300
+y 295
 w 110
 h 35
 controlPv "$(3jack):J3Z:RBV"
@@ -721,7 +721,7 @@ major 4
 minor 1
 release 0
 x 535
-y 310
+y 410
 w 115
 h 30
 fgColor index 46
@@ -742,7 +742,7 @@ release 0
 x 335
 y 45
 w 315
-h 45
+h 125
 lineColor index 14
 fill
 fillColor index 5
@@ -755,18 +755,17 @@ major 4
 minor 1
 release 0
 x 335
-y 35
-w 59
-h 14
-font "helvetica-medium-r-12.0"
+y 55
+w 45
+h 30
+font "helvetica-bold-r-14.0"
 fontAlign "center"
 fgColor index 14
-bgColor index 7
+bgColor index 3
+useDisplayBg
 value {
-  "  Surface  "
+  "Pitch"
 }
-autoSize
-border
 endObjectProperties
 
 # (Static Text)
@@ -775,8 +774,86 @@ beginObjectProperties
 major 4
 minor 1
 release 0
-x 495
+x 490
 y 55
+w 45
+h 30
+font "helvetica-bold-r-14.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 3
+useDisplayBg
+value {
+  "RBV"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 335
+y 35
+w 49
+h 14
+font "helvetica-medium-r-12.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 7
+value {
+  "  Mirror  "
+}
+autoSize
+border
+endObjectProperties
+
+# (Textentry)
+object TextentryClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 380
+y 50
+w 110
+h 35
+controlPv "$(3jack):MP"
+fgColor index 25
+fgAlarm
+bgColor index 3
+fill
+font "arial-bold-r-14.0"
+fontAlign "center"
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 535
+y 50
+w 110
+h 35
+controlPv "$(3jack):MP:RBV"
+fgColor index 16
+fgAlarm
+bgColor index 10
+fill
+font "arial-bold-r-14.0"
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 490
+y 95
 w 45
 h 30
 font "helvetica-bold-r-14.0"
@@ -795,8 +872,85 @@ beginObjectProperties
 major 10
 minor 0
 release 0
-x 540
-y 50
+x 535
+y 90
+w 110
+h 35
+controlPv "$(3jack):MR:RBV"
+fgColor index 16
+fgAlarm
+bgColor index 10
+fill
+font "arial-bold-r-14.0"
+endObjectProperties
+
+# (Textentry)
+object TextentryClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 380
+y 90
+w 110
+h 35
+controlPv "$(3jack):MR"
+fgColor index 25
+fgAlarm
+bgColor index 3
+fill
+font "arial-bold-r-14.0"
+fontAlign "center"
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 335
+y 95
+w 45
+h 30
+font "helvetica-bold-r-14.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 3
+useDisplayBg
+value {
+  "Roll"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 490
+y 135
+w 45
+h 30
+font "helvetica-bold-r-14.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 3
+useDisplayBg
+value {
+  "RBV"
+}
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 535
+y 130
 w 110
 h 35
 controlPv "$(3jack):MD:RBV"
@@ -813,8 +967,8 @@ beginObjectProperties
 major 10
 minor 0
 release 0
-x 385
-y 50
+x 380
+y 130
 w 110
 h 35
 controlPv "$(3jack):MD"
@@ -832,8 +986,8 @@ beginObjectProperties
 major 4
 minor 1
 release 0
-x 340
-y 55
+x 335
+y 135
 w 45
 h 30
 font "helvetica-bold-r-14.0"
@@ -853,7 +1007,7 @@ major 4
 minor 0
 release 0
 x 335
-y 110
+y 190
 w 315
 h 85
 lineColor index 14
@@ -868,7 +1022,7 @@ major 4
 minor 1
 release 0
 x 335
-y 120
+y 200
 w 45
 h 30
 font "helvetica-bold-r-14.0"
@@ -888,7 +1042,7 @@ major 4
 minor 1
 release 0
 x 490
-y 120
+y 200
 w 45
 h 30
 font "helvetica-bold-r-14.0"
@@ -908,7 +1062,7 @@ major 4
 minor 1
 release 0
 x 335
-y 100
+y 180
 w 97
 h 14
 font "helvetica-medium-r-12.0"
@@ -929,7 +1083,7 @@ major 10
 minor 0
 release 0
 x 380
-y 115
+y 195
 w 110
 h 35
 controlPv "$(3jack):MCX"
@@ -948,7 +1102,7 @@ major 10
 minor 0
 release 0
 x 535
-y 115
+y 195
 w 110
 h 35
 controlPv "$(3jack):MCX:RBV"
@@ -966,7 +1120,7 @@ major 4
 minor 1
 release 0
 x 335
-y 160
+y 240
 w 45
 h 30
 font "helvetica-bold-r-14.0"
@@ -986,7 +1140,7 @@ major 10
 minor 0
 release 0
 x 380
-y 155
+y 235
 w 110
 h 35
 controlPv "$(3jack):MCZ"
@@ -1005,7 +1159,7 @@ major 4
 minor 1
 release 0
 x 490
-y 160
+y 240
 w 45
 h 30
 font "helvetica-bold-r-14.0"
@@ -1025,7 +1179,7 @@ major 10
 minor 0
 release 0
 x 535
-y 155
+y 235
 w 110
 h 35
 controlPv "$(3jack):MCZ:RBV"
@@ -1042,10 +1196,200 @@ beginObjectProperties
 major 4
 minor 0
 release 0
-x 335
-y 215
+x 5
+y 355
 w 315
-h 45
+h 85
+lineColor index 14
+fill
+fillColor index 5
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 5
+y 365
+w 45
+h 30
+font "helvetica-bold-r-14.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 3
+useDisplayBg
+value {
+  "X"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 160
+y 365
+w 45
+h 30
+font "helvetica-bold-r-14.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 3
+useDisplayBg
+value {
+  "RBV"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 5
+y 345
+w 68
+h 14
+font "helvetica-medium-r-12.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 7
+value {
+  "  Jack Top  "
+}
+autoSize
+border
+endObjectProperties
+
+# (Textentry)
+object TextentryClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 50
+y 360
+w 110
+h 35
+controlPv "$(3jack):JTX"
+fgColor index 25
+fgAlarm
+bgColor index 3
+fill
+font "arial-bold-r-14.0"
+fontAlign "center"
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 205
+y 360
+w 110
+h 35
+controlPv "$(3jack):JTX:RBV"
+fgColor index 16
+fgAlarm
+bgColor index 10
+fill
+font "arial-bold-r-14.0"
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 5
+y 405
+w 45
+h 30
+font "helvetica-bold-r-14.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 3
+useDisplayBg
+value {
+  "Z"
+}
+endObjectProperties
+
+# (Textentry)
+object TextentryClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 50
+y 400
+w 110
+h 35
+controlPv "$(3jack):JTZ"
+fgColor index 25
+fgAlarm
+bgColor index 3
+fill
+font "arial-bold-r-14.0"
+fontAlign "center"
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 160
+y 405
+w 45
+h 30
+font "helvetica-bold-r-14.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 3
+useDisplayBg
+value {
+  "RBV"
+}
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 205
+y 400
+w 110
+h 35
+controlPv "$(3jack):JTZ:RBV"
+fgColor index 16
+fgAlarm
+bgColor index 10
+fill
+font "arial-bold-r-14.0"
+endObjectProperties
+
+# (Rectangle)
+object activeRectangleClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 335
+y 295
+w 315
+h 85
 lineColor index 14
 fill
 fillColor index 5
@@ -1058,7 +1402,7 @@ major 4
 minor 1
 release 0
 x 335
-y 205
+y 285
 w 62
 h 14
 font "helvetica-medium-r-12.0"
@@ -1072,6 +1416,44 @@ autoSize
 border
 endObjectProperties
 
+# (Menu Button)
+object activeMenuButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 535
+y 300
+w 110
+h 35
+fgColor index 25
+bgColor index 3
+inconsistentColor index 0
+topShadowColor index 1
+botShadowColor index 11
+controlPv "$(3jack):ROTX"
+font "arial-bold-r-14.0"
+endObjectProperties
+
+# (Menu Button)
+object activeMenuButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 535
+y 340
+w 110
+h 35
+fgColor index 25
+bgColor index 3
+inconsistentColor index 0
+topShadowColor index 1
+botShadowColor index 11
+controlPv "$(3jack):ROTY"
+font "arial-bold-r-14.0"
+endObjectProperties
+
 # (Shell Command)
 object shellCmdClass
 beginObjectProperties
@@ -1079,8 +1461,8 @@ major 4
 minor 2
 release 0
 x 340
-y 220
-w 150
+y 300
+w 105
 h 35
 fgColor index 43
 bgColor index 3
@@ -1090,7 +1472,7 @@ font "arial-bold-r-14.0"
 buttonLabel "3d Viewer"
 numCmds 1
 command {
-  0 "dls-vrml-epics-viewer.py -m \"3jack=$(3jack)\" $(which 3jack.wrl) $(which 3jack.wcfg)"
+  0 "dls-vrml-epics-viewer.py -m \"3jack=$(3jack)\" $(which 3jack-mirror.wrl) $(which 3jack-mirror.wcfg)"
 }
 endObjectProperties
 
@@ -1100,9 +1482,9 @@ beginObjectProperties
 major 4
 minor 2
 release 0
-x 495
-y 220
-w 150
+x 340
+y 340
+w 105
 h 35
 fgColor index 43
 bgColor index 3
@@ -1113,7 +1495,47 @@ buttonLabel "Edm Diagram"
 numPvs 4
 numDsps 1
 displayFileName {
-  0 "3jack-help"
+  0 "3jack-mirror-help"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 455
+y 345
+w 80
+h 30
+font "helvetica-bold-r-14.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 3
+useDisplayBg
+value {
+  "Y Rotation"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 455
+y 305
+w 80
+h 30
+font "helvetica-bold-r-14.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 3
+useDisplayBg
+value {
+  "X Rotation"
 }
 endObjectProperties
 
