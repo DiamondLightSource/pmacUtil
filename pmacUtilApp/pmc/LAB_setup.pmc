@@ -25,7 +25,11 @@ I98 = $E0    ;VME DPRAM Enable
 I99 = $90    ;VME Address Width Control
 
 i70..71=$333 ;Macro IC0-3 Node Auxiliary Register Enable and Protocol Type Control
-i78=32       ;Macro timeout (in servo cycles)
+i78=32       ;Macro Master/Slave timeout (in servo cycles)
+i79=32       ;Macro Master/Master timeout (in servo cycles)
+i80=45       ;Macro ring check period (in servo cycles)
+i81=2        ;Macro Maximum Ring Error Count
+i82=10       ;Macro Minimum Sync Packet count, lower this if you get macro errors
 i6840=$4070  ;Macro IC0 Ring Configuration
 i6841=$ff333 ;Macro IC0 Node Activate Control
 i6890=0      ;Macro IC1 Ring Configuration
