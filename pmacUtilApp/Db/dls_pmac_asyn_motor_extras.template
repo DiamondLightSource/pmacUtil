@@ -76,7 +76,7 @@ record(scalcout, "$(P)$(M):ELOSSC") {
 
 record(asyn, "$(P)$(M):ELOSSA") {
   field(DTYP, "asynRecordDevice")
-  field(SCAN, "2 second")
+  field(SCAN, "10 second")
   field(PORT, "$(SPORT)")
   field(DESC, "Read Eloss variable")
   field(FLNK, "$(P)$(M):ELOSSCALC")
