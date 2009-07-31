@@ -8,9 +8,9 @@ CLOSE
 
 ;This program defines the program needed to do a move using the motor record 
 ;on a CS axis
-;to do a move we need to do &{axisnum}R
-;to stop a move we need to do &{axisnum}A
-;demand values are in &{axisnum}Q71..79
+;to do a move we need to do &{CS}R
+;to stop a move we need to do &{CS}A
+;demand values are in &{CS}Q71..79
 ;The following are set by the motor record:
 ;Isx87 = Acceleration 
 ;Isx88 = S curve
@@ -18,7 +18,7 @@ CLOSE
 
 ; Set some defaults for all CS axes
 i5213,15,100=10   ; segmentation time (needed for lookahead)
-i5220,15,100=20   ; lookahead length (needed to limit max velocity to max set in CS)
+i5220,15,100=50   ; lookahead length (needed to limit max velocity to max set in CS)
 i5250,15,100=1    ; Enable kinematics
 
 OPEN PROG 10
