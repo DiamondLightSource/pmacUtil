@@ -3,6 +3,8 @@
 #! DBD("../../dbd/pmacUtil.dbd")
 #! DBDEND
 
+# This associates an edm screen with the template
+# % gui, $(name), edm, 3jack-mirror.edl, 3jack=$(P)
 
 expand("pmacVariableWrite.vdb", pmacVariableWrite) {
   macro(VAR, "&$(COORD)Q100")

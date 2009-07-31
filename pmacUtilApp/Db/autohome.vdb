@@ -3,6 +3,8 @@
 #! DBD("../../dbd/pmacUtil.dbd")
 #! DBDEND
 
+# This associates an edm screen with the template
+# % gui, $(name), edm, autohome.edl, P=$(P)
 
 record(asyn, "$(P):HM:ASYN1") {
   field(DESC, "User cmd to PMAC")
