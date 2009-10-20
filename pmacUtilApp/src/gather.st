@@ -8,11 +8,15 @@ option +r;
    = 3 data sources x 1024 samples x (12 hex-chars + 1 lineend) + 2 end of stream chars
    = 39938 chars 
    Rounded to 40K = 40960
+   
+   = 5 x 1024 x 13 + 2 = 66562
+   Rounded to 66K = 67584
  */
    
-#define MAX_RAW_CHARS 40960
+/*#define MAX_RAW_CHARS 40960*/
+#define MAX_RAW_CHARS 67584
 #define N_ELEMENTS 1024
-#define MAX_N_DATASRC 3
+#define MAX_N_DATASRC 5
 #define MAX_PV_STR_LEN 30
 #define SIZE_DOUBLE 8
 #define PMAC_N_CHAR_PER_WORD 13
@@ -59,7 +63,9 @@ double waveformRecs[MAX_N_DATASRC][N_ELEMENTS];
 assign waveformRecs to {
 	"{P}{M}:POSN",
 	"{P}{M}:FERR",
-	"{P}{M}:VELO"};
+	"{P}{M}:VELO",
+	"{P}{M}:AVGVELO",
+	"{P}{M}:DEMANDPOSN";
 
 int c;
 double Ixx08;
@@ -116,6 +122,8 @@ static dataSrcStruct_t dataSrc[MAX_N_DATASRC] = {
 	{ 0x0B, "Actual position", 8, 0x8, 1 },					/* scaling: 1.0/( Ixx08 * 32.0 ) */
 	{ 0x11, "Following error", 8, 0x8, 1 },					/* scaling: 1.0/( Ixx08 * 32.0 ) */
 	{ 0x1D, "Actual unfiltered velocity", 4, 0x4, 1 },		/* scaling: 1.0/( Ixx09 * 32.0 )/( Ixx60 + 1 ) */ 
+	{ 0x6F, "Averaged actual velocity", 4, 0x4, 1 },        /* 1/[Ixx09*32] cts/cyc  */
+	{ 0x08, "Commanded position", 8, 0x8, 1 },              /*1/[Ixx08*32] cts*/
 };
 
 static int pu_parseRawData(struct UserVar *pVar);
@@ -287,7 +295,10 @@ ss ssGather
 			/* parse the PMAC number and axis number from the 
 			   motor records OUT field. */
 			pvGet(motorOut);
-			sscanf(motorOut, "@asyn(pmac%d,%d)", &pmacNo, &axisNo);
+			if      (sscanf(motorOut, "@asyn(pmac%d,%d)", &pmacNo, &axisNo) == 2){}
+			else if (sscanf(motorOut, "@asyn(PMAC%d,%d)", &pmacNo, &axisNo) == 2){}
+			else if (sscanf(motorOut, "@asyn(geobrick%d,%d)", &pmacNo, &axisNo) == 2){}
+			else printf("ssGather: could not parse pmacNo and axisNo from: %s\n", motorOut);
 /*			printf("ssGather: got axis no: %d PMAC no: %d\n", axisNo, pmacNo);*/
 			pvPut(pmacNo);
 			pvPut(axisNo);
@@ -380,13 +391,16 @@ ss ssGather
 			if (Ixx09 != 0.0 && Ixx60 != -1.0) 
 				dataSrc[2].scalingFactor = 1.0/(Ixx09 * 32.0)/(Ixx60 + 1);
 /*			printf("ssGather: actual velocity factor = %f\n", dataSrc[2].scalingFactor);*/
-			
+			if (Ixx09 != 0.0) 
+				dataSrc[3].scalingFactor = 1.0/(Ixx09 * 32.0);
+			if( Ixx08 != 0.0) dataSrc[4].scalingFactor = 1.0/(Ixx08 * 32.0);
+		
 /*			printf("ssGather: setting up all ivars for gathering...\n");*/
 			/* i5050, i5051: select gather channels.
 			   i5001..3: gather channels - contain the data src address.
 			   i5049: sample period in servo cycles.
 			 */
-			strcpy(asynAout, "i5050=7 i5051=0");
+			strcpy(asynAout, "i5050=31 i5051=0");
 			pvPut(asynAout, SYNC);
 			sprintf(asynAout, "i5049=%d", sPeriod);
 			pvPut(asynAout, SYNC);
@@ -397,14 +411,22 @@ ss ssGather
 			pvPut(asynAout, SYNC);
 			sprintf(asynAout, "i5003=$%X%05X", dataSrc[2].type, dataSrc[2].offset + motorBaseAddr[axisNo] );
 			pvPut(asynAout, SYNC);
+			sprintf(asynAout, "i5004=$%X%05X", dataSrc[3].type, dataSrc[3].offset + motorBaseAddr[axisNo] );
+			pvPut(asynAout, SYNC);
+			sprintf(asynAout, "i5005=$%X%05X", dataSrc[4].type, dataSrc[4].offset + motorBaseAddr[axisNo] );
+			pvPut(asynAout, SYNC);
 			
 /*			printf("ssGather: clearing out the current waveforms...\n");*/
 			memset(waveformRecs[0], 0, SIZE_DOUBLE*N_ELEMENTS);
 			memset(waveformRecs[1], 0, SIZE_DOUBLE*N_ELEMENTS);
 			memset(waveformRecs[2], 0, SIZE_DOUBLE*N_ELEMENTS);
+			memset(waveformRecs[3], 0, SIZE_DOUBLE*N_ELEMENTS);
+			memset(waveformRecs[4], 0, SIZE_DOUBLE*N_ELEMENTS);
 			pvPut(waveformRecs[0], SYNC);
 			pvPut(waveformRecs[1], SYNC);
 			pvPut(waveformRecs[2], SYNC);
+			pvPut(waveformRecs[3], SYNC);
+			pvPut(waveformRecs[4], SYNC);
 			
 /*			printf("ssGather: calculating the time axis\n");*/
 			pvGet(tSample);
@@ -524,6 +546,8 @@ ss ssGather
 			pvPut(waveformRecs[0], SYNC);
 			pvPut(waveformRecs[1], SYNC);
 			pvPut(waveformRecs[2], SYNC);
+			pvPut(waveformRecs[3], SYNC);
+			pvPut(waveformRecs[4], SYNC);
 		} state MONITOR_INPUT
 		exit
 		{
@@ -550,14 +574,17 @@ static int pu_parseRawData(struct UserVar *pVar)
 	double scaling;
 	char *substr1;
 	char *substr2;
-	char *substr3;
+	char *substr3, *substr4, *substr5;
 	double tmpDouble;
 	long long int *tmpPtr;
 	long long int tmpLong;
 	
+	/* TODO: fix memory leak here!!! We're never freeing these buffers!!! */
 	substr1 = calloc(PMAC_N_CHAR_PER_WORD, sizeof(char));
 	substr2 = calloc(PMAC_N_CHAR_PER_WORD, sizeof(char));
 	substr3 = calloc(PMAC_N_CHAR_PER_WORD, sizeof(char));
+	substr4 = calloc(PMAC_N_CHAR_PER_WORD, sizeof(char));
+	substr5 = calloc(PMAC_N_CHAR_PER_WORD, sizeof(char));
 	
 /*	printf("pu_parseRawData: nChars = %d\n", pVar->asynNord);*/
 	
@@ -567,9 +594,13 @@ static int pu_parseRawData(struct UserVar *pVar)
 	{
 		if (dataSrcCounter == MAX_N_DATASRC)
 		{
+			/* Copy a new set of gather datapoints into local buffer for parsing */
+			/* TODO: make more elegant loop here! Please! This is rubbish!!! */
 			strncpy(substr1, (char*)(pVar->asynBinp + charCounter), PMAC_N_CHAR_PER_WORD - 1);
 			strncpy(substr2, (char*)(pVar->asynBinp + charCounter + PMAC_N_CHAR_PER_WORD), PMAC_N_CHAR_PER_WORD - 1);
 			strncpy(substr3, (char*)(pVar->asynBinp + charCounter + (2*PMAC_N_CHAR_PER_WORD)), PMAC_N_CHAR_PER_WORD - 1);
+			strncpy(substr4, (char*)(pVar->asynBinp + charCounter + (3*PMAC_N_CHAR_PER_WORD)), PMAC_N_CHAR_PER_WORD - 1);
+			strncpy(substr5, (char*)(pVar->asynBinp + charCounter + (4*PMAC_N_CHAR_PER_WORD)), PMAC_N_CHAR_PER_WORD - 1);
 			/*printf("-- %s %s %s --\n", substr1, substr2, substr3);*/
 			/*printf("-- %.3f %.3f %.3f --\n", 	pVar->waveformRecs[0][sampleCounter], 
 												pVar->waveformRecs[1][sampleCounter],
@@ -578,6 +609,7 @@ static int pu_parseRawData(struct UserVar *pVar)
 			sampleCounter++;
 		}
 
+		/* split one gather word (12 digit hex) into two 6digit hex (24 bit) buffers: MSBY and LSBX */
 		if (sscanf( (char*)(pVar->asynBinp + charCounter), "%06X%06X", &MSBY, &LSBX) != 2)
 		{
 			printf(	"pu_parseRawData: failed sscanf... returned: %d iteration: %d charCounter=%d sampleCounter=%d\n", 

@@ -28,6 +28,22 @@ record(waveform, "$(P)$(M):POSN") {
   field(FTVL, "DOUBLE")
 }
 
+record(waveform, "$(P)$(M):AVGVELO") {
+  field(DESC, "Averaged velocity")
+  field(PINI, "YES")
+  field(DTYP, "Soft Channel")
+  field(NELM, "1024")
+  field(FTVL, "DOUBLE")
+}
+
+record(waveform, "$(P)$(M):DEMANDPOSN") {
+  field(DESC, "Demand position")
+  field(PINI, "YES")
+  field(DTYP, "Soft Channel")
+  field(NELM, "1024")
+  field(FTVL, "DOUBLE")
+}
+
 # Kept updated with the current state of the SNL application.
 # Not intended for end user display.
 record(state, "$(P)$(M):STATE") {
@@ -206,7 +222,7 @@ record(asyn, "$(P)$(M):ASYN") {
   field(DESC, "communicate with PMAC")
   field(DTYP, "asynRecordDevice")
   field(TMOT, "5")
-  field(IMAX, "40960")
+  field(IMAX, "67584")
   field(OMAX, "1024")
   field(IFMT, "ASCII")
 }
