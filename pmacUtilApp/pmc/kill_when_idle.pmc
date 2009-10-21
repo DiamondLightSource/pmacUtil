@@ -1,0 +1,115 @@
+CLOSE
+
+;###########################################################
+; kill_when_idle.pmc
+; Original Author: Pete Leicester
+;
+; PLC to kill a motor after a defined period of inactivity. 
+; Macros:
+; $( PLC )
+;   The PLC number.
+; $( NAXIS )
+;   The number of axis on the controller 1..32 (8 for a typical geobrick, 32 for a full PMAC)
+;   This defines the highest numbered axis that may be powered down.  
+; $( TM1 )..$( TM32 ) 
+;   Define timeout period in milliseconds after which the axis will be powered 
+;   down provided it has been idle for the whole period (note clock resolution below).
+;   Set to zero to leave the amp powered continously. 
+;   Set to one for (almost) immediate power down on motor stop.
+;   Set to number of milliseconds for delayed power down after motor stops.
+;###########################################################
+
+
+; Define timeout period in milliseconds 
+P$(PLC)01 = $(TM1)
+P$(PLC)02 = $(TM2)
+P$(PLC)03 = $(TM3)
+P$(PLC)04 = $(TM4)
+P$(PLC)05 = $(TM5)
+P$(PLC)06 = $(TM6)
+P$(PLC)07 = $(TM7)
+P$(PLC)08 = $(TM8)
+P$(PLC)09 = $(TM9)
+P$(PLC)10 = $(TM10)
+P$(PLC)11 = $(TM11)
+P$(PLC)12 = $(TM12)
+P$(PLC)13 = $(TM13)
+P$(PLC)14 = $(TM14)
+P$(PLC)15 = $(TM15)
+P$(PLC)16 = $(TM16)
+P$(PLC)17 = $(TM17)
+P$(PLC)18 = $(TM18)
+P$(PLC)19 = $(TM19)
+P$(PLC)20 = $(TM20)
+P$(PLC)21 = $(TM21)
+P$(PLC)22 = $(TM22)
+P$(PLC)23 = $(TM23)
+P$(PLC)24 = $(TM24)
+P$(PLC)25 = $(TM25)
+P$(PLC)26 = $(TM26)
+P$(PLC)27 = $(TM27)
+P$(PLC)28 = $(TM28)
+P$(PLC)29 = $(TM29)
+P$(PLC)30 = $(TM30)
+P$(PLC)31 = $(TM31)
+P$(PLC)32 = $(TM32)
+
+; used for storing current axis number
+#define axis_number           P$(PLC)00
+
+; defines timeout period in milliseconds (note clock resolution below)
+; use axis_number to calculate the P variable to look in to get timeout period.
+#define timeout_period        P(axis_number + $(PLC)00)
+
+; zero velocity bit Mxx33
+#define zero_velocity_bit     M(axis_number*100 + 33)
+
+; amplifier enabled bit Mxx39
+#define amplifier_enabled     M(axis_number*100 + 39)
+
+; in position bit Mxx40
+#define in_position_bit       M(axis_number*100 + 40)
+
+; time counters on P$(PLC)65-P$(PLC)96, one per axis
+#define time_counter          P(axis_number + $(PLC)64)
+
+; timer
+#define timer i(5111+($(PLC)&30)*50+$(PLC)%2)
+#define millisec_conversion   8388608/i10
+
+#define kill_axis             &COMMAND"K"
+
+; define clock resolution in milliseconds
+#define clock_tick              50
+
+open plc $(PLC)
+clear
+
+if (timer < 0)
+	timer = clock_tick * millisec_conversion
+	 
+	; Loop through all axis
+	axis_number = 1
+	WHILE(axis_number !> $(NAXIS))
+		if (timeout_period>0)
+			if (in_position_bit = 1 And zero_velocity_bit = 1 And amplifier_enabled = 1)
+				; motor is stationary with amp on
+				time_counter = time_counter + clock_tick
+				if (time_counter !< timeout_period)
+					; motor was stationary and enabled for whole timeout period so kill the motor
+					ADDRESS#axis_number
+					kill_axis
+					time_counter=0
+				endif
+			else
+				; motor not stationary or amp is off so reset the time counter
+				time_counter=0
+			endif
+		endif
+		axis_number=axis_number+1
+	ENDWHILE
+endif
+
+CLOSE
+
+enable plc $(PLC)
