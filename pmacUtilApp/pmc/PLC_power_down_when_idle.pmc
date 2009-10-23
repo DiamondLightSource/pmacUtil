@@ -1,22 +1,33 @@
 CLOSE
 
 ;###########################################################
-; PLC3_power_down_when_idle.pmc
+; PLC_power_down_when_idle.pmc
 ; Original Author: Pete Leicester
 ;
-; PLC to kill or reduce power on a motor after a defined period of inactivity. 
+; PLC to kill or reduce power on a motor after a defined period of inactivity.
+; *** THIS PLC IS INTENDED FOR USE ON A GEOBRICK **** 
+;
+; Note1: Geobrick coontrollers when killed effectively short the motor cables together providing an
+; brake due to back EMF when the motor is rotated. Most axis can be safely killed without loosing 
+; position, this is certainly the case for most lead screw drives (ball screws may require a 
+; holding current).
+;
+; Note2: When using this PLC make sure the standard kill PLC (usually PLC3) is removed from the geobrick.
+;
 ; Macros:
+; $( PLC_PD )
+;   The PLC number. 
 ; $( NAXIS )
-;   The number of axis on the controller 1..32 (8 for a typical geobrick, 32 for a full PMAC)
+;   The number of axis on the controller 1..16 (8 for a standard geobrick)
 ;   This defines the highest numbered axis that may be powered down.  
-; $( TM1 )..$( TM32 ) 
+; $( TM1 )..$( TM16 ) 
 ;   Define timeout period in milliseconds after which the axis will be powered 
 ;   down provided it has been idle for the whole period (note clock resolution below).
 ;   Set to zero to leave the amp powered continously. 
 ;   Set to one for (almost) immediate power down on motor stop.
 ;   Set to number of milliseconds for delayed power down after motor stops.
 ;   Typically this should be set to a few seconds.
-; $( DCM1 )..$( DCM2 ) 
+; $( DCM1 )..$( DCM16 ) 
 ;   Drive current & percentage for each axis.
 ;   Set to zero for axis that are to be killed or if controller is not a geobrick (i.e. does not support Ixx77 amp current).
 ;   For axis requiring a reduced holding current this contains ' normal_drive_current * 100 + power_down_percentage '
@@ -26,103 +37,70 @@ CLOSE
 
 
 ; Define timeout period in milliseconds
-P301 = $(TM1)
-P302 = $(TM2)
-P303 = $(TM3)
-P304 = $(TM4)
-P305 = $(TM5)
-P306 = $(TM6)
-P307 = $(TM7)
-P308 = $(TM8)
-P309 = $(TM9)
-P310 = $(TM10)
-P311 = $(TM11)
-P312 = $(TM12)
-P313 = $(TM13)
-P314 = $(TM14)
-P315 = $(TM15)
-P316 = $(TM16)
-P317 = $(TM17)
-P318 = $(TM18)
-P319 = $(TM19)
-P320 = $(TM20)
-P321 = $(TM21)
-P322 = $(TM22)
-P323 = $(TM23)
-P324 = $(TM24)
-P325 = $(TM25)
-P326 = $(TM26)
-P327 = $(TM27)
-P328 = $(TM28)
-P329 = $(TM29)
-P330 = $(TM30)
-P331 = $(TM31)
-P332 = $(TM32)
+P$(PLC_PD)01 = $(TM1)
+P$(PLC_PD)02 = $(TM2)
+P$(PLC_PD)03 = $(TM3)
+P$(PLC_PD)04 = $(TM4)
+P$(PLC_PD)05 = $(TM5)
+P$(PLC_PD)06 = $(TM6)
+P$(PLC_PD)07 = $(TM7)
+P$(PLC_PD)08 = $(TM8)
+P$(PLC_PD)09 = $(TM9)
+P$(PLC_PD)10 = $(TM10)
+P$(PLC_PD)11 = $(TM11)
+P$(PLC_PD)12 = $(TM12)
+P$(PLC_PD)13 = $(TM13)
+P$(PLC_PD)14 = $(TM14)
+P$(PLC_PD)15 = $(TM15)
+P$(PLC_PD)16 = $(TM16)
 
 ; Drive current & percentage for each axis
-P333 = $(DCM1)
-P334 = $(DCM2)
-P335 = $(DCM3)
-P336 = $(DCM4)
-P337 = $(DCM5)
-P338 = $(DCM6)
-P339 = $(DCM7)
-P340 = $(DCM8)
-P341 = $(DCM9)
-P342 = $(DCM10)
-P343 = $(DCM11)
-P344 = $(DCM12)
-P345 = $(DCM13)
-P346 = $(DCM14)
-P347 = $(DCM15)
-P348 = $(DCM16)
-P349 = $(DCM17)
-P350 = $(DCM18)
-P351 = $(DCM19)
-P352 = $(DCM20)
-P353 = $(DCM21)
-P354 = $(DCM22)
-P355 = $(DCM23)
-P356 = $(DCM24)
-P357 = $(DCM25)
-P358 = $(DCM26)
-P359 = $(DCM27)
-P360 = $(DCM28)
-P361 = $(DCM29)
-P362 = $(DCM30)
-P363 = $(DCM31)
-P364 = $(DCM32)
-
+P$(PLC_PD)33 = $(DCM1)
+P$(PLC_PD)34 = $(DCM2)
+P$(PLC_PD)35 = $(DCM3)
+P$(PLC_PD)36 = $(DCM4)
+P$(PLC_PD)37 = $(DCM5)
+P$(PLC_PD)38 = $(DCM6)
+P$(PLC_PD)39 = $(DCM7)
+P$(PLC_PD)40 = $(DCM8)
+P$(PLC_PD)41 = $(DCM9)
+P$(PLC_PD)42 = $(DCM10)
+P$(PLC_PD)43 = $(DCM11)
+P$(PLC_PD)44 = $(DCM12)
+P$(PLC_PD)45 = $(DCM13)
+P$(PLC_PD)46 = $(DCM14)
+P$(PLC_PD)47 = $(DCM15)
+P$(PLC_PD)48 = $(DCM16)
 
 ; used for storing current axis number
-#define axis_number           P300
+#define axis_number           P$(PLC_PD)00
 
 ; defines timeout period in milliseconds (note clock resolution below)
 ; use axis_number to calculate the P variable to look in to get timeout period.
-#define timeout_period        P(P300 + 300)
+#define timeout_period        P(axis_number + $(PLC_PD)00)
 
 ; defines drive current in milliamps
 ; use axis_number to calculate the P variable to look in to get drive current & power down percentage.
-#define drive_current         P(P300 + 332)
+#define drive_current         P(axis_number + $(PLC_PD)32)
 
 ; zero velocity bit Mxx33
-#define zero_velocity_bit     M(P300*100 + 33)
+#define zero_velocity_bit     M(axis_number*100 + 33)
 
 ; amplifier enabled bit Mxx39
-#define amplifier_enabled     M(P300*100 + 39)
+#define amplifier_enabled     M(axis_number*100 + 39)
 
 ; in position bit Mxx40
-#define in_position_bit       M(P300*100 + 40)
+#define in_position_bit       M(axis_number*100 + 40)
 
 ; amplifier_current Ixx77
-#define amplifier_current     I(P300*100 + 77)
+#define amplifier_current     I(axis_number*100 + 77)
 
-; time counters on P365-P396, one per axis
-#define time_counter          P(P300 + 364)
+; time counters on P$(PLC_PD)65-P$(PLC_PD)96, one per axis
+#define time_counter          P(axis_number + $(PLC_PD)64)
 
-; timer3
-#define timer3 i(5111+(3&30)*50+3%2)
-#define millisec_conversion             8388608/i10
+; timer
+#define timer i(5111+($(PLC_PD)&30)*50+$(PLC_PD)%2)
+#define millisec_conversion   8388608/i10
 
 #define kill_axis             &COMMAND"K"
 #define full_current          INT(drive_current/100)
@@ -131,12 +109,13 @@ P364 = $(DCM32)
 ; define clock resolution in milliseconds
 #define clock_tick              50
 
-open plc 3
+
+open plc $(PLC_PD)
 clear
 
-if (timer3 < 0)
+if (timer < 0)
 	; Run this code once every clock tick
-	timer3 = clock_tick * millisec_conversion
+	timer = clock_tick * millisec_conversion
 	 
 	; Check for axis stationary with amp on
 	; Loop through all axis
@@ -184,4 +163,4 @@ ENDWHILE
 
 CLOSE
 
-enable plc 3
+enable plc $(PLC_PD)
