@@ -4,6 +4,9 @@ CLOSE
 ; kill_when_idle.pmc
 ; Original Author: Pete Leicester
 ;
+; NB On a VME PMAC make sure you load PLC3_micromech_enable.pmc otherwise the
+; amplifiers will not be powered down (this is not required for geobricks).
+;
 ; PLC to kill a motor after a defined period of inactivity. 
 ; Macros:
 ; $( PLC )
