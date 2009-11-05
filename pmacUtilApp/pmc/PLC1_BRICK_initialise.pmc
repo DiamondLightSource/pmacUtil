@@ -1,0 +1,56 @@
+CLOSE
+
+;####################################################
+; PLC for putting Geobrick into defined state at startup
+; Original Author: Tom Cobb
+; Used variables: None, (P101..P132 reserved for CS mres)
+; Macros (and values): 
+; CMDS = $(CMDS) ;Extra commands to run at startup like ENABLE PLCXX
+;####################################################
+
+OPEN PLC1
+CLEAR
+
+; define lookaheads for coordinate systems
+ADDRESS&16
+COMMAND"DEFINE LOOKAHEAD 50,10"
+ADDRESS&15
+COMMAND"DEFINE LOOKAHEAD 50,10"
+ADDRESS&14
+COMMAND"DEFINE LOOKAHEAD 50,10"
+ADDRESS&13
+COMMAND"DEFINE LOOKAHEAD 50,10"
+ADDRESS&12
+COMMAND"DEFINE LOOKAHEAD 50,10"
+ADDRESS&11
+COMMAND"DEFINE LOOKAHEAD 50,10"
+ADDRESS&10
+COMMAND"DEFINE LOOKAHEAD 50,10"
+ADDRESS&9
+COMMAND"DEFINE LOOKAHEAD 50,10"
+ADDRESS&8
+COMMAND"DEFINE LOOKAHEAD 50,10"
+ADDRESS&7
+COMMAND"DEFINE LOOKAHEAD 50,10"
+ADDRESS&6
+COMMAND"DEFINE LOOKAHEAD 50,10"
+ADDRESS&5
+COMMAND"DEFINE LOOKAHEAD 50,10"
+ADDRESS&4
+COMMAND"DEFINE LOOKAHEAD 50,10"
+ADDRESS&3
+COMMAND"DEFINE LOOKAHEAD 50,10"
+ADDRESS&2
+COMMAND"DEFINE LOOKAHEAD 50,10"
+
+; Setup the servo ICs for the correct motor types as defined in PLC6
+ENABLE PLC6
+
+; Run any extra commands
+$(CMDS)
+
+DISPLC1
+CLOSE
+
+;Set i15=2 as standard. This need to be set in order to run background PLC programs.
+i5=2
