@@ -1,5 +1,5 @@
 record(motor, "$(P)$(M)") {
-  field(SDIS, "$(P)$(M):HMSTATE.VAL")
+  field(SDIS, "$(P)$(M):SDIS.VAL")
 }
 
 record(scalcout, "$(P)$(M):MRESSET") {
@@ -99,13 +99,11 @@ record(scalcout, "$(P)$(M):ELOSSCALC") {
   field(OUT, "$(P)$(M):ELOSS PP")
 }
 
-record(bi, "$(P)$(M):HMSTATE") {
-  field(DESC, "Homing state")
-  field(SCAN, "Passive")
-  field(INP, "$(HOME):HM:HOMING CP")
+record(calc, "$(P)$(M):SDIS") {
+  field(DESC, "Disable on non-zero input")
+  field(INPA, "$(HOME):HM:HOMING CP")
   field(VAL, "0")
-  field(ZNAM, "inactive")
-  field(ONAM, "active")
+  field(CALC, "(A|B|C|D|E|F|G|H|I|J|K|L)>0")
   field(FLNK, "$(P)$(M)")
 }
 
