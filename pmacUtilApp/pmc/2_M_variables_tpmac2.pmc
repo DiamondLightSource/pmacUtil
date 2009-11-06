@@ -2850,8 +2850,8 @@ M5095->Y:$00341D,12,12,U ; high register from I5075
 M5096->Y:$00341F,12,12,U ; high register from I5076
 
 ; Coordinate System 1& timers
-M5111->X:$002015,0,24 ; Isx11 timer (for synchronous assignment)
-M5112->Y:$002015,0,24 ; Isx12 timer (for synchronous assignment)
+M5111->X:$002015,0,24,S ; Isx11 timer (for synchronous assignment)
+M5112->Y:$002015,0,24,S ; Isx12 timer (for synchronous assignment)
 
 ; Coordinate System &1 end-of-calculated-move positions
 M5141->L:$002041 ; A-axis target position (engineering units)
@@ -2879,8 +2879,8 @@ M5197->X:$002000,0,24,S ; Host commanded time base (I10 units)
 M5198->X:$002002,0,24,S ; Present time base (I10 units)
 
 ; Coordinate System &2 timers
-M5211->X:$002115,0,24 ; Isx11 timer (for synchronous assignment)
-M5212->Y:$002115,0,24 ; Isx12 timer (for synchronous assignment)
+M5211->X:$002115,0,24,S ; Isx11 timer (for synchronous assignment)
+M5212->Y:$002115,0,24,S ; Isx12 timer (for synchronous assignment)
 
 ; Coordinate System &2 end-of-calculated-move positions
 M5241->L:$002141 ; A-axis target position (engineering units)
@@ -2908,8 +2908,8 @@ M5297->X:$002100,0,24,S ; Host commanded time base (I10 units)
 M5298->X:$002102,0,24,S ; Present time base (I10 units)
 
 ; Coordinate System &3 timers
-M5311->X:$002215,0,24 ; Isx11 timer (for synchronous assignment)
-M5312->Y:$002215,0,24 ; Isx12 timer (for synchronous assignment)
+M5311->X:$002215,0,24,S ; Isx11 timer (for synchronous assignment)
+M5312->Y:$002215,0,24,S ; Isx12 timer (for synchronous assignment)
 
 ; Coordinate System &3 end-of-calculated-move positions
 M5341->L:$002241 ; A-axis target position (engineering units)
@@ -2937,8 +2937,8 @@ M5397->X:$002200,0,24,S ; Host commanded time base (I10 units)
 M5398->X:$002202,0,24,S ; Present time base (I10 units)
 
 ; Coordinate System &4 timers
-M5411->X:$002315,0,24 ; Isx11 timer (for synchronous assignment)
-M5412->Y:$002315,0,24 ; Isx12 timer (for synchronous assignment)
+M5411->X:$002315,0,24,S ; Isx11 timer (for synchronous assignment)
+M5412->Y:$002315,0,24,S ; Isx12 timer (for synchronous assignment)
 
 ; Coordinate System &4 end-of-calculated-move positions
 M5441->L:$002341 ; A-axis target position (engineering units)
@@ -2966,8 +2966,8 @@ M5497->X:$002300,0,24,S ; Host commanded time base (I10 units)
 M5498->X:$002302,0,24,S ; Present time base (I10 units)
 
 ; Coordinate System &5 timers
-M5511->X:$002415,0,24 ; Isx11 timer (for synchronous assignment)
-M5512->Y:$002415,0,24 ; Isx12 timer (for synchronous assignment)
+M5511->X:$002415,0,24,S ; Isx11 timer (for synchronous assignment)
+M5512->Y:$002415,0,24,S ; Isx12 timer (for synchronous assignment)
 
 ; Coordinate System &5 end-of-calculated-move positions
 M5541->L:$002441 ; A-axis target position (engineering units)
@@ -2995,8 +2995,8 @@ M5597->X:$002400,0,24,S ; Host commanded time base (I10 units)
 M5598->X:$002402,0,24,S ; Present time base (I10 units)
 
 ; Coordinate System &6 timers
-M5611->X:$002515,0,24 ; Isx11 timer (for synchronous assignment)
-M5612->Y:$002515,0,24 ; Isx12 timer (for synchronous assignment)
+M5611->X:$002515,0,24,S ; Isx11 timer (for synchronous assignment)
+M5612->Y:$002515,0,24,S ; Isx12 timer (for synchronous assignment)
 
 ; Coordinate System &6 end-of-calculated-move positions
 M5641->L:$002541 ; A-axis target position (engineering units)
@@ -3024,8 +3024,8 @@ M5697->X:$002500,0,24,S ; Host commanded time base (I10 units)
 M5698->X:$002502,0,24,S ; Present time base (I10 units)
 
 ; Coordinate System &7 timers
-M5711->X:$002615,0,24 ; Isx11 timer (for synchronous assignment)
-M5712->Y:$002615,0,24 ; Isx12 timer (for synchronous assignment)
+M5711->X:$002615,0,24,S ; Isx11 timer (for synchronous assignment)
+M5712->Y:$002615,0,24,S ; Isx12 timer (for synchronous assignment)
 
 ; Coordinate System &7 end-of-calculated-move positions
 M5741->L:$002641 ; A-axis target position (engineering units)
@@ -3053,8 +3053,8 @@ M5797->X:$002600,0,24,S ; Host commanded time base (I10 units)
 M5798->X:$002602,0,24,S ; Present time base (I10 units)
 
 ; Coordinate System &8 timers
-M5811->X:$002715,0,24 ; Isx11 timer (for synchronous assignment)
-M5812->Y:$002715,0,24 ; Isx12 timer (for synchronous assignment)
+M5811->X:$002715,0,24,S ; Isx11 timer (for synchronous assignment)
+M5812->Y:$002715,0,24,S ; Isx12 timer (for synchronous assignment)
 
 ; Coordinate System &8 end-of-calculated-move positions
 M5841->L:$002741 ; A-axis target position (engineering units)
@@ -3082,8 +3082,8 @@ M5897->X:$002700,0,24,S ; Host commanded time base (I10 units)
 M5898->X:$002702,0,24,S ; Present time base (I10 units)
 
 ; Coordinate System &9 timers
-M5911->X:$002815,0,24 ; Isx11 timer (for synchronous assignment)
-M5912->Y:$002815,0,24 ; Isx12 timer (for synchronous assignment)
+M5911->X:$002815,0,24,S ; Isx11 timer (for synchronous assignment)
+M5912->Y:$002815,0,24,S ; Isx12 timer (for synchronous assignment)
 
 ; Coordinate System &9 end-of-calculated-move positions
 M5941->L:$002841 ; A-axis target position (engineering units)
@@ -3111,8 +3111,8 @@ M5997->X:$002800,0,24,S ; Host commanded time base (I10 units)
 M5998->X:$002802,0,24,S ; Present time base (I10 units)
 
 ; Coordinate System &10 timers
-M6011->X:$002915,0,24 ; Isx11 timer (for synchronous assignment)
-M6012->Y:$002915,0,24 ; Isx12 timer (for synchronous assignment)
+M6011->X:$002915,0,24,S ; Isx11 timer (for synchronous assignment)
+M6012->Y:$002915,0,24,S ; Isx12 timer (for synchronous assignment)
 
 ; Coordinate System &10 end-of-calculated-move positions
 M6041->L:$002941 ; A-axis target position (engineering units)
@@ -3140,8 +3140,8 @@ M6097->X:$002900,0,24,S ; Host commanded time base (I10 units)
 M6098->X:$002902,0,24,S ; Present time base (I10 units)
 
 ; Coordinate System &11 timers
-M6111->X:$002A15,0,24 ; Isx11 timer (for synchronous assignment)
-M6112->Y:$002A15,0,24 ; Isx12 timer (for synchronous assignment)
+M6111->X:$002A15,0,24,S ; Isx11 timer (for synchronous assignment)
+M6112->Y:$002A15,0,24,S ; Isx12 timer (for synchronous assignment)
 
 ; Coordinate System &11 end-of-calculated-move positions
 M6141->L:$002A41 ; A-axis target position (engineering units)
@@ -3169,8 +3169,8 @@ M6197->X:$002A00,0,24,S ; Host commanded time base (I10 units)
 M6198->X:$002A02,0,24,S ; Present time base (I10 units)
 
 ; Coordinate System &12 timers
-M6211->X:$002B15,0,24 ; Isx11 timer (for synchronous assignment)
-M6212->Y:$002B15,0,24 ; Isx12 timer (for synchronous assignment)
+M6211->X:$002B15,0,24,S ; Isx11 timer (for synchronous assignment)
+M6212->Y:$002B15,0,24,S ; Isx12 timer (for synchronous assignment)
 
 ; Coordinate System &12 end-of-calculated-move positions
 M6241->L:$002B41 ; A-axis target position (engineering units)
@@ -3198,8 +3198,8 @@ M6297->X:$002B00,0,24,S ; Host commanded time base (I10 units)
 M6298->X:$002B02,0,24,S ; Present time base (I10 units)
 
 ; Coordinate System &13 timers
-M6311->X:$002C15,0,24 ; Isx11 timer (for synchronous assignment)
-M6312->Y:$002C15,0,24 ; Isx12 timer (for synchronous assignment)
+M6311->X:$002C15,0,24,S ; Isx11 timer (for synchronous assignment)
+M6312->Y:$002C15,0,24,S ; Isx12 timer (for synchronous assignment)
 
 ; Coordinate System &13 end-of-calculated-move positions
 M6341->L:$002C41 ; A-axis target position (engineering units)
@@ -3227,8 +3227,8 @@ M6397->X:$002C00,0,24,S ; Host commanded time base (I10 units)
 M6398->X:$002C02,0,24,S ; Present time base (I10 units)
 
 ; Coordinate System &14 timers
-M6411->X:$002D15,0,24 ; Isx11 timer (for synchronous assignment)
-M6412->Y:$002D15,0,24 ; Isx12 timer (for synchronous assignment)
+M6411->X:$002D15,0,24,S ; Isx11 timer (for synchronous assignment)
+M6412->Y:$002D15,0,24,S ; Isx12 timer (for synchronous assignment)
 
 ; Coordinate System &14 end-of-calculated-move positions
 M6441->L:$002D41 ; A-axis target position (engineering units)
@@ -3256,8 +3256,8 @@ M6497->X:$002D00,0,24,S ; Host commanded time base (I10 units)
 M6498->X:$002D02,0,24,S ; Present time base (I10 units)
 
 ; Coordinate System &15 timers
-M6511->X:$002E15,0,24 ; Isx11 timer (for synchronous assignment)
-M6512->Y:$002E15,0,24 ; Isx12 timer (for synchronous assignment)
+M6511->X:$002E15,0,24,S ; Isx11 timer (for synchronous assignment)
+M6512->Y:$002E15,0,24,S ; Isx12 timer (for synchronous assignment)
 
 ; Coordinate System &15 end-of-calculated-move positions
 M6541->L:$002E41 ;A-axis target position (engineering units)
@@ -3285,8 +3285,8 @@ M6597->X:$002E00,0,24,S ; Host commanded time base (I10 units)
 M6598->X:$002E02,0,24,S ; Present time base (I10 units)
 
 ; Coordinate System &16 timers
-M6611->X:$002F15,0,24 ; Isx11 timer (for synchronous assignment)
-M6612->Y:$002F15,0,24 ; Isx12 timer (for synchronous assignment)
+M6611->X:$002F15,0,24,S ; Isx11 timer (for synchronous assignment)
+M6612->Y:$002F15,0,24,S ; Isx12 timer (for synchronous assignment)
 
 ; Coordinate System &16 end-of-calculated-move positions
 M6641->L:$002F41 ; A-axis target position (engineering units)
