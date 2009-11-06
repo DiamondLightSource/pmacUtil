@@ -9,7 +9,7 @@
 #include <drvSup.h>
 #include <epicsExport.h>
 #include <epicsMath.h>
-
+#include <epicsStdio.h>
 #include <epicsString.h>
 #include <cantProceed.h>
 
@@ -21,6 +21,7 @@
 #define TABLE_NBYTES 1024   /* Number of bytes per table command (command is ascii string format) */
 #define PMAC_COMM_BYTES 512
 #define ROUND(x) ((x)>=0?(long)((x)+0.5):(long)((x)-0.5))
+#define snprintf epicsSnprintf
 
 typedef enum {
     ct_entries,             /* int32. Set number of entries in the table */

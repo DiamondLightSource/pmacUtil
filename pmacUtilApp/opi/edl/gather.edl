@@ -116,7 +116,7 @@ endObjectProperties
 object activeXTextDspClass:noedit
 beginObjectProperties
 major 4
-minor 1
+minor 4
 release 0
 x 560
 y 510
@@ -133,6 +133,7 @@ fastUpdate
 useHexPrefix
 newPos
 objType "monitors"
+noExecuteClipMask
 endObjectProperties
 
 # (Byte)
@@ -238,7 +239,7 @@ endObjectProperties
 object xyGraphClass
 beginObjectProperties
 major 4
-minor 3
+minor 5
 release 0
 # Geometry
 x 300
@@ -286,7 +287,7 @@ endObjectProperties
 object xyGraphClass
 beginObjectProperties
 major 4
-minor 3
+minor 5
 release 0
 # Geometry
 x 300
@@ -334,7 +335,7 @@ endObjectProperties
 object xyGraphClass
 beginObjectProperties
 major 4
-minor 3
+minor 5
 release 0
 # Geometry
 x 300
@@ -385,9 +386,9 @@ major 4
 minor 0
 release 0
 x 10
-y 60
+y 50
 w 270
-h 110
+h 90
 lineColor index 14
 fill
 fillColor index 5
@@ -400,7 +401,7 @@ major 4
 minor 1
 release 0
 x 10
-y 50
+y 40
 w 81
 h 14
 font "arial-medium-r-12.0"
@@ -421,7 +422,7 @@ major 10
 minor 0
 release 0
 x 20
-y 70
+y 60
 w 250
 h 34
 controlPv "$(P)$(M):ASYNREC"
@@ -461,9 +462,9 @@ major 4
 minor 0
 release 0
 x 10
-y 190
+y 150
 w 270
-h 210
+h 250
 lineColor index 14
 fill
 fillColor index 5
@@ -476,7 +477,7 @@ major 4
 minor 1
 release 0
 x 10
-y 180
+y 140
 w 37
 h 14
 font "arial-medium-r-12.0"
@@ -497,7 +498,7 @@ major 10
 minor 0
 release 0
 x 20
-y 200
+y 160
 w 250
 h 34
 controlPv "$(P)$(M):MOTOR"
@@ -516,7 +517,7 @@ major 10
 minor 0
 release 0
 x 170
-y 280
+y 240
 w 100
 h 31
 controlPv "$(P)$(M):DEMAND"
@@ -532,10 +533,10 @@ endObjectProperties
 object activeXTextDspClass:noedit
 beginObjectProperties
 major 4
-minor 1
+minor 4
 release 0
 x 170
-y 240
+y 200
 w 100
 h 30
 controlPv "$(P)$(M):MRBV"
@@ -552,6 +553,7 @@ showUnits
 useAlarmBorder
 newPos
 objType "monitors"
+noExecuteClipMask
 endObjectProperties
 
 # (Static Text)
@@ -561,7 +563,7 @@ major 4
 minor 1
 release 0
 x 40
-y 250
+y 210
 w 90
 h 14
 font "arial-medium-r-12.0"
@@ -581,7 +583,7 @@ major 4
 minor 1
 release 0
 x 40
-y 290
+y 250
 w 100
 h 14
 font "arial-medium-r-12.0"
@@ -618,7 +620,7 @@ endObjectProperties
 object activeXTextDspClass:noedit
 beginObjectProperties
 major 4
-minor 1
+minor 4
 release 0
 x 200
 y 360
@@ -635,13 +637,14 @@ useHexPrefix
 showUnits
 newPos
 objType "monitors"
+noExecuteClipMask
 endObjectProperties
 
 # (Text Monitor)
 object activeXTextDspClass:noedit
 beginObjectProperties
 major 4
-minor 1
+minor 4
 release 0
 x 170
 y 320
@@ -659,13 +662,14 @@ useHexPrefix
 showUnits
 newPos
 objType "monitors"
+noExecuteClipMask
 endObjectProperties
 
 # (Text Monitor)
 object activeXTextDspClass:noedit
 beginObjectProperties
 major 4
-minor 1
+minor 4
 release 0
 x 90
 y 360
@@ -682,6 +686,7 @@ fastUpdate
 useHexPrefix
 newPos
 objType "monitors"
+noExecuteClipMask
 endObjectProperties
 
 # (Rectangle)
@@ -724,7 +729,7 @@ endObjectProperties
 object activeXTextDspClass:noedit
 beginObjectProperties
 major 4
-minor 1
+minor 4
 release 0
 x 170
 y 550
@@ -744,6 +749,7 @@ showUnits
 useAlarmBorder
 newPos
 objType "monitors"
+noExecuteClipMask
 endObjectProperties
 
 # (Textentry)
@@ -830,7 +836,7 @@ endObjectProperties
 object activeXTextDspClass:noedit
 beginObjectProperties
 major 4
-minor 1
+minor 4
 release 0
 x 170
 y 470
@@ -850,13 +856,14 @@ showUnits
 useAlarmBorder
 newPos
 objType "monitors"
+noExecuteClipMask
 endObjectProperties
 
 # (Text Monitor)
 object activeXTextDspClass:noedit
 beginObjectProperties
 major 4
-minor 1
+minor 4
 release 0
 x 170
 y 510
@@ -876,6 +883,7 @@ showUnits
 useAlarmBorder
 newPos
 objType "monitors"
+noExecuteClipMask
 endObjectProperties
 
 # (Static Text)
@@ -963,7 +971,7 @@ endObjectProperties
 object activeXTextDspClass:noedit
 beginObjectProperties
 major 4
-minor 1
+minor 4
 release 0
 x 300
 y 550
@@ -980,6 +988,7 @@ fastUpdate
 useHexPrefix
 newPos
 objType "monitors"
+noExecuteClipMask
 endObjectProperties
 
 # (Textentry)
@@ -989,7 +998,7 @@ major 10
 minor 0
 release 0
 x 20
-y 110
+y 100
 w 250
 h 34
 controlPv "$(P)$(M):PORT"
@@ -999,5 +1008,44 @@ bgColor index 0
 fill
 font "arial-medium-r-12.0"
 fontAlign "center"
+endObjectProperties
+
+# (Textentry)
+object TextentryClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 170
+y 280
+w 100
+h 31
+controlPv "$(P)$(M):DELAY"
+precision 3
+fgColor index 25
+bgColor index 10
+fill
+font "arial-medium-r-12.0"
+fontAlign "center"
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 40
+y 290
+w 67
+h 14
+font "arial-medium-r-12.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Delay Time:"
+}
+autoSize
 endObjectProperties
 
