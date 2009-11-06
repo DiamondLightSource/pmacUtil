@@ -1,15 +1,14 @@
-from iocbuilder import ModuleBase, Substitution, SetSimulation, IocDataStream
+from iocbuilder import Substitution, SetSimulation, IocDataStream, Device, Architecture
 from iocbuilder.arginfo import *
 
 from iocbuilder.modules.tpmac import tpmac, CS, DeltaTau, PmcSubstitution
 from iocbuilder.modules.motor import basic_asyn_motor
 from iocbuilder.modules.calc import Calc
+from iocbuilder.modules.seq import Seq
 
 import os, sys
 
-sys.path.append(
-    '/dls_sw/work/common/python/test/packages/dls_motorhome-0.0-py2.4.egg')
-from dls_motorhome import PLC as _PLC
+from motorhome import PLC as _PLC
 
 
 _PLCArgs = dict(
@@ -257,6 +256,10 @@ class PLC1_initialise(PmcSubstitution):
     TemplateFile = 'PLC1_initialise.pmc'
     Arguments = ("CMDS",)
 
+class PLC1_BRICK_initialise(PLC1_initialise):
+    TemplateFile = 'PLC1_BRICK_initialise.pmc'
+
+
 class PLC4_encoder_loss(PmcSubstitution):
     def __init__(self, Controller, On):
         On = (On + [False]*32)[:32]
@@ -288,3 +291,55 @@ class PROG10_CS_motion(PmcSubstitution):
 
     TemplateFile = 'PROG10_CS_motion.pmc'
     Arguments = ()
+
+class gather(Substitution, Device):
+    '''Setup PMAC or Geobrick gathering template'''
+
+    Dependencies = (Seq,)
+    LibFileList = ["pmacUtil"]
+    DbdFileList = ["pmacUtilSupport"]    
+
+    # The __init__ method specifies arguments and defaults
+    def __init__(self, P, M, Controller):
+        # Filter the list of local variables by the argument list,
+        # then initialise the super class
+        PORT = Controller.PortName
+        self.__super.__init__(**filter_dict(locals(), self.Arguments))
+
+    def PostIocInitialise(self):
+        if Architecture() == "linux-x86":
+            print 'seq(gather,"P=%(P)s,M=%(M)s")' % self.args
+        else:        
+            print 'seq &gather,"P=%(P)s,M=%(M)s"' % self.args
+
+    # __init__ arguments
+    ArgInfo = makeArgInfo(__init__,
+        P          = Simple('Description for P', str),
+        M          = Simple('Description for M', str),
+        Controller = Ident ('PMAC or GeoBrick', DeltaTau))
+
+    # Substitution attributes
+    TemplateFile = 'gather.template'
+    Arguments = ["P", "M", "PORT"]
+
+class pmacVariableWrite(Substitution):
+    '''Couple of records to write variables to a Delta tau'''
+
+    # The __init__ method specifies arguments and defaults
+    def __init__(self, P, Q, Controller, VAR, EGU = ""):
+        # Filter the list of local variables by the argument list,
+        # then initialise the super class
+        PORT = Controller.PortName        
+        self.__super.__init__(**filter_dict(locals(), self.Arguments))
+
+    # __init__ arguments
+    ArgInfo = makeArgInfo(__init__,
+        P    = Simple('PV Prefix', str),
+        Q    = Simple('PV Suffix', str),
+        EGU  = Simple('Engineering units', str),
+        VAR  = Simple('Pmac variable to write to', str),
+        Controller = Ident ('PMAC or GeoBrick', DeltaTau))
+
+    # Substitution attributes
+    TemplateFile = 'pmacVariableWrite.template'
+    Arguments = ArgInfo.Names(without = "Controller") + ["PORT"]
