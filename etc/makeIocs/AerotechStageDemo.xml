@@ -1,0 +1,11 @@
+<?xml version="1.0" ?>
+<components arch="linux-x86">
+	<tpmac.GeoBrick DeviceName="pmac1" IP="172.23.243.193" name="PMAC1"/>
+	<!--<pmacUtil.dls_pmac_asyn_motor ADDR="1" Controller="PMAC1" DESC="Motor 1" M=":MOTOR" MRES="0.0004688" P="AerotechStage" VMAX="10000" name="M1"/>-->
+	<!--<pmacUtil.dls_pmac_asyn_motor ADDR="1" Controller="PMAC1" DESC="Motor 1" M=":MOTOR" MRES="0.0071428571428571426" P="AerotechStage" VMAX="1000" name="M1"/>-->
+	<pmacUtil.dls_pmac_asyn_motor ACCL="1.0" ADDR="1" Controller="PMAC1" DESC="Motor 1" DHLM="10000" DIR="0" DLLM="-10000" DTYP="asynMotor" EGU="mm" FOFF="0" HLSV="MAJOR" HOME="None" JAR="1000" M=":MOTOR" MRES="0.0005" OFF="0" P="AerotechStage" PREC="3" SREV="1000" TWV="0.1" UEIP="False" VBAS="0" VELO="20" VMAX="1000" gda="True" group="1" htype="0" jdist="0" name="M1" post="None"/>
+	<pmacUtil.gather Controller="PMAC1" M=":GATHER" P="AerotechStage"/>
+	<pmacUtil.pmacVariableWrite Controller="PMAC1" P="AerotechStage" Q=":P" VAR="i130"/>
+	<pmacUtil.pmacVariableWrite Controller="PMAC1" P="AerotechStage" Q=":I" VAR="i133"/>
+	<pmacUtil.pmacVariableWrite Controller="PMAC1" P="AerotechStage" Q=":S" VAR="i121"/>
+</components>
