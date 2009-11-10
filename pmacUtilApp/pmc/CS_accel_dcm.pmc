@@ -3,7 +3,7 @@ CLOSE
 ;###############################################
 ; Define motion for Energy in Accel DCM
 ; Original Author: Tom Cobb
-; Used variables: Q71..Q79, Q81..Q89, Q91..Q99, Q20, P$(PLC)00
+; Used variables: Q71..Q79, Q81..Q89, Q91..Q99, Q20, Q21, P$(PLC)00
 ; Macros (and example values): 
 ; COORD = $(COORD) ;CS number (only works for CS 1..9), e.g. 2
 ; PLC = $(PLC) ;PLC number, should be CS number+15, e.g. 17
@@ -24,6 +24,9 @@ CLOSE
 
 ; Trig in degrees
 i15=0
+
+; Default mode is to move Bragg and T2
+Q21=0
 
 ; These are set by mres_reporting_motor.template
 #define BMRES P(100+$(BRAGG))
@@ -54,10 +57,13 @@ OPEN INVERSE
 CLEAR
 ; P$(BRAGG) = Bragg = arcsin({Evlamda}/(2*{d}*(Energy)) or arcsin((wavelength)/(2*{d}))
 ; P$(T2) = T = (Offset)/2*cos(Bragg)
+; Don't calculate P$(T2) if we are in 'locked T2' mode
 Q20=10000*Q110/(2*Q111*Q7)
 IF (ABS(Q20)<1)
     P$(BRAGG)=(ASIN(Q20)-BOFF)/BMRES
-    P$(T2)=(Q8/(20000*COS(ASIN(Q20)))-TOFF)/TMRES
+    IF (Q21=0)
+        P$(T2)=(Q8/(20000*COS(ASIN(Q20)))-TOFF)/TMRES
+    ENDIF
 ELSE
     M5$(COORD)82=1
 ENDIF
