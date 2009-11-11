@@ -278,13 +278,13 @@ class PLC:
                 f.write('\tendif\n\n')
 
             #---- FastSearch State ----        
-            htypes = [LIMIT,HSW,HSW_DIR,RLIM]
+            htypes = [LIMIT,HSW,HSW_DIR,HSW_HLIM,RLIM]
             # for hsw_dir motors, set the trigger to be the original flag
             self.set_hflags([HSW_DIR]) 
             # for all motors except hsw_hlim jog until trigger in direction of ix23
             self.jog_until_trig(htypes)
             # add the commands, wait for the moves to complete
-            self.write_cmds("FastSearch",htypes=[HSW,HSW_DIR,RLIM])
+            self.write_cmds("FastSearch",htypes=[HSW,HSW_DIR,HSW_HLIM,RLIM])
             
             # store home points
             ems = self.sel(htypes+[HSW_HLIM])  
