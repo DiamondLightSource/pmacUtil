@@ -127,7 +127,7 @@ record(asyn, "$(P)$(M):HMGETPOS") {
   field(PORT, "$(SPORT)")
   field(AOUT, "#$(ADDR)P")
   field(DISV, "0")
-  field(SDIS, "$(P)$(M):HMSTATE")
+  field(SDIS, "$(HOME):HM:HOMING")
   field(FLNK, "$(P)$(M):HMPARSPOS")
   field(TMOT, "5")
 }
