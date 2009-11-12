@@ -25,7 +25,6 @@ i5250,15,100=1    ; Enable kinematics
 i6=0
 
 ; remove lookahead buffers
-&1 DELETE LOOKAHEAD
 &2 DELETE LOOKAHEAD
 &3 DELETE LOOKAHEAD
 &4 DELETE LOOKAHEAD
