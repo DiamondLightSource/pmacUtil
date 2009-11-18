@@ -160,10 +160,9 @@ class PLC:
             self.cmd1 = []            
             self.cmd2 = []
             # setup a generic wait for move routine in self.d         
-            # only check inpos for htypes, check all for DV0
-            inpos = [ "m%d40"%m["ax"] for i,m in self.sel(htypes) ]
-            dv0 = [ "m%d33"%m["ax"] for i,m in self.sel() ]
-            self.d["DesiredVelocityZero"] = "&".join(inpos + dv0)
+            inpos = [ "m%d40"%m["ax"] for i,m in self.sel() ]
+#            dv0 = [ "m%d33"%m["ax"] for i,m in self.sel() ]
+            self.d["InPosition"] = "&".join(inpos)
             self.d["FFErr"] = "|".join("m%d42"%m["ax"] for i,m in self.sel()) 
             # only check the limit switches of htypes 
             self.d["Limit"] = "|".join("m%d30"%m["ax"] for i,m in self.sel(htypes))
@@ -471,7 +470,7 @@ wait_for_move = """\t\t; Wait for the move to complete
 \t\twhile (timer > 0)
 \t\tendw
 \t\ttimer = %(timeout)s MilliSeconds ; Now start checking the conditions
-\t\twhile (%(DesiredVelocityZero)s=0) ; Desired velocity should be 0 for all motors
+\t\twhile (%(InPosition)s=0) ; At least one motor should not be In Position
 \t\tand (%(FFErr)s=0) ; No following errors should be set for any motor
 \t\tand (%(Limit)s=0) ; Should not stop on position limit for selected motors
 \t\tand (timer > 0) ; Check for timeout

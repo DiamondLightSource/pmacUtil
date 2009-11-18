@@ -1,7 +1,7 @@
 from iocbuilder import Substitution, SetSimulation, IocDataStream, Device, Architecture
 from iocbuilder.arginfo import *
 
-from iocbuilder.modules.tpmac import tpmac, CS, DeltaTau, PmcSubstitution
+from iocbuilder.modules.tpmac import tpmac, CS, DeltaTau, PmcSubstitution, PMAC, GEOBRICK
 from iocbuilder.modules.motor import basic_asyn_motor
 from iocbuilder.modules.calc import Calc
 from iocbuilder.modules.seq import Seq
@@ -274,7 +274,25 @@ class PLC4_encoder_loss(PmcSubstitution):
 
     TemplateFile = 'PLC4_encoder_loss.pmc'
     Arguments = ['ONM%d' % (i + 1) for i in range(32)]
- 
+
+class PLC7_kill_when_idle(PmcSubstitution):
+    def __init__(self, Controller, Time):
+        Time = (Time + [0]*32)[:32]
+        adict = dict(
+            ('TM%d' % (i + 1), int(o)) for i, o in enumerate(Time))
+        if Controller.ctype == GEOBRICK:
+            adict["NAXIS"] = 8
+        else:
+            adict["NAXIS"] = 32
+        self.__super.__init__(Controller=Controller, **adict)
+        
+    # __init__ arguments
+    ArgInfo = makeArgInfo(__init__,
+        Controller = Ident ('PMAC or GeoBrick', DeltaTau),
+        Time       = List  ('Post move delay in ms before power down. Set to 0 to disable for this axis', 32, Simple, int))
+
+    TemplateFile = 'PLC7_kill_when_idle.pmc'
+    Arguments = ["NAXIS"] + ['TM%d' % (i + 1) for i in range(32)]  
 
 class PLC6_servo_IC_setup(PmcSubstitution):
     # __init__ arguments
