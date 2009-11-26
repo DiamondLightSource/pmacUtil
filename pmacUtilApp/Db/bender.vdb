@@ -31,25 +31,23 @@ record(calc, "$(P):SNG"){
   field(INPB, "$(P):SLOPE:RBV")
   field(CALC, "-A/B")
   field(PREC, "3")
+  field(EGU, "mm")
 }
-record(asyn, "$(P):INTERCEPT:ASET") {
-  field(FLNK, "$(P):SNG")
-}
-record(asyn, "$(P):SLOPE:ASET") {
-  field(FLNK, "$(P):SNG")
-}
+
 # set precision for fields
 record(ao, "$(P):SLOPE") {
    field(PREC, "6")
 }
 record(scalcout, "$(P):SLOPE:RBV") {
    field(PREC, "6")
+   field(FLNK, "$(P):SNG")
 }
 record(ao, "$(P):INTERCEPT") {
    field(PREC, "6")
 }
 record(scalcout, "$(P):INTERCEPT:RBV") {
    field(PREC, "6")
+   field(FLNK, "$(P):SNG")
 }
 record(ao, "$(P):LIMIT") {
    field(PREC, "1")
