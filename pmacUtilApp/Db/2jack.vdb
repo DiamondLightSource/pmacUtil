@@ -3,22 +3,33 @@
 #! DBD("../../dbd/pmacUtil.dbd")
 #! DBDEND
 
+# % macro, __doc__, Supporting template that allows setting of variables for a 
+# 2jack CS 
+# % macro, P, Pv Prefix
+# % macro, PORT, Motor controller serial port
+# % macro, COORD, Co-ordinate system number
+# % macro, name, Object name and gui association name
+
 # This associates an edm screen with the template
 # % gui, $(name), edm, 2jack.edl, 2jack=$(P)
 
-expand("pmacVariableWrite.vdb", pmacVariableWrite) {
+# need this record so VDCT doesn't delete our comments
+record(stringout, "$(P):2JACK:dummy") {
+}
+
+expand("pmacVariableWriteRecords.vdb", pmacVariableWrite) {
   macro(VAR, "&$(COORD)Q100")
   macro(Q, ":DIST")
   macro(EGU, "mm")
 }
 
-expand("pmacVariableWrite.vdb", pmacVariableWrite2) {
+expand("pmacVariableWriteRecords.vdb", pmacVariableWrite2) {
   macro(VAR, "&$(COORD)Q101")
   macro(Q, ":PIVOT")
   macro(EGU, "mm")  
 }
 
-expand("pmacVariableWrite.vdb", pmacVariableWrite3) {
+expand("pmacVariableWriteRecords.vdb", pmacVariableWrite3) {
   macro(VAR, "&$(COORD)Q102")
   macro(Q, ":DEPTH")
   macro(EGU, "mm")

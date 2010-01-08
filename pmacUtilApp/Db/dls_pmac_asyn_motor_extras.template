@@ -1,3 +1,8 @@
+#% macro, SPORT, Asyn port for eloss commands 
+# usually PMAC_S<n> for pmacs, the name of the pmacAsynIpPort for bricks
+#% macro, HOME, Prefix for autohome instance. Defaults to $(P). If unspecified,
+# the template contains enough records to keep the motor record happy
+
 record(motor, "$(P)$(M)") {
   field(SDIS, "$(P)$(M):SDIS.VAL")
 }
@@ -101,13 +106,13 @@ record(scalcout, "$(P)$(M):ELOSSCALC") {
 
 record(calc, "$(P)$(M):SDIS") {
   field(DESC, "Disable on non-zero input")
-  field(INPA, "$(HOME):HM:HOMING CP")
+  field(INPA, "$(HOME=$(P)):HM:HOMING CP")
   field(VAL, "0")
   field(CALC, "(A|B|C|D|E|F|G|H|I|J|K|L)>0")
   field(FLNK, "$(P)$(M)")
 }
 
-record(busy, "$(HOME):HM:HOMING") {
+record(busy, "$(HOME=$(P)):HM:HOMING") {
 }
 
 record(ai, "$(P)$(M):HMPOS") {
@@ -127,7 +132,7 @@ record(asyn, "$(P)$(M):HMGETPOS") {
   field(PORT, "$(SPORT)")
   field(AOUT, "#$(ADDR)P")
   field(DISV, "0")
-  field(SDIS, "$(HOME):HM:HOMING")
+  field(SDIS, "$(HOME=$(P)):HM:HOMING")
   field(FLNK, "$(P)$(M):HMPARSPOS")
   field(TMOT, "5")
 }
@@ -145,10 +150,10 @@ record(scalcout, "$(P)$(M):HMPARSPOS") {
 record(stringout, "$(P)$(M):SETHMPV") {
   field(PINI, "YES")
   field(VAL, "$(P)$(M)")
-  field(OUT, "$(HOME):HM:M$(ADDR)PV PP")
+  field(OUT, "$(HOME=$(P)):HM:M$(ADDR)PV PP")
 }
 
-record(stringout, "$(HOME):HM:M$(ADDR)PV"){
+record(stringout, "$(HOME=$(P)):HM:M$(ADDR)PV"){
 }
 
 record(ao, "$(P)$(M):KILL") {

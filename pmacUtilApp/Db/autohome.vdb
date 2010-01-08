@@ -3,6 +3,25 @@
 #! DBD("../../dbd/pmacUtil.dbd")
 #! DBDEND
 
+# % macro, __doc__, Provides PVs to start and monitor homing via homing PLCs 
+# that conform to the DLS standard. If you use custom homing states then be 
+# sure to label them here
+# % macro, P, Pv Prefix
+# % macro, PLC, PLC number
+# % macro, PORT, Serial port to do communications across
+# % macro, GRP1, Homing group 1 description
+# % macro, GRP2, Homing group 2 description
+# % macro, GRP3, Homing group 3 description
+# % macro, GRP4, Homing group 4 description
+# % macro, GRP5, Homing group 5 description
+# % macro, GRP6, Homing group 6 description
+# % macro, GRP7, Homing group 7 description
+# % macro, STATE11, Homing state 11 description
+# % macro, STATE12, Homing state 11 description
+# % macro, STATE13, Homing state 11 description
+# % macro, STATE14, Homing state 11 description
+# % macro, name, Object name and gui association name
+
 # This associates an edm screen with the template
 # % gui, $(name), edm, autohome.edl, P=$(P)
 
@@ -128,10 +147,10 @@ record(mbbi, "$(P):HM:STATE") {
   field(EIST, "Fast Hm Search")
   field(NIST, "Fast Retrace")
   field(TEST, "Pre home move")
-  field(ELST, "$(STATE11)")
-  field(TVST, "$(STATE12)")
-  field(TTST, "$(STATE13)")
-  field(FTST, "$(STATE14)")
+  field(ELST, "$(STATE11=)")
+  field(TVST, "$(STATE12=)")
+  field(TTST, "$(STATE13=)")
+  field(FTST, "$(STATE14=)")
 }
 
 record(busy, "$(P):HM:HOMING") {
@@ -213,13 +232,13 @@ record(mbbo, "$(P):HM:HMGRP") {
   field(SXVL, "6")
   field(SVVL, "7")
   field(ZRST, "none")
-  field(ONST, "$(GRP1)")
-  field(TWST, "$(GRP2)")
-  field(THST, "$(GRP3)")
-  field(FRST, "$(GRP4)")
-  field(FVST, "$(GRP5)")
-  field(SXST, "$(GRP6)")
-  field(SVST, "$(GRP7)")
+  field(ONST, "$(GRP1=All)")
+  field(TWST, "$(GRP2=)")
+  field(THST, "$(GRP3=)")
+  field(FRST, "$(GRP4=)")
+  field(FVST, "$(GRP5=)")
+  field(SXST, "$(GRP6=)")
+  field(SVST, "$(GRP7=)")
   field(UNSV, "INVALID")
   field(IVOA, "Set output to IVOV")
   field(IVOV, "0")

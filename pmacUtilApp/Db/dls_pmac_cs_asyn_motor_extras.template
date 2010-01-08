@@ -1,14 +1,17 @@
+#% macro, HOME, Prefix for autohome instance. Defaults to $(P). If unspecified,
+# the template contains enough records to keep the motor record happy
+
 record(motor, "$(P)$(M)") {
   field(SDIS, "$(P)$(M):SDIS.VAL")
 }
 
 record(calc, "$(P)$(M):SDIS") {
   field(DESC, "Disable on non-zero input")
-  field(INPA, "$(HOME):HM:HOMING CP")
+  field(INPA, "$(HOME=$(P)):HM:HOMING CP")
   field(VAL, "0")
   field(CALC, "(A|B|C|D|E|F|G|H|I|J|K|L)>0")
   field(FLNK, "$(P)$(M)")
 }
 
-record(busy, "$(HOME):HM:HOMING") {
+record(busy, "$(HOME=$(P)):HM:HOMING") {
 }

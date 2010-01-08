@@ -3,67 +3,76 @@
 #! DBD("../../dbd/pmacUtil.dbd")
 #! DBDEND
 
+# % macro, __doc__, Supporting template that allows setting of variables for a 
+# 3jack CS 
+# % macro, P, Pv Prefix
+# % macro, PORT, Motor controller serial port
+# % macro, COORD, Co-ordinate system number
+# % macro, name, Object name and gui association name
+# % macro, gda_name, GDA name, not exported to gda if not given
+
 # This associates an edm screen with the template
 # % gui, $(name), edm, 3jack.edl, 3jack=$(P)
 
-expand("pmacVariableWrite.vdb", pmacVariableWrite) {
+# % gdatag,template,simplePv,$(gda_name).MCX, 3 Jack Measurement X
+# % gdatag,pv,rw,$(gda_name).MCX,RECORD,Tilt Point X,$(P):MCX
+
+# % gdatag,template,simplePv,$(gda_name).MCZ, 3 Jack Measurement Z
+# % gdatag,pv,rw,$(gda_name).MCZ,RECORD,Tilt Point Z,$(P):MCZ
+
+# need this record so VDCT doesn't delete our comments
+record(stringout, "$(P):3JACK:dummy") {
+}
+
+expand("pmacVariableWriteRecords.vdb", pmacVariableWrite) {
   macro(VAR, "&$(COORD)Q100")
   macro(Q, ":J1X")
   macro(EGU, "mm")
 }
 
-expand("pmacVariableWrite.vdb", pmacVariableWrite2) {
+expand("pmacVariableWriteRecords.vdb", pmacVariableWrite2) {
   macro(VAR, "&$(COORD)Q101")
   macro(Q, ":J1Z")
   macro(EGU, "mm")
 }
 
-expand("pmacVariableWrite.vdb", pmacVariableWrite3) {
+expand("pmacVariableWriteRecords.vdb", pmacVariableWrite3) {
   macro(VAR, "&$(COORD)Q102")
   macro(Q, ":J2X")
   macro(EGU, "mm")
 }
 
-expand("pmacVariableWrite.vdb", pmacVariableWrite4) {
+expand("pmacVariableWriteRecords.vdb", pmacVariableWrite4) {
   macro(VAR, "&$(COORD)Q103")
   macro(Q, ":J2Z")
   macro(EGU, "mm")
 }
 
-expand("pmacVariableWrite.vdb", pmacVariableWrite5) {
+expand("pmacVariableWriteRecords.vdb", pmacVariableWrite5) {
   macro(VAR, "&$(COORD)Q104")
   macro(Q, ":J3X")
   macro(EGU, "mm")
 }
 
-expand("pmacVariableWrite.vdb", pmacVariableWrite6) {
+expand("pmacVariableWriteRecords.vdb", pmacVariableWrite6) {
   macro(VAR, "&$(COORD)Q105")
   macro(Q, ":J3Z")
   macro(EGU, "mm")
 }
 
-expand("pmacVariableWrite.vdb", pmacVariableWrite11) {
+expand("pmacVariableWriteRecords.vdb", pmacVariableWrite11) {
   macro(VAR, "&$(COORD)Q110")
   macro(Q, ":MD")
   macro(EGU, "mm")
 }
 
-# % gdatag,template,simplePv,$(gda_name).MCX, 3 Jack Measurement X
-# % gdatag,pv,rw,$(gda_name).MCX,RECORD,Tilt Point X,$(P):MCX
-record(ai, "$(P):dummy1$(COORD)") {
-}
-# % gdatag,template,simplePv,$(gda_name).MCZ, 3 Jack Measurement Z
-# % gdatag,pv,rw,$(gda_name).MCZ,RECORD,Tilt Point Z,$(P):MCZ
-record(ai, "$(P):dummy2$(COORD)") {
-}
-
-expand("pmacVariableWrite.vdb", pmacVariableWrite12) {
+expand("pmacVariableWriteRecords.vdb", pmacVariableWrite12) {
   macro(VAR, "&$(COORD)Q111")
   macro(Q, ":MCX")
   macro(EGU, "mm")
 }
 
-expand("pmacVariableWrite.vdb", pmacVariableWrite13) {
+expand("pmacVariableWriteRecords.vdb", pmacVariableWrite13) {
   macro(VAR, "&$(COORD)Q112")
   macro(Q, ":MCZ")
   macro(EGU, "mm")

@@ -3,6 +3,10 @@
 #! DBD("../../dbd/pmacUtil.dbd")
 #! DBDEND
 
+# % macro, __doc__, Flexible template for doing a gather on a PMAC or geoBrick 
+# via an asyn record. 
+# % macro, P, Pv Prefix
+# % macro, M, Pv Suffix
 
 record(waveform, "$(P)$(M):VELO") {
   field(DESC, "sampled velocity")

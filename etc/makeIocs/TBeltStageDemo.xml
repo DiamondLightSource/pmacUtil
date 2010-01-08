@@ -1,11 +1,11 @@
 <?xml version="1.0" ?>
 <components arch="linux-x86">
 	<tpmac.GeoBrick DeviceName="pmac1" IP="172.23.243.195" name="PMAC1"/>
-	<!--<pmacUtil.dls_pmac_asyn_motor ADDR="1" Controller="PMAC1" DESC="Motor 1" M=":MOTOR" MRES="0.0004688" P="TBeltStage" VMAX="10000" name="M1"/>-->
-	<!--<pmacUtil.dls_pmac_asyn_motor ADDR="1" Controller="PMAC1" DESC="Motor 1" M=":MOTOR" MRES="0.0071428571428571426" P="TBeltStage" VMAX="1000" name="M1"/>-->
-	<pmacUtil.dls_pmac_asyn_motor ACCL="1.0" ADDR="1" Controller="PMAC1" DESC="Motor 1" DHLM="10000" DIR="0" DLLM="-10000" DTYP="asynMotor" EGU="mm" FOFF="0" HLSV="MAJOR" HOME="None" JAR="1000" M=":MOTOR" MRES="0.015" OFF="0" P="TBeltStage" PREC="3" SREV="1000" TWV="0.1" UEIP="False" VBAS="0" VELO="20" VMAX="1000" gda="True" group="1" htype="0" jdist="0" name="M1" post="None"/>
-	<pmacUtil.gather Controller="PMAC1" M=":GATHER" P="TBeltStage"/>
-	<pmacUtil.pmacVariableWrite Controller="PMAC1" P="TBeltStage" Q=":P" VAR="i130"/>
-	<pmacUtil.pmacVariableWrite Controller="PMAC1" P="TBeltStage" Q=":I" VAR="i133"/>
-	<pmacUtil.pmacVariableWrite Controller="PMAC1" P="TBeltStage" Q=":S" VAR="i121"/>
+	<!--<pmacUtil.dls_pmac_asyn_motor ADDR="1" DESC="Motor 1" M=":MOTOR" MRES="0.0004688" P="TBeltStage" VMAX="10000" name="M1"/>-->
+	<!--<pmacUtil.dls_pmac_asyn_motor ADDR="1" DESC="Motor 1" M=":MOTOR" MRES="0.0071428571428571426" P="TBeltStage" VMAX="1000" name="M1"/>-->
+	<pmacUtil.dls_pmac_asyn_motor ACCL="1.0" ADDR="1" DESC="Motor 1" DHLM="10000" DLLM="-10000" EGU="mm" HLSV="MAJOR" M=":MOTOR" MRES="0.015" P="TBeltStage" PORT="pmac1" PREC="3" SPORT="pmac1port" TWV="0.1" VELO="20" VMAX="1000" name="M1"/>
+	<pmacUtil.gather M=":GATHER" P="TBeltStage"/>
+	<pmacUtil.pmacVariableWrite EGU="" P="TBeltStage" PORT="pmac1port" Q=":P" VAR="i130"/>
+	<pmacUtil.pmacVariableWrite EGU="" P="TBeltStage" PORT="pmac1port" Q=":I" VAR="i133"/>
+	<pmacUtil.pmacVariableWrite EGU="" P="TBeltStage" PORT="pmac1port" Q=":S" VAR="i121"/>
 </components>
