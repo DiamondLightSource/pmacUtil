@@ -1,8 +1,7 @@
 SUPPORT=/dls_sw/prod/R3.14.8.2/support
 WORK=/dls_sw/work/R3.14.8.2/support
-HOMESUPPORT=/home/tmc43/R3.14.8.2/support
 
 # Place any example specific dependencies here
-TPMAC=$(HOMESUPPORT)/tpmac
+TPMAC=$(SUPPORT)/tpmac/3-5dls9
 
 
