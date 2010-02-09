@@ -32,6 +32,8 @@ DB += energyModes.template
 DB += motion_stop.template
 DB += bender.template
 DB += qcm.template
+DB += dls_readback_asyn_motor.template
+DB += encoderReadback.template
 
 # not using streams since this doesnt work with tpmac
 #DB += energise_streams.template
@@ -56,4 +58,9 @@ include $(TOP)/configure/RULES
 	
 ../O.Common/dls_pmac_cs_asyn_motor.template: ../dls_pmac_cs_asyn_motor_extras.template
 	cat $(MOTOR)/db/basic_asyn_motor.template > $@
-	cat $< >> $@	
+	cat $< >> $@
+
+../O.Common/dls_readback_asyn_motor.template: ../dls_pmac_asyn_motor_extras.template
+	cat ../readback_asyn_motor.template > $@
+	cat $< >> $@
+

@@ -1,0 +1,45 @@
+# AUTOSAVE: level 0 = before record init, level 1 = before AND after record init
+#% autosave 0 DVAL OFF
+#% autosave 1 DIR DHLM DLLM TWV VBAS VELO ACCL BDST BVEL BACC RDBD EGU RTRY UEIP URIP DLY PREC DISA DISP FOFF OFF FRAC OMSL JVEL JAR ADEL MDEL
+#% archiver 0.5 Monitor
+#% archiver 0.5 Monitor RBV
+#% gdatag,template,simpleMotor,$(gda_name),$(gda_desc)
+#% gdatag,motor,rw,$(gda_name),RECORD,Motor Record
+#% alh $SEVRCOMMAND UP_ANY /dls_sw/tools/bin/dls-alh-handler.py $(P)$(M)
+record(motor,"$(P)$(M)")
+{
+	field(DESC,"$(DESC)")
+	field(DTYP,"$(DTYP=asynMotor)")
+	field(DIR,"$(DIR=0)")
+	field(VELO,"$(VELO)")
+	field(VBAS,"$(VBAS=0)")
+	field(ACCL,"$(ACCL=0.5)")
+	field(BDST,"$(BDST=0)")
+	field(BVEL,"$(BVEL=0)")
+	field(BACC,"$(BACC=)")
+	field(OUT,"@asyn($(PORT),$(ADDR))")
+	field(MRES,"$(MRES)")
+	field(PREC,"$(PREC)")
+	field(EGU,"$(EGU)")
+	field(DHLM,"$(DHLM)")
+	field(DLLM,"$(DLLM)")
+	field(HLSV,"$(HLSV=MAJOR)")
+	field(INIT,"$(INIT=)")
+	field(RTRY,"$(RTRY=0)")
+	field(HVEL,"0")
+	field(SREV, "$(SREV=1000)")
+	field(RRES, "$(RRES=)")
+	field(TWV, "$(TWV)")
+	field(ERES, "$(ERES=)")
+	field(JVEL, "$(VELO)")
+	field(JAR, "$(JAR=)")
+	field(UEIP, "$(UEIP=0)")
+	field(VMAX, "$(VMAX=$(VELO))")
+	field(OFF, "$(OFF=0)")
+	field(RDBD, "$(RDBD=)")
+	field(FOFF, "$(FOFF=0)")
+	field(ADEL, "$(ADEL=0)")
+	field(NTM, "$(NTM=0)")
+  	field(URIP, "Yes")
+	field(RDBL, "$(RDBL)")
+}
