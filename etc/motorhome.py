@@ -46,7 +46,8 @@ LIMIT = 1
 # The second figure shows what happens when the index is in hdir of the 
 # starting position. E.g. Pos = 10000 cts, Index = 0 cts
 # \image html HSW2.png "HSW homing, Figure 2"
-# \b NOTE: if using a reference mark, set jdist as described under PLC.add_motor()
+# \b NOTE: if using a reference mark, set jdist as described under 
+# PLC.add_motor()
 HSW = 2
 ## Home on a home switch or index mark near the limit switch in hdir 
 # (htype Enum passed to PLC.add_motor()).
@@ -68,7 +69,8 @@ HSW = 2
 # The second figure shows what happens when the index is in -hdir of the 
 # starting position. E.g. Pos = -5000 cts, Index = 0 cts
 # \image html HSW_HLIM2.png "HSW_HLIM homing, Figure 2"
-# \b NOTE: if using a reference mark, set jdist as described under PLC.add_motor()
+# \b NOTE: if using a reference mark, set jdist as described under 
+# PLC.add_motor()
 HSW_HLIM = 3
 ## Home on a directional home switch (newport style) 
 # (htype Enum passed to PLC.add_motor()).
@@ -101,9 +103,13 @@ HSW_DIR = 4
 # E.g. ixx23 = 1, msyy,i912 = 10, msyy,i913 = 2.
 # \image html RLIM.png "RLIM homing"
 RLIM = 5
+## Don't do any homing, just the post home move 
+# (htype Enum passed to PLC.add_motor()).
+NOTHING = 6
+
 
 ## String list of htypes
-htypes = ["HOME", "LIMIT", "HSW", "HSW_HLIM", "HSW_DIR", "RLIM"]
+htypes = ["HOME", "LIMIT", "HSW", "HSW_HLIM", "HSW_DIR", "RLIM", "NOTHING"]
 
 
 # Setup some controller types
@@ -139,7 +145,8 @@ def parse_args():
 # All other parameters setup defaults that can be overridden for a particular
 # motor in add_motor()
 class PLC:       
-    def __init__(self,plc,timeout=600000,htype=HOME,jdist=0,post=None,ctype=PMAC):
+    def __init__(self, plc, timeout=600000, htype=HOME, jdist=0, post=None,
+            ctype=PMAC):
         ## List of motor objects added by add_motor()
         self.motors = []
         self.__d = { "plc": int(plc), "timeout": timeout, "comment": ""}
@@ -151,6 +158,7 @@ class PLC:
         self.post = post
         self.__cmd1 = []
         self.__cmd2 = []
+        self.groups = {}
         ## The controller type, will be PMAC or GEOBRICK
         self.ctype = ctype
         if self.ctype == PMAC:
@@ -158,6 +166,34 @@ class PLC:
         else:
             self.__d["controller"] = "GeoBrick"
 
+    ## Add code hooks and extra checks to a group home.
+    # \param group Group number to configure
+    # \param pre Execute the following piece of code before the prehome
+    # move of this group, as long as no previous group has finished with an 
+    # error
+    # \param post Execute the following piece of code after the posthome
+    # move of this group, as long as the group home and posthome move completed
+    # successfully
+    # \param checks List of extra checks that the should be performed
+    # for this group at each stage. Should be a list of tuples of
+    # (check, result, status) where:
+    # - check is a valid pmac expression
+    # - result is the value that check should normally evaluate to
+    # - status is the HomingStatus number to fail with if check != result
+    # (val of the autohome.vdb::record(mbbi,"$(P):HM:STATUS"))
+    # e.g. \c [('m1231&m1332','0', 5)] will check that m1231&m1332=0 during each
+    # stage, and set the HomingStatus = StatusLimit if the check fails
+    def configure_group(self, group, checks=None, pre=None, post=None):
+        assert group in self.groups, \
+            "You must add motors to group %d before configuring it" % group       
+        for v in ["checks", "pre", "post"]:
+            if locals()[v] is not None:
+                if self.groups[group][v]:
+                    print >> sys.stderr, \
+                        "*** Warning: Configuring %s for group %d, " \
+                        "information already exists"  % (v, group)
+                self.groups[group][v] = locals()[v]
+    
     ## Add a motor for the PLC to home. If htype, jdist or post are not
     # specified, they take the default value as specified when creating PLC().
     # \param axis Motor axis number
@@ -177,6 +213,7 @@ class PLC:
     # - \ref motorhome::HSW_HLIM "HSW_HLIM"
     # - \ref motorhome::HSW_DIR "HSW_DIR"
     # - \ref motorhome::RLIM "RLIM"                    
+    # - \ref motorhome::NOTHING "NOTHING"              
     # \param jdist Distance to jog by after finding the trigger. Should always 
     # be in -hdir. E.g if ix23 = -1, jdist should be +ve. This should only be
     # needed for reference marks or bouncy limit switches. A recommended 
@@ -184,16 +221,19 @@ class PLC:
     # \param post Where to move after the home. This can be:
     # - None: Stay at the home position
     # - an integer: move to this position in motor cts
+    # - "r" +  an integer: move relative by this amount. For example: post="r100"
     # - "i": go to the initial position (does nothing for HOME htype motors)
-    # - "l": go to the low limit (ix13)
-    # - "h": go to the high limit (ix14)
-    def add_motor(self,axis,group=1,htype=None,jdist=None,post=None,enc_axes=[]):
+    # - "h": go to the hign limit (ix13)
+    # - "l": go to the low limit (ix14)    
+    def add_motor(self, axis, group=1, htype=None, jdist=None, post=None,
+            enc_axes=[]):
+        axis, group = int(axis), int(group)
         if len(self.motors)>=16:        
             raise IndexError, "Only 16 motors may be defined in a single PLC"
-        if axis in [m["ax"] for m in self.motors]:
-            raise IndexError, "Axis %d already defined as a different motor"%axis
-        if group>7 or group==0:
-            raise IndexError, "Nothing can be in group 0, only 7 groups may be defined in a single PLC"                    
+        if group not in range(1,8):
+            raise IndexError, "Group %d not in range 1..7" % group
+        if group not in self.groups:
+            self.groups[group] = dict(checks=[], pre="", post="")
         d = { "ax": axis,
               "grp": group,
               "enc_axes": []
@@ -202,19 +242,24 @@ class PLC:
         for eaxis in enc_axes:
             ed = dict(ax = eaxis)
             if self.ctype == GEOBRICK:
-                ed["nx"] = ((eaxis-1)/4)*10 + ((eaxis-1)%4+1) # nx for internal amp, GEOBRICK
+                # nx for internal amp, GEOBRICK            
+                ed["nx"] = ((eaxis-1)/4)*10 + ((eaxis-1)%4+1) 
             else:
-                ed["ms"] = 2*(eaxis-1)-(eaxis-1)%2, # macrostation number, PMAC 
+                # macrostation number, PMAC             
+                ed["ms"] = 2*(eaxis-1)-(eaxis-1)%2
             d["enc_axes"].append(ed)                           
         if enc_axes:
             self.__d["comment"] += ", enc_axes = %s" % enc_axes
         if self.ctype == GEOBRICK:
             if axis < 9:
-                d["nx"] = ((axis-1)/4)*10 + ((axis-1)%4+1) # nx for internal amp, GEOBRICK
+                # nx for internal amp, GEOBRICK            
+                d["nx"] = ((axis-1)/4)*10 + ((axis-1)%4+1) 
             else:
-                d["ms"] = 2*(axis-9)-(axis-9)%2 # macrostation number for external amp, GEOBRICK            
+                # macrostation number for external amp, GEOBRICK                        
+                d["ms"] = 2*(axis-9)-(axis-9)%2 
         else:
-            d["ms"] = 2*(axis-1)-(axis-1)%2 # macrostation number, PMAC                        
+            # macrostation number, PMAC                                
+            d["ms"] = 2*(axis-1)-(axis-1)%2 
         for var in ["htype","jdist","post"]:
             if eval(var)!=None:
                 d[var]=eval(var)
@@ -227,26 +272,29 @@ class PLC:
         self.motors.append(d)
         self.__d["comment"] += "\n"
 
-    def __set_jdist_hdir(self,htypes,reverse=False):
+    def __set_jdist_hdir(self, htypes, reverse=False):
         # set jdist reg to be a large distance in hdir, or in -hdir if reverse
         if reverse:
-            self.__cmd1 += [ "m%d72=%d*(-i%d23/ABS(i%d23))"%(m["ax"],LARGEJ,m["ax"],m["ax"]) for i,m in self.__sel(htypes) ]
+            self.__cmd1 += ["m%d72=%d*(-i%d23/ABS(i%d23))" % 
+                (m["ax"],LARGEJ,m["ax"],m["ax"]) for i,m in self.__sel(htypes)]
         else:
-            self.__cmd1 += [ "m%d72=%d*(i%d23/ABS(i%d23))"%(m["ax"],LARGEJ,m["ax"],m["ax"]) for i,m in self.__sel(htypes) ]
+            self.__cmd1 += ["m%d72=%d*(i%d23/ABS(i%d23))" % 
+                (m["ax"],LARGEJ,m["ax"],m["ax"]) for i,m in self.__sel(htypes)]
 
-    def __home(self,htypes):
+    def __home(self, htypes):
         # home command
-        self.__cmd2 += [ "#%dhm"%m["ax"] for i,m in self.__sel(htypes) ]
+        self.__cmd2 += ["#%dhm"%m["ax"] for i,m in self.__sel(htypes)]
 
-    def __jog_until_trig(self,htypes,reverse=False):
+    def __jog_until_trig(self, htypes, reverse=False):
         # jog until trigger, go dist past trigger
         self.__set_jdist_hdir(htypes,reverse)
-        self.__cmd2 += [ "#%dJ^*^%d"%(m["ax"],m["jdist"]) for i,m in self.__sel(htypes) ]
+        self.__cmd2 += ["#%dJ^*^%d" % 
+            (m["ax"],m["jdist"]) for i,m in self.__sel(htypes)]
 
-    def __jog_inc(self,htypes,reverse=False):
+    def __jog_inc(self, htypes, reverse=False):
         # jog incremental by jdist reg
         self.__set_jdist_hdir(htypes,reverse)
-        self.__cmd2 += [ "#%dJ^*"%m["ax"] for i,m in self.__sel(htypes) ]
+        self.__cmd2 += ["#%dJ^*" % m["ax"] for i,m in self.__sel(htypes)]
 
     def __set_hflags(self, htypes, inv=False):
         # set the hflags of all types of motors in htypes
@@ -257,17 +305,23 @@ class PLC:
                 val = "P%d%02d"%(self.__d["plc"],i+36)
             for d in [m] + m["enc_axes"]:
                 if d.has_key("nx"):                
-                    self.__cmd1.append("i7%02d2=%s"%(d["nx"],val)) # geobrick internal axis
+                    # geobrick internal axis
+                    self.__cmd1.append("i7%02d2=%s"%(d["nx"],val)) 
                 else:
-                    self.__cmd1.append("MSW%d,i912,%s"%(d["ms"],val)) # ms external axis  
+                    # ms external axis                  
+                    self.__cmd1.append("MSW%d,i912,%s"%(d["ms"],val))
 
-    def __write_cmds(self,f,state,htypes=None):
-        # process self.__cmd1 and self.__cmd2 and write them out, need to do an endif after
-        if self.__cmd1 or self.__cmd2:
+    def __write_cmds(self, f, state, htypes=None):
+        # process self.__cmd1 and self.__cmd2 and write them out
+        has_pre = state == "PreHomeMove" and self.groups[self.group]["pre"]
+        has_post = state == "PostHomeMove" and self.groups[self.group]["pre"]
+        if self.__cmd1 or self.__cmd2 or has_pre or has_post:
             f.write('\t;---- %s State ----\n'%state)
             f.write('\tif (HomingStatus=StatusHoming)\n')
             f.write('\t\tHomingState=State%s\n'%state)                            
             f.write('\t\t; Execute the move commands\n')
+        if has_pre:
+            f.write('\t\t%s\n' % self.groups[self.group]["pre"])
         out = [[]]
         for t in self.__cmd1:
             if len(" ".join(out[-1]+[t]))<254 and len(out[-1])<32:
@@ -287,26 +341,45 @@ class PLC:
             if l:
                 f.write('\t\tcmd "%s"\n'%l)
         if self.__cmd1 or self.__cmd2:
-            self.__cmd1 = []            
-            self.__cmd2 = []
             # setup a generic wait for move routine in self.__d         
-            inpos = [ "m%d40"%m["ax"] for i,m in self.__sel() ]
-#            dv0 = [ "m%d33"%m["ax"] for i,m in self.__sel() ]
+            inpos = ["m%d40"%m["ax"] for i,m in self.__sel()]
             self.__d["InPosition"] = "&".join(inpos)
-            self.__d["FFErr"] = "|".join("m%d42"%m["ax"] for i,m in self.__sel()) 
+            self.__d["FFErr"] = "|".join("m%d42" % 
+                m["ax"] for i,m in self.__sel()) 
             # only check the limit switches of htypes 
-            self.__d["Limit"] = "|".join("m%d30"%m["ax"] for i,m in self.__sel(htypes))
-            if not self.__d["Limit"]:
-                self.__d["Limit"]="0"
+            self.__d["LimitCheck"] = ""
+            self.__d["LimitResults"] = ""            
+            lstr = "|".join("m%d30"%m["ax"] for i,m in self.__sel(htypes))            
+            if lstr:
+                self.__d["LimitCheck"] += "\t\tand (%s=0) ; Should not stop on position limit for selected motors\n" % lstr
+                self.__d["LimitResults"] += "\t\tif (%s=1) ; If a motor hit a limit\n" % lstr
+                self.__d["LimitResults"] += "\t\t\tHomingStatus = StatusLimit\n"
+                self.__d["LimitResults"] += "\t\tendif\n"
+            self.__d["checks"] = ""
+            self.__d["results"] = ""            
+            if self.groups[self.group]:
+                for exp, val, stat in self.groups[self.group]["checks"]:
+                    self.__d["checks"] += "\t\tand (%s = %s) ; Custom check\n" % (exp, val)
+                    self.__d["results"] += "\t\tif (%s != %s) ; Custom check failed\n" % (exp, val)
+                    self.__d["results"] += "\t\t\tHomingStatus = %s\n" % stat
+                    self.__d["results"] += "\t\tendif\n"
             f.write(wait_for_move%self.__d)
+        if has_post:
+            f.write('\t\tif (HomingStatus=StatusHoming)\n')        
+            f.write('\t\t\t%s\n' % self.groups[self.group]["post"])
+            f.write('\t\tendif\n')            
+        if self.__cmd1 or self.__cmd2 or has_pre or has_post:    
+            self.__cmd1 = []            
+            self.__cmd2 = []                
             f.write('\tendif\n\n')
-
     
     def __sel(self,htypes=None):
         if htypes:
-            return [(i,m) for i,m in enumerate(self.motors) if m["htype"] in htypes and self.group==m["grp"]]
+            return [(i,m) for i,m in enumerate(self.motors) 
+                if m["htype"] in htypes and self.group==m["grp"]]
         else:
-            return [(i,m) for i,m in enumerate(self.motors) if self.group==m["grp"]]
+            return [(i,m) for i,m in enumerate(self.motors) 
+                if self.group==m["grp"]]
 
     ## Write the PLC text to a filename string f
     def write(self,f):
@@ -317,20 +390,25 @@ class PLC:
 
 
     ## Write the PLC text to a file object f
-    def writeFile(self,f):           
+    def writeFile(self,f):  
+        if len(self.groups) != 1:
+            assert 1 not in self.groups, \
+                "Shouldn't add motors to group 1 if multiple groups are defined"
         f.write(header%self.__d)
         plc = self.__d["plc"]
-        ems = [ (i,m) for i,m in enumerate(self.motors) ]
+        ems = [(i,m) for i,m in enumerate(self.motors)]
         
         #---- Configuring state ----
         f.write(";---- Configuring State ----\n")
         f.write("HomingState=StateConfiguring\n")
         f.write(";Save the Homing group to px03\n")
         f.write("HomingBackupGroup=HomingGroup\n")        
-        f.write(";Save low soft limits to P variables px04..x19\n")
-        f.write(" ".join(["P%d%02d=i%d13"%(plc,i+04,m["ax"]) for i,m in ems])+"\n")
-        f.write(";Save the high soft limits to P variables px20..x35\n")
-        f.write(" ".join(["P%d%02d=i%d14"%(plc,i+20,m["ax"]) for i,m in ems])+"\n")
+        f.write(";Save high soft limits to P variables px04..x19\n")
+        f.write(" ".join(["P%d%02d=i%d13" % 
+            (plc,i+04,m["ax"]) for i,m in ems])+"\n")
+        f.write(";Save the low soft limits to P variables px20..x35\n")
+        f.write(" ".join(["P%d%02d=i%d14" % 
+            (plc,i+20,m["ax"]) for i,m in ems])+"\n")
         f.write(";Save the home capture flags to P variables px36..x51\n")
         cmds = []
         for i,m in ems:
@@ -352,16 +430,9 @@ class PLC:
         # TODO: Clear encoder capture register                  #
         #########################################################          
         f.write("\n")
-        
-        # find all the possible groups
-        groups = []
-        for m in self.motors:
-            if m["grp"] not in groups:
-                groups.append(m["grp"])
-        groups.sort()
-        
+                
         # write some PLC for each group
-        for g in groups:
+        for g in sorted(self.groups.keys()):
             f.write("if (HomingBackupGroup=1 and HomingStatus=StatusHoming)\n")
             if g!=1:
                 f.write("or (HomingBackupGroup=%d and HomingStatus=StatusHoming)\n"%g)  
@@ -394,7 +465,11 @@ class PLC:
                 f.write('\t\t\tcmd "#%dJ^*^%d"\n'%(m["ax"],m["jdist"]))
                 f.write('\t\tendif\n')
             if ems:
-                self.__d["Limit"] = "|".join("m%d30"%m["ax"] for i,m in ems)
+                lstr = "|".join("m%d30"%m["ax"] for i,m in ems)
+                self.__d["LimitCheck"] += "\t\tand (%s=0) ; Should not stop on position limit for selected motors\n" % lstr
+                self.__d["LimitResults"] += "\t\tif (%s=1) ; If a motor hit a limit\n" % lstr
+                self.__d["LimitResults"] += "\t\t\tHomingStatus = StatusLimit\n"
+                self.__d["LimitResults"] += "\t\tendif\n"
                 f.write(wait_for_move%self.__d) 
                 f.write('\tendif\n\n')
 
@@ -486,20 +561,23 @@ class PLC:
                               
             #---- Put Back State ----        
             # for all motors with post, do the home move
-            for i,m in [ (i,m) for i,m in enumerate(self.motors) if m["post"]!=None and m["grp"]==self.group ]:
+            for i,m in [(i,m) for i,m in enumerate(self.motors) if m["post"]!=None and m["grp"]==self.group]:
                 if m["post"]=="i":
-                    if m["htype"] not in [HOME]:
+                    if m["htype"] not in [HOME, NOTHING]:
                         # go to initial pos
                         self.__cmd1.append("m%d72=P%d%02d"%(m["ax"],plc,i+84))
                         self.__cmd2.append("#%dJ=*"%m["ax"])
-                elif m["post"]=="l":
-                    # go to low soft limit
-                    self.__cmd1.append("m%d72=P%d%02d"%(m["ax"],plc,i+04))
-                    self.__cmd2.append("#%dJ=*"%m["ax"])        
                 elif m["post"]=="h":
                     # go to high soft limit
+                    self.__cmd1.append("m%d72=P%d%02d"%(m["ax"],plc,i+04))
+                    self.__cmd2.append("#%dJ=*"%m["ax"])        
+                elif m["post"]=="l":
+                    # go to low soft limit
                     self.__cmd1.append("m%d72=P%d%02d"%(m["ax"],plc,i+20))
-                    self.__cmd2.append("#%dJ=*"%m["ax"])                    
+                    self.__cmd2.append("#%dJ=*"%m["ax"])        
+                elif type(m["post"])==str and m["post"].startswith("r"):
+                    # jog relative by m["post"][1:]
+                    self.__cmd2.append("#%dJ=%d"%(m["ax"],int(m["post"][1:])))                                                    
                 else:
                     # go to m["post"]
                     self.__cmd2.append("#%dJ=%d"%(m["ax"],m["post"]))
@@ -520,7 +598,7 @@ class PLC:
         f.write("endif\n\n")
 
         #----- Tidying Up -----
-        ems = [ (i,m) for i,m in enumerate(self.motors) ]
+        ems = [(i,m) for i,m in enumerate(self.motors)]
         f.write(";---- Tidy Up ----\n")
         f.write(";Stop all motors if they don't have a following error\n")
         for i,m in ems:
@@ -528,9 +606,9 @@ class PLC:
             f.write('if (m%d42=0)\n'%m["ax"])
             f.write('\tcmd "#%dJ/"\n'%m["ax"])
             f.write('endif\n')
-        f.write(';Restore the low soft limits from P variables px04..x19\n')   
+        f.write(';Restore the high soft limits from P variables px04..x19\n')   
         f.write(" ".join(["i%d13=P%d%02d"%(m["ax"],plc,i+04) for i,m in ems])+"\n")
-        f.write(';Restore the high soft limits from P variables px20..x35\n')        
+        f.write(';Restore the low soft limits from P variables px20..x35\n')        
         f.write(" ".join(["i%d14=P%d%02d"%(m["ax"],plc,i+20) for i,m in ems])+"\n")
         f.write(';Restore the home capture flags from P variables px36..x51\n')        
         cmds = []
@@ -605,44 +683,50 @@ wait_for_move = """\t\t; Wait for the move to complete
 \t\ttimer = %(timeout)s MilliSeconds ; Now start checking the conditions
 \t\twhile (%(InPosition)s=0) ; At least one motor should not be In Position
 \t\tand (%(FFErr)s=0) ; No following errors should be set for any motor
-\t\tand (%(Limit)s=0) ; Should not stop on position limit for selected motors
-\t\tand (timer > 0) ; Check for timeout
+%(LimitCheck)s\t\tand (timer > 0) ; Check for timeout
 \t\tand (HomingStatus = StatusHoming) ; Check that we didn't abort
-\t\tendw
+%(checks)s\t\tendw
 \t\t; Check why we left the while loop
 \t\tif (%(FFErr)s=1) ; If a motor hit a following error
 \t\t\tHomingStatus = StatusFFErr
 \t\tendif
-\t\tif (%(Limit)s=1) ; If a motor hit a limit
-\t\t\tHomingStatus = StatusLimit
-\t\tendif
-\t\tif (timer<0 or timer=0) ; If we timed out
+%(LimitResults)s\t\tif (timer<0 or timer=0) ; If we timed out
 \t\t\tHomingStatus = StatusTimeout
 \t\tendif
-"""
+%(results)s"""
 
 
 if __name__=="__main__":
     p = PLC(1,timeout=100000,htype=HOME,jdist=0,ctype=GEOBRICK)
-    p.add_motor(1,jdist=100)
-    p.add_motor(2,htype=LIMIT,jdist=200)
+    p.add_motor(1,group=2,jdist=100)
+    p.add_motor(2,group=2,htype=LIMIT,jdist=200)
     p.add_motor(3,group=6,htype=HSW,jdist=300)
-    p.add_motor(4,htype=HSW_HLIM,jdist=400)
-    p.add_motor(5,htype=HSW,jdist=500,post="i")
-    p.add_motor(6,htype=HSW_HLIM,jdist=600)
-    p.add_motor(7,htype=HSW_DIR,jdist=700,post="l")    
-    p.add_motor(8,jdist=100)
+    p.add_motor(4,group=3,htype=HSW_HLIM,jdist=400)
+    p.add_motor(5,group=3,htype=HSW,jdist=500,post="i")
+    p.add_motor(6,group=3,htype=HSW_HLIM,jdist=600)
+    p.add_motor(7,group=3,htype=HSW_DIR,jdist=700,post="l")    
+    p.add_motor(8,group=3,jdist=100)
     p.add_motor(9,group=2,htype=LIMIT,jdist=200)
-    p.add_motor(10,htype=HSW,jdist=300)
-    p.add_motor(11,htype=HSW_HLIM,jdist=400)
-    p.add_motor(12,htype=HSW,jdist=500,post="h")
-    p.add_motor(13,htype=HSW_HLIM,jdist=600)
-    p.add_motor(14,htype=RLIM,jdist=700,post=100)    
+    p.add_motor(10,group=3,htype=HSW,jdist=300)
+    p.add_motor(11,group=3,htype=HSW_HLIM,jdist=400)
+    p.add_motor(12,group=3,htype=HSW,jdist=500,post="h")
+    p.add_motor(13,group=3,htype=HSW_HLIM,jdist=600)
+    p.add_motor(14,group=3,htype=RLIM,jdist=700,post=100)    
     p.add_motor(15,group=4,htype=RLIM,jdist=800,post=150)            
     p.add_motor(16,group=4,htype=RLIM,jdist=800,post=-100)                
     p.write("/tmp/test_home_PLC.pmc")
 
     p = PLC(2,timeout=100000)
-    p.add_motor(1,htype=LIMIT)
-    p.add_motor(9,htype=HOMEZ)    
+#    p.add_motor(1,htype=LIMIT, enc_axes=[9])    
+    p.add_motor(1,htype=HSW, post="i", enc_axes=[9])
+    p.configure_group(1,[('m1231&m1332','0', 5)], "pre_stuff", "post_stuff")    
     p.write("/tmp/test_home_PLC2.pmc")
+
+    plc = PLC(14, post = None)
+    for axis in (9,10,11): # All 3 jacks grouped together
+        plc.add_motor(axis, group=2, jdist=1000, htype=HSW_HLIM)
+    for axis in (12,13): # Both translations grouped together
+        plc.add_motor(axis, group=3, jdist=0, htype=RLIM)
+    plc.add_motor(14, group=4, jdist=0, htype=RLIM)   
+    plc.configure_group(3,[('m1231&m1332','0', 5), ('m1232&m1331','0', 5)])
+    plc.write("/tmp/PLC14_TFM_HM.pmc")     
