@@ -22,7 +22,6 @@ DB += translated_motor.template
 DB += autohome.template
 DB += dls_pmac_asyn_motor.template
 DB += dls_pmac_cs_asyn_motor.template
-DB += positioncompare.template
 DB += encoder_loss_detection.template
 DB += nanomotor_pmac.template
 DB += nanomotor_axis.template
@@ -34,6 +33,7 @@ DB += bender.template
 DB += qcm.template
 DB += dls_readback_asyn_motor.template
 DB += encoderReadback.template
+DB += positionCompare.template
 
 # not using streams since this doesnt work with tpmac
 #DB += energise_streams.template
