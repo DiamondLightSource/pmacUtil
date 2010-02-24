@@ -37,7 +37,7 @@ COMMAND"MSCLRF16"
 COMMAND"MSCLRF32"
 COMMAND"MSCLRF48"
 
-; define lookaheads for coordinate systems and clear Q80
+; define lookaheads for coordinate systems
 ADDRESS&16
 COMMAND"DEFINE LOOKAHEAD 50,10"
 ADDRESS&15
