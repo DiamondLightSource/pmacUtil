@@ -12,7 +12,7 @@ vpath %.pmc $(MSI_INCLUDES)
 PO :=(
 PC :=)
 # hack needed to get brackets into a make shell expansion
-NEEDED := $(shell egrep "^\#include" Master.pmc | sed -r 's/.*"$(PO)[^"]+$(PC)".*/\1/' || exit)
+NEEDED := $(shell egrep "^\#include" Master*.pmc | sed -r 's/.*"$(PO)[^"]+$(PC)".*/\1/' || exit)
 
 # make sure all the needed files are generated
 install: $(NEEDED)
@@ -20,7 +20,7 @@ install: $(NEEDED)
 # rule to make a homing plc from generate_homing_plcs.py
 PLCs/%_HM.pmc: ../configure/generate_homing_plcs.py
 	@echo '***' Autogenerating homing plc \"$@\"
-	@PYTHONPATH=$(PMACUTIL)/etc/builder ./$^ $@
+	@PYTHONPATH=$(PMACUTIL)/etc ./$^ $@
 
 # define a header that should go on all generated files
 define print_header
