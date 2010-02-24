@@ -61,3 +61,9 @@ class gather(AutoSubstitution, Device):
 class pmacVariableWrite(AutoSubstitution):
     '''Couple of records to write variables to a Delta tau'''
     TemplateFile = 'pmacVariableWrite.template'
+
+class positionCompare(AutoSubstitution):
+    '''Setup position compare on a delta tau. Needs PLC_PMAC_position_compare
+    or PLC_BRICK_position_compare'''
+    Dependencies = (Calc,)    
+    TemplateFile = 'positionCompare.template'
