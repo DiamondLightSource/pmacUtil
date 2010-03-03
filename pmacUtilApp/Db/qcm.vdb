@@ -12,13 +12,7 @@
 # P - device name
 # PORT - PMAC asyn port
 # COORD - Co-ordinate system for the energy kinematics
-# DTYP - binary input DTYP (e.g. 8001)
-# INP - binary input (e.g. #C40 S16)
-# ZNAM - crystal name for when input = 0 
-# ONAM - crystal name for when input = 1
-# SI111_INP - input value that indicates Si111 crystal
 # gda_name
-# gda_desc
 # ######################################################
 # % autosave 2 VAL
 # % gdatag,template,simpleBinary,$(gda_name).ENERGY.MODE,$(gda_name) energy mode
@@ -27,7 +21,7 @@ record(bo, "$(P):ENERGYMODE") {
   field(VAL, "0")
   field(OUT, "$(P):MODE:STRING.A PP")
   field(ZNAM, "Bragg and Offset")
-  field(ONAM, "Bragg1 & Bragg2")
+  field(ONAM, "Bragg1 and Bragg2")
   field(DESC, "Energy mode")
 }
 
@@ -39,28 +33,6 @@ record(asyn, "$(P):SETPMAC") {
   field(DESC, "Set PMAC")
 }
 
-
-record(calcout, "$(P):XTAL:SPACE") {
-  field(DESC, "Crystal spacing")
-  field(CALC, "A=$(SI111_INP)?B:C")
-  field(INPA, "$(P):XTAL.VAL")
-  field(INPB, "3.1355")
-  field(INPC, "1.731463405")
-  field(OUT, "$(P):XTAL:STRING.A PP")
-  field(OOPT, "On Change")
-  field(DOPT, "Use CALC")
-}
-
-
-record(scalcout, "$(P):XTAL:STRING") {
-  field(DESC, "Xtal spacing string")
-  field(DTYP, "Soft Channel")
-  field(CALC, "PRINTF('&$(COORD) Q111=%f',A)")
-  field(OUT, "$(P):SETPMAC.AOUT PP")
-  field(OOPT, "Every Time")
-  field(DOPT, "Use CALC")
-}
-
 record(scalcout, "$(P):MODE:STRING") {
   field(DTYP, "Soft Channel")
   field(OUT, "$(P):SETPMAC.AOUT PP")
@@ -69,40 +41,142 @@ record(scalcout, "$(P):MODE:STRING") {
   field(CALC, "PRINTF('&$(COORD) Q23=%f',A)")
 }
 
-# % gdatag,template,simpleBinary,$(gda_name).XTAL.TYPE,$(gda_name) crystal type
-# % gdatag,binary,ro,$(gda_name).XTAL.TYPE,RECORD,Crystal Type
-# % archiver 10 Monitor
-record(bi, "$(P):XTAL") {
-  field(DTYP, "$(DTYP)")
-  field(INP, "$(INP)")
+record(scalcout, "$(P):B1:PHASE:START") {
+  field(DESC, "phase bragg 1 mtr")
+  field(DTYP, "Soft Channel")
+  field(CALC, "PRINTF('enable plc 21')")
+  field(OUT, "$(P):SETPMAC.AOUT PP")
+  field(OOPT, "Every Time")
+  field(DOPT, "Use CALC")
+  field(FLNK, "$(P):B1:GET:PHASING")
+}
+
+record(scalcout, "$(P):B2:PHASE:START") {
+  field(DESC, "phase bragg 2 mtr")
+  field(DTYP, "Soft Channel")
+  field(CALC, "PRINTF('enable plc 22')")
+  field(OUT, "$(P):SETPMAC.AOUT PP")
+  field(OOPT, "Every Time")
+  field(DOPT, "Use CALC")
+  field(FLNK, "$(P):B1:GET:PHASING")
+}
+
+record(scalcout, "$(P):B1:PHASING") {
+  field(SCAN, "Passive")
+  field(PINI, "NO")
+  field(DTYP, "Soft Channel")
+  field(CALC, "SSCANF(AA, '%f')")
+  field(PREC, "0")
+  field(INAA, "$(P):B1:GET:PHASING.AINP CP")
+}
+
+record(asyn, "$(P):B1:GET:PHASING") {
+  field(DESC, "Get pmac variable")
+  field(DTYP, "asynRecordDevice")
+  field(SCAN, "Passive")
+  field(FLNK, "$(P):B2:GET:PHASING")
+  field(PORT, "$(PORT)")
+  field(TMOT, "5.0")
+  field(AOUT, "M5021")
+}
+
+record(asyn, "$(P):B2:GET:PHASING") {
+  field(DESC, "Get pmac variable")
+  field(DTYP, "asynRecordDevice")
+  field(SCAN, "Passive")
+  field(PORT, "$(PORT)")
+  field(TMOT, "5.0")
+  field(AOUT, "M5022")
+}
+
+record(scalcout, "$(P):B2:PHASING") {
+  field(SCAN, "Passive")
+  field(PINI, "NO")
+  field(DTYP, "Soft Channel")
+  field(CALC, "SSCANF(AA, '%f')")
+  field(INAA, "$(P):B2:GET:PHASING.AINP CP")
+  field(PREC, "0")
+}
+
+record(bo, "$(P):B1:CLK") {
   field(SCAN, "5 second")
-  field(ZNAM, "$(ZNAM)")
-  field(ONAM, "$(ONAM)")
-  field(FLNK, "$(P):XTAL:SPACE")
+  field(DTYP, "Soft Channel")
+  field(FLNK, "$(P):B1:GET:PHASING")
+}
+
+record(bi, "$(P):XTAL") {
+  field(DTYP, "Raw Soft Channel")
+  field(ZNAM, "Si(111)")
+  field(ONAM, "Si(311)")
+}
+
+record(asyn, "$(P):GET:XTALSPACE") {
+  field(DESC, "Get pmac variable")
+  field(DTYP, "asynRecordDevice")
+  field(SCAN, "10 second")
+  field(PORT, "$(PORT)")
+  field(TMOT, "5.0")
+  field(AOUT, "&$(COORD)Q111")
+}
+
+record(scalcout, "$(P):XTALSPACE") {
+  field(SCAN, "Passive")
+  field(PINI, "NO")
+  field(DTYP, "Soft Channel")
+  field(CALC, "SSCANF(AA, '%f')")
+  field(INAA, "$(P):GET:XTALSPACE.AINP CP")
+  field(PREC, "9")
+  field(OUT, "$(P):XTAL.RVAL")
+  field(OOPT, "Every Time")
+  field(DOPT, "Use OCAL")
+  field(OCAL, "SSCANF(AA,'%f')>3?0:1")
+  field(FLNK, "$(P):XTAL")
 }
 
 #! Further lines contain data used by VisualDCT
 #! View(0,0,1.0)
-#! Record("$(P):ENERGYMODE",80,74,0,0,"$(P):ENERGYMODE")
+#! Record("$(P):ENERGYMODE",100,74,0,0,"$(P):ENERGYMODE")
 #! Field("$(P):ENERGYMODE.OUT",16777215,1,"$(P):ENERGYMODE.OUT")
 #! Link("$(P):ENERGYMODE.OUT","$(P):MODE:STRING.A")
-#! Record("$(P):SETPMAC",940,188,0,0,"$(P):SETPMAC")
+#! Record("$(P):SETPMAC",700,188,0,0,"$(P):SETPMAC")
 #! Field("$(P):SETPMAC.AOUT",16777215,0,"$(P):SETPMAC.AOUT")
-#! Record("$(P):XTAL:SPACE",380,292,0,0,"$(P):XTAL:SPACE")
-#! Field("$(P):XTAL:SPACE.INPA",16777215,0,"$(P):XTAL:SPACE.INPA")
-#! Link("$(P):XTAL:SPACE.INPA","$(P):XTAL.VAL")
-#! Field("$(P):XTAL:SPACE.OUT",16777215,1,"$(P):XTAL:SPACE.OUT")
-#! Link("$(P):XTAL:SPACE.OUT","$(P):XTAL:STRING.A")
-#! Record("$(P):XTAL:STRING",660,320,0,0,"$(P):XTAL:STRING")
-#! Field("$(P):XTAL:STRING.OUT",16777215,1,"$(P):XTAL:STRING.OUT")
-#! Link("$(P):XTAL:STRING.OUT","$(P):SETPMAC.AOUT")
-#! Field("$(P):XTAL:STRING.A",16777215,0,"$(P):XTAL:STRING.A")
-#! Record("$(P):MODE:STRING",660,54,0,0,"$(P):MODE:STRING")
+#! Record("$(P):MODE:STRING",420,54,0,0,"$(P):MODE:STRING")
 #! Field("$(P):MODE:STRING.OUT",16777215,1,"$(P):MODE:STRING.OUT")
 #! Link("$(P):MODE:STRING.OUT","$(P):SETPMAC.AOUT")
 #! Field("$(P):MODE:STRING.A",16777215,0,"$(P):MODE:STRING.A")
-#! Record("$(P):XTAL",80,280,0,0,"$(P):XTAL")
-#! Field("$(P):XTAL.INP",16777215,1,"$(P):XTAL.INP")
-#! Field("$(P):XTAL.FLNK",16777215,1,"$(P):XTAL.FLNK")
-#! Link("$(P):XTAL.FLNK","$(P):XTAL:SPACE")
-#! Field("$(P):XTAL.VAL",16777215,1,"$(P):XTAL.VAL")
+#! Record("$(P):B1:PHASE:START",420,226,0,1,"$(P):B1:PHASE:START")
+#! Field("$(P):B1:PHASE:START.OUT",16777215,1,"$(P):B1:PHASE:START.OUT")
+#! Link("$(P):B1:PHASE:START.OUT","$(P):SETPMAC.AOUT")
+#! Field("$(P):B1:PHASE:START.FLNK",16777215,1,"$(P):B1:PHASE:START.FLNK")
+#! Link("$(P):B1:PHASE:START.FLNK","$(P):B1:GET:PHASING")
+#! Record("$(P):B2:PHASE:START",420,426,0,1,"$(P):B2:PHASE:START")
+#! Field("$(P):B2:PHASE:START.OUT",16777215,1,"$(P):B2:PHASE:START.OUT")
+#! Link("$(P):B2:PHASE:START.OUT","$(P):SETPMAC.AOUT")
+#! Field("$(P):B2:PHASE:START.FLNK",16777215,1,"$(P):B2:PHASE:START.FLNK")
+#! Link("$(P):B2:PHASE:START.FLNK","$(P):B1:GET:PHASING")
+#! Record("$(P):B1:PHASING",820,500,0,1,"$(P):B1:PHASING")
+#! Field("$(P):B1:PHASING.INAA",16777215,0,"$(P):B1:PHASING.INAA")
+#! Link("$(P):B1:PHASING.INAA","$(P):B1:GET:PHASING.AINP")
+#! Record("$(P):B1:GET:PHASING",800,686,0,0,"$(P):B1:GET:PHASING")
+#! Field("$(P):B1:GET:PHASING.FLNK",16777215,1,"$(P):B1:GET:PHASING.FLNK")
+#! Link("$(P):B1:GET:PHASING.FLNK","$(P):B2:GET:PHASING")
+#! Field("$(P):B1:GET:PHASING.AINP",16777215,0,"$(P):B1:GET:PHASING.AINP")
+#! Record("$(P):B2:GET:PHASING",1100,740,0,0,"$(P):B2:GET:PHASING")
+#! Field("$(P):B2:GET:PHASING.AINP",16777215,0,"$(P):B2:GET:PHASING.AINP")
+#! Record("$(P):B2:PHASING",1120,540,0,1,"$(P):B2:PHASING")
+#! Field("$(P):B2:PHASING.INAA",16777215,0,"$(P):B2:PHASING.INAA")
+#! Link("$(P):B2:PHASING.INAA","$(P):B2:GET:PHASING.AINP")
+#! Record("$(P):B1:CLK",500,642,0,1,"$(P):B1:CLK")
+#! Field("$(P):B1:CLK.FLNK",16777215,1,"$(P):B1:CLK.FLNK")
+#! Link("$(P):B1:CLK.FLNK","$(P):B1:GET:PHASING")
+#! Record("$(P):XTAL",1360,282,0,0,"$(P):XTAL")
+#! Field("$(P):XTAL.RVAL",16777215,0,"$(P):XTAL.RVAL")
+#! Record("$(P):GET:XTALSPACE",1380,700,0,0,"$(P):GET:XTALSPACE")
+#! Field("$(P):GET:XTALSPACE.AINP",16777215,0,"$(P):GET:XTALSPACE.AINP")
+#! Record("$(P):XTALSPACE",1400,411,0,1,"$(P):XTALSPACE")
+#! Field("$(P):XTALSPACE.OUT",16777215,0,"$(P):XTALSPACE.OUT")
+#! Link("$(P):XTALSPACE.OUT","$(P):XTAL.RVAL")
+#! Field("$(P):XTALSPACE.FLNK",16777215,0,"$(P):XTALSPACE.FLNK")
+#! Link("$(P):XTALSPACE.FLNK","$(P):XTAL")
+#! Field("$(P):XTALSPACE.INAA",16777215,0,"$(P):XTALSPACE.INAA")
+#! Link("$(P):XTALSPACE.INAA","$(P):GET:XTALSPACE.AINP")
