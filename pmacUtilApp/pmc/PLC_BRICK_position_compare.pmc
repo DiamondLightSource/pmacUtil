@@ -7,16 +7,23 @@ CLOSE
 ;;
 ;; Macros: 
 ;; - axis: Axis number to run position compare on
+;; - eaxis: EQU axis number. If you want EQUx to compare against axis x pos then 
+;;          eaxis = axis. If you want EQUx to compare against pos of the fist
+;;          axis on the IC (1 or 5), then axis = 1 or 5, eaxis = x and 
+;;          set i7mn1 = 1 for axis x. E.g. if you want EQU2 to do position 
+;;          compare on axis 1, axis = 1, eaxis = 2 and i7011 = 1.
+;;          Note: the output of EQU1 will be the logical OR of any EQU registers
+;;          comparing on axis 1. See turbo SRM p274 for details
 ;; - PLC: PLC number to run as
 ;####################################################
 
 #define homeOffset m$(axis)73 + (i$(axis)26 / 16)
-#define setAutoIncr M$(axis)10=step
-#define setCmpA M$(axis)08=cmpA
-#define setCmpB M$(axis)09=cmpB
-#define setOutputZero M$(axis)12=zero
-#define setOutputOutput M$(axis)12=output
-#define writeOutput M$(axis)11=one
+#define setAutoIncr M$(eaxis)10=step
+#define setCmpA M$(eaxis)08=cmpA
+#define setCmpB M$(eaxis)09=cmpB
+#define setOutputZero M$(eaxis)12=zero
+#define setOutputOutput M$(eaxis)12=output
+#define writeOutput M$(eaxis)11=one
 
 ; ####################################################################
 ; The section below is common, also modify PLC_PMAC_position_compare
@@ -105,7 +112,7 @@ CLEAR
 ; Get the current motor position and velo
 currentPos=m$(axis)62/(I$(axis)08*32)  
 currentDir=m$(axis)74
-actualOutput=m$(axis)13
+actualOutput=m$(eaxis)13
 
 ; Service inputs
 if (output != demandOutput)

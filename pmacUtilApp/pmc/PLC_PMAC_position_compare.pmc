@@ -7,7 +7,14 @@ CLOSE
 ;;
 ;; Macros: 
 ;; - axis: Axis number to run position compare on
-;; - ms: Macrostation variable for the given axis
+;; - eaxis: EQU axis number. If you want EQUx to compare against axis x pos then 
+;;          eaxis = axis. If you want EQUx to compare against pos of the fist
+;;          axis on the IC (1, 5, 9, etc.), then axis = 1 or 5 or 9 etc. 
+;;          eaxis = x and MSn,I911 = 1 for axis x. E.g. if you want EQU2 to do 
+;;          position compare on axis 1, axis = 1, eaxis = 2 and MS1,I911 = 1.
+;;          Note: the output of EQU1 will be the logical OR of any EQU registers
+;;          comparing on axis 1. See 16 axis macro SRM p48 for details
+;; - ms: Macrostation variable for the EQU register
 ;; - PLC: PLC number to run as
 ;####################################################
 
@@ -106,7 +113,7 @@ CLEAR
 ; Get the current motor position and velo
 currentPos=m$(axis)62/(I$(axis)08*32)  
 currentDir=m$(axis)74
-actualOutput=m$(axis)13
+actualOutput=m$(eaxis)13
 
 ; Service inputs
 if (output != demandOutput)
