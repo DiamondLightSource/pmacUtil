@@ -142,11 +142,14 @@ def parse_args():
 # \param plc plc number (any free plc number on the PMAC)
 # \param timeout timout for any move in ms
 # \param ctype The controller type, will be PMAC (=0) or GEOBRICK (=1)
+# \param protection_plc The PMAC is using the protection PLC4 rather than 
+# the encoder loss PLC4 (or no PLC4).  If True, code is planted that
+# disables the limit protection during the execution of the homing PLC.
 # All other parameters setup defaults that can be overridden for a particular
 # motor in add_motor()
 class PLC:       
     def __init__(self, plc, timeout=600000, htype=HOME, jdist=0, post=None,
-            ctype=PMAC):
+            ctype=PMAC, protection_plc=False):
         ## List of motor objects added by add_motor()
         self.motors = []
         self.__d = { "plc": int(plc), "timeout": timeout, "comment": ""}
@@ -165,6 +168,8 @@ class PLC:
             self.__d["controller"] = "PMAC"
         else:
             self.__d["controller"] = "GeoBrick"
+        ## Controls planting of protection PLC code
+        self.protection_plc = protection_plc
 
     ## Add code hooks and extra checks to a group home.
     # \param group Group number to configure
@@ -401,6 +406,9 @@ class PLC:
         #---- Configuring state ----
         f.write(";---- Configuring State ----\n")
         f.write("HomingState=StateConfiguring\n")
+        if self.protection_plc:
+            f.write(";Disable protection PLC\n")
+            f.write(" ".join(["P4%02d=P4%02d|$4"%(m["ax"],m["ax"]) for i,m in ems])+"\n")
         f.write(";Save the Homing group to px03\n")
         f.write("HomingBackupGroup=HomingGroup\n")        
         f.write(";Save high soft limits to P variables px04..x19\n")
@@ -621,6 +629,9 @@ class PLC:
         f.write(" ".join(cmds)+"\n")        
         f.write(';Restore the limit flags to P variables px68..x83\n')        
         f.write(" ".join(["i%d24=P%d%02d"%(m["ax"],plc,i+68) for i,m in ems])+"\n")
+        if self.protection_plc:
+            f.write(";Enable protection PLC\n")
+            f.write(" ".join(["P4%02d=P4%02d&$fffffb"%(m["ax"],m["ax"]) for i,m in ems])+"\n")
         f.write("\n")
         f.write("DISABLE PLC%s\n"%plc)
         f.write("CLOSE\n")
