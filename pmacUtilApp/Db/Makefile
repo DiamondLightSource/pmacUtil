@@ -21,6 +21,7 @@ DB += motorstatus.template
 DB += translated_motor.template
 DB += autohome.template
 DB += dls_pmac_asyn_motor.template
+DB += dls_pmac_prot_asyn_motor.template
 DB += dls_pmac_cs_asyn_motor.template
 DB += encoder_loss_detection.template
 DB += nanomotor_pmac.template
@@ -52,9 +53,13 @@ include $(TOP)/configure/RULES
 #----------------------------------------
 #  ADD RULES AFTER THIS LINE
 
-../O.Common/dls_pmac_asyn_motor.template: ../dls_pmac_asyn_motor_extras.template
+../O.Common/dls_pmac_asyn_motor.template: ../dls_pmac_asyn_motor_extras.template ../dls_pmac_asyn_motor_eloss_extras.template
 	cat $(MOTOR)/db/basic_asyn_motor.template > $@
-	cat $< >> $@
+	cat $^ >> $@
+	
+../O.Common/dls_pmac_prot_asyn_motor.template: ../dls_pmac_asyn_motor_extras.template ../dls_pmac_asyn_motor_prot_extras.template
+	cat $(MOTOR)/db/basic_asyn_motor.template > $@
+	cat $^ >> $@
 	
 ../O.Common/dls_pmac_cs_asyn_motor.template: ../dls_pmac_cs_asyn_motor_extras.template
 	cat $(MOTOR)/db/basic_asyn_motor.template > $@

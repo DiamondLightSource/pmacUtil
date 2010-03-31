@@ -1,0 +1,84 @@
+; Configuration file for PMAC axis protection PLC test.
+;
+; Jonathan Thompson  January 2010.
+
+;******************************************************************************
+; DLS wide initial state
+#include PMAC_M_variables.pmc
+#include dls_common_M_variables.pmc
+#include dls_PMAC_M_variables.pmc
+
+; Protection PLC
+#define $(ONM1) 0
+#define $(ONM2) 0
+#define $(ONM3) 0
+#define $(ONM4) 0
+#define $(ONM5) 0
+#define $(ONM6) 0
+#define $(ONM7) 0
+#define $(ONM8) 0
+#define $(ONM9) 0
+#define $(ONM10) 0
+#define $(ONM11) 0
+#define $(ONM12) 0
+#define $(ONM13) 0
+#define $(ONM14) 0
+#define $(ONM15) 0
+#define $(ONM16) 0
+#define $(ONM17) 0
+#define $(ONM18) 0
+#define $(ONM19) 0
+#define $(ONM20) 0
+#define $(ONM21) 0
+#define $(ONM22) 0
+#define $(ONM23) 0
+#define $(ONM24) 0
+#define $(ONM25) 0
+#define $(ONM26) 0
+#define $(ONM27) 0
+#define $(ONM28) 0
+#define $(ONM29) 0
+#define $(ONM30) 0
+#define $(ONM31) 0
+#define $(ONM32) 0
+#include PLC4_protection.pmc
+
+;***************************************************************************************
+; Axis 1 - PROTECTION:M1
+;
+; TODO: motor details not known.
+;
+ms0,i910 = 7                       ; Configure encoder decode (7=closed loop stepper)
+ms0,i912 = 2                       ; Home on flag high
+ms0,i913 = 2                       ; Home flag selector (2=MinusLimit)
+ms0,i916 = 2                       ; Configure output type (2=PFM)
+ms0,i918 = 0                       ; Direction signal invert (0=no)
+i100 = 1                           ; Activate axis
+i101 = 0                           ; Disable commutation
+i102 = $78422                      ; Set DSP gate address for this axis
+i108 = 96                          ; Default scale factor
+i109 = 96                          ; Default scale factor
+i111 = 3200                        ; Fatal following error limit
+i112 = 2000                        ; Warning following error limit
+i113 = 10000                       ; Positive software position limit
+i114 = -10000                      ; Negative software position limit
+i116 = 0.5                         ; Max program velocity
+i117 = 0.1                         ; Max program acceleration
+i119 = 0.1                         ; Max jogging accel
+i120 = 100                         ; Time to accelerate (over-ridden by 2*TS (ix21))
+i121 = 20                          ; S-curve time
+i122 = 0.2                         ; Jog speed (counts/msec)
+i123 = -0.2                        ; Home speed and direction
+i124 = $40001                      ; Enable limit switches ($60001 will disable them)
+i125 = $3440                       ; Macro flag register set 0
+i126 = 16000                       ; Zero position offset (1/16 count)
+i130 = 70000                       ; Proportional gain
+i131 = 100                         ; Derivative gain
+i132 = 5500                        ; Velocity feedforward gain
+i133 = 4000                        ; PID integral gain
+i164 = -16                         ; Enable deadband
+i165 = 48                          ; Deadband in 16ths of an encoder count
+i169 = 1000                        ; Set max output frequency
+i183 = $78420                      ; Commutation position address
+p401 = 16385                       ; Axis protection enable + velocity=0.25*65536
+

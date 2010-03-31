@@ -1,0 +1,5 @@
+<?xml version="1.0" ?>
+<components arch="linux-x86">
+	<tpmac.GeoBrick DeviceName="pmac1" IP="localhost:9001" name="PMAC1"/>
+	<pmacUtil.dls_pmac_prot_asyn_motor ACCL="1.0" ADDR="1" DESC="Motor 1" DHLM="10000" DLLM="-10000" EGU="mm" PROTENABLE="1" M=":MOTOR" MRES="0.001" P="PROTECTIONEX" PORT="pmac1" PREC="3" RECOVERVEL="0.25" SPORT="pmac1port" TWV="0.1" VELO="0.5" VMAX="1000" name="M1"/>
+</components>

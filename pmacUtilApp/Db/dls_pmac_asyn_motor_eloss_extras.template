@@ -1,0 +1,64 @@
+#% macro, SPORT, Asyn port for eloss commands 
+# usually PMAC_S<n> for pmacs, the name of the pmacAsynIpPort for bricks
+#% macro, HOME, Prefix for autohome instance. Defaults to $(P). If unspecified,
+# the template contains enough records to keep the motor record happy
+
+record(calcout, "$(P)$(M):ELOSSRC") {
+  field(DESC, "Write 0 to A to reset Eloss")
+  field(DTYP, "Soft Channel")
+  field(CALC, "A")
+  field(A, "0")
+  field(OUT, "$(P)$(M):ELOSSRCA.A PP")
+}
+
+record(scalcout, "$(P)$(M):ELOSSRCA") {
+  field(DESC, "Write 0 to A to reset Eloss")
+  field(DTYP, "Soft Channel")
+  field(CALC, "A")
+  field(OUT, "$(P)$(M):ELOSSASET.AOUT PP")
+  field(DOPT, "Use OCAL")
+  field(OCAL, "$P('P4%02d',64+$(ADDR))+$P('=%f',A)")
+  field(A, "0")
+}
+
+record(asyn, "$(P)$(M):ELOSSASET") {
+  field(SCAN, "Passive")
+  field(DTYP, "asynRecordDevice")
+  field(PORT, "$(SPORT)")
+  field(DESC, "Set PMAC ELOSS")
+  field(TMOT, "5")
+}
+
+record(scalcout, "$(P)$(M):ELOSSC") {
+  field(DESC, "Calculate Eloss address")
+  field(DTYP, "Soft Channel")
+  field(OUT, "$(P)$(M):ELOSSA.AOUT PP")
+  field(DOPT, "Use OCAL")
+  field(OCAL, "$P('P4%02d',64+$(ADDR))")
+  field(PINI, "YES")
+}
+
+record(asyn, "$(P)$(M):ELOSSA") {
+  field(DTYP, "asynRecordDevice")
+  field(SCAN, "10 second")
+  field(PORT, "$(SPORT)")
+  field(DESC, "Read Eloss variable")
+  field(FLNK, "$(P)$(M):ELOSSCALC")
+  field(TMOT, "5")
+}
+
+#% alh $SEVRCOMMAND UP_ANY /dls_sw/tools/bin/dls-alh-handler.py $(P)$(M):ELOSSCALC
+record(scalcout, "$(P)$(M):ELOSSCALC") {
+  field(SCAN, "Passive")
+  field(DTYP, "Soft Channel")
+  field(VAL, "0")
+  field(CALC, "SSCANF(AA, '%f')")
+  field(INAA, "$(P)$(M):ELOSSA.AINP")
+  field(PREC, "0")
+  field(OOPT, "On Change")
+  field(HIHI, "1")
+  field(HHSV, "MAJOR")
+  field(OUT, "$(P)$(M):ELOSS PP")
+}
+
+
