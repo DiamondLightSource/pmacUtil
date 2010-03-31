@@ -406,9 +406,6 @@ class PLC:
         #---- Configuring state ----
         f.write(";---- Configuring State ----\n")
         f.write("HomingState=StateConfiguring\n")
-        if self.protection_plc:
-            f.write(";Disable protection PLC\n")
-            f.write(" ".join(["P4%02d=P4%02d|$4"%(m["ax"],m["ax"]) for i,m in ems])+"\n")
         f.write(";Save the Homing group to px03\n")
         f.write("HomingBackupGroup=HomingGroup\n")        
         f.write(";Save high soft limits to P variables px04..x19\n")
@@ -446,7 +443,13 @@ class PLC:
                 f.write("or (HomingBackupGroup=%d and HomingStatus=StatusHoming)\n"%g)  
             ## Store the motor group that is currently being generated          
             self.group = g
-            f.write("\tHomingGroup=%d\n\n"%g)  
+            f.write("\tHomingGroup=%d\n\n"%g) 
+
+            #---- Disable any protection ---- 
+            if self.protection_plc:
+                ems = self.__sel()          
+                f.write("\t;Disable protection PLC\n")
+                f.write("\t"+" ".join(["P4%02d=P4%02d|$4"%(m["ax"],m["ax"]) for i,m in ems])+"\n")
             
             #---- PreHomeMove State ----
             # for hsw_dir motors, set the trigger to be the inverse flag
@@ -556,7 +559,7 @@ class PLC:
             if cmds:
                 f.write('\t;---- Zero encoder channels ----\n')
                 f.write('\tif (HomingStatus=StatusHoming)\n') 
-                f.write("\t\t" + " ".join(cmds)+"\n")                
+                f.write("\t\tcmd \"" + " ".join(cmds)+"\"\n")                
                 f.write('\tendif\n\n')  
 
             # check motors ALL have home complete flags set
@@ -591,6 +594,12 @@ class PLC:
                     self.__cmd2.append("#%dJ=%d"%(m["ax"],m["post"]))
             # add the commands, wait for the moves to complete
             self.__write_cmds(f,"PostHomeMove")
+
+            #---- Enable any protection ---- 
+            if self.protection_plc:
+                ems = self.__sel()          
+                f.write("\t;Enable protection PLC\n")
+                f.write("\t"+" ".join(["P4%02d=P4%02d&$fffffb"%(m["ax"],m["ax"]) for i,m in ems])+"\n")
 
             # End of per group bit
             f.write("endif\n\n")
@@ -629,9 +638,6 @@ class PLC:
         f.write(" ".join(cmds)+"\n")        
         f.write(';Restore the limit flags to P variables px68..x83\n')        
         f.write(" ".join(["i%d24=P%d%02d"%(m["ax"],plc,i+68) for i,m in ems])+"\n")
-        if self.protection_plc:
-            f.write(";Enable protection PLC\n")
-            f.write(" ".join(["P4%02d=P4%02d&$fffffb"%(m["ax"],m["ax"]) for i,m in ems])+"\n")
         f.write("\n")
         f.write("DISABLE PLC%s\n"%plc)
         f.write("CLOSE\n")
