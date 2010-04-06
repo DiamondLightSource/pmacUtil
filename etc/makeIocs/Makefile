@@ -5,7 +5,8 @@ include $(TOP)/configure/CONFIG
 DEBUG :=
 
 # These are the xml files we will make iocs out of
-XMLS := $(wildcard *.xml)
+#XMLS := $(wildcard *.xml)
+XMLS := ProtectionTest.xml
 
 # These are the IOCS
 IOCS := $(patsubst %.xml, %, $(XMLS))
