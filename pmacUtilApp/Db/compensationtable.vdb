@@ -3,6 +3,7 @@
 #! DBD("../../dbd/pmacUtil.dbd")
 #! DBDEND
 
+
 ######################################################
 # 
 # compensationtable.template
@@ -15,21 +16,28 @@
 # P and M:    The PV prefix. Note if P:M also point to a motor
 #             record, the MRES field from the motor record will
 #             be collected and used for the calulations of the table
-# MOTOR:      The PMAC motor number to use this table with. Note that
-#             if a P:M motor record exist, it should point to the same
-#             motor on the same PMAC.
 # PORT:       The asyn port for the compensation table asyn support
 # OCTETPORT:  The asyn octet (asyn serial or ethernet) 
 #             port that is connected to the PMAC
+# TABLE:      The table ID in the PMAC. This is really the 'addressed motor'
+#             in the PMAC -however, the reference to the motor number is
+#             purely convention. Thus we use this number to ID a specific table.
+#             The source and target motors are specified in the DEF COMP command.
+# TARGET:     The target motor (motor record name) to apply the table to. 
+#             This is the motor that will move as a result of the compenstation.
+# SOURCE:     Source motor (motor record name) that is the source of the
+#             compensation table. The SOURCE can be the same as the TARGET motor
+#             for leadscrew compensation.
 # EGU:        Engineering units to use
 # PREC:       Field precision to use
-# NELM:       Number of elements in table/waveforms
+# NELM:       Number of elements in table/waveforms. This is the maximum number of
+#             entries in the table.
 #
 record(ao, "$(P)$(M):COMPTAB:ENTRIES") {
   field(DESC, "number of table entries")
   field(DTYP, "asynInt32")
   field(PREC, "0")
-  field(OUT, "@asyn($(PORT) $(MOTOR) 1.0)CT_ENTRIES")
+  field(OUT, "@asyn($(PORT) $(TABLE) 1.0)CT_ENTRIES")
   field(FLNK, "$(P)$(M):COMPTAB:TABLE:SOURCE")
 }
 
@@ -37,9 +45,9 @@ record(ao, "$(P)$(M):COMPTAB:SOURCE") {
   field(DESC, "source motor number")
   field(DTYP, "asynInt32")
   field(PREC, "0")
-  field(OUT, "@asyn($(PORT) $(MOTOR) 1.0)CT_SOURCE")
+  field(OUT, "@asyn($(PORT) $(TABLE) 1.0)CT_SOURCE")
   field(PINI, "YES")
-  field(VAL, "$(MOTOR)")
+  field(VAL, "$(TABLE)")
 }
 
 record(bo, "$(P)$(M):COMPTAB:DESIRED") {
@@ -47,16 +55,16 @@ record(bo, "$(P)$(M):COMPTAB:DESIRED") {
   field(DTYP, "asynInt32")
   field(ZNAM, "actual position")
   field(ONAM, "desired position")
-  field(OUT, "@asyn($(PORT) $(MOTOR) 1.0)CT_DESIRED")
+  field(OUT, "@asyn($(PORT) $(TABLE) 1.0)CT_DESIRED")
 }
 
 record(ao, "$(P)$(M):COMPTAB:TARGET") {
   field(DESC, "target motor number")
   field(DTYP, "asynInt32")
   field(PREC, "0")
-  field(OUT, "@asyn($(PORT) $(MOTOR) 1.0)CT_TARGET")
+  field(OUT, "@asyn($(PORT) $(TABLE) 1.0)CT_TARGET")
   field(PINI, "YES")
-  field(VAL, "$(MOTOR)")
+  field(VAL, "$(TABLE)")
 }
 
 record(ao, "$(P)$(M):COMPTAB:RANGE") {
@@ -64,7 +72,7 @@ record(ao, "$(P)$(M):COMPTAB:RANGE") {
   field(DTYP, "asynFloat64")
   field(PREC, "3")
   field(EGU, "$(EGU)")
-  field(OUT, "@asyn($(PORT) $(MOTOR) 1.0)CT_COUNT_LENGTH")
+  field(OUT, "@asyn($(PORT) $(TABLE) 1.0)CT_COUNT_LENGTH")
   field(FLNK, "$(P)$(M):COMPTAB:TABLE:SOURCE")
 }
 
@@ -73,7 +81,7 @@ record(ao, "$(P)$(M):COMPTAB:SOURCE:MRES") {
   field(DTYP, "asynFloat64")
   field(PREC, "4")
   field(EGU, "$(EGU)/cts")
-  field(OUT, "@asyn($(PORT) $(MOTOR) 1.0)CT_SOURCE_MRES")
+  field(OUT, "@asyn($(PORT) $(TABLE) 1.0)CT_SOURCE_MRES")
 }
 
 record(ao, "$(P)$(M):COMPTAB:TARGET:MRES") {
@@ -81,7 +89,7 @@ record(ao, "$(P)$(M):COMPTAB:TARGET:MRES") {
   field(DTYP, "asynFloat64")
   field(PREC, "4")
   field(EGU, "$(EGU)/cts")
-  field(OUT, "@asyn($(PORT) $(MOTOR) 1.0)CT_TARGET_MRES")
+  field(OUT, "@asyn($(PORT) $(TABLE) 1.0)CT_TARGET_MRES")
 }
 
 record(waveform, "$(P)$(M):COMPTAB:TABLE") {
@@ -91,7 +99,7 @@ record(waveform, "$(P)$(M):COMPTAB:TABLE") {
   field(EGU, "$(EGU)")
   field(NELM, "$(NELM)")
   field(FTVL, "DOUBLE")
-  field(INP, "@asyn($(PORT) $(MOTOR) 1.0)CT_TABLE")
+  field(INP, "@asyn($(PORT) $(TABLE) 1.0)CT_TABLE")
 }
 
 record(waveform, "$(P)$(M):COMPTAB:TABLE:SOURCE") {
@@ -101,14 +109,14 @@ record(waveform, "$(P)$(M):COMPTAB:TABLE:SOURCE") {
   field(EGU, "$(EGU)")
   field(NELM, "$(NELM)")
   field(FTVL, "DOUBLE")
-  field(INP, "@asyn($(PORT) $(MOTOR) 1.0)CT_SOURCE_TABLE")
+  field(INP, "@asyn($(PORT) $(TABLE) 1.0)CT_SOURCE_TABLE")
   field(PINI, "YES")
 }
 
 record(bo, "$(P)$(M):COMPTAB:APPLY") {
   field(DESC, "apply new table")
   field(DTYP, "asynInt32")
-  field(OUT, "@asyn($(PORT) $(MOTOR) 1.0)CT_APPLY")
+  field(OUT, "@asyn($(PORT) $(TABLE) 1.0)CT_APPLY")
   field(ZNAM, "0")
   field(ONAM, "1")
 }
@@ -116,7 +124,7 @@ record(bo, "$(P)$(M):COMPTAB:APPLY") {
 record(bo, "$(P)$(M):COMPTAB:ENABLE") {
   field(DESC, "enable the table")
   field(DTYP, "asynInt32")
-  field(OUT, "@asyn($(PORT) $(MOTOR) 1.0)CT_ENABLE")
+  field(OUT, "@asyn($(PORT) $(TABLE) 1.0)CT_ENABLE")
   field(ZNAM, "disable")
   field(ONAM, "enable")
   field(FLNK, "$(P)$(M):COMPTAB:ENABLERBV")
@@ -125,7 +133,7 @@ record(bo, "$(P)$(M):COMPTAB:ENABLE") {
 record(bi, "$(P)$(M):COMPTAB:ENABLERBV") {
   field(DESC, "reading back enable status")
   field(DTYP, "asynInt32")
-  field(INP, "@asyn($(PORT) $(MOTOR) 1.0)CT_ENABLE")
+  field(INP, "@asyn($(PORT) $(TABLE) 1.0)CT_ENABLE")
   field(ZNAM, "disable")
   field(ONAM, "enable")
 }
@@ -142,7 +150,7 @@ record(asyn, "$(P)$(M):COMPTAB:ASYN") {
 record(bo, "$(P)$(M):COMPTAB:GENABLE") {
   field(DESC, "Globally enable comp")
   field(DTYP, "asynInt32")
-  field(OUT, "@asyn($(PORT) $(MOTOR) 1.0)CT_GLOBAL_ENABLE")
+  field(OUT, "@asyn($(PORT) $(TABLE) 1.0)CT_GLOBAL_ENABLE")
   field(ZNAM, "disable")
   field(ONAM, "enable")
   field(FLNK, "$(P)$(M):COMPTAB:GENABLERBV")
@@ -151,7 +159,7 @@ record(bo, "$(P)$(M):COMPTAB:GENABLE") {
 record(bi, "$(P)$(M):COMPTAB:GENABLERBV") {
   field(DESC, "comp tables globally enabled")
   field(DTYP, "asynInt32")
-  field(INP, "@asyn($(PORT) $(MOTOR) 1.0)CT_GLOBAL_ENABLE")
+  field(INP, "@asyn($(PORT) $(TABLE) 1.0)CT_GLOBAL_ENABLE")
   field(ZNAM, "disable")
   field(ONAM, "enable")
 }
@@ -159,7 +167,7 @@ record(bi, "$(P)$(M):COMPTAB:GENABLERBV") {
 record(bo, "$(P)$(M):COMPTAB:WRAP") {
   field(DESC, "Globally enable wrap (I31)")
   field(DTYP, "asynInt32")
-  field(OUT, "@asyn($(PORT) $(MOTOR) 1.0)CT_TABLE_WRAP")
+  field(OUT, "@asyn($(PORT) $(TABLE) 1.0)CT_TABLE_WRAP")
   field(ZNAM, "off")
   field(ONAM, "on")
   field(FLNK, "$(P)$(M):COMPTAB:WRAPRBV")
@@ -168,23 +176,10 @@ record(bo, "$(P)$(M):COMPTAB:WRAP") {
 record(bi, "$(P)$(M):COMPTAB:WRAPRBV") {
   field(DESC, "comp table wrap around")
   field(DTYP, "asynInt32")
-  field(INP, "@asyn($(PORT) $(MOTOR) 1.0)CT_TABLE_WRAP")
+  field(INP, "@asyn($(PORT) $(TABLE) 1.0)CT_TABLE_WRAP")
   field(ZNAM, "off")
   field(ONAM, "on")
 }
-
-record(ao, "$(P)$(M):COMPTAB:GETMRES") {
-  field(PINI, "YES")
-  field(OUT, "$(P)$(M):COMPTAB:MRESFAN PP")
-  field(DOL, "$(P)$(M) CP")
-  field(OMSL, "closed_loop")
-}
-
-record(dfanout, "$(P)$(M):COMPTAB:MRESFAN") {
-  field(OUTA, "$(P)$(M):COMPTAB:TARGET:MRES PP")
-  field(OUTB, "$(P)$(M):COMPTAB:SOURCE:MRES PP")
-}
-
 
 record(stringin, "$(P)$(M):COMPTAB:OCTETPORT") {
   field(DTYP, "Soft Channel")
@@ -196,14 +191,48 @@ record(stringin, "$(P)$(M):COMPTAB:PORT") {
   field(VAL, "$(PORT)")
 }
 
+record(ao, "$(P)$(M):COMPTAB:GET_TRG_MRES") {
+  field(PINI, "YES")
+  field(OUT, "$(P)$(M):COMPTAB:TARGET:MRES PP MS")
+  field(DOL, "$(TARGET).MRES CP")
+  field(OMSL, "closed_loop")
+}
+
+record(ao, "$(P)$(M):COMPTAB:GET_SRC_MRES") {
+  field(PINI, "YES")
+  field(OUT, "$(P)$(M):COMPTAB:SOURCE:MRES PP MS")
+  field(DOL, "$(SOURCE).MRES CP")
+  field(OMSL, "closed_loop")
+}
+
+record(scalcout, "$(P)$(M):COMPTAB:GET_TRG_NO") {
+  field(PINI, "YES")
+  field(CALC, "$S(AA,'@asyn($(PMAC)%*d,%d')")
+  field(INAA, "$(TARGET).OUT CA")
+  field(OUT, "$(P)$(M):COMPTAB:TARGET PP MS")
+  field(OOPT, "Every Time")
+  field(DOPT, "Use CALC")
+}
+
+record(scalcout, "$(P)$(M):COMPTAB:GET_SRC_NO") {
+  field(PINI, "YES")
+  field(CALC, "$S(AA,'@asyn($(PMAC)%*d,%d')")
+  field(INAA, "$(SOURCE).OUT CA")
+  field(OUT, "$(P)$(M):COMPTAB:SOURCE PP MS")
+  field(OOPT, "Every Time")
+  field(DOPT, "Use CALC")
+}
+
 #! Further lines contain data used by VisualDCT
-#! View(2416,2407,1.2)
+#! View(1376,3882,1.2)
 #! Record("$(P)$(M):COMPTAB:ENTRIES",2000,2231,0,1,"$(P)$(M):COMPTAB:ENTRIES")
 #! Field("$(P)$(M):COMPTAB:ENTRIES.FLNK",16777215,1,"$(P)$(M):COMPTAB:ENTRIES.FLNK")
 #! Link("$(P)$(M):COMPTAB:ENTRIES.FLNK","$(P)$(M):COMPTAB:TABLE:SOURCE")
-#! Record("$(P)$(M):COMPTAB:SOURCE",2520,2037,0,1,"$(P)$(M):COMPTAB:SOURCE")
+#! Record("$(P)$(M):COMPTAB:SOURCE",2200,3517,0,1,"$(P)$(M):COMPTAB:SOURCE")
+#! Field("$(P)$(M):COMPTAB:SOURCE.VAL",16777215,0,"$(P)$(M):COMPTAB:SOURCE.VAL")
 #! Record("$(P)$(M):COMPTAB:DESIRED",2200,2671,0,1,"$(P)$(M):COMPTAB:DESIRED")
-#! Record("$(P)$(M):COMPTAB:TARGET",2700,2037,0,1,"$(P)$(M):COMPTAB:TARGET")
+#! Record("$(P)$(M):COMPTAB:TARGET",2200,3297,0,1,"$(P)$(M):COMPTAB:TARGET")
+#! Field("$(P)$(M):COMPTAB:TARGET.VAL",16777215,0,"$(P)$(M):COMPTAB:TARGET.VAL")
 #! Record("$(P)$(M):COMPTAB:RANGE",2000,2417,0,1,"$(P)$(M):COMPTAB:RANGE")
 #! Field("$(P)$(M):COMPTAB:RANGE.FLNK",16777215,1,"$(P)$(M):COMPTAB:RANGE.FLNK")
 #! Link("$(P)$(M):COMPTAB:RANGE.FLNK","$(P)$(M):COMPTAB:TABLE:SOURCE")
@@ -227,15 +256,21 @@ record(stringin, "$(P)$(M):COMPTAB:PORT") {
 #! Field("$(P)$(M):COMPTAB:WRAP.FLNK",16777215,1,"$(P)$(M):COMPTAB:WRAP.FLNK")
 #! Link("$(P)$(M):COMPTAB:WRAP.FLNK","$(P)$(M):COMPTAB:WRAPRBV")
 #! Record("$(P)$(M):COMPTAB:WRAPRBV",2920,3111,0,0,"$(P)$(M):COMPTAB:WRAPRBV")
-#! Record("$(P)$(M):COMPTAB:GETMRES",1660,2885,0,1,"$(P)$(M):COMPTAB:GETMRES")
-#! Field("$(P)$(M):COMPTAB:GETMRES.OUT",16777215,1,"$(P)$(M):COMPTAB:GETMRES.OUT")
-#! Link("$(P)$(M):COMPTAB:GETMRES.OUT","$(P)$(M):COMPTAB:MRESFAN.VAL")
-#! Field("$(P)$(M):COMPTAB:GETMRES.DOL",16777215,0,"$(P)$(M):COMPTAB:GETMRES.DOL")
-#! Record("$(P)$(M):COMPTAB:MRESFAN",1920,2875,0,1,"$(P)$(M):COMPTAB:MRESFAN")
-#! Field("$(P)$(M):COMPTAB:MRESFAN.VAL",16777215,0,"$(P)$(M):COMPTAB:MRESFAN.VAL")
-#! Field("$(P)$(M):COMPTAB:MRESFAN.OUTA",16777215,1,"$(P)$(M):COMPTAB:MRESFAN.OUTA")
-#! Link("$(P)$(M):COMPTAB:MRESFAN.OUTA","$(P)$(M):COMPTAB:TARGET:MRES.VAL")
-#! Field("$(P)$(M):COMPTAB:MRESFAN.OUTB",16777215,1,"$(P)$(M):COMPTAB:MRESFAN.OUTB")
-#! Link("$(P)$(M):COMPTAB:MRESFAN.OUTB","$(P)$(M):COMPTAB:SOURCE:MRES.VAL")
 #! Record("$(P)$(M):COMPTAB:OCTETPORT",3100,2255,0,1,"$(P)$(M):COMPTAB:OCTETPORT")
 #! Record("$(P)$(M):COMPTAB:PORT",2900,2255,0,1,"$(P)$(M):COMPTAB:PORT")
+#! Record("$(P)$(M):COMPTAB:GET_TRG_MRES",1680,2865,0,1,"$(P)$(M):COMPTAB:GET_TRG_MRES")
+#! Field("$(P)$(M):COMPTAB:GET_TRG_MRES.OUT",16777215,1,"$(P)$(M):COMPTAB:GET_TRG_MRES.OUT")
+#! Link("$(P)$(M):COMPTAB:GET_TRG_MRES.OUT","$(P)$(M):COMPTAB:TARGET:MRES.VAL")
+#! Field("$(P)$(M):COMPTAB:GET_TRG_MRES.DOL",16777215,0,"$(P)$(M):COMPTAB:GET_TRG_MRES.DOL")
+#! Record("$(P)$(M):COMPTAB:GET_SRC_MRES",1680,3065,0,1,"$(P)$(M):COMPTAB:GET_SRC_MRES")
+#! Field("$(P)$(M):COMPTAB:GET_SRC_MRES.OUT",16777215,1,"$(P)$(M):COMPTAB:GET_SRC_MRES.OUT")
+#! Link("$(P)$(M):COMPTAB:GET_SRC_MRES.OUT","$(P)$(M):COMPTAB:SOURCE:MRES.VAL")
+#! Field("$(P)$(M):COMPTAB:GET_SRC_MRES.DOL",16777215,1,"$(P)$(M):COMPTAB:GET_SRC_MRES.DOL")
+#! Record("$(P)$(M):COMPTAB:GET_TRG_NO",1680,3277,0,1,"$(P)$(M):COMPTAB:GET_TRG_NO")
+#! Field("$(P)$(M):COMPTAB:GET_TRG_NO.INAA",16777215,1,"$(P)$(M):COMPTAB:GET_TRG_NO.INAA")
+#! Field("$(P)$(M):COMPTAB:GET_TRG_NO.OUT",16777215,1,"$(P)$(M):COMPTAB:GET_TRG_NO.OUT")
+#! Link("$(P)$(M):COMPTAB:GET_TRG_NO.OUT","$(P)$(M):COMPTAB:TARGET.VAL")
+#! Record("$(P)$(M):COMPTAB:GET_SRC_NO",1680,3497,0,1,"$(P)$(M):COMPTAB:GET_SRC_NO")
+#! Field("$(P)$(M):COMPTAB:GET_SRC_NO.INAA",16777215,1,"$(P)$(M):COMPTAB:GET_SRC_NO.INAA")
+#! Field("$(P)$(M):COMPTAB:GET_SRC_NO.OUT",16777215,1,"$(P)$(M):COMPTAB:GET_SRC_NO.OUT")
+#! Link("$(P)$(M):COMPTAB:GET_SRC_NO.OUT","$(P)$(M):COMPTAB:SOURCE.VAL")

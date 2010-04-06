@@ -1,0 +1,34 @@
+#!$(INSTALL)/bin/$(ARCH)/protectionEx
+
+cd "$(INSTALL)"
+
+#####################
+# Register all support components
+#####################
+dbLoadDatabase("dbd/protectionEx.dbd")
+protectionEx_registerRecordDeviceDriver(pdbbase)
+
+#####################
+# Streams protocol file location
+#####################
+epicsEnvSet("STREAM_PROTOCOL_PATH", "")
+
+#####################
+# PMAC setup
+#####################
+# Create IP Port (IPPort, IPAddr)
+pmacAsynIPConfigure("pmac1port", "localhost:9001")
+# Create GeoBrick (IPPort, Addr, BrickNum, NAxes)
+pmacAsynMotorCreate("pmac1port", 0, 0, 8)
+# Configure GeoBrick (PortName, DriverName, BrickNum, NAxes+1)
+drvAsynMotorConfigure("pmac1", "pmacAsynMotor", 0, 9)
+pmacSetIdlePollPeriod(0, 500)
+pmacSetMovingPollPeriod(0, 50)
+
+#####################
+## Load record instances
+#####################
+dbLoadRecords("db/protectionEx.db")
+
+iocInit()
+

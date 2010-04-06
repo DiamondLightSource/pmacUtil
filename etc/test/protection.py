@@ -13,9 +13,9 @@ class ProtectionTestSuite(TestSuite):
         # Define the targets for this test suite
         Target("simulation", self, [
             ModuleEntity('pmacUtil'),
-            IocEntity('ioc', directory='iocs/ProtectionTest', bootCmd='bin/linux-x86/stProtectionTest.sh'),
+            IocEntity('ioc', directory='iocs/protectionEx', bootCmd='bin/linux-x86/stprotectionEx.boot'),
             SimulationEntity('pmac', runCmd='dls-pmac-sim --noconsole --rpc=9100 etc/test/protection.cfg', rpcPort=9100),
-            EpicsDbEntity('db1', directory='db', fileName='ProtectionTest_expanded.db')])
+            EpicsDbEntity('db', directory='iocs/protectionEx/db', fileName='protectionEx.db')])
 
         # The tests
         CaseHitHighLimit(self)
