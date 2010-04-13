@@ -17,7 +17,7 @@ epicsEnvSet("STREAM_PROTOCOL_PATH", "")
 # PMAC setup
 #####################
 # Create IP Port (IPPort, IPAddr)
-pmacAsynIPConfigure("pmac1port", "localhost:9001")
+pmacAsynIPConfigure("pmac1port", "localhost:9151")
 # Create GeoBrick (IPPort, Addr, BrickNum, NAxes)
 pmacAsynMotorCreate("pmac1port", 0, 0, 8)
 # Configure GeoBrick (PortName, DriverName, BrickNum, NAxes+1)

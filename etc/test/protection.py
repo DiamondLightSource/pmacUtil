@@ -14,7 +14,7 @@ class ProtectionTestSuite(TestSuite):
         Target("simulation", self, [
             ModuleEntity('pmacUtil'),
             IocEntity('ioc', directory='iocs/protectionEx', bootCmd='bin/linux-x86/stprotectionEx.boot'),
-            SimulationEntity('pmac', runCmd='dls-pmac-sim --noconsole --rpc=9100 etc/test/protection.cfg', rpcPort=9100),
+            SimulationEntity('pmac', runCmd='dls-pmac-sim --noconsole --rpc=9152 etc/test/protection.cfg', rpcPort=9152),
             EpicsDbEntity('db', directory='iocs/protectionEx/db', fileName='protectionEx.db')])
 
         # The tests
