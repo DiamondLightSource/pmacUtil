@@ -1,9 +1,13 @@
-#% macro, SPORT, Asyn port for protection commands 
-#% macro, ADDR, The axis number, must be exactly 2 digits
+## PMAC motor axis protection PLC support template.
+## Use in conjunction with PLC4_protection.pmc to control
+## and monitor the operation of encoder loss and limit protection.
+
+#% macro, SPORT, Asyn port used to communicate with the PMAC 
+#% macro, ADDR, The axis number
 #% macro, PROTENABLE, Set to 1 to enable the protection system for this axis
 #% macro, RECOVERVEL, The velocity to use for recovery, in motor steps per millisecond
 
-# Enable protection, '1' to enable.
+## Enable protection, '1' to enable.
 record(bo, "$(P)$(M):PROT:ENABLE") {
   field(VAL, "$(PROTENABLE)")
   field(ZNAM, "Disable")
@@ -11,15 +15,15 @@ record(bo, "$(P)$(M):PROT:ENABLE") {
   field(FLNK, "$(P)$(M):PROT:RDCONFIG.PROC")
 }
 
-# Recovery velocity, motor steps per ms.
+## Recovery velocity, motor steps per ms.
 record(ao, "$(P)$(M):PROT:RECOVERVEL") {
   field(VAL, "$(RECOVERVEL)")
   field(PREC, "4")
   field(FLNK, "$(P)$(M):PROT:RDCONFIG.PROC")
 }
 
-# The recover command.  Write a '1' to recover from
-# encoder loss or limit hitting
+## The recover command.  Write a '1' to recover from
+## encoder loss or limit hitting
 record(bo, "$(P)$(M):PROT:RECOVER") {
   field(VAL, "0")
   field(ZNAM, "Idle")
@@ -27,7 +31,7 @@ record(bo, "$(P)$(M):PROT:RECOVER") {
   field(FLNK, "$(P)$(M):PROT:DORECOVER")
 }
 
-# Detects the zero->one edge that triggers the command
+## Detects the zero->one edge that triggers the command
 record(calcout, "$(P)$(M):PROT:DORECOVER") {
   field(INPA, "$(P)$(M):PROT:RECOVER")
   field(CALC, "A")
@@ -35,8 +39,8 @@ record(calcout, "$(P)$(M):PROT:DORECOVER") {
   field(OUT, "$(P)$(M):PROT:RDCONFIG.PROC")
 }
 
-# Calculates the read config string.  Processed
-# only once at startup.
+## Calculates the read config string.  Processed
+## only once at startup.
 record(scalcout, "$(P)$(M):PROT:RDCONFIGSTR") {
   field(DOPT, "Use OCAL")
   field(OCAL, "$P('P4%02d',$(ADDR))")
@@ -45,14 +49,14 @@ record(scalcout, "$(P)$(M):PROT:RDCONFIGSTR") {
   field(FLNK, "$(P)$(M):PROT:RDCONFIG.PROC")
 }
 
-# Read the current state of the config variable
+## Read the current state of the config variable
 record(asyn, "$(P)$(M):PROT:RDCONFIG") {
   field(PORT, "$(SPORT)")
   field(TMOT, "5")
   field(FLNK, "$(P)$(M):PROT:CONFIG")
 }
 
-# Convert the string into a value
+## Convert the string into a value
 record(scalcout, "$(P)$(M):PROT:CONFIG") {
   field(SCAN, "Passive")
   field(DTYP, "Soft Channel")
@@ -63,7 +67,7 @@ record(scalcout, "$(P)$(M):PROT:CONFIG") {
   field(FLNK, "$(P)$(M):PROT:CALCCONFIG")
 }
 
-# Calculates the config value to write
+## Calculates the config value to write
 record(calc, "$(P)$(M):PROT:CALCCONFIG") {
   field(INPA, "$(P)$(M):PROT:ENABLE")
   field(INPB, "$(P)$(M):PROT:RECOVER")
@@ -73,7 +77,7 @@ record(calc, "$(P)$(M):PROT:CALCCONFIG") {
   field(FLNK, "$(P)$(M):PROT:WRCONFIGSTR")
 }
 
-# Calculates the write config string
+## Calculates the write config string
 record(scalcout, "$(P)$(M):PROT:WRCONFIGSTR") {
   field(DOPT, "Use CALC")
   field(INPA, "$(P)$(M):PROT:CALCCONFIG")
@@ -81,20 +85,20 @@ record(scalcout, "$(P)$(M):PROT:WRCONFIGSTR") {
   field(OUT, "$(P)$(M):PROT:WRCONFIG.AOUT PP")
 }
 
-# Write the config word back to the PMAC
+## Write the config word back to the PMAC
 record(asyn, "$(P)$(M):PROT:WRCONFIG") {
   field(PORT, "$(SPORT)")
   field(TMOT, "5")
   field(FLNK, "$(P)$(M):PROT:CLRRECOVER")
 }
 
-# Zero the recover command
+## Zero the recover command
 record(seq, "$(P)$(M):PROT:CLRRECOVER") {
   field(DOL1, "0")
   field(LNK1, "$(P)$(M):PROT:RECOVER")
 }
 
-# Create the string for the state read command
+## Create the string for the state read command
 record(scalcout, "$(P)$(M):PROT:RDSTATESTR") {
   field(DOPT, "Use CALC")
   field(CALC, "$P('P4%02d',$(ADDR)+64)")
@@ -102,7 +106,7 @@ record(scalcout, "$(P)$(M):PROT:RDSTATESTR") {
   field(PINI, "1")
 }
 
-# Read the protection state variable
+## Read the protection state variable
 record(asyn, "$(P)$(M):PROT:RDSTATE") {
   field(SCAN, "1 second")
   field(PORT, "$(SPORT)")
@@ -110,7 +114,7 @@ record(asyn, "$(P)$(M):PROT:RDSTATE") {
   field(FLNK, "$(P)$(M):PROT:CALCSTATE")
 }
 
-# Convert the string into a value
+## Convert the string into a value
 record(scalcout, "$(P)$(M):PROT:CALCSTATE") {
   field(CALC, "SSCANF(AA, '%f')")
   field(INAA, "$(P)$(M):PROT:RDSTATE.AINP")
@@ -118,7 +122,7 @@ record(scalcout, "$(P)$(M):PROT:CALCSTATE") {
   field(OUT, "$(P)$(M):PROT:STATE.RVAL PP")
 }
 
-# The current protection state
+## The current protection state
 record(mbbi, "$(P)$(M):PROT:STATE") {
   field(DTYP, "Raw Soft Channel")
   field(SHFT, "4")

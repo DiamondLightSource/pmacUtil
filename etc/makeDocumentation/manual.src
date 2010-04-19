@@ -8,6 +8,7 @@ Delta Tau PMAC and GeoBrick systems.
 
 - \ref motorhome : A python package for building autohoming plcs
 - positionCompare.vdb: A database and associated plc for generating hardware position compare pulses
+- \ref protection : A replacement for the encoder loss PLC that also protects against running through limits
 
 \section build_sec Build Instructions 
 The \subpage build_instructions page contains instructions to setup this module
@@ -16,4 +17,63 @@ An example built using these instructions is available in iocs/example
 
 \section builder_sec Builder Objects
 The \subpage builder_objects page contains information on how to use the iocbuilder objects provided by this module
+
+\package protection The protection PLC
+The PMAC PLC PLC4_protection.pmc is a PLC designed to replace PLC4_encoder_loss.pmc.  It provides the same
+encoder loss protection along with protection against running through hard limits.
+
+The PLC performs the following functions:
+- Monitors the encoder loss bit, if set, motor is disabled.
+- Monitors limit activation, if active, motor is disabled.
+- When recover activated:
+-- If encoder loss, enable motor
+-- If limit hit, switch motor to open loop and enable
+- When limit cleared, switch motor back to closed loop and enable
+
+A motor is disabled by setting its following error limit to 1.  It is enabled by setting the following error
+limit back to its original value.
+
+The recovery process from hitting a hard limit involves switching the motor into open loop mode.  This ensures
+that the motor will move in the correct direction and not be fooled by any encoder faults.  This does have
+the side effect of spoiling the motor's referencing, so a homing operation is normally required afterwards.
+
+The functionality is implemented as a state machine.  Here is a summary of the states:
+- Normal - The normal operational state of the motor.  Monitoring for encoder loss and limit activation is enabled.
+- NotProtected - Encoder loss and limit protection is disabled.
+- Homing - The motor is homing.  Only monitoring for encoder loss is enabled.
+- EncoderLoss - An encoder loss has been detected.  Motor is disabled.
+- OnLimit - A limit activation has been detected.  Motor is disabled.
+- RecoverLimit - The motor is in open loop mode and moving away from the limit.
+- LockOut - The RecoverLimit state timed out without the limit becoming deactivated.  Seek engineering help.
+- RestoreLoopMode1 - Transition state that returns the motor to closed loop mode when returning to the Normal state.
+- RestoreLoopMode2 - Transition state that returns the motor to closed loop mode when protection is removed.
+- RestoreLoopMode3 - Transition state that returns the motor to closed loop mode when homing is begun.
+
+To use the PLC, define the following macros and include the PLC4_protection.pmc file.
+- ONM1..ONM32      Set to 1 to turn protection on for each motor
+
+The PLC uses the following P variables:
+- P400        Current motor being processed.
+- P401..432   Bit 0:  Enable protection for the axis (static configuration).
+              Bit 1:  Recover the axis from a failure (set by EPICS, cleared by PLC).
+              Bit 2:  Autohome in progress (controlled by homing PLC).
+              Bits 8..23:  Recover velocity, steps*256/ms (set by EPICS).
+- P433..464   Saved following error or velocity.
+- P465..496   Bits 0..7: Saved contents of msnn,i910.
+              Bits 8..15: Protection state of the axis.
+- P497        Contains the current state of the axis while processing.
+- P498        The next state of the current axis.
+              Temp storage of current loop mode.
+- P499        A scratch variable.
+
+An EPICS template (dls_pmac_prot_asyn_motor.template) is also generated.  This is an extension to
+dls_pmac_asyn_motor.template that gives EPICS access to the protection PLC.  
+It is generated from dls_pmac_asyn_motor_prot_extras.template which contains the
+protection specific parts.  This template fragment is used instead of dls_pmac_asyn_motor_eloss_extras.template.
+The template requires the definition of two further macros (in addition to those required by original
+dls_pmac_asyn_motor.template), as follows:
+- PROTENABLE Set to 1 to enable the protection system for this axis.
+- RECOVERVEL The velocity to use for recovery, in motor steps per millisecond.
+
+
 **/
