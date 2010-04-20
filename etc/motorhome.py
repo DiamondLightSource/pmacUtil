@@ -416,12 +416,19 @@ class PLC:
             (plc,i+20,m["ax"]) for i,m in ems])+"\n")
         f.write(";Save the home capture flags to P variables px36..x51\n")
         cmds = []
+        mschecks = []
         for i,m in ems:
             if m.has_key("nx"):
                 cmds.append("P%d%02d=i7%02d2"%(plc,i+36,m["nx"]))
             else:
                 cmds.append("MSR%d,i912,P%d%02d"%(m["ms"],plc,i+36))
-        f.write(" ".join(cmds)+"\n")
+                mschecks.append("P%d%02d=0" % (plc,i+36))
+        f.write(" ".join(cmds)+"\n")                
+        if mschecks:                
+            f.write(";If any are zero then there is probably a macro error\n")                
+            f.write('if (%s)\n'%(" or ".join(mschecks)))
+            f.write("\tHomingStatus=StatusInvalid\n")
+            f.write('endif\n')
         f.write(";Store 'not flag' to use in moving off a flag in P variables px52..x67\n")
         f.write(" ".join(["P%d%02d=P%d%02d^$C"%(plc,i+52,plc,i+36) for i,m in ems])+"\n")
         f.write(";Save the limit flags to P variables px68..x83\n")
