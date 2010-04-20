@@ -6,7 +6,7 @@ release 1
 x 758
 y 46
 w 342
-h 867
+h 903
 font "arial-medium-r-18.0"
 ctlFont "arial-medium-r-18.0"
 btnFont "arial-medium-r-18.0"
@@ -33,7 +33,7 @@ major 4
 minor 0
 release 0
 x 10
-y 405
+y 445
 w 320
 h 165
 lineColor index 14
@@ -48,7 +48,7 @@ major 4
 minor 0
 release 0
 x 10
-y 590
+y 630
 w 320
 h 240
 lineColor index 14
@@ -65,7 +65,7 @@ release 0
 x 10
 y 230
 w 320
-h 160
+h 200
 lineColor index 14
 fill
 fillColor index 5
@@ -206,8 +206,8 @@ beginObjectProperties
 major 4
 minor 1
 release 0
-x 20
-y 605
+x 15
+y 645
 w 37
 h 14
 font "arial-medium-r-12.0"
@@ -248,7 +248,7 @@ beginObjectProperties
 major 4
 minor 1
 release 0
-x 20
+x 15
 y 285
 w 74
 h 14
@@ -290,7 +290,7 @@ beginObjectProperties
 major 4
 minor 1
 release 0
-x 20
+x 15
 y 250
 w 75
 h 14
@@ -311,7 +311,7 @@ major 10
 minor 0
 release 0
 x 160
-y 625
+y 665
 w 120
 h 20
 controlPv "$(P)$(Q):RAWCTS"
@@ -328,8 +328,8 @@ beginObjectProperties
 major 4
 minor 1
 release 0
-x 20
-y 630
+x 15
+y 670
 w 89
 h 14
 font "arial-medium-r-12.0"
@@ -386,7 +386,7 @@ beginObjectProperties
 major 4
 minor 1
 release 0
-x 20
+x 15
 y 370
 w 127
 h 14
@@ -444,7 +444,7 @@ beginObjectProperties
 major 4
 minor 1
 release 0
-x 20
+x 15
 y 345
 w 128
 h 14
@@ -465,7 +465,7 @@ major 4
 minor 1
 release 0
 x 285
-y 630
+y 670
 w 37
 h 14
 font "arial-medium-r-12.0"
@@ -605,7 +605,7 @@ major 4
 minor 1
 release 0
 x 240
-y 835
+y 875
 w 95
 h 25
 fgColor index 46
@@ -624,7 +624,7 @@ major 10
 minor 0
 release 0
 x 160
-y 455
+y 495
 w 120
 h 35
 controlPv "$(P)$(Q):PULSE"
@@ -645,8 +645,8 @@ beginObjectProperties
 major 4
 minor 1
 release 0
-x 20
-y 465
+x 15
+y 505
 w 68
 h 14
 font "arial-medium-r-12.0"
@@ -666,7 +666,7 @@ major 10
 minor 0
 release 0
 x 160
-y 420
+y 460
 w 120
 h 35
 controlPv "$(P)$(Q):STEP"
@@ -687,8 +687,8 @@ beginObjectProperties
 major 4
 minor 1
 release 0
-x 20
-y 430
+x 15
+y 470
 w 85
 h 14
 font "arial-medium-r-12.0"
@@ -708,7 +708,7 @@ major 4
 minor 1
 release 0
 x 285
-y 550
+y 590
 w 37
 h 14
 font "arial-medium-r-12.0"
@@ -728,7 +728,7 @@ major 10
 minor 0
 release 0
 x 160
-y 545
+y 585
 w 120
 h 20
 controlPv "$(P)$(Q):CONVPULSE"
@@ -745,8 +745,8 @@ beginObjectProperties
 major 4
 minor 1
 release 0
-x 20
-y 550
+x 15
+y 590
 w 121
 h 14
 font "arial-medium-r-12.0"
@@ -766,7 +766,7 @@ major 4
 minor 1
 release 0
 x 285
-y 525
+y 565
 w 37
 h 14
 font "arial-medium-r-12.0"
@@ -786,7 +786,7 @@ major 10
 minor 0
 release 0
 x 160
-y 520
+y 560
 w 120
 h 20
 controlPv "$(P)$(Q):CONVSTEP"
@@ -803,8 +803,8 @@ beginObjectProperties
 major 4
 minor 1
 release 0
-x 20
-y 525
+x 15
+y 565
 w 138
 h 14
 font "arial-medium-r-12.0"
@@ -844,7 +844,7 @@ major 4
 minor 1
 release 0
 x 10
-y 580
+y 620
 w 72
 h 14
 font "arial-medium-r-12.0"
@@ -864,7 +864,7 @@ major 4
 minor 1
 release 0
 x 285
-y 655
+y 695
 w 37
 h 14
 font "arial-medium-r-12.0"
@@ -884,7 +884,7 @@ major 4
 minor 1
 release 0
 x 285
-y 680
+y 720
 w 37
 h 14
 font "arial-medium-r-12.0"
@@ -904,7 +904,7 @@ major 10
 minor 0
 release 0
 x 160
-y 675
+y 715
 w 120
 h 20
 controlPv "$(P)$(Q):STOP:RBV"
@@ -921,8 +921,8 @@ beginObjectProperties
 major 4
 minor 1
 release 0
-x 20
-y 680
+x 15
+y 720
 w 113
 h 14
 font "arial-medium-r-12.0"
@@ -942,7 +942,7 @@ major 10
 minor 0
 release 0
 x 160
-y 650
+y 690
 w 120
 h 20
 controlPv "$(P)$(Q):START:RBV"
@@ -959,8 +959,8 @@ beginObjectProperties
 major 4
 minor 1
 release 0
-x 20
-y 655
+x 15
+y 695
 w 114
 h 14
 font "arial-medium-r-12.0"
@@ -980,7 +980,7 @@ major 4
 minor 1
 release 0
 x 285
-y 705
+y 745
 w 37
 h 14
 font "arial-medium-r-12.0"
@@ -1000,7 +1000,7 @@ major 4
 minor 1
 release 0
 x 285
-y 730
+y 770
 w 37
 h 14
 font "arial-medium-r-12.0"
@@ -1020,7 +1020,7 @@ major 10
 minor 0
 release 0
 x 160
-y 725
+y 765
 w 120
 h 20
 controlPv "$(P)$(Q):PULSE:RBV"
@@ -1037,8 +1037,8 @@ beginObjectProperties
 major 4
 minor 1
 release 0
-x 20
-y 730
+x 15
+y 770
 w 107
 h 14
 font "arial-medium-r-12.0"
@@ -1058,7 +1058,7 @@ major 10
 minor 0
 release 0
 x 160
-y 700
+y 740
 w 120
 h 20
 controlPv "$(P)$(Q):STEP:RBV"
@@ -1075,8 +1075,8 @@ beginObjectProperties
 major 4
 minor 1
 release 0
-x 20
-y 705
+x 15
+y 745
 w 124
 h 14
 font "arial-medium-r-12.0"
@@ -1096,7 +1096,7 @@ major 10
 minor 0
 release 0
 x 100
-y 800
+y 840
 w 225
 h 20
 controlPv "$(P)$(Q):MOTOR"
@@ -1113,8 +1113,8 @@ beginObjectProperties
 major 4
 minor 1
 release 0
-x 20
-y 805
+x 15
+y 845
 w 76
 h 14
 font "arial-medium-r-12.0"
@@ -1134,7 +1134,7 @@ major 10
 minor 0
 release 0
 x 160
-y 600
+y 640
 w 120
 h 20
 controlPv "$(P)$(Q):STA"
@@ -1188,7 +1188,7 @@ major 10
 minor 0
 release 0
 x 280
-y 420
+y 460
 w 45
 h 35
 controlPv "$(P)$(Q):EGU"
@@ -1206,7 +1206,7 @@ major 10
 minor 0
 release 0
 x 280
-y 455
+y 495
 w 45
 h 35
 controlPv "$(P)$(Q):EGU"
@@ -1224,7 +1224,7 @@ major 10
 minor 0
 release 0
 x 160
-y 775
+y 815
 w 120
 h 20
 controlPv "$(P)$(Q):STATE"
@@ -1241,8 +1241,8 @@ beginObjectProperties
 major 4
 minor 1
 release 0
-x 20
-y 780
+x 15
+y 820
 w 86
 h 14
 font "arial-medium-r-12.0"
@@ -1261,8 +1261,8 @@ beginObjectProperties
 major 4
 minor 1
 release 0
-x 20
-y 500
+x 15
+y 540
 w 306
 h 14
 font "arial-medium-r-12.0"
@@ -1281,7 +1281,7 @@ beginObjectProperties
 major 4
 minor 1
 release 0
-x 20
+x 15
 y 320
 w 300
 h 14
@@ -1302,7 +1302,7 @@ major 4
 minor 1
 release 0
 x 10
-y 400
+y 440
 w 94
 h 14
 font "arial-medium-r-12.0"
@@ -1321,8 +1321,8 @@ beginObjectProperties
 major 4
 minor 1
 release 0
-x 20
-y 755
+x 15
+y 795
 w 99
 h 14
 font "arial-medium-r-12.0"
@@ -1342,7 +1342,7 @@ major 10
 minor 0
 release 0
 x 160
-y 750
+y 790
 w 120
 h 20
 controlPv "$(P)$(Q):NPULSES"
@@ -1351,5 +1351,48 @@ fgAlarm
 bgColor index 10
 fill
 font "arial-bold-r-14.0"
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 15
+y 395
+w 141
+h 28
+font "arial-medium-r-12.0"
+fgColor index 14
+bgColor index 10
+useDisplayBg
+value {
+  "Initial value before toggle"
+  "(outside range start:stop)"
+}
+autoSize
+endObjectProperties
+
+# (Button)
+object activeButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 160
+y 395
+w 120
+h 30
+fgColor index 14
+onColor index 4
+offColor index 3
+inconsistentColor index 14
+topShadowColor index 0
+botShadowColor index 14
+controlPv "$(P)$(Q):INIT"
+3d
+font "arial-bold-r-14.0"
+objType "controls"
 endObjectProperties
 

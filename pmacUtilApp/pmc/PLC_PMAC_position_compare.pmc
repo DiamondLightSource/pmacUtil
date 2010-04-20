@@ -22,7 +22,7 @@ CLOSE
 #define setAutoIncr MSW$(ms),i923,step
 #define setCmpA MSW$(ms),i925,cmpA
 #define setCmpB MSW$(ms),i926,cmpB
-#define setOutputZero MSW$(ms),i929,zero
+#define setOutputInit MSW$(ms),i929,init
 #define setOutputOutput MSW$(ms),i929,output
 #define writeOutput MSW$(ms),i928,one
 
@@ -54,6 +54,7 @@ CLOSE
 #define demandStop p$(PLC)92
 #define demandStep p$(PLC)93
 #define demandPulse p$(PLC)94
+#define demandInit p$(PLC)97
 
 ;; This is the saved home offset
 #define savedHomeOffset p$(PLC)01
@@ -63,6 +64,9 @@ CLOSE
 
 ;; this is the state of the machine
 #define state p$(PLC)86
+
+;; this is the initial value of the output, before the first toggle
+#define init p$(PLC)87
 
 ;; doing position compare
 #define ST_COMP 0
@@ -121,6 +125,7 @@ or (start != demandStart)
 or (stop != demandStop)
 or (step != demandStep)
 or (pulse != demandPulse)
+or (init != demandInit)
 or (savedHomeOffset != homeOffset)
     inputsChanged = 1
 endif
@@ -132,10 +137,18 @@ if (state = ST_WATCH)
         if (output != demandOutput)
             output = demandOutput                        
             if (output = OP_AUTO)
-                setOutputZero
+                setOutputInit
                 writeOutput                                     
             else
                 state = ST_MANUAL
+            endif
+        endif
+        ; acknowledge init change
+        if (init != demandInit)   
+            init = demandInit
+            if (output = OP_AUTO)
+                setOutputInit
+                writeOutput
             endif
         endif
         ; acknowledge start, stop, homeOffset or pulse change
@@ -249,7 +262,7 @@ if (state = ST_PREP_WATCH)
     cmpB=currentPos+homeOffset-1000001
     setCmpA
     setCmpB    
-    setOutputZero
+    setOutputInit
     writeOutput         
     state = ST_WATCH    
 endif
