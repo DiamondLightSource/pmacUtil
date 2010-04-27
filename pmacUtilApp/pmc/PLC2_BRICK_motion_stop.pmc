@@ -1,12 +1,12 @@
 CLOSE
 
 ;###############################################################################
-; PLC to stop all motors if motion stop button is pressed
+; PLC to stop all motors on a Brick if motion stop button is pressed
 ; Original Author: Tom Cobb
-; Used variables: p200..202, i5211
+; Used variables: p200, i5211
 ; Macros (and example values): 
 ; STOPTIME=$(STOPTIME) ;Time taken for all motors to stop before they are killed
-; Needs dls_PMAC_M_variables.pmc
+; Needs dls_BRICK_M_variables.pmc
 ;###############################################################################
 
 ; The stopping procedure will ensure all motors stop quickly and safely. First 
@@ -15,7 +15,7 @@ CLOSE
 ; feedrates are reduced to 0 to prevent any move request from EPICS. Finally all
 ; individual motors are killed - this ensures all motors cannot be moved again 
 ; unless explicitly commanded to. When the motion stop is released it restores
-; the amps and feedrates
+; the feedrates
 
 ; To make timeout more readable
 #define MilliSeconds               * 8388608/i10
@@ -31,9 +31,6 @@ if (CurrentEstop!=LastEstop)
 	LastEstop = CurrentEstop	
 	; On press
 	if (LastEstop=0)
-		; Save amp status
-		p201 = m7501
-		p202 = m7503
 		; Abort all moves and stop all motors
 		CMD^A
 		; Wait $(STOPTIME)ms for them to stop
@@ -44,13 +41,7 @@ if (CurrentEstop!=LastEstop)
 		CMD^O	
 		; Kill Motors
 		CMD^K
-		; Turn off amps
-		m7501 = 0
-		m7503 = 0
 	else
-		; Restore amps
-		m7501 = p201
-		m7503 = p202
 		; Restore all feedrates
 		ADDRESS&1
 		CMD "%100"

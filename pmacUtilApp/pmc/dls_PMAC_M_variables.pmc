@@ -71,3 +71,6 @@ M2913->X:$003478,9
 M3013->X:$003479,9
 M3113->X:$00347C,9
 M3213->X:$00347D,9
+
+; Set up motion stop
+m7539->x:$7a420,23,1    ;Node 34 24 bit register (digital input 47)
