@@ -44,21 +44,23 @@ record(scalcout, "$(P):MODE:STRING") {
 record(scalcout, "$(P):B1:PHASE:START") {
   field(DESC, "phase bragg 1 mtr")
   field(DTYP, "Soft Channel")
-  field(CALC, "PRINTF('enable plc 21')")
+  field(CALC, "PRINTF('enable plc %d',A)")
   field(OUT, "$(P):SETPMAC.AOUT PP")
   field(OOPT, "Every Time")
   field(DOPT, "Use CALC")
   field(FLNK, "$(P):B1:GET:PHASING")
+  field(INPA, "21")
 }
 
 record(scalcout, "$(P):B2:PHASE:START") {
   field(DESC, "phase bragg 2 mtr")
   field(DTYP, "Soft Channel")
-  field(CALC, "PRINTF('enable plc 22')")
+  field(CALC, "PRINTF('enable plc %d',A)")
   field(OUT, "$(P):SETPMAC.AOUT PP")
   field(OOPT, "Every Time")
   field(DOPT, "Use CALC")
   field(FLNK, "$(P):B1:GET:PHASING")
+  field(INPA, "22")
 }
 
 record(scalcout, "$(P):B1:PHASING") {
@@ -133,23 +135,31 @@ record(scalcout, "$(P):XTALSPACE") {
   field(FLNK, "$(P):XTAL")
 }
 
+record(asyn, "$(P):MSCLRF0") {
+  field(SCAN, "Passive")
+  field(DTYP, "asynRecordDevice")
+  field(PORT, "$(PORT)")
+  field(DESC, "Send MSCLRF0 cmd")
+  field(AOUT, "MSCLRF0")
+}
+
 #! Further lines contain data used by VisualDCT
-#! View(0,0,1.0)
-#! Record("$(P):ENERGYMODE",100,74,0,0,"$(P):ENERGYMODE")
+#! View(260,65,1.0)
+#! Record("$(P):ENERGYMODE",100,54,0,0,"$(P):ENERGYMODE")
 #! Field("$(P):ENERGYMODE.OUT",16777215,1,"$(P):ENERGYMODE.OUT")
 #! Link("$(P):ENERGYMODE.OUT","$(P):MODE:STRING.A")
 #! Record("$(P):SETPMAC",700,188,0,0,"$(P):SETPMAC")
 #! Field("$(P):SETPMAC.AOUT",16777215,0,"$(P):SETPMAC.AOUT")
-#! Record("$(P):MODE:STRING",420,54,0,0,"$(P):MODE:STRING")
+#! Record("$(P):MODE:STRING",420,34,0,0,"$(P):MODE:STRING")
 #! Field("$(P):MODE:STRING.OUT",16777215,1,"$(P):MODE:STRING.OUT")
 #! Link("$(P):MODE:STRING.OUT","$(P):SETPMAC.AOUT")
 #! Field("$(P):MODE:STRING.A",16777215,0,"$(P):MODE:STRING.A")
-#! Record("$(P):B1:PHASE:START",420,226,0,1,"$(P):B1:PHASE:START")
+#! Record("$(P):B1:PHASE:START",420,212,0,1,"$(P):B1:PHASE:START")
 #! Field("$(P):B1:PHASE:START.OUT",16777215,1,"$(P):B1:PHASE:START.OUT")
 #! Link("$(P):B1:PHASE:START.OUT","$(P):SETPMAC.AOUT")
 #! Field("$(P):B1:PHASE:START.FLNK",16777215,1,"$(P):B1:PHASE:START.FLNK")
 #! Link("$(P):B1:PHASE:START.FLNK","$(P):B1:GET:PHASING")
-#! Record("$(P):B2:PHASE:START",420,426,0,1,"$(P):B2:PHASE:START")
+#! Record("$(P):B2:PHASE:START",420,432,0,1,"$(P):B2:PHASE:START")
 #! Field("$(P):B2:PHASE:START.OUT",16777215,1,"$(P):B2:PHASE:START.OUT")
 #! Link("$(P):B2:PHASE:START.OUT","$(P):SETPMAC.AOUT")
 #! Field("$(P):B2:PHASE:START.FLNK",16777215,1,"$(P):B2:PHASE:START.FLNK")
@@ -180,3 +190,4 @@ record(scalcout, "$(P):XTALSPACE") {
 #! Link("$(P):XTALSPACE.FLNK","$(P):XTAL")
 #! Field("$(P):XTALSPACE.INAA",16777215,0,"$(P):XTALSPACE.INAA")
 #! Link("$(P):XTALSPACE.INAA","$(P):GET:XTALSPACE.AINP")
+#! Record("$(P):MSCLRF0",900,174,0,1,"$(P):MSCLRF0")
