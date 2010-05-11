@@ -13,7 +13,8 @@ install: $(DOCDIR)
 # rule for documentation
 $(DOCDIR): config.src manual.src $(DOCDIR)/build_instructions
 	mkdir -p $(DOCDIR)
-	dls-make-doxygen-documentation.py -o $(DOCDIR) config.src manual.src
+#	dls-make-doxygen-documentation.py -o $(DOCDIR) config.src manual.src
+	/scratch/tools/bin/dls-make-doxygen-documentation.py -o $(DOCDIR) config.src manual.src
 	
 # rule for generating build instructions from example.xml file
 $(DOCDIR)/build_instructions: $(TOP)/etc/makeIocs/AerotechStageDemo.xml

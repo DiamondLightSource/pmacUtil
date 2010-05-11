@@ -6,6 +6,7 @@ DEBUG :=
 
 # These are the xml files we will make iocs out of
 #XMLS := $(wildcard *.xml)
+XMLS := AerotechStageDemo.xml positionCompare.xml ProtectionTest.xml pmacStatusGeobrick.xml
 
 # These are the IOCS
 IOCS := $(patsubst %.xml, %, $(XMLS))
@@ -14,7 +15,7 @@ IOCS := $(patsubst %.xml, %, $(XMLS))
 NO_SIMS :=
 
 # Make simulations from all IOCS not in NO_SIMS
-SIMS := $(patsubst %, %_sim, $(filter-out $(NO_SIMS), $(IOCS)))
+#SIMS := $(patsubst %, %_sim, $(filter-out $(NO_SIMS), $(IOCS)))
 
 # These are the IOC dirs to make
 IOC_DIRS := $(patsubst %, $(TOP)/iocs/%, $(IOCS) $(SIMS))

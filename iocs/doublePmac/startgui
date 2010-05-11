@@ -1,0 +1,24 @@
+export EPICS_CA_REPEATER_PORT=5065
+export EPICS_CA_SERVER_PORT=5064
+
+TEST_DIR=$(dirname $0)
+PMACSTATUS=$TEST_DIR/../..
+export MOTOR=/dls_sw/prod/R3.14.8.2/support/motor/6-4dls9
+export EDMDATAFILES=$PMACSTATUS/pmacStatusApp/opi/edl:${MOTOR}/data
+
+motorPV1=rjq35657:lv:A
+motorPV2=rjq35657:lv:B
+motorPV3=rjq35657:lv:C
+motorPV4=rjq35657:lv:D
+motorPV5=rjq35657:lv:E
+motorPV6=rjq35657:lv:F
+motorPV7=rjq35657:lv:G
+motorPV8=rjq35657:lv:H
+
+edm -x -eolc -m "pmac=IOC382-PMAC-01" -port ${EPICS_CA_SERVER_PORT} pmacStatus8.edl&
+edm -x -eolc -m "pmac=IOC382-PMAC-02" -port ${EPICS_CA_SERVER_PORT} pmacStatus32.edl&
+edm -eolc -x -m "motor=${motorPV1}"   -port ${EPICS_CA_SERVER_PORT} motor.edl &
+edm -eolc -x -m "motor=${motorPV2}"   -port ${EPICS_CA_SERVER_PORT} motor.edl &
+
+
+

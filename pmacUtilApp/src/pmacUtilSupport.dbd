@@ -1,2 +1,4 @@
 registrar(gatherRegistrar)
 registrar("ctRegister")
+function( parsePlcBitString )
+function( parseProgBitString )

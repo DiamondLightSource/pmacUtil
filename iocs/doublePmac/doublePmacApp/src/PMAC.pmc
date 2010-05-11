@@ -1,0 +1,3 @@
+#define $(PLC) 5
+#include pmac_cpu_load.pmc
+

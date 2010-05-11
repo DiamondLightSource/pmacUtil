@@ -35,6 +35,8 @@ DB += qcm.template
 DB += dls_readback_asyn_motor.template
 DB += encoderReadback.template
 DB += positionCompare.template
+DB += pmacStatus.template
+DB += pmacStatusAxis.template
 
 # not using streams since this doesnt work with tpmac
 #DB += energise_streams.template

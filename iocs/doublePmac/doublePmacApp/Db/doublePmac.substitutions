@@ -1,0 +1,22 @@
+file pmac8Axis.template {
+    pattern { DEVICE, PORT , PLC, VERSION}
+    { IOC382-PMAC-01, PMAC_S0, 5, 0 }
+}
+file pmac32Axis.template {
+    pattern { DEVICE, PORT , PLC, VERSION}
+    { IOC382-PMAC-02, PMAC_S1, 5, 0 }
+}
+
+file basic_asyn_motor.template
+{
+pattern { P, M, DESC, DTYP, DIR, VELO, VBAS, ACCL, BDST, BVEL, BACC, PORT, ADDR, MRES, PREC, EGU, DHLM, DLLM, HLSV, INIT, SREV, RRES, TWV, ERES, JAR, UEIP, VMAX, OFF, RDBD, FOFF, ADEL}
+        { rjq35657:lv:, A, "A", asynMotor, 0, 5, 0, 0.1, 0, 0, 0, PMAC0, 1, 0.001, 3, mm, 5000, -5000, MINOR, "", 200, 0, 100.0, 0, 0, 0, 5, 0, 0, 0, 0}
+        { rjq35657:lv:, B, "B", asynMotor, 0, 5, 0, 0.1, 0, 0, 0, PMAC0, 2, 0.001, 3, mm, 5000, -5000, MINOR, "", 200, 0, 100.0, 0, 0, 0, 5, 0, 0, 0, 0}
+        { rjq35657:lv:, C, "C", asynMotor, 0, 5, 0, 0.1, 0, 0, 0, PMAC0, 3, 0.001, 3, mm, 5000, -5000, MINOR, "", 200, 0, 100.0, 0, 0, 0, 5, 0, 0, 0, 0}
+        { rjq35657:lv:, D, "D", asynMotor, 0, 5, 0, 0.1, 0, 0, 0, PMAC0, 4, 0.001, 3, mm, 5000, -5000, MINOR, "", 200, 0, 100.0, 0, 0, 0, 5, 0, 0, 0, 0}
+        { rjq35657:lv:, E, "E", asynMotor, 0, 5, 0, 0.1, 0, 0, 0, PMAC0, 5, 0.001, 3, mm, 5000, -5000, MINOR, "", 200, 0, 100.0, 0, 0, 0, 5, 0, 0, 0, 0}
+        { rjq35657:lv:, F, "F", asynMotor, 0, 5, 0, 0.1, 0, 0, 0, PMAC0, 6, 0.001, 3, mm, 5000, -5000, MINOR, "", 200, 0, 100.0, 0, 0, 0, 5, 0, 0, 0, 0}
+        { rjq35657:lv:, G, "G", asynMotor, 0, 5, 0, 0.1, 0, 0, 0, PMAC0, 7, 0.001, 3, mm, 5000, -5000, MINOR, "", 200, 0, 100.0, 0, 0, 0, 5, 0, 0, 0, 0}
+        { rjq35657:lv:, H, "H", asynMotor, 0, 5, 0, 0.1, 0, 0, 0, PMAC0, 8, 0.001, 3, mm, 5000, -5000, MINOR, "", 200, 0, 100.0, 0, 0, 0, 5, 0, 0, 0, 0}
+}
+

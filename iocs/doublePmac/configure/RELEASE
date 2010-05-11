@@ -1,0 +1,16 @@
+TEMPLATE_TOP=$(EPICS_BASE)/templates/makeBaseApp/top
+EPICS_BASE=/dls_sw/epics/R3.14.8.2/base
+
+SUPPORT=/dls_sw/prod/R3.14.8.2/support
+SUPPORTWORK=/dls_sw/work/R3.14.8.2/support
+
+MOTOR=          $(SUPPORT)/motor/6-4-4dls5
+TPMAC=          $(SUPPORT)/tpmac/3-5dls10
+STREAMS=        $(SUPPORT)/streamDevice/2-4dls3
+ASYN=           $(SUPPORT)/asyn/4-10
+GENSUB=         $(SUPPORT)/genSub/1-6dls2-5
+UTILITY=        $(SUPPORT)/utility/dls2-10
+PMACSTATUS=     $(SUPPORTWORK)/pmacStatus
+
+
+-include $(TOP)/configure/RELEASE.private

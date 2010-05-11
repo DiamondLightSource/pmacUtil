@@ -17,16 +17,17 @@ DBD += pmacUtil.dbd
 pmacUtil_DBD += base.dbd
 pmacUtil_DBD += asyn.dbd
 pmacUtil_DBD += calcSupport.dbd
-#pmacUtil_DBD += stdSupport.dbd
+pmacUtil_DBD += genSubRecord.dbd
+pmacUtil_DBD += stream.dbd
 pmacUtil_DBD += sscanSupport.dbd
 pmacUtil_DBD += motorSupport.dbd
 
 # The following are compiled and added to the support library
 pmacUtil_SRCS += gather.st
 pmacUtil_SRCS += compensationtable.c
-#xxx_SRCS += xxxCodeB.c
+pmacUtil_SRCS += pmacStatusOutParse.c
 
-#pmacUtil_LIBS += asyn
+pmacUtil_LIBS += genSub
 pmacUtil_LIBS += seq pv
 # We need to link against the EPICS Base libraries
 pmacUtil_LIBS += $(EPICS_BASE_IOC_LIBS)

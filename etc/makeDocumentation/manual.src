@@ -15,9 +15,6 @@ The \subpage build_instructions page contains instructions to setup this module
 
 An example built using these instructions is available in iocs/example
 
-\section builder_sec Builder Objects
-The \subpage builder_objects page contains information on how to use the iocbuilder objects provided by this module
-
 \package protection The protection PLC
 The PMAC PLC PLC4_protection.pmc is a PLC designed to replace PLC4_encoder_loss.pmc.  It provides the same
 encoder loss protection along with protection against running through hard limits.

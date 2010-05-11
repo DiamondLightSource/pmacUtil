@@ -17,6 +17,9 @@ CLOSE
 ; unless explicitly commanded to. When the motion stop is released it restores
 ; the amps and feedrates
 
+; Set up motion stop
+m7539->x:$7a420,23,1    ;Node 34 24 bit register (digital input 47)
+
 ; To make timeout more readable
 #define MilliSeconds               * 8388608/i10
 #define Timer                      i5211

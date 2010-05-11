@@ -1,6 +1,0 @@
-file dls_pmac_prot_asyn_motor.template
-{
-pattern {  P,   M,    DESC,        DTYP,DIR,VELO,VMAX,VBAS,ACCL,BDST,BVEL,BACC,     PORT,ADDR, MRES,SREV,RRES, ERES,PREC,EGU,  DLLM,   DHLM,      HOME,RDBD,INIT, HLSV,TWV,JVEL,JAR,UEIP,OFF,FOFF,     SPORT,gda_name,gda_desc, RECOVERVEL, PROTENABLE}
-{PROTECTIONEX,:MOTOR,"Test 1",asynMotor,  0, 0.5,   1,   0, 0.1,   0,   0,   0,    pmac1,   1,0.001, 200,   0,0.001,   4, mm,-10000,10000,PROTECTIONEX,   0,  "",MAJOR,  1,  1, 100,   0,0,   0,pmac1port,      "",      "",   0.25,       1}
-}
-

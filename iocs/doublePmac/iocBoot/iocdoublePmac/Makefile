@@ -1,7 +1,6 @@
-TOP=../..
+TOP = ../..
 include $(TOP)/configure/CONFIG
 
-DB += protectionEx.db
+SCRIPTS=stdoublePmac.boot
 
 include $(TOP)/configure/RULES
-
