@@ -11,9 +11,10 @@ Delta Tau PMAC and GeoBrick systems.
 - \ref protection : A replacement for the encoder loss PLC that also protects against running through limits
 
 \section build_sec Build Instructions 
-The \subpage build_instructions page contains instructions to setup this module
+- \subpage build_instructions_pmacStatusGeobrick
+- \subpage build_instructions_positionCompare
 
-An example built using these instructions is available in iocs/example
+IOCs build using these build instructions are available in iocs/
 
 \package protection The protection PLC
 The PMAC PLC PLC4_protection.pmc is a PLC designed to replace PLC4_encoder_loss.pmc.  It provides the same

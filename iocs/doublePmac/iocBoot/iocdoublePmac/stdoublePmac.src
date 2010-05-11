@@ -71,7 +71,7 @@ asynSetTraceMask("PMAC_S1",0,1)
 asynSetTraceIOMask("PMAC_S0",0,1)
 asynSetTraceIOMask("PMAC_S1",0,1)
 
-epicsEnvSet("STREAM_PROTOCOL_PATH", "$(PMACSTATUS)/data")
+epicsEnvSet("STREAM_PROTOCOL_PATH", "$(PMACUTIL)/data")
 dbLoadRecords("db/doublePmac.db")
 
 iocInit()

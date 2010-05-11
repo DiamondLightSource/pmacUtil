@@ -1,11 +1,65 @@
-file pmac8Axis.template {
-    pattern { DEVICE, PORT , PLC, VERSION}
-    { IOC382-PMAC-01, PMAC_S0, 5, 0 }
+# Macros:
+#  DEVICE   Pmac/Geobrick name
+#  VERSION  0 for Pmac, 1 for Geobrick
+#  PLC      PLC for CPU load monitoring, e.g. 5
+#  PORT     Asyn port
+#  NAXES    Number of axes
+#  name     Object and gui association name
+file $(PMACUTIL)/db/pmacStatus.template
+{
+pattern { DEVICE, VERSION, PLC, PORT, NAXES}
+    { "IOC382-PMAC-01", 0, 5, PMAC_S0, 8}
+    { "IOC382-PMAC-02", 0, 5, PMAC_S1, 32}    
 }
-file pmac32Axis.template {
-    pattern { DEVICE, PORT , PLC, VERSION}
-    { IOC382-PMAC-02, PMAC_S1, 5, 0 }
-}
+
+# Macros:
+#  DEVICE  Pmac/Geobrick name
+#  AXIS    Axis number
+#  PORT    Asyn port
+file $(PMACUTIL)/db/pmacStatusAxis.template
+{
+pattern { DEVICE, AXIS, PORT }
+    { "IOC382-PMAC-01", "1", "PMAC_S0" }
+    { "IOC382-PMAC-01", "2", "PMAC_S0" }
+    { "IOC382-PMAC-01", "3", "PMAC_S0" }
+    { "IOC382-PMAC-01", "4", "PMAC_S0" }
+    { "IOC382-PMAC-01", "5", "PMAC_S0" }
+    { "IOC382-PMAC-01", "6", "PMAC_S0" }
+    { "IOC382-PMAC-01", "7", "PMAC_S0" }
+    { "IOC382-PMAC-01", "8", "PMAC_S0" }    
+    { "IOC382-PMAC-02", "1", "PMAC_S1" }
+    { "IOC382-PMAC-02", "2", "PMAC_S1" }
+    { "IOC382-PMAC-02", "3", "PMAC_S1" }
+    { "IOC382-PMAC-02", "4", "PMAC_S1" }
+    { "IOC382-PMAC-02", "5", "PMAC_S1" }
+    { "IOC382-PMAC-02", "6", "PMAC_S1" }
+    { "IOC382-PMAC-02", "7", "PMAC_S1" }
+    { "IOC382-PMAC-02", "8", "PMAC_S1" }
+    { "IOC382-PMAC-02", "9", "PMAC_S1" }
+    { "IOC382-PMAC-02", "10", "PMAC_S1" }
+    { "IOC382-PMAC-02", "11", "PMAC_S1" }
+    { "IOC382-PMAC-02", "12", "PMAC_S1" }
+    { "IOC382-PMAC-02", "13", "PMAC_S1" }
+    { "IOC382-PMAC-02", "14", "PMAC_S1" }
+    { "IOC382-PMAC-02", "15", "PMAC_S1" }
+    { "IOC382-PMAC-02", "16", "PMAC_S1" }
+    { "IOC382-PMAC-02", "17", "PMAC_S1" }
+    { "IOC382-PMAC-02", "18", "PMAC_S1" }
+    { "IOC382-PMAC-02", "19", "PMAC_S1" }
+    { "IOC382-PMAC-02", "20", "PMAC_S1" }
+    { "IOC382-PMAC-02", "21", "PMAC_S1" }
+    { "IOC382-PMAC-02", "22", "PMAC_S1" }
+    { "IOC382-PMAC-02", "23", "PMAC_S1" }
+    { "IOC382-PMAC-02", "24", "PMAC_S1" }
+    { "IOC382-PMAC-02", "25", "PMAC_S1" }
+    { "IOC382-PMAC-02", "26", "PMAC_S1" }
+    { "IOC382-PMAC-02", "27", "PMAC_S1" }
+    { "IOC382-PMAC-02", "28", "PMAC_S1" }
+    { "IOC382-PMAC-02", "29", "PMAC_S1" }
+    { "IOC382-PMAC-02", "30", "PMAC_S1" }
+    { "IOC382-PMAC-02", "31", "PMAC_S1" }
+    { "IOC382-PMAC-02", "32", "PMAC_S1" }
+}  
 
 file basic_asyn_motor.template
 {

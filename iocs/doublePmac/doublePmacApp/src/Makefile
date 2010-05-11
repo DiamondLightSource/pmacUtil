@@ -9,7 +9,7 @@ DBD += doublePmac.dbd
 
 # doublePmac.dbd will be created from these files
 doublePmac_DBD += base.dbd
-doublePmac_DBD += pmacOutParse.dbd
+doublePmac_DBD += pmacUtilSupport.dbd
 doublePmac_DBD += asyn.dbd
 doublePmac_DBD += motorSupport.dbd
 doublePmac_DBD += drvAsynSerialPort.dbd
@@ -19,6 +19,7 @@ doublePmac_DBD += stream.dbd
 doublePmac_DBD += genSubRecord.dbd
 doublePmac_DBD += pmacInclude.dbd
 doublePmac_DBD += utility.dbd
+
 
 
 # doublePmac_registerRecordDeviceDriver.cpp will be created
@@ -40,11 +41,13 @@ doublePmac_LIBS += pmacIoc
 doublePmac_LIBS += pmacAsynMotor
 doublePmac_LIBS += pmacAsynIPPort
 doublePmac_LIBS += stream pcre
-doublePmac_LIBS += pmacStatus
+doublePmac_LIBS += pmacUtil
 doublePmac_LIBS += motor
 doublePmac_LIBS += asyn
 doublePmac_LIBS += genSub
 doublePmac_LIBS += utility
+doublePmac_LIBS += seq pv
+
 doublePmac_LIBS += $(EPICS_BASE_IOC_LIBS)
 
 DATA += PMAC_processed.pmc
