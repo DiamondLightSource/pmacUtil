@@ -50,7 +50,10 @@ doublePmac_LIBS += seq pv
 
 doublePmac_LIBS += $(EPICS_BASE_IOC_LIBS)
 
-DATA += PMAC_processed.pmc
+# This does not yet build under RHEL5 as dls-pmc-preprocessor.py is not yet available.
+# It should work again once the python module motorcontrol has been released for RHEL5/python2.6/Qt4
+# (Ulrik Pedersen 18-05-2010)
+#DATA += PMAC_processed.pmc
 
 include $(TOP)/configure/RULES
 
