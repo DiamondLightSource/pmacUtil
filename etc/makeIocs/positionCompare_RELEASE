@@ -1,4 +1,4 @@
 # Place any example specific dependencies here
-TPMAC=$(SUPPORT)/tpmac/3-5dls11
+TPMAC=$(SUPPORT)/tpmac/3-7dls1
 
 
