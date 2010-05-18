@@ -1,8 +1,9 @@
-#!/dls_sw/tools/bin/python2.5
+#!/bin/env python2.6
 
 import os, sys, signal
 
-sys.path.append("/dls_sw/tools/python2.4/lib/python2.4/site-packages/cothread-1.14-py2.4.egg")
+from pkg_resources import require
+require("cothread")
 
 from PyQt4 import QtCore, QtGui
 from PyQt4.Qt import *

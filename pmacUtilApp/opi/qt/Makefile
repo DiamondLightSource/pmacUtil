@@ -33,7 +33,7 @@ button_reset.png: Stop.png
 	convert $< -fill black -colorize 50% -font Helvetica -pointsize 16 -draw "gravity center fill white text 0,-4 'Reset' fill grey text 1,-3 'Reset'" button_reset_down.png
 
 form_ui.py: form.ui
-	/dls_sw/tools/local/bin/pyuic4 $< > $@
+	pyuic4 $< > $@
 						
 clean:
 	rm -f button_* form_ui.py *.pyc
