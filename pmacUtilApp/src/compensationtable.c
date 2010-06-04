@@ -893,6 +893,7 @@ asynStatus ct_writeTables( compensationtable_t *pPvt, asynUser *pasynUser )
     char * cmd = pPvt->pmacSendBuf;
     char * response = pPvt->pmacRecvBuf;
     int addr;
+	int i;
     const char* functionName = "ct_writeTables";
    
     pasynManager->getAddr(pasynUser, &addr);
@@ -912,6 +913,10 @@ asynStatus ct_writeTables( compensationtable_t *pPvt, asynUser *pasynUser )
     status = ctWriteRead( pPvt, pasynUser, cmd, PMAC_COMM_BYTES, response );
     if (status != asynSuccess) return status;
     
+	/* redefine lookahead buffers */
+    for (i = 8; i >= 1; i--) snprintf( cmd+(i-1), PMAC_COMM_BYTES, "&%d DEFINE LOOKAHEAD 50,10\r", i );
+    status = ctWriteRead( pPvt, pasynUser, cmd, PMAC_COMM_BYTES, response );
+
     /* Re-enable the tables in the PMAC if the user wants it */
     snprintf( cmd, PMAC_COMM_BYTES, "I51=%d", pPvt->i51 );
     status = ctWriteRead( pPvt, pasynUser, cmd, PMAC_COMM_BYTES, response );
@@ -966,10 +971,13 @@ asynStatus ct_deleteBuffers( compensationtable_t *pPvt, asynUser *pasynUser )
     for (i = 1; i <= MAX_NTABLES; i++) snprintf( cmd+(i-1), PMAC_COMM_BYTES, "#%d DEL TCOMP\r", i );
     status = ctWriteRead( pPvt, pasynUser, cmd, PMAC_COMM_BYTES, response );
     if (status != asynSuccess) return status;
-*/    
+
     for (i = 1; i <= MAX_NTABLES; i++) snprintf( cmd+(i-1), PMAC_COMM_BYTES, "#%d DEL COMP\r", i );
     status = ctWriteRead( pPvt, pasynUser, cmd, PMAC_COMM_BYTES, response );
     if (status != asynSuccess) return status;
+*/    
+	snprintf( cmd, PMAC_COMM_BYTES , "DEL ALL");
+	status = ctWriteRead( pPvt, pasynUser, cmd, PMAC_COMM_BYTES, response );
     
     return status;
 }
