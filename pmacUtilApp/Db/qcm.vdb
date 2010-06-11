@@ -4,7 +4,7 @@
 #! DBDEND
 
 
-# ####################################################
+# #################################################
 # Use this template with CS_qcm.pmc to implement
 # a mode for changing energy that only moves Bragg1.
 # 
@@ -13,7 +13,7 @@
 # PORT - PMAC asyn port
 # COORD - Co-ordinate system for the energy kinematics
 # gda_name
-# ######################################################
+# #####################################################
 # % autosave 2 VAL
 # % gdatag,template,simpleBinary,$(gda_name).ENERGY.MODE,$(gda_name) energy mode
 # % gdatag,binary,rw,$(gda_name).ENERGY.MODE,RECORD,Energy Control Mode
@@ -23,6 +23,7 @@ record(bo, "$(P):ENERGYMODE") {
   field(ZNAM, "Bragg and Offset")
   field(ONAM, "Bragg1 and Bragg2")
   field(DESC, "Energy mode")
+  field(PINI, "YES")
 }
 
 # Write down the mode to the PMAC Q-variable
@@ -143,51 +144,194 @@ record(asyn, "$(P):MSCLRF0") {
   field(AOUT, "MSCLRF0")
 }
 
+
+record(bo, "$(P):SETXTAL") {
+  field(VAL, "0")
+  field(ZNAM, "Si(111)")
+  field(ONAM, "Si(311)")
+  field(DESC, "set xtal type")
+  field(FLNK, "$(P):XTAL:SPACING")
+  field(PINI, "YES")
+}
+
+record(scalcout, "$(P):SETXTAL:STRING") {
+  field(DTYP, "Soft Channel")
+  field(OUT, "$(P):SETPMAC.AOUT PP")
+  field(OOPT, "Every Time")
+  field(DOPT, "Use CALC")
+  field(CALC, "PRINTF('&$(COORD) Q111=%.9f',A)")
+}
+
+record(calcout, "$(P):XTAL:SPACING") {
+  field(CALC, "A=0?B:C")
+  field(INPA, "$(P):SETXTAL")
+  field(INPB, "3.13475")
+  field(INPC, "1.637069796")
+  field(OUT, "$(P):SETXTAL:STRING.A")
+  field(OOPT, "Every Time")
+  field(DOPT, "Use CALC")
+  field(FLNK, "$(P):SETXTAL:STRING")
+}
+
+record(ao, "$(P):BRAGG1:ACTUAL") {
+  field(DESC, "bragg energy actual")
+  field(OMSL, "supervisory")
+  field(DRVH, "40000")
+  field(DRVL, "-40000")
+  field(EGU, "eV")
+}
+
+record(ao, "$(P):BRAGG2:ACTUAL") {
+  field(DESC, "bragg energy actual")
+  field(OMSL, "supervisory")
+  field(DRVH, "40000")
+  field(DRVL, "-40000")
+  field(EGU, "eV")
+}
+
+record(transform, "$(P):CALC:B2OFF") {
+  field(CLCE, "(D*1000)/(2*C)")
+  field(CLCF, "ASIN(E/A)")
+  field(CLCG, "ASIN(E/B)")
+  field(CLCK, "((G-F)/H)*I*32")
+  field(CLCL, "J+K")
+  field(INPA, "$(P):BRAGG2.RBV")
+  field(INPB, "$(P):BRAGG2:ACTUAL")
+  field(INPC, "$(P):XTAL:SPACING")
+  field(INPD, "12.3985")
+  field(INPH, "$(RADMRES2)")
+  field(INPI, "$(P):B2:ENC1234.MRES")
+  field(INPJ, "$(P):B2:ENC1234.OFF")
+  field(CMTA, "bragg energy readback")
+  field(CMTB, "bragg energy actual")
+  field(CMTC, "xtal spacing d")
+  field(CMTD, "Evlambda")
+  field(CMTE, "(Evlambda*1000)/2d")
+  field(CMTF, "bragg rad readback")
+  field(CMTG, "bragg rad actual")
+  field(CMTH, "RADMRES2")
+  field(CMTI, "B2MRES")
+  field(CMTJ, "B2OFF")
+  field(CMTK, "B2 offset correction")
+  field(CMTL, "new B2OFF")
+  field(DESC, "calc new B2 motor offset")
+  field(OUTL, "$(P):B2:ENC1234.OFF")
+}
+
+record(transform, "$(P):CALC:B1OFF") {
+  field(CLCE, "(D*1000)/(2*C)")
+  field(CLCF, "ASIN(E/A)")
+  field(CLCG, "ASIN(E/B)")
+  field(CLCK, "((G-F)/H)*I*32")
+  field(CLCL, "J+K")
+  field(INPA, "$(P):BRAGG1.RBV")
+  field(INPB, "$(P):BRAGG1:ACTUAL")
+  field(INPC, "$(P):XTAL:SPACING")
+  field(INPD, "12.3985")
+  field(INPH, "$(RADMRES1)")
+  field(INPI, "$(P):B1:ENC1234.MRES")
+  field(INPJ, "$(P):B1:ENC1234.OFF")
+  field(CMTA, "bragg energy readback")
+  field(CMTB, "bragg energy actual")
+  field(CMTC, "xtal spacing d")
+  field(CMTD, "Evlambda")
+  field(CMTE, "(Evlambda*1000)/2d")
+  field(CMTF, "bragg rad readback")
+  field(CMTG, "bragg rad actual")
+  field(CMTH, "RADMRES1")
+  field(CMTI, "B1MRES")
+  field(CMTJ, "B1OFF")
+  field(CMTK, "B1 offset correction")
+  field(CMTL, "new B1OFF")
+  field(DESC, "calc new B1 motor offset")
+  field(OUTL, "$(P):B1:ENC1234.OFF")
+}
+
 #! Further lines contain data used by VisualDCT
-#! View(260,65,1.0)
-#! Record("$(P):ENERGYMODE",100,54,0,0,"$(P):ENERGYMODE")
+#! View(0,0,1.0)
+#! Record("$(P):ENERGYMODE",100,40,0,0,"$(P):ENERGYMODE")
 #! Field("$(P):ENERGYMODE.OUT",16777215,1,"$(P):ENERGYMODE.OUT")
 #! Link("$(P):ENERGYMODE.OUT","$(P):MODE:STRING.A")
-#! Record("$(P):SETPMAC",700,188,0,0,"$(P):SETPMAC")
+#! Record("$(P):SETPMAC",840,188,0,0,"$(P):SETPMAC")
 #! Field("$(P):SETPMAC.AOUT",16777215,0,"$(P):SETPMAC.AOUT")
-#! Record("$(P):MODE:STRING",420,34,0,0,"$(P):MODE:STRING")
+#! Record("$(P):MODE:STRING",560,34,0,0,"$(P):MODE:STRING")
 #! Field("$(P):MODE:STRING.OUT",16777215,1,"$(P):MODE:STRING.OUT")
 #! Link("$(P):MODE:STRING.OUT","$(P):SETPMAC.AOUT")
 #! Field("$(P):MODE:STRING.A",16777215,0,"$(P):MODE:STRING.A")
-#! Record("$(P):B1:PHASE:START",420,212,0,1,"$(P):B1:PHASE:START")
+#! Record("$(P):B1:PHASE:START",540,432,0,1,"$(P):B1:PHASE:START")
 #! Field("$(P):B1:PHASE:START.OUT",16777215,1,"$(P):B1:PHASE:START.OUT")
 #! Link("$(P):B1:PHASE:START.OUT","$(P):SETPMAC.AOUT")
 #! Field("$(P):B1:PHASE:START.FLNK",16777215,1,"$(P):B1:PHASE:START.FLNK")
 #! Link("$(P):B1:PHASE:START.FLNK","$(P):B1:GET:PHASING")
-#! Record("$(P):B2:PHASE:START",420,432,0,1,"$(P):B2:PHASE:START")
+#! Record("$(P):B2:PHASE:START",540,652,0,1,"$(P):B2:PHASE:START")
 #! Field("$(P):B2:PHASE:START.OUT",16777215,1,"$(P):B2:PHASE:START.OUT")
 #! Link("$(P):B2:PHASE:START.OUT","$(P):SETPMAC.AOUT")
 #! Field("$(P):B2:PHASE:START.FLNK",16777215,1,"$(P):B2:PHASE:START.FLNK")
 #! Link("$(P):B2:PHASE:START.FLNK","$(P):B1:GET:PHASING")
-#! Record("$(P):B1:PHASING",820,500,0,1,"$(P):B1:PHASING")
+#! Record("$(P):B1:PHASING",940,720,0,1,"$(P):B1:PHASING")
 #! Field("$(P):B1:PHASING.INAA",16777215,0,"$(P):B1:PHASING.INAA")
 #! Link("$(P):B1:PHASING.INAA","$(P):B1:GET:PHASING.AINP")
-#! Record("$(P):B1:GET:PHASING",800,686,0,0,"$(P):B1:GET:PHASING")
+#! Record("$(P):B1:GET:PHASING",920,906,0,0,"$(P):B1:GET:PHASING")
 #! Field("$(P):B1:GET:PHASING.FLNK",16777215,1,"$(P):B1:GET:PHASING.FLNK")
 #! Link("$(P):B1:GET:PHASING.FLNK","$(P):B2:GET:PHASING")
 #! Field("$(P):B1:GET:PHASING.AINP",16777215,0,"$(P):B1:GET:PHASING.AINP")
-#! Record("$(P):B2:GET:PHASING",1100,740,0,0,"$(P):B2:GET:PHASING")
+#! Record("$(P):B2:GET:PHASING",1220,960,0,0,"$(P):B2:GET:PHASING")
 #! Field("$(P):B2:GET:PHASING.AINP",16777215,0,"$(P):B2:GET:PHASING.AINP")
-#! Record("$(P):B2:PHASING",1120,540,0,1,"$(P):B2:PHASING")
+#! Record("$(P):B2:PHASING",1240,760,0,1,"$(P):B2:PHASING")
 #! Field("$(P):B2:PHASING.INAA",16777215,0,"$(P):B2:PHASING.INAA")
 #! Link("$(P):B2:PHASING.INAA","$(P):B2:GET:PHASING.AINP")
-#! Record("$(P):B1:CLK",500,642,0,1,"$(P):B1:CLK")
+#! Record("$(P):B1:CLK",620,882,0,1,"$(P):B1:CLK")
 #! Field("$(P):B1:CLK.FLNK",16777215,1,"$(P):B1:CLK.FLNK")
 #! Link("$(P):B1:CLK.FLNK","$(P):B1:GET:PHASING")
-#! Record("$(P):XTAL",1360,282,0,0,"$(P):XTAL")
+#! Record("$(P):XTAL",1500,282,0,0,"$(P):XTAL")
 #! Field("$(P):XTAL.RVAL",16777215,0,"$(P):XTAL.RVAL")
-#! Record("$(P):GET:XTALSPACE",1380,700,0,0,"$(P):GET:XTALSPACE")
+#! Record("$(P):GET:XTALSPACE",1520,700,0,0,"$(P):GET:XTALSPACE")
 #! Field("$(P):GET:XTALSPACE.AINP",16777215,0,"$(P):GET:XTALSPACE.AINP")
-#! Record("$(P):XTALSPACE",1400,411,0,1,"$(P):XTALSPACE")
+#! Record("$(P):XTALSPACE",1540,411,0,1,"$(P):XTALSPACE")
 #! Field("$(P):XTALSPACE.OUT",16777215,0,"$(P):XTALSPACE.OUT")
 #! Link("$(P):XTALSPACE.OUT","$(P):XTAL.RVAL")
 #! Field("$(P):XTALSPACE.FLNK",16777215,0,"$(P):XTALSPACE.FLNK")
 #! Link("$(P):XTALSPACE.FLNK","$(P):XTAL")
 #! Field("$(P):XTALSPACE.INAA",16777215,0,"$(P):XTALSPACE.INAA")
 #! Link("$(P):XTALSPACE.INAA","$(P):GET:XTALSPACE.AINP")
-#! Record("$(P):MSCLRF0",900,174,0,1,"$(P):MSCLRF0")
+#! Record("$(P):MSCLRF0",1040,174,0,1,"$(P):MSCLRF0")
+#! Record("$(P):SETXTAL",20,220,0,1,"$(P):SETXTAL")
+#! Field("$(P):SETXTAL.FLNK",16777215,1,"$(P):SETXTAL.FLNK")
+#! Link("$(P):SETXTAL.FLNK","$(P):XTAL:SPACING")
+#! Field("$(P):SETXTAL.VAL",16777215,0,"$(P):SETXTAL.VAL")
+#! Record("$(P):SETXTAL:STRING",540,254,0,0,"$(P):SETXTAL:STRING")
+#! Field("$(P):SETXTAL:STRING.OUT",16777215,1,"$(P):SETXTAL:STRING.OUT")
+#! Link("$(P):SETXTAL:STRING.OUT","$(P):SETPMAC.AOUT")
+#! Field("$(P):SETXTAL:STRING.A",16777215,1,"$(P):SETXTAL:STRING.A")
+#! Record("$(P):XTAL:SPACING",280,212,0,0,"$(P):XTAL:SPACING")
+#! Field("$(P):XTAL:SPACING.FLNK",16777215,1,"$(P):XTAL:SPACING.FLNK")
+#! Link("$(P):XTAL:SPACING.FLNK","$(P):SETXTAL:STRING")
+#! Field("$(P):XTAL:SPACING.OUT",16777215,1,"$(P):XTAL:SPACING.OUT")
+#! Link("$(P):XTAL:SPACING.OUT","$(P):SETXTAL:STRING.A")
+#! Field("$(P):XTAL:SPACING.INPA",16777215,0,"$(P):XTAL:SPACING.INPA")
+#! Link("$(P):XTAL:SPACING.INPA","$(P):SETXTAL.VAL")
+#! Field("$(P):XTAL:SPACING.VAL",16777215,1,"$(P):XTAL:SPACING.VAL")
+#! Record("$(P):BRAGG1:ACTUAL",40,1234,0,1,"$(P):BRAGG1:ACTUAL")
+#! Field("$(P):BRAGG1:ACTUAL.VAL",16777215,0,"$(P):BRAGG1:ACTUAL.VAL")
+#! Record("$(P):BRAGG2:ACTUAL",520,1234,0,1,"$(P):BRAGG2:ACTUAL")
+#! Field("$(P):BRAGG2:ACTUAL.VAL",16777215,0,"$(P):BRAGG2:ACTUAL.VAL")
+#! Record("$(P):CALC:B2OFF",760,1143,0,0,"$(P):CALC:B2OFF")
+#! Field("$(P):CALC:B2OFF.INPA",16777215,1,"$(P):CALC:B2OFF.INPA")
+#! Field("$(P):CALC:B2OFF.INPB",16777215,0,"$(P):CALC:B2OFF.INPB")
+#! Link("$(P):CALC:B2OFF.INPB","$(P):BRAGG2:ACTUAL.VAL")
+#! Field("$(P):CALC:B2OFF.INPC",16777215,0,"$(P):CALC:B2OFF.INPC")
+#! Link("$(P):CALC:B2OFF.INPC","$(P):XTAL:SPACING.VAL")
+#! Field("$(P):CALC:B2OFF.INPH",16777215,1,"$(P):CALC:B2OFF.INPH")
+#! Field("$(P):CALC:B2OFF.INPI",16777215,1,"$(P):CALC:B2OFF.INPI")
+#! Field("$(P):CALC:B2OFF.INPJ",16777215,1,"$(P):CALC:B2OFF.INPJ")
+#! Field("$(P):CALC:B2OFF.OUTL",16777215,1,"$(P):CALC:B2OFF.OUTL")
+#! Record("$(P):CALC:B1OFF",300,1143,0,0,"$(P):CALC:B1OFF")
+#! Field("$(P):CALC:B1OFF.INPA",16777215,1,"$(P):CALC:B1OFF.INPA")
+#! Field("$(P):CALC:B1OFF.INPB",16777215,0,"$(P):CALC:B1OFF.INPB")
+#! Link("$(P):CALC:B1OFF.INPB","$(P):BRAGG1:ACTUAL.VAL")
+#! Field("$(P):CALC:B1OFF.INPC",16777215,0,"$(P):CALC:B1OFF.INPC")
+#! Link("$(P):CALC:B1OFF.INPC","$(P):XTAL:SPACING.VAL")
+#! Field("$(P):CALC:B1OFF.INPH",16777215,1,"$(P):CALC:B1OFF.INPH")
+#! Field("$(P):CALC:B1OFF.INPI",16777215,1,"$(P):CALC:B1OFF.INPI")
+#! Field("$(P):CALC:B1OFF.INPJ",16777215,1,"$(P):CALC:B1OFF.INPJ")
+#! Field("$(P):CALC:B1OFF.OUTL",16777215,1,"$(P):CALC:B1OFF.OUTL")
