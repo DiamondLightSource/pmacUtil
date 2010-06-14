@@ -9,10 +9,10 @@ CLOSE
 ;
 ; PLC to kill a motor after a defined period of inactivity. 
 ; Macros:
-; $( NAXIS )
+; NAXIS
 ;   The number of axis on the controller 1..32 (8 for a typical geobrick, 32 for a full PMAC)
 ;   This defines the highest numbered axis that may be powered down.  
-; $( TM1 )..$( TM32 ) 
+; TM1..TM32
 ;   Define timeout period in milliseconds after which the axis will be powered 
 ;   down provided it has been idle for the whole period (note clock resolution below).
 ;   Set to zero to leave the amp powered continously. 
@@ -113,4 +113,4 @@ endif
 
 CLOSE
 
-enable plc 7
+ENABLE PLC 7

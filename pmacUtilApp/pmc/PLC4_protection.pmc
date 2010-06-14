@@ -900,7 +900,4 @@ ENDWHILE
 
 CLOSE
 
-;Enable background PLCs
-i5=2
-
-ENABLE PLC4
+ENABLE PLC 4

@@ -6,7 +6,7 @@ CLOSE
 ; Used variables: p200..202, i5211
 ; Macros (and example values): 
 ; STOPTIME=$(STOPTIME) ;Time taken for all motors to stop before they are killed
-; Needs dls_PMAC_M_variables.pmc
+; Needs dls_PMAC_M_variables.pmc or dls_BRICK_M_variables.pmc
 ;###############################################################################
 
 ; The stopping procedure will ensure all motors stop quickly and safely. First 
@@ -16,9 +16,6 @@ CLOSE
 ; individual motors are killed - this ensures all motors cannot be moved again 
 ; unless explicitly commanded to. When the motion stop is released it restores
 ; the amps and feedrates
-
-; Set up motion stop
-m7539->x:$7a420,23,1    ;Node 34 24 bit register (digital input 47)
 
 ; To make timeout more readable
 #define MilliSeconds               * 8388608/i10
@@ -93,7 +90,5 @@ endif
 
 CLOSE
 
-;Enable background PLCs
-i5=2
+ENABLE PLC 2
 
-ENABLE PLC2
