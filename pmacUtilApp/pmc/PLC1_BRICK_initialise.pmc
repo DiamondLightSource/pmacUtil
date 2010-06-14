@@ -5,7 +5,10 @@ CLOSE
 ; Original Author: Tom Cobb
 ; Used variables: None, (P101..P132 reserved for CS mres)
 ; Macros (and values): 
-; CMDS = $(CMDS) ;Extra commands to run at startup like ENABLE PLCXX
+; PLC2 = $(PLC2=DISABLE) ; Enable or disable PLC2
+; ...
+; PLC31 = $(PLC31=DISABLE) ; Enable or disable PLC31
+; CMDS = $(CMDS=) ;Extra commands to run after PLCS are started
 ;####################################################
 
 OPEN PLC1
@@ -43,14 +46,42 @@ COMMAND"DEFINE LOOKAHEAD 50,10"
 ADDRESS&2
 COMMAND"DEFINE LOOKAHEAD 50,10"
 
-; Setup the servo ICs for the correct motor types as defined in PLC6
-ENABLE PLC6
+; Enable or disable all PLCs
+$(PLC2=DISABLE) PLC2
+$(PLC3=DISABLE) PLC3
+$(PLC4=DISABLE) PLC4
+$(PLC5=DISABLE) PLC5
+$(PLC6=DISABLE) PLC6
+$(PLC7=DISABLE) PLC7
+$(PLC8=DISABLE) PLC8
+$(PLC9=DISABLE) PLC9
+$(PLC10=DISABLE) PLC10
+$(PLC11=DISABLE) PLC11
+$(PLC12=DISABLE) PLC12
+$(PLC13=DISABLE) PLC13
+$(PLC14=DISABLE) PLC14
+$(PLC15=DISABLE) PLC15
+$(PLC16=DISABLE) PLC16
+$(PLC17=DISABLE) PLC17
+$(PLC18=DISABLE) PLC18
+$(PLC19=DISABLE) PLC19
+$(PLC20=DISABLE) PLC20
+$(PLC21=DISABLE) PLC21
+$(PLC22=DISABLE) PLC22
+$(PLC23=DISABLE) PLC23
+$(PLC24=DISABLE) PLC24
+$(PLC25=DISABLE) PLC25
+$(PLC26=DISABLE) PLC26
+$(PLC27=DISABLE) PLC27
+$(PLC28=DISABLE) PLC28
+$(PLC29=DISABLE) PLC29
+$(PLC30=DISABLE) PLC30
+$(PLC31=DISABLE) PLC31
 
 ; Run any extra commands
 $(CMDS)
 
-DISPLC1
-CLOSE
+; Disable this PLC
+DISABLE PLC1
 
-;Set i15=2 as standard. This need to be set in order to run background PLC programs.
-i5=2
+CLOSE
