@@ -57,4 +57,4 @@ $(eval $(foreach dir,$(DIRS),$(call RULES,$(dir))))
 # rule to tidy up			
 clean: 
 	@echo '***' Removing generated files
-	rm -rf *~ */*~ *.PMA *.56K *.LOG *.TBL *.MAP PewinSessionLog.Txt $(shell grep -l -r "DO NOT MODIFY" . | grep -v .svn)
+	rm -rf *~ */*~ */*.PMA */*.56K */*.LOG */*.TBL */*.MAP */PewinSessionLog.Txt *.PMA *.56K *.LOG *.TBL *.MAP PewinSessionLog.Txt $(shell grep -l -r "DO NOT MODIFY" . | grep -v .svn)
