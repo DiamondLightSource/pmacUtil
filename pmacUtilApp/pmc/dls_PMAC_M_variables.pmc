@@ -1,7 +1,6 @@
-;####################################################
+;########################################################
 ; This file contains additional M variables for PMAC only
-; These are used in PLC4 distributed in pmacUtil
-;####################################################
+;########################################################
 
 ; Set up the M-variable definitions to point to
 ; the encoder loss memory locations
@@ -71,6 +70,30 @@ M2913->X:$003478,9
 M3013->X:$003479,9
 M3113->X:$00347C,9
 M3213->X:$00347D,9
+
+;Map Digital I/O to m variables (micromech's enabling technique)
+m7500->x:$78420,0,24    ;Node 2 24 bit register (digital inputs 0-15)
+m7501->x:$78424,0,24    ;Node 3 24 bit register (digital outputs 0-15)
+m7502->x:$7a420,0,24    ;Node 34 24 bit register (digital inputs 24-39)
+m7503->x:$7a424,0,24    ;Node 35 24 bit register (digital outputs 24-39)
+
+;Map user IO to other m variables
+m7508->x:$78420,16,1    ;Node 2 24 bit register (digital input 16)
+m7509->x:$78420,17,1    ;Node 2 24 bit register (digital input 17)
+m7510->x:$78420,18,1    ;Node 2 24 bit register (digital input 18)
+m7511->x:$78420,19,1    ;Node 2 24 bit register (digital input 19)
+m7512->x:$78420,20,1    ;Node 2 24 bit register (digital input 20)
+m7513->x:$78420,21,1    ;Node 2 24 bit register (digital input 21)
+m7514->x:$78420,22,1    ;Node 2 24 bit register (digital input 22)
+m7515->x:$78420,23,1    ;Node 2 24 bit register (digital input 23)
+
+m7532->x:$7a420,16,1    ;Node 34 24 bit register (digital input 40)
+m7533->x:$7a420,17,1    ;Node 34 24 bit register (digital input 41)
+m7534->x:$7a420,18,1    ;Node 34 24 bit register (digital input 42)
+m7535->x:$7a420,19,1    ;Node 34 24 bit register (digital input 43)
+m7536->x:$7a420,20,1    ;Node 34 24 bit register (digital input 44)
+m7537->x:$7a420,21,1    ;Node 34 24 bit register (digital input 45)
+m7538->x:$7a420,22,1    ;Node 34 24 bit register (digital input 46)
 
 ; Set up motion stop
 m7539->x:$7a420,23,1    ;Node 34 24 bit register (digital input 47)

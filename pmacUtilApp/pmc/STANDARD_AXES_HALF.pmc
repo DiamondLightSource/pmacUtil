@@ -10,6 +10,7 @@ DELETE TRACE
 i100,16,100=0 ;Disable all motors
 i3 = 2       ;Acknowledge valid commands with <LF> - Needed for dls-motor-control.py
 i6 = 1       ;Acknowledge invalid commands with <BELL>ERRxxx<CR> - Needed for dls-motor-control.py
+i5 = 2       ;Turn on plcs
 
 ;Configure MACRO station node enable i variables
 i70..77=$3333;Macro IC0-3 Node Auxiliary Register Enable and Protocol Type Control
@@ -60,29 +61,6 @@ ms0,i904=1
 ms0,i908=1
 ms16,i904=1
 ms16,i908=1
-
-;Map Digital I/O to m variables (micromech's enabling technique), note only first 16 bits
-m7500->x:$78420,0,16    ;Node 2 24 bit register (digital inputs 0-15)
-m7501->x:$78424,0,16    ;Node 3 24 bit register (digital outputs 0-15)
-
-;Map user IO to other m variables
-m7508->x:$78420,16,1    ;Node 2 24 bit register (digital input 16)
-m7509->x:$78420,17,1    ;Node 2 24 bit register (digital input 17)
-m7510->x:$78420,18,1    ;Node 2 24 bit register (digital input 18)
-m7511->x:$78420,19,1    ;Node 2 24 bit register (digital input 19)
-m7512->x:$78420,20,1    ;Node 2 24 bit register (digital input 20)
-m7513->x:$78420,21,1    ;Node 2 24 bit register (digital input 21)
-m7514->x:$78420,22,1    ;Node 2 24 bit register (digital input 22)
-m7515->x:$78420,23,1    ;Node 2 24 bit register (digital input 23)
-
-m7516->x:$78424,16,1    ;Node 3 24 bit register (digital output 16)
-m7517->x:$78424,17,1    ;Node 3 24 bit register (digital output 17)
-m7518->x:$78424,18,1    ;Node 3 24 bit register (digital output 18)
-m7519->x:$78424,19,1    ;Node 3 24 bit register (digital output 19)
-m7520->x:$78424,20,1    ;Node 3 24 bit register (digital output 20)
-m7521->x:$78424,21,1    ;Node 3 24 bit register (digital output 21)
-m7522->x:$78424,22,1    ;Node 3 24 bit register (digital output 22)
-m7523->x:$78424,23,1    ;Node 3 24 bit register (digital output 23)
 
 ;Setup additional encoder conversion table entries for exponential filter, with axis bits and DSP gate address
 ;All Axes

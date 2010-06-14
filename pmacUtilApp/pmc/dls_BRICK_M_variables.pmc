@@ -1,7 +1,6 @@
-;####################################################
+;############################################################
 ; This file contains additional M variables for GeoBrick only
-; These are used in PLC4 distributed in pmacUtil
-;####################################################
+;############################################################
 
 ; Set up the M-variable definitions to point to
 ; the encoder loss memory locations
