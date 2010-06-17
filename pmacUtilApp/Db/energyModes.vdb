@@ -4,7 +4,7 @@
 #! DBDEND
 
 
-########################################################
+#################################################################################
 # Use this template with CS_accel_dcm.pmc to implement 
 # a mode for changing energy that only moves Bragg.
 #
@@ -12,8 +12,9 @@
 # P - device name
 # PORT - PMAC asyn port
 # COORD - Co-ordinate system for the energy kinematics
-# OFFSET - Motor record PV name for the beam offset
-########################################################
+# OFFSET - PV name for the beam offset demand (usually a motor record)
+# OFFSETRBV - PV name for the beam offset readback (default is $(OFFSET).RBV)
+##################################################################################
 
 # % gdatag,template,simpleBinary,$(gda_name).ENERGYMODE,$(gda_desc) energy mode
 
@@ -36,7 +37,7 @@ record(scalcout, "$(P):MODESTRING") {
 # Beam offset recorded when mode was changed.
 # % autosave 2 VAL
 record(ai, "$(P):LASTOFFSET") {
-  field(INP, "$(OFFSET).RBV")
+  field(INP, "$(OFFSETRBV=$(OFFSET).RBV)")
 }
 
 # % autosave 2 VAL
