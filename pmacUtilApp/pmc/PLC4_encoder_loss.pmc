@@ -132,6 +132,10 @@ P465..496=0
 ; this is a temp var
 #define temp_var P497
 
+; The amp_status bits flickers around a bit so we read it several times until we get consecutive reading the same before we act on it.
+#define amp_status_debounce P498
+#define amp_1_status_debounce P499
+
 ; this is the old following error limit
 #define saved_fe_limit           P(P400+432)
 
@@ -160,13 +164,39 @@ CLEAR
 axis_number = 1
 ; Loop through all axis
 while(axis_number < 33)
+
+    if (amp_protection)                         
+        ; The amp_status bits flicker around a bit so we read the amp_status bits twice inside a while loop. This ensures 
+        ; that other PLC's and background tasks are run between the readings so that amp_status gets updated between readings. 
+        ; Tests have show you do not ever seem to get two consecutive incorrect readings from amp_status if the background 
+        ; tasks are allowed to run between readings.
+
+        ; Debounce the amp_status reading.
+        ; Set initial debounce values to something we will never get from amp_status to ensure we go round the while loop twice.
+        amp_status_debounce = 1
+        temp_var = 2
+        while (amp_status_debounce != temp_var)
+            temp_var = amp_status_debounce
+            amp_status_debounce = amp_status
+        endwhile  
+
+        ; Debounce the amp_1_status reading.
+        ; Set initial debounce values to something we will never get from amp_status to ensure we go round the while loop twice.
+        amp_1_status_debounce = 1
+        temp_var = 2
+        while (amp_1_status_debounce != temp_var)
+            temp_var = amp_1_status_debounce
+            amp_1_status_debounce = amp_1_status
+        endwhile
+    endif  
+
     ; If encoder protection is enabled for this axis and the encoder loss bit
     ; drops to zero and we have not already
     if(encoder_protection and encoder_loss_bit = 0)
     ; Or amp protection is enabled and the amp status is no longer READY
-    or(amp_protection and amp_status != AMP_STATUS_READY)
+    or(amp_protection and amp_status_debounce != AMP_STATUS_READY)
     ; Or amp 1 is under voltage
-    or(amp_protection and amp_1_status = AMP_STATUS_UNDER_VOLTAGE)    
+    or(amp_protection and amp_1_status_debounce = AMP_STATUS_UNDER_VOLTAGE)    
         if (protection_tripped=0)
             ; If the following error limit is sensible
             ; then save it for future reference
@@ -190,7 +220,7 @@ while(axis_number < 33)
     endif
 
     ; Auto-reset the protection_tripped if it was an amp fault
-    if(amp_protection and amp_status = AMP_STATUS_READY and amp_1_status != AMP_STATUS_UNDER_VOLTAGE)        
+    if(amp_protection and amp_status_debounce = AMP_STATUS_READY and amp_1_status_debounce != AMP_STATUS_UNDER_VOLTAGE)        
         ; If encoder loss is still tripped then don't reset protection
         if(encoder_protection and encoder_loss_bit = 0)
         else
