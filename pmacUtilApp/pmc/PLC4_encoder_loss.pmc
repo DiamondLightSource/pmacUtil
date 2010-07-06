@@ -9,9 +9,9 @@ CLOSE
 ; ...
 ; ONM32 = 0      ;Turn encoder loss protection for axis 32 off
 ; You MUST have loaded dls_BRICK_M_variables.pmc or dls_PMAC_M_variables.pmc
-;---------------------------------------------------------;
-; The following must be uncommented in your main pmc file ;
-;---------------------------------------------------------;
+;-------------------------------------------------------------------;
+; The following must be uncommented in your main pmc file for PMACs ;
+;-------------------------------------------------------------------;
 ;;Memory locations for encoder loss bit
 ;;These addresses work for micromech racks, OD racks need different ones
 ;ms0,i21 = $6488C8DCC0A1
@@ -106,6 +106,7 @@ P432 = $(ONM32=0)
 ; if encoder loss protection is turned on on this axis
 #define encoder_protection       P(P400 + 400) & 1 = 1
 #define amp_protection           P(P400 + 400) & 2 = 2
+#define micromech_protection     P(P400 + 400) & 4 = 4
 
 ; m variable pointing at the memory location showing if the encoder is present
 #define encoder_loss_bit         M(P400*100 + 84)
@@ -117,6 +118,10 @@ P432 = $(ONM32=0)
 #define amp_1_status             M190 & 448
 #define AMP_STATUS_READY         64
 #define AMP_STATUS_UNDER_VOLTAGE 128
+
+; These are for checking the status of the micromech amps (PMAC UMAC systems)
+#define micromech_status         M(7599 + P400 + (P400 - 1) & 16 / 16 * 8)
+#define micromech_demand         M(7699 + P400 + (P400 - 1) & 16 / 16 * 8)
 
 ; m variable pointing at the CS number (-1) for the motor
 #define coord_system_number      M(P400*100 + 85)
@@ -197,6 +202,8 @@ while(axis_number < 33)
     or(amp_protection and amp_status_debounce != AMP_STATUS_READY)
     ; Or amp 1 is under voltage
     or(amp_protection and amp_1_status_debounce = AMP_STATUS_UNDER_VOLTAGE)    
+    ; Or micromech amp enabled but not active
+    or(micromech_protection and micromech_status = 0 and micromech_demand = 1)
         if (protection_tripped=0)
             ; If the following error limit is sensible
             ; then save it for future reference
@@ -221,6 +228,15 @@ while(axis_number < 33)
 
     ; Auto-reset the protection_tripped if it was an amp fault
     if(amp_protection and amp_status_debounce = AMP_STATUS_READY and amp_1_status_debounce != AMP_STATUS_UNDER_VOLTAGE)        
+        ; If encoder loss is still tripped then don't reset protection
+        if(encoder_protection and encoder_loss_bit = 0)
+        else
+            protection_tripped = 0
+        endif
+    endif
+
+    ; Auto-reset the protection_tripped if it was a micromech amp fault
+    if(micromech_protection and micromech_status = 1 and micromech_demand = 1)
         ; If encoder loss is still tripped then don't reset protection
         if(encoder_protection and encoder_loss_bit = 0)
         else
