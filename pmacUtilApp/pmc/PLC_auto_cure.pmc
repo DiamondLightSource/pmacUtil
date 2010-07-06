@@ -5,17 +5,20 @@
 ;  as defined in this PLC. At time of writing (8/6/2010) sometimes the Geobrick sets the 
 ;  amp mode bit to servo for no reason, this PLC attempts to detect and fix the problem.
 ;  Delta Tau have promised a firmware update to fix this problem.
-;  This PLC is only for use with Geobricks with version 1.946 firmware or later and is derived
-;  from Trevors PLC7_Motion_Controls_Auto_Kill_or_Cure.pmc
+;  This PLC is only for use with Geobricks which have the new amplifier firmware
+;  (look for a sticker saying flashed 09/09/09 or some other time in 09/09, if
+;   you have firmware version 1.946 firmware or later you probably have the new 
+;   amplifier firmware too). 
+;  This PLC is derived from Trevors PLC7_Motion_Controls_Auto_Kill_or_Cure.pmc
 ; 
 ; NB This PLC requires dls_common_M_variables.pmc to be loaded (for M5006 defn.)
 ;
 ; Macros:
-; $( PLC )
+; PLC
 ;   PLC number
-; $( NAXIS )
+; NAXIS
 ;   The number of axis on the controller 1..16 (8 for a standard geobrick)
-; $( SM1 )..$( SM16 ) 
+; SM1..SM16
 ;   Define which axis are steppers - set to 1 for a stepper, 0 for servo
 ;###########################################################
 
