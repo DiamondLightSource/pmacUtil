@@ -9,10 +9,38 @@ CLOSE
 ; ...
 ; PLC31 = $(PLC31=DISABLE) ; Enable or disable PLC31
 ; CMDS = $(CMDS=) ;Extra commands to run after PLCS are started
+; Require dls_common_M_variables to check it has been run
 ;####################################################
+
+; To make timeout more readable
+#define MilliSeconds               * 8388608/i10
+#define timer                      i5112
+; This m variable is zeroed at startup
+#define runFlag                    M4900
 
 OPEN PLC1
 CLEAR
+
+IF (runFlag = 0)
+    ; Mark the PLC as having had its first run
+    runFlag = 1
+    
+    ; Disable PLCs
+    DISABLE PLC2..31    
+    timer=1000 MilliSeconds
+    WHILE(timer>0)
+    ENDW 
+    
+    ; Run PLC6  
+    ENABLE PLC6
+    
+    ; Wait for PLC6 to finish running
+    timer=100 MilliSeconds
+    WHILE(timer>0)
+    ENDW    
+    WHILE(M5006=0)
+    ENDW
+ENDIF
 
 ; define lookaheads for coordinate systems
 ADDRESS&16
@@ -51,7 +79,6 @@ $(PLC2=DISABLE) PLC2
 $(PLC3=DISABLE) PLC3
 $(PLC4=DISABLE) PLC4
 $(PLC5=DISABLE) PLC5
-$(PLC6=DISABLE) PLC6
 $(PLC7=DISABLE) PLC7
 $(PLC8=DISABLE) PLC8
 $(PLC9=DISABLE) PLC9
