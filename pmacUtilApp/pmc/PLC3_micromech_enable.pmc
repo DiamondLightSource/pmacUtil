@@ -1,9 +1,15 @@
 CLOSE
 
 ;#################################################
-; PLC for enabling axis depending on ix00 and mx39
+; PLC for writing the digital outputs of an ACC11E card.
 ; Original Author: James O'Hea
 ; Used variables: P300, (P301..P332 reserved for CS mres)
+; This PLC assumes a standard micromech setup, i.e. digital outputs 0-15 and
+; 24-39 correspond to amplifiers 1-32 enable signals. These outputs will be
+; synced to the amplifier enable bits of the corresponding axes. Unused outputs
+; may be used by writing to m77xx which are mapped to a mirror word. PLC3 will 
+; then write the correct amplifier status to this mirror word, and copy it to
+; m7501 and m7503
 ;#################################################
 
 ; used for storing current axis number
