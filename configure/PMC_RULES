@@ -17,32 +17,46 @@ NEEDED := $(shell egrep "^\#include" Master*.pmc | sed -r 's/.*"$(PO)[^"]+$(PC)"
 # make sure all the needed files are generated
 install: $(NEEDED)
 
-# rule to make a homing plc from generate_homing_plcs.py
-PLCs/%_HM.pmc: ../configure/generate_homing_plcs.py
-	@echo '***' Autogenerating homing plc \"$@\"
-	@PYTHONPATH=$(PMACUTIL)/etc ./$^ $@
-
 # define a header that should go on all generated files
 define print_header
 	@echo ';####################################################' > $$@
-	@echo '; DO NOT MODIFY: File created from' $$^ >> $$@
+	@echo '; DO NOT MODIFY: File created from' $$< >> $$@
 	@echo ';####################################################' >> $$@
 	@echo >> $$@
 endef
-	
+
+# rule to make a homing plc from generate_homing_plcs.py
+PLCs/%_HM.pmc: ../configure/generate_homing_plcs.py ../configure/RELEASE
+	@echo '***' Autogenerating homing plc \"$@\"
+	@PYTHONPATH=$(PMACUTIL)/etc ./$< $@
+
+# rule to make i65.pmc
+DIRNAME = $(shell basename $(shell pwd))
+PMACUTILVERSION=$(shell echo "$(shell basename $(PMACUTIL))" | sed -e 's/\([0-9]\+\)\?.*/\1/')
+ifeq ($(PMACUTILVERSION),)
+	PMACUTILVERSION = 127
+endif
+Variables/i65.pmc: ../configure/RELEASE
+	@echo '***' Generating \"$@\" for \"$(DIRNAME)\"
+	@echo ';####################################################' > $@
+	@echo '; DO NOT MODIFY: File created from dls-pmac-i65.py' >> $@
+	@echo ';####################################################' >> $@
+	@echo >> $@
+	dls-pmac-i65.py -n $(DIRNAME) -v $(PMACUTILVERSION) > $@
+
 # define general rules to make a pmc from a psub file
 # or copy a file from one in an MSI_INCLUDES dir
 # these need to be instantiated for each dir
 define RULES
-$1%.pmc: src/%.psub
+$1%.pmc: src/%.psub ../configure/RELEASE
 	@echo '***' Preprocessing \"$$@\" from psub src
 	$(print_header)
-	msi -I$$(MSI_INCLUDES):src $$^ >> $$@
+	msi -I$$(MSI_INCLUDES):src $$< >> $$@
 	
-$1%.pmc: %.pmc
+$1%.pmc: %.pmc ../configure/RELEASE
 	@echo '***' Copying across pmacUtil file \"$$@\"
 	$(print_header)
-	cat $$^ >> $$@
+	cat $$< >> $$@
 
 endef
 
