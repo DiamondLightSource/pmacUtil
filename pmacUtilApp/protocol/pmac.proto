@@ -17,6 +17,13 @@ getVar
   in  "%f" CR;
 }
 
+setVar
+{
+  out "\$1=%f" CR;
+  in;
+}
+
+
 getStatus
 {
   out "\$1" CR;
@@ -57,9 +64,20 @@ getIntVar
   in  "%d" CR;
 }
 
+setIntVar
+{
+  out "\$1=%d" CR;
+  in;
+}
+
 getHexVar
 {
   out "\$1" CR;
   in  "$%x" CR;
 }
 
+setHexVar
+{
+  out "\$1=$%x" CR;
+  in;
+}

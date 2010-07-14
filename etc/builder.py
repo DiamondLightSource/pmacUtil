@@ -3,6 +3,7 @@ from iocbuilder.arginfo import *
 
 from iocbuilder.modules.motor import basic_asyn_motor, MotorRecord
 from iocbuilder.modules.calc import Calc
+from iocbuilder.modules.busy import Busy
 from iocbuilder.modules.seq import Seq
 from iocbuilder.modules.genSub import GenSub
 from iocbuilder.modules.streamDevice import AutoProtocol
@@ -20,7 +21,7 @@ class autohome(AutoSubstitution):
 SetSimulation(autohome, None)
 
 class dls_pmac_asyn_motor(AutoSubstitution, MotorRecord):
-    Dependencies = (Calc,)
+    Dependencies = (Calc,Busy)
     # Substitution attributes
     TemplateFile = 'dls_pmac_asyn_motor.template'
 
@@ -100,8 +101,9 @@ class pmacVariableWrite(AutoSubstitution):
     '''Couple of records to write variables to a Delta tau'''
     TemplateFile = 'pmacVariableWrite.template'
 
-class positionCompare(AutoSubstitution):
+class positionCompare(AutoSubstitution, AutoProtocol):
     '''Setup position compare on a delta tau. Needs PLC_PMAC_position_compare
     or PLC_BRICK_position_compare'''
     Dependencies = (Calc,)    
+    ProtocolFiles = ['pmac.proto']
     TemplateFile = 'positionCompare.template'
