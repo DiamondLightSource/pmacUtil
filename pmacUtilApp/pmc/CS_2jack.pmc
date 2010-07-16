@@ -3,7 +3,21 @@ CLOSE
 ;################################################
 ; Define motion for 2 jack system
 ; Original Author: Tom Cobb
-; Used variables: Q71..Q79, Q81..Q89, Q91..Q99, Q100..101
+; Used variables: Q100..109
+;   Q71..Q79, demanded positions (using motion program 10)
+;   Q81..Q89, reported positions (using PLC 20)
+;   Q91..Q99, for deadbands (not used)
+;   Local variables
+;   Q100 DIST     
+;   Q101 PIVOT       
+;   Q102 DEPTH       
+;   Q103 RATIO   (forward kinematics calc)
+;   Q104 THETA   (forward kinematics calc) 
+;   Q106 TANTHETA  
+;   Q107 RATIO   (position reporting PLC)
+;   Q108 THETA   (position reporting PLC)
+;;  Q109 MRESTHETA     
+;   Q110 MRESX
 ; Macros
 ; COORD = $(COORD) ;CS number, e.g. 2
 ; PLC = $(PLC) ;PLC number, should be CS number+15, e.g. 17
@@ -12,12 +26,16 @@ CLOSE
 ; DIST = $(DIST) ;Distance between 2 jacks when they are in the zero position
 ; PIVOT = $(PIVOT) ;Distance from jack 1 to pivot point of the surface
 ; DEPTH = $(DEPTH) ;Depth of the surface on the mount
-; MRES = $(MRES) ;Desired MRES of CS motors, e.g. 0.0001
+; MRESTHETA = $(MRESTHETA) ;Desired MRES of CS rotation motor, e.g. 0.001
+; MRESX = $(MRESX) ;Desired MRES of CS translation motor, e.g. 0.0001
 ;################################################
 
-; Note that we are providing a CS axis with an MRES of $(MRES) and EGU the same
+; Note that we are providing a CS axis with an MRES of $(MRESX) and EGU the same
 ; as the underlying axes
 ; This is needed as the motor record will only move in full steps
+
+;Trigonometry in radians - used to report angles in mrad
+I15=1
 
 ; Change to CS$(COORD)
 &$(COORD)
@@ -41,6 +59,11 @@ PIVOT = $(PIVOT)
 ; This is the depth of the surface on the mount
 #define DEPTH Q102
 DEPTH = $(DEPTH)
+; these are the resolutions for the two CS axes - translation and rotation
+#define MRESX     Q110
+#define MRESTHETA Q109
+MRESX = $(MRESX)
+MRESTHETA = $(MRESTHETA)
 
 ; local variables
 #define RATIO Q103
@@ -51,23 +74,24 @@ OPEN FORWARD
 ; Calculate Gap and Centre
 ; X = Q7 = height of the surface, PIVOT away from J1
 ; YAW = Q8 = angle of the surface
-; Note that we divide by $(MRES) to give CS mres of $(MRES)
+;            for use as slide this is the yaw angle of the table
+; Note that we divide by $(MRESX) to give CS mres of $(MRESX)
 ; Also note the use of mres and offset in the calculation
 CLEAR
 ; this is the difference in height of the jacks divided by their distance apart
 RATIO=(J2POS-J1POS)/DIST
 ; this is the angle of the surface
 THETA=atan(RATIO)
-Q8=THETA/$(MRES)
+Q8=THETA/$(MRESTHETA)
 ; the height of the surface
-Q7=(J1POS+RATIO*PIVOT+DEPTH/cos(THETA))/$(MRES)
+Q7=(J1POS+RATIO*PIVOT+DEPTH/cos(THETA))/$(MRESX)
 CLOSE
 
 ; local variables
 #define SURFACE Q105
 #define TANTHETA Q106
-#define XPOS (Q7*$(MRES))
-#define YAWPOS (Q8*$(MRES))
+#define XPOS (Q7*$(MRESX))
+#define YAWPOS (Q8*$(MRESTHETA))
 OPEN INVERSE
 ; P$(J1) = position of jack 1
 ; P$(J2) = position of jack 2
@@ -99,11 +123,11 @@ ADDRESS&$(COORD)
 RATIO=(J2POS-J1POS)/DIST
 ; this is the angle of the surface
 THETA=atan(RATIO)
-Q88=THETA/$(MRES)
+Q88=THETA/$(MRESTHETA)
 ; the height of the surface
-Q87=(J1POS+RATIO*PIVOT+DEPTH/cos(THETA))/$(MRES)
+Q87=(J1POS+RATIO*PIVOT+DEPTH/cos(THETA))/$(MRESX)
 ;TODO: do deadbands properly
-Q97=ABS(J1DB)/$(MRES)
-Q98=ABS(J1DB)/$(MRES)
+Q97=ABS(J1DB)/$(MRESX)
+Q98=ABS(J1DB)/$(MRESTHETA)
 CLOSE
 ENABLE PLC$(PLC)
