@@ -19,7 +19,7 @@ pmacUtil_DBD += asyn.dbd
 pmacUtil_DBD += calcSupport.dbd
 pmacUtil_DBD += genSubRecord.dbd
 pmacUtil_DBD += stream.dbd
-pmacUtil_DBD += sscanSupport.dbd
+#pmacUtil_DBD += sscanSupport.dbd
 pmacUtil_DBD += motorSupport.dbd
 pmacUtil_DBD += busySupport.dbd
 
