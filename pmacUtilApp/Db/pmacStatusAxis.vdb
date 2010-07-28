@@ -33,12 +33,19 @@ record(ai, "$(DEVICE):AXIS$(AXIS):VELOCITY") {
   field(INP, "@pmac.proto getVar(#$(AXIS)V) $(PORT)")
 }
 
-record(fanout, "$(DEVICE):AXIS$(AXIS):ReadBack") {
-  field(SCAN, "Passive")
-  field(LNK1, "$(DEVICE):AXIS$(AXIS):POSITION")
-  field(LNK2, "$(DEVICE):AXIS$(AXIS):FOLL_ERROR")
-  field(LNK3, "$(DEVICE):AXIS$(AXIS):VELOCITY")
-  field(LNK4, "$(DEVICE):AXIS$(AXIS):status1")
+record(seq, "$(DEVICE):AXIS$(AXIS):ReadBack") {
+  field(LNK1, "$(DEVICE):AXIS$(AXIS):POSITION.PROC PP")
+  field(LNK2, "$(DEVICE):AXIS$(AXIS):FOLL_ERROR.PROC PP")
+  field(LNK3, "$(DEVICE):AXIS$(AXIS):VELOCITY.PROC PP")
+  field(LNK4, "$(DEVICE):AXIS$(AXIS):status1.PROC PP")
+  field(DLY1, "0")
+  field(DLY2, "0.5")
+  field(DLY3, "0.5")
+  field(DLY4, "0.5")
+  field(DOL1, "1")
+  field(DOL2, "1")
+  field(DOL3, "1")
+  field(DOL4, "1")
 }
 
 #% archiver 0.5 Monitor

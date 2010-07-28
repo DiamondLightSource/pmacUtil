@@ -216,185 +216,217 @@ record(longin, "$(DEVICE):VME_INTLVL") {
   field(PINI, "YES")
 }
 
-record(fanout, "$(DEVICE):AXIS1:ReadBack") {
+record(seq, "$(DEVICE):AXIS1:ReadBack") {
 }
 
-record(fanout, "$(DEVICE):AXIS2:ReadBack") {
+record(seq, "$(DEVICE):AXIS2:ReadBack") {
 }
 
-record(fanout, "$(DEVICE):AXIS3:ReadBack") {
+record(seq, "$(DEVICE):AXIS3:ReadBack") {
 }
 
-record(fanout, "$(DEVICE):AXIS4:ReadBack") {
+record(seq, "$(DEVICE):AXIS4:ReadBack") {
 }
 
-record(fanout, "$(DEVICE):AXIS5:ReadBack") {
+record(seq, "$(DEVICE):AXIS5:ReadBack") {
 }
 
-record(fanout, "$(DEVICE):AXIS6:ReadBack") {
+record(seq, "$(DEVICE):AXIS6:ReadBack") {
 }
 
-record(fanout, "$(DEVICE):AXIS7:ReadBack") {
+record(seq, "$(DEVICE):AXIS7:ReadBack") {
 }
 
-record(fanout, "$(DEVICE):AXIS8:ReadBack") {
+record(seq, "$(DEVICE):AXIS8:ReadBack") {
 }
 
-record(fanout, "$(DEVICE):AXIS9:ReadBack") {
+record(seq, "$(DEVICE):AXIS9:ReadBack") {
 }
 
-record(fanout, "$(DEVICE):AXIS10:ReadBack") {
+record(seq, "$(DEVICE):AXIS10:ReadBack") {
 }
 
-record(fanout, "$(DEVICE):AXIS11:ReadBack") {
+record(seq, "$(DEVICE):AXIS11:ReadBack") {
 }
 
-record(fanout, "$(DEVICE):AXIS12:ReadBack") {
+record(seq, "$(DEVICE):AXIS12:ReadBack") {
 }
 
-record(fanout, "$(DEVICE):AXIS13:ReadBack") {
+record(seq, "$(DEVICE):AXIS13:ReadBack") {
 }
 
-record(fanout, "$(DEVICE):AXIS14:ReadBack") {
+record(seq, "$(DEVICE):AXIS14:ReadBack") {
 }
 
-record(fanout, "$(DEVICE):AXIS15:ReadBack") {
+record(seq, "$(DEVICE):AXIS15:ReadBack") {
 }
 
-record(fanout, "$(DEVICE):AXIS16:ReadBack") {
+record(seq, "$(DEVICE):AXIS16:ReadBack") {
 }
 
-record(fanout, "$(DEVICE):AXIS17:ReadBack") {
+record(seq, "$(DEVICE):AXIS17:ReadBack") {
 }
 
-record(fanout, "$(DEVICE):AXIS18:ReadBack") {
+record(seq, "$(DEVICE):AXIS18:ReadBack") {
 }
 
-record(fanout, "$(DEVICE):AXIS19:ReadBack") {
+record(seq, "$(DEVICE):AXIS19:ReadBack") {
 }
 
-record(fanout, "$(DEVICE):AXIS20:ReadBack") {
+record(seq, "$(DEVICE):AXIS20:ReadBack") {
 }
 
-record(fanout, "$(DEVICE):AXIS21:ReadBack") {
+record(seq, "$(DEVICE):AXIS21:ReadBack") {
 }
 
-record(fanout, "$(DEVICE):AXIS22:ReadBack") {
+record(seq, "$(DEVICE):AXIS22:ReadBack") {
 }
 
-record(fanout, "$(DEVICE):AXIS23:ReadBack") {
+record(seq, "$(DEVICE):AXIS23:ReadBack") {
 }
 
-record(fanout, "$(DEVICE):AXIS24:ReadBack") {
+record(seq, "$(DEVICE):AXIS24:ReadBack") {
 }
 
-record(fanout, "$(DEVICE):AXIS25:ReadBack") {
+record(seq, "$(DEVICE):AXIS25:ReadBack") {
 }
 
-record(fanout, "$(DEVICE):AXIS26:ReadBack") {
+record(seq, "$(DEVICE):AXIS26:ReadBack") {
 }
 
-record(fanout, "$(DEVICE):AXIS27:ReadBack") {
+record(seq, "$(DEVICE):AXIS27:ReadBack") {
 }
 
-record(fanout, "$(DEVICE):AXIS28:ReadBack") {
+record(seq, "$(DEVICE):AXIS28:ReadBack") {
 }
 
-record(fanout, "$(DEVICE):AXIS29:ReadBack") {
+record(seq, "$(DEVICE):AXIS29:ReadBack") {
 }
 
-record(fanout, "$(DEVICE):AXIS30:ReadBack") {
+record(seq, "$(DEVICE):AXIS30:ReadBack") {
 }
 
-record(fanout, "$(DEVICE):AXIS31:ReadBack") {
+record(seq, "$(DEVICE):AXIS31:ReadBack") {
 }
 
-record(fanout, "$(DEVICE):AXIS32:ReadBack") {
+record(seq, "$(DEVICE):AXIS32:ReadBack") {
 }
 
 record(seq, "$(DEVICE):AxisRB") {
-  field(DOL1, "1")
   field(LNK1, "$(DEVICE):AXIS1:ReadBack.PROC PP")
-  field(DOL2, "1")
   field(LNK2, "$(DEVICE):AXIS2:ReadBack.PROC PP")
-  field(DOL3, "1")
   field(LNK3, "$(DEVICE):AXIS3:ReadBack.PROC PP")
-  field(DOL4, "1")
   field(LNK4, "$(DEVICE):AXIS4:ReadBack.PROC PP")
-  field(DOL5, "1")
   field(LNK5, "$(DEVICE):AXIS5:ReadBack.PROC PP")
-  field(DOL6, "1")
   field(LNK6, "$(DEVICE):AXIS6:ReadBack.PROC PP")
-  field(DOL7, "1")
   field(LNK7, "$(DEVICE):AXIS7:ReadBack.PROC PP")
-  field(DOL8, "1")
   field(LNK8, "$(DEVICE):AXIS8:ReadBack.PROC PP")
-  field(DLY9, "3")
-  field(DOL9, "1")
   field(LNK9, "$(DEVICE):AxisRB2.PROC PP")
+  field(DLY1, "0")
+  field(DLY2, "0.5")
+  field(DLY3, "0.5")
+  field(DLY4, "0.5")
+  field(DLY5, "0.5")
+  field(DLY6, "0.5")
+  field(DLY7, "0.5")
+  field(DLY8, "0.5")
+  field(DLY9, "0.5")
+  field(DOL1, "1")
+  field(DOL2, "1")
+  field(DOL3, "1")
+  field(DOL4, "1")
+  field(DOL5, "1")
+  field(DOL6, "1")
+  field(DOL7, "1")
+  field(DOL8, "1")
+  field(DOL9, "1")
 }
 
 record(seq, "$(DEVICE):AxisRB2") {
-  field(DOL1, "1")
   field(LNK1, "$(DEVICE):AXIS9:ReadBack.PROC PP")
-  field(DOL2, "1")
   field(LNK2, "$(DEVICE):AXIS10:ReadBack.PROC PP")
-  field(DOL3, "1")
   field(LNK3, "$(DEVICE):AXIS11:ReadBack.PROC PP")
-  field(DOL4, "1")
   field(LNK4, "$(DEVICE):AXIS12:ReadBack.PROC PP")
-  field(DOL5, "1")
   field(LNK5, "$(DEVICE):AXIS13:ReadBack.PROC PP")
-  field(DOL6, "1")
   field(LNK6, "$(DEVICE):AXIS14:ReadBack.PROC PP")
-  field(DOL7, "1")
   field(LNK7, "$(DEVICE):AXIS15:ReadBack.PROC PP")
-  field(DOL8, "1")
   field(LNK8, "$(DEVICE):AXIS16:ReadBack.PROC PP")
-  field(DLY9, "3")
-  field(DOL9, "1")
   field(LNK9, "$(DEVICE):AxisRB3.PROC PP")
+  field(DLY1, "0")
+  field(DLY2, "0.5")
+  field(DLY3, "0.5")
+  field(DLY4, "0.5")
+  field(DLY5, "0.5")
+  field(DLY6, "0.5")
+  field(DLY7, "0.5")
+  field(DLY8, "0.5")
+  field(DLY9, "0.5")
+  field(DOL1, "1")
+  field(DOL2, "1")
+  field(DOL3, "1")
+  field(DOL4, "1")
+  field(DOL5, "1")
+  field(DOL6, "1")
+  field(DOL7, "1")
+  field(DOL8, "1")
+  field(DOL9, "1")
 }
 
 record(seq, "$(DEVICE):AxisRB3") {
-  field(DOL1, "1")
   field(LNK1, "$(DEVICE):AXIS17:ReadBack.PROC PP")
-  field(DOL2, "1")
   field(LNK2, "$(DEVICE):AXIS18:ReadBack.PROC PP")
-  field(DOL3, "1")
   field(LNK3, "$(DEVICE):AXIS19:ReadBack.PROC PP")
-  field(DOL4, "1")
   field(LNK4, "$(DEVICE):AXIS20:ReadBack.PROC PP")
-  field(DOL5, "1")
   field(LNK5, "$(DEVICE):AXIS21:ReadBack.PROC PP")
-  field(DOL6, "1")
   field(LNK6, "$(DEVICE):AXIS22:ReadBack.PROC PP")
-  field(DOL7, "1")
   field(LNK7, "$(DEVICE):AXIS23:ReadBack.PROC PP")
-  field(DOL8, "1")
   field(LNK8, "$(DEVICE):AXIS24:ReadBack.PROC PP")
-  field(DLY9, "3")
-  field(DOL9, "1")
   field(LNK9, "$(DEVICE):AxisRB4.PROC PP")
+  field(DLY1, "0")
+  field(DLY2, "0.5")
+  field(DLY3, "0.5")
+  field(DLY4, "0.5")
+  field(DLY5, "0.5")
+  field(DLY6, "0.5")
+  field(DLY7, "0.5")
+  field(DLY8, "0.5")
+  field(DLY9, "0.5")
+  field(DOL1, "1")
+  field(DOL2, "1")
+  field(DOL3, "1")
+  field(DOL4, "1")
+  field(DOL5, "1")
+  field(DOL6, "1")
+  field(DOL7, "1")
+  field(DOL8, "1")
+  field(DOL9, "1")
 }
 
 record(seq, "$(DEVICE):AxisRB4") {
-  field(DOL1, "1")
   field(LNK1, "$(DEVICE):AXIS25:ReadBack.PROC PP")
-  field(DOL2, "1")
   field(LNK2, "$(DEVICE):AXIS26:ReadBack.PROC PP")
-  field(DOL3, "1")
   field(LNK3, "$(DEVICE):AXIS27:ReadBack.PROC PP")
-  field(DOL4, "1")
   field(LNK4, "$(DEVICE):AXIS28:ReadBack.PROC PP")
-  field(DOL5, "1")
   field(LNK5, "$(DEVICE):AXIS29:ReadBack.PROC PP")
-  field(DOL6, "1")
   field(LNK6, "$(DEVICE):AXIS30:ReadBack.PROC PP")
-  field(DOL7, "1")
   field(LNK7, "$(DEVICE):AXIS31:ReadBack.PROC PP")
-  field(DOL8, "1")
   field(LNK8, "$(DEVICE):AXIS32:ReadBack.PROC PP")
+  field(DLY1, "0")
+  field(DLY2, "0.5")
+  field(DLY3, "0.5")
+  field(DLY4, "0.5")
+  field(DLY5, "0.5")
+  field(DLY6, "0.5")
+  field(DLY7, "0.5")
+  field(DLY8, "0.5")
+  field(DOL1, "1")
+  field(DOL2, "1")
+  field(DOL3, "1")
+  field(DOL4, "1")
+  field(DOL5, "1")
+  field(DOL6, "1")
+  field(DOL7, "1")
+  field(DOL8, "1")
 }
 
 
