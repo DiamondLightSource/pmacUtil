@@ -10,8 +10,7 @@ STREAMS=        $(SUPPORT)/streamDevice/2-4dls4
 ASYN=           $(SUPPORT)/asyn/4-13
 GENSUB=         $(SUPPORT)/genSub/1-6dls2-7
 UTILITY=        $(SUPPORT)/utility/dls2-11
-PMACUTIL=       $(SUPPORT)/pmacUtil/3-1
+PMACUTIL=       $(SUPPORT)/pmacUtil/3-3
 SEQ=            $(SUPPORT)/seq/2-0-12dls1
-
 
 -include $(TOP)/configure/RELEASE.private
