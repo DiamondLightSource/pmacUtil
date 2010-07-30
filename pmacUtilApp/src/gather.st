@@ -102,8 +102,6 @@ evflag sPeriodMon;		sync sPeriod		sPeriodMon;
 /* define exacaped C functions at end of the file. */
 %{
 
-int i;
-
 unsigned int motorBaseAddr[33] = {0,	0x080, 0x100, 0x180, 0x200, 0x280, 0x300, 0x380, 0x400,
 			  							0x480, 0x500, 0x580, 0x600, 0x680, 0x700, 0x780, 0x800,
 			  							0x880, 0x900, 0x980, 0xA00, 0xA80, 0xB00, 0xB80, 0xC00,
@@ -562,9 +560,8 @@ ss ssGather
 		when( pvPutComplete(asynAout) && (asynNord >= (N_ELEMENTS * MAX_N_DATASRC * PMAC_N_CHAR_PER_WORD)))
 		{
 			pvGet(asynBinp, SYNC);
-/*			printf("ssGather: rawdata: \n" );*/
-			%%for(i = 0; i < 16; i++) printf("%d:%d ", i, (int)pVar->asynBinp[i]);
-/*			printf("\nssGather: got raw data: %d ASCII chars!\n", asynNord);*/
+			printf("ssGather: rawdata: \n" );
+			printf("\nssGather: got raw data: %d ASCII chars!\n", asynNord);
 		} state PARSE
 		
 		when( delay(10.0))
