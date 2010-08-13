@@ -3,6 +3,16 @@
 #! DBD("../../dbd/pmacUtil.dbd")
 #! DBDEND
 
+
+template() {
+
+  #! InputMacro(DEVICE,"",2240,2880,16777215,1,true)
+  #! InputMacro(PORT,"",2280,2960,16777215,1,true)
+  #! InputMacro(VERSION,"",2040,2920,16777215,1,true)
+  #! InputMacro(NAXES,"",2160,2980,16777215,1,true)
+  #! InputMacro(PLC,"",2340,2880,16777215,1,true)
+}
+
 # These define the macros to be passed to the template
 # % macro, name,    Object and gui association name
 # % macro, DEVICE,  Pmac/Geobrick name
@@ -10,10 +20,10 @@
 # % macro, PLC,     PLC for CPU load monitoring, e.g. 5
 # % macro, PORT,    Asyn port
 # % macro, NAXES,   Number of axes
-#
+# 
 # This associates an edm screen with the template
 # % gui, $(name), edm, pmacStatus.edl, pmac=$(DEVICE)
-#
+# 
 # Scan rate for pmac status, plc querying, cpu load querying
 record(fanout, "$(DEVICE):ReadBack") {
   field(SCAN, "1 second")
@@ -47,9 +57,9 @@ record(ai, "$(DEVICE):CPULOAD") {
   field(EGU, "%")
   field(ASLO, "100")
   field(HIGH, "60")
-  field(HSV, "MINOR")    
+  field(HSV, "MINOR")
   field(HIHI, "80")
-  field(HHSV, "MAJOR")      
+  field(HHSV, "MAJOR")
 }
 
 # % archiver 10 Monitor
@@ -429,14 +439,13 @@ record(seq, "$(DEVICE):AxisRB4") {
   field(DOL8, "1")
 }
 
-
 record(longin, "$(DEVICE):NAXES") {
   field(PINI, "YES")
   field(VAL, "$(NAXES)")
 }
 
 #! Further lines contain data used by VisualDCT
-#! View(1463,2287,1.0)
+#! View(1632,2165,1.0)
 #! Record("$(DEVICE):ReadBack",3320,1966,0,1,"$(DEVICE):ReadBack")
 #! Field("$(DEVICE):ReadBack.LNK3",16777215,0,"$(DEVICE):ReadBack.LNK3")
 #! Link("$(DEVICE):ReadBack.LNK3","$(DEVICE):PLCGET")
@@ -452,7 +461,7 @@ record(longin, "$(DEVICE):NAXES") {
 #! Link("$(DEVICE):ReadBack.LNK6","$(DEVICE):AxisRB")
 #! Record("$(DEVICE):PMACTYPE",2180,2506,0,0,"$(DEVICE):PMACTYPE")
 #! Field("$(DEVICE):PMACTYPE.INP",16777215,0,"$(DEVICE):PMACTYPE.INP")
-#! Record("$(DEVICE):CPULOAD",3600,2260,0,0,"$(DEVICE):CPULOAD")
+#! Record("$(DEVICE):CPULOAD",3600,2265,0,0,"$(DEVICE):CPULOAD")
 #! Record("$(DEVICE):CTRLSTAT:status1",3600,1896,0,0,"$(DEVICE):CTRLSTAT:status1")
 #! Record("$(DEVICE):CTRLSTAT:status2",3600,2003,0,1,"$(DEVICE):CTRLSTAT:status2")
 #! Record("$(DEVICE):CTRLSTAT:status3",3600,2083,0,1,"$(DEVICE):CTRLSTAT:status3")
@@ -561,7 +570,7 @@ record(longin, "$(DEVICE):NAXES") {
 #! Field("$(DEVICE):AXIS31:ReadBack.PROC",16777215,1,"$(DEVICE):AXIS31:ReadBack.PROC")
 #! Record("$(DEVICE):AXIS32:ReadBack",2600,3843,0,0,"$(DEVICE):AXIS32:ReadBack")
 #! Field("$(DEVICE):AXIS32:ReadBack.PROC",16777215,1,"$(DEVICE):AXIS32:ReadBack.PROC")
-#! Record("$(DEVICE):AxisRB",3280,2400,0,0,"$(DEVICE):AxisRB")
+#! Record("$(DEVICE):AxisRB",3280,2409,0,0,"$(DEVICE):AxisRB")
 #! Field("$(DEVICE):AxisRB.LNK1",16777215,1,"$(DEVICE):AxisRB.LNK1")
 #! Link("$(DEVICE):AxisRB.LNK1","$(DEVICE):AXIS1:ReadBack.PROC")
 #! Field("$(DEVICE):AxisRB.LNK2",16777215,1,"$(DEVICE):AxisRB.LNK2")
@@ -580,7 +589,7 @@ record(longin, "$(DEVICE):NAXES") {
 #! Link("$(DEVICE):AxisRB.LNK8","$(DEVICE):AXIS8:ReadBack.PROC")
 #! Field("$(DEVICE):AxisRB.LNK9",16777215,0,"$(DEVICE):AxisRB.LNK9")
 #! Link("$(DEVICE):AxisRB.LNK9","$(DEVICE):AxisRB2.PROC")
-#! Record("$(DEVICE):AxisRB2",2940,2620,0,0,"$(DEVICE):AxisRB2")
+#! Record("$(DEVICE):AxisRB2",2940,2629,0,0,"$(DEVICE):AxisRB2")
 #! Field("$(DEVICE):AxisRB2.LNK1",16777215,0,"$(DEVICE):AxisRB2.LNK1")
 #! Link("$(DEVICE):AxisRB2.LNK1","$(DEVICE):AXIS9:ReadBack.PROC")
 #! Field("$(DEVICE):AxisRB2.LNK2",16777215,0,"$(DEVICE):AxisRB2.LNK2")
@@ -600,7 +609,7 @@ record(longin, "$(DEVICE):NAXES") {
 #! Field("$(DEVICE):AxisRB2.PROC",16777215,1,"$(DEVICE):AxisRB2.PROC")
 #! Field("$(DEVICE):AxisRB2.LNK9",16777215,1,"$(DEVICE):AxisRB2.LNK9")
 #! Link("$(DEVICE):AxisRB2.LNK9","$(DEVICE):AxisRB3.PROC")
-#! Record("$(DEVICE):AxisRB3",3280,2980,0,1,"$(DEVICE):AxisRB3")
+#! Record("$(DEVICE):AxisRB3",3280,2989,0,1,"$(DEVICE):AxisRB3")
 #! Field("$(DEVICE):AxisRB3.LNK1",16777215,1,"$(DEVICE):AxisRB3.LNK1")
 #! Link("$(DEVICE):AxisRB3.LNK1","$(DEVICE):AXIS17:ReadBack.PROC")
 #! Field("$(DEVICE):AxisRB3.LNK2",16777215,1,"$(DEVICE):AxisRB3.LNK2")
@@ -620,7 +629,7 @@ record(longin, "$(DEVICE):NAXES") {
 #! Field("$(DEVICE):AxisRB3.PROC",16777215,1,"$(DEVICE):AxisRB3.PROC")
 #! Field("$(DEVICE):AxisRB3.LNK9",16777215,0,"$(DEVICE):AxisRB3.LNK9")
 #! Link("$(DEVICE):AxisRB3.LNK9","$(DEVICE):AxisRB4.PROC")
-#! Record("$(DEVICE):AxisRB4",2940,3241,0,1,"$(DEVICE):AxisRB4")
+#! Record("$(DEVICE):AxisRB4",2940,3250,0,1,"$(DEVICE):AxisRB4")
 #! Field("$(DEVICE):AxisRB4.LNK1",16777215,0,"$(DEVICE):AxisRB4.LNK1")
 #! Link("$(DEVICE):AxisRB4.LNK1","$(DEVICE):AXIS25:ReadBack.PROC")
 #! Field("$(DEVICE):AxisRB4.LNK2",16777215,0,"$(DEVICE):AxisRB4.LNK2")
@@ -639,3 +648,5 @@ record(longin, "$(DEVICE):NAXES") {
 #! Link("$(DEVICE):AxisRB4.LNK8","$(DEVICE):AXIS32:ReadBack.PROC")
 #! Field("$(DEVICE):AxisRB4.PROC",16777215,0,"$(DEVICE):AxisRB4.PROC")
 #! Record("$(DEVICE):NAXES",1820,2676,0,1,"$(DEVICE):NAXES")
+#! Field("$(DEVICE):NAXES.VAL",16777215,1,"$(DEVICE):NAXES.VAL")
+#! Link("$(DEVICE):NAXES.VAL",NAXES)
