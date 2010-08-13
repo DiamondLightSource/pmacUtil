@@ -1392,7 +1392,7 @@ fgColor index 14
 bgColor index 0
 useDisplayBg
 value {
-  "Positive end limit set (soft or hard)"
+  "Negative end limit set (soft or hard)"
 }
 autoSize
 endObjectProperties
@@ -1431,7 +1431,7 @@ fgColor index 14
 bgColor index 0
 useDisplayBg
 value {
-  "Negative end limit set (soft or hard)"
+  "Positive end limit set (soft or hard)"
 }
 autoSize
 endObjectProperties
