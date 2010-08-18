@@ -75,7 +75,7 @@ i5250,15,100=1    ; Enable kinematics
 #define MTR5START Q438
 #define MTR6START Q439
 
-# These are set by the motor records for the real motors:
+; These are set by the motor records for the real motors:
 #define MTR1MRES P(100+$(MTR1))
 #define MTR2MRES P(100+$(MTR2))
 #define MTR3MRES P(100+$(MTR3))
