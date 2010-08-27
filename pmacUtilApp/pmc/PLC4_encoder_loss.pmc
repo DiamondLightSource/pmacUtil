@@ -19,7 +19,8 @@ CLOSE
 ;     it comes back on
 ; So ONMx = 2 for open loop brick, 3 for closed loop brick, 4 for open loop PMAC
 ; 5 for closed loop PMAC.
-; You MUST have loaded dls_BRICK_M_variables.pmc or dls_PMAC_M_variables.pmc
+;
+; NB Needs either BRICK_M_variables.pmc or PMAC_M_variables.pmc loaded
 ;-------------------------------------------------------------------;
 ; The following must be uncommented in your main pmc file for PMACs ;
 ;-------------------------------------------------------------------;

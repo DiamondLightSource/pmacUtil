@@ -6,7 +6,8 @@ CLOSE
 ; Used variables: p200..202, i5211
 ; Macros (and example values): 
 ; STOPTIME=$(STOPTIME) ;Time taken for all motors to stop before they are killed
-; Needs dls_PMAC_M_variables.pmc or dls_BRICK_M_variables.pmc
+;
+; NB Needs either BRICK_M_variables.pmc or PMAC_M_variables.pmc loaded
 ;###############################################################################
 
 ; The stopping procedure will ensure all motors stop quickly and safely. First 

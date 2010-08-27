@@ -11,7 +11,7 @@
 ;   amplifier firmware too). 
 ;  This PLC is derived from Trevors PLC7_Motion_Controls_Auto_Kill_or_Cure.pmc
 ; 
-; NB This PLC requires dls_common_M_variables.pmc to be loaded (for M5006 defn.)
+; NB Needs either BRICK_M_variables.pmc or PMAC_M_variables.pmc loaded (for M5006 defn.)
 ;
 ; Macros:
 ; PLC

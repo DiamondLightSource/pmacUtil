@@ -9,10 +9,11 @@ CLOSE
 ; ...
 ; PLC31 = $(PLC31=DISABLE) ; Enable or disable PLC31
 ; CMDS = $(CMDS=) ;Extra commands to run after PLCS are started
-; Require dls_common_M_variables to check it has been run
 ; This PLC will make sure a brick is in a known state at startup by running 
 ; PLC6, defining some lookahead buffers, and enabling/disabling PLCs. After
 ; first run, it will just define the buffers and enable/disable PLCs
+;
+; NB Needs BRICK_M_variables.pmc loaded
 ;####################################################
 
 ; To make timeout more readable

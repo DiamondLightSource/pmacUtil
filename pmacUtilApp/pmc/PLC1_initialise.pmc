@@ -9,11 +9,12 @@ CLOSE
 ; ...
 ; PLC31 = $(PLC31=DISABLE) ; Enable or disable PLC31
 ; CMDS = $(CMDS=) ;Extra commands to run after PLCS are started
-; Require dls_common_M_variables to check it has been run
 ; This PLC will make sure a PMAC is in a known state at startup by resetting 
 ; UMACs, clearing macro ring faults, zeroing axis positions, defining some 
 ; lookahead buffers, and enabling/disabling PLCs. After first run, it will just 
 ; define the buffers and enable/disable PLCs
+;
+; NB Needs either PMAC_M_variables.pmc loaded
 ;####################################################
 
 
