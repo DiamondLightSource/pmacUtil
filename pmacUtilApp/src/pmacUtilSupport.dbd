@@ -1,4 +1,4 @@
 registrar(gatherRegistrar)
-registrar("ctRegister")
+#registrar("ctRegister")
 function( parsePlcBitString )
 function( parseProgBitString )
