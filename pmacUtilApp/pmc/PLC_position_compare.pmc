@@ -1,0 +1,326 @@
+CLOSE
+
+;####################################################
+;; \file
+;; PLC for setting up position compare for a either 
+;; a (geo)BRICK or a (vme)PMAC (depending on the settings
+;; of the BRICK and PMAC macros)
+;; Needs either BRICK_M_variables.pmc or PMAC_M_variables.pmc loaded
+;; depending on what type of controller you will run this on.
+;;
+;; Macros: 
+;; - axis: Axis number to run position compare on
+;; - eaxis: for VME PMAC: EQU axis number. If you want EQUx to compare against axis x pos then 
+;;                        eaxis = axis. If you want EQUx to compare against pos of the fist
+;;                        axis on the IC (1, 5, 9, etc.), then axis = 1 or 5 or 9 etc. 
+;;                        eaxis = x and MSn,I911 = 1 for axis x. E.g. if you want EQU2 to do 
+;;                        position compare on axis 1, axis = 1, eaxis = 2 and MS1,I911 = 1.
+;;           for BRICK:   EQU axis number. If you want EQUx to compare against axis x pos then 
+;;                        eaxis = axis. If you want EQUx to compare against pos of the fist
+;;                        axis on the IC (1 or 5), then axis = 1 or 5, eaxis = x and 
+;;                        set i7mn1 = 1 for axis x. E.g. if you want EQU2 to do position 
+;;                        compare on axis 1, axis = 1, eaxis = 2 and i7011 = 1.
+;;          Note: the output of EQU1 will be the logical OR of any EQU registers
+;;          comparing on axis 1. See turbo SRM p274 for details
+;; - ms: Only needed for (vme)PMAC: Macrostation variable for the EQU register
+;; - PLC: PLC number to run as
+;; - PMAC=; If you are running this PLC on a VME based PMAC, set this macro to nothing.
+;;          The default is a comment to comment out VME PMAC specific settings in the program.
+;; - BRICK=; If you are running this PLC on a geobrick, set this macro to nothing.
+;;          The default is a comment to comment out geobrick specific settings in the program.
+;####################################################
+
+;; ###########  Geobrick specific setup ##########################
+$(BRICK=;)#define setAutoIncr M$(eaxis)10=step
+$(BRICK=;)#define setCmpA M$(eaxis)08=cmpA
+$(BRICK=;)#define setCmpB M$(eaxis)09=cmpB
+$(BRICK=;)#define setOutputInit M$(eaxis)12=init
+$(BRICK=;)#define setOutputOutput M$(eaxis)12=output
+$(BRICK=;)#define writeOutput M$(eaxis)11=one
+
+;; ###########  VME PMAC specific setup ##########################
+$(PMAC=;)#define setAutoIncr MSW$(ms),i923,step
+$(PMAC=;)#define setCmpA MSW$(ms),i925,cmpA
+$(PMAC=;)#define setCmpB MSW$(ms),i926,cmpB
+$(PMAC=;)#define setOutputInit MSW$(ms),i929,init
+$(PMAC=;)#define setOutputOutput MSW$(ms),i929,output
+$(PMAC=;)#define writeOutput MSW$(ms),i928,one
+
+#define homeOffset m$(axis)73 + (i$(axis)26 / 16)
+
+;; This is the output mode
+#define output p$(PLC)80
+;; This is output off
+#define OP_OFF 0
+;; This is output on
+#define OP_ON 1
+;; This is output in position compare mode
+#define OP_AUTO 2
+
+;; Start of position compare window
+#define start p$(PLC)81
+;; End of position compare window
+#define stop p$(PLC)82
+;; Step used for auto increment of position compare registers
+#define step p$(PLC)83
+;; Distance between compare registers in auto increment mode
+#define pulse p$(PLC)84
+
+;; demand values set by epics
+#define demandOutput p$(PLC)90
+#define demandStart p$(PLC)91
+#define demandStop p$(PLC)92
+#define demandStep p$(PLC)93
+#define demandPulse p$(PLC)94
+#define demandInit p$(PLC)97
+
+;; This is the saved home offset
+#define savedHomeOffset p$(PLC)01
+
+;; This is what output is being currently sent
+#define actualOutput p$(PLC)85
+
+;; this is the state of the machine
+#define state p$(PLC)86
+
+;; this is the initial value of the output, before the first toggle
+#define init p$(PLC)87
+
+;; doing position compare
+#define ST_COMP 0
+;; watch the position and making sure position compare is not triggered
+#define ST_WATCH 1
+;; config position compare registers
+#define ST_CONFIG 2
+;; config manual output
+#define ST_MANUAL 3
+;; prepare position compare registers for ST_WATCH
+#define ST_PREP_WATCH 4
+
+;; This is the flag for inputs changed
+#define inputsChanged p$(PLC)02
+
+;; This is the motor pos
+#define currentPos p$(PLC)03
+;; This is the motor velo
+#define currentDir p$(PLC)04
+
+;; This is a variable that always holds 1
+#define one p$(PLC)05
+;; This is a variable that always holds 0
+#define zero p$(PLC)06
+
+;; This is the value to be written to position compare register A
+#define cmpA p$(PLC)07
+;; This is the value to be written to position compare register B
+#define cmpB p$(PLC)08
+
+;; This is the number of transitions to ST_CONFIG mode
+#define configs p$(PLC)10
+;; This is the number of transitions to ST_MANUAL mode
+#define manuals p$(PLC)11
+;; This is the number of times position compare registers have been moved to
+;; avoid a trigger
+#define avoids p$(PLC)12
+
+one=1
+zero=0
+configs=0
+manuals=0
+avoids=0
+
+OPEN PLC $(PLC)
+CLEAR
+
+; Get the current motor position and velo
+currentPos=m$(axis)62/(I$(axis)08*32)  
+currentDir=m$(axis)74
+actualOutput=m$(eaxis)13
+
+; Service inputs
+if (output != demandOutput)
+or (start != demandStart)
+or (stop != demandStop)
+or (step != demandStep)
+or (pulse != demandPulse)
+or (init != demandInit)
+or (savedHomeOffset != homeOffset)
+    inputsChanged = 1
+endif
+
+if (state = ST_WATCH)
+    ; service inputs
+    if (inputsChanged = 1)
+        ; mode change
+        if (output != demandOutput)
+            output = demandOutput                        
+            if (output = OP_AUTO)
+                setOutputInit
+                writeOutput                                     
+            else
+                state = ST_MANUAL
+            endif
+        endif
+        ; acknowledge init change
+        if (init != demandInit)   
+            init = demandInit
+            if (output = OP_AUTO)
+                setOutputInit
+                writeOutput
+            endif
+        endif
+        ; acknowledge start, stop, homeOffset or pulse change
+        if  (start != demandStart)
+        or (stop != demandStop)
+        or (pulse != demandPulse)
+        or (savedHomeOffset != homeOffset)
+            start = demandStart
+            stop = demandStop
+            pulse = demandPulse
+            savedHomeOffset = homeOffset
+        endif
+        ; acknowledge step change
+        if (demandStep != step)
+            step = demandStep                    
+            setAutoIncr
+        endif
+        inputsChanged = 0        
+    endif
+    ; drop out if we go into a setup window in auto mode
+    if (output = OP_AUTO)
+        if (start > stop)
+            ; if currentPos greater than or equal to start
+            if (currentPos !< start) 
+                if (pulse = 0)
+                or (step = 0)
+                or (pulse = 1)
+                    state = ST_CONFIG
+                else 
+                    if (currentPos < start - pulse + step)
+                    and (currentDir !> 0) 
+                        state = ST_CONFIG
+                    endif
+                endif            
+            endif        
+        else
+            ; if currentPos less than or equal to start
+            if (currentPos !> start)
+                if (pulse = 0)
+                or (step = 0)
+                or (pulse = 1)                
+                    state = ST_CONFIG
+                else 
+                    if (currentPos > start + pulse - step)
+                    and (currentDir !< 0)
+                        state = ST_CONFIG
+                    endif
+                endif
+            endif
+        endif            
+    endif    
+endif         
+
+; If we're ready to setup position compare        
+if (state = ST_CONFIG)
+    ; setup position compare
+    savedHomeOffset = homeOffset
+    if (pulse = 0)
+    or (step = 0)
+        cmpB = stop + homeOffset
+    else
+        if (start > stop)
+            cmpB = start - pulse + step + homeOffset        
+        else
+            cmpB = start + pulse - step + homeOffset
+        endif
+    endif
+    cmpA=start + homeOffset
+    setCmpB     
+    setCmpA
+    configs = configs + 1
+    state = ST_COMP
+endif
+
+; If we're doing position compare
+if (state = ST_COMP)
+    ; drop out if inputs have changed
+    if (inputsChanged = 1)
+        state = ST_PREP_WATCH
+    else
+        ; drop out if we're out of the window
+        if (start > stop)
+            if (currentPos !> stop)
+            and (stop != start)
+                state = ST_PREP_WATCH
+            else 
+                if (pulse != 0)
+                and (step != 0)            
+                and (pulse != 1)                
+                and (currentPos > start - pulse + step)                                    
+                    state = ST_PREP_WATCH
+                endif
+            endif
+        else 
+            if (currentPos !< stop)
+            and (stop != start)
+                state = ST_PREP_WATCH
+            else 
+                if (pulse != 0)
+                and (step != 0)      
+                 and (pulse != 1)                      
+                and (currentPos < start + pulse - step)                         
+                    state = ST_PREP_WATCH
+                endif
+            endif        
+        endif 
+    endif
+endif
+
+; Going from a position compare to a watch state
+if (state = ST_PREP_WATCH)
+    cmpA=currentPos+homeOffset-1000000
+    cmpB=currentPos+homeOffset-1000001
+    setCmpA
+    setCmpB    
+    setOutputInit
+    writeOutput         
+    state = ST_WATCH    
+endif
+
+; If we want to write a manual output    
+if (state = ST_MANUAL)
+    ; setup manual output
+    setOutputOutput
+    writeOutput
+    manuals = manuals + 1    
+    state = ST_WATCH    
+endif
+    
+; move compare outputs out of the way    
+if (state = ST_WATCH)    
+    if (currentDir > 0)
+        if (cmpA > currentPos)
+        or (cmpB > currentPos)
+            cmpA=currentPos+homeOffset-1000000
+            cmpB=currentPos+homeOffset-1000001
+            setCmpA
+            setCmpB    
+            avoids = avoids + 1
+        endif
+    else 
+        if (currentDir < 0)    
+            if (cmpA < currentPos)
+            or (cmpB < currentPos)
+                cmpA=currentPos+homeOffset+1000000
+                cmpB=currentPos+homeOffset+1000001
+                setCmpA
+                setCmpB    
+                avoids = avoids + 1                
+            endif
+        endif            
+    endif
+endif
+
+CLOSE
+
+ENABLE PLC $(PLC)
