@@ -81,7 +81,7 @@ P732 = $(TM32)
 #define kill_axis             &COMMAND"K"
 
 ; define clock resolution in milliseconds
-#define clock_tick              50
+#define clock_tick              500
 
 open plc 7
 clear
