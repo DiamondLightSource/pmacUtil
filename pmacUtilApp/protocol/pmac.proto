@@ -81,3 +81,10 @@ setHexVar
   out "\$1=$%x" CR;
   in;
 }
+
+sendString
+{
+  out "%s" CR;
+  in;
+}
+

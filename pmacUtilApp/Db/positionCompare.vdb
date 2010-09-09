@@ -371,8 +371,15 @@ record(calc, "$(P)$(Q):TIMINGMATTERS") {
   field(INPB, "$(P)$(Q):CONVSTOP CP")
 }
 
+
+record(stringout, "$(P)$(Q):SENDMSG") {
+  field(DESC, "send string to pmac")
+  field(DTYP, "stream")
+  field(OUT, "@pmac.proto sendString() $(PORT)")
+}
+
 #! Further lines contain data used by VisualDCT
-#! View(3003,1907,1.2)
+#! View(2010,3001,1.2)
 #! Record("$(P)$(Q):UPDATE",1780,1520,0,0,"$(P)$(Q):UPDATE")
 #! Field("$(P)$(Q):UPDATE.FLNK",16777215,0,"$(P)$(Q):UPDATE.FLNK")
 #! Link("$(P)$(Q):UPDATE.FLNK","$(P)$(Q):RBVFAN")
@@ -598,3 +605,4 @@ record(calc, "$(P)$(Q):TIMINGMATTERS") {
 #! Field("$(P)$(Q):TIMINGMATTERS.INPB",16777215,0,"$(P)$(Q):TIMINGMATTERS.INPB")
 #! Link("$(P)$(Q):TIMINGMATTERS.INPB","$(P)$(Q):CONVSTOP.VAL")
 #! Connector("$(P)$(Q):TIMINGMATTERS/INPA","$(P)$(Q):CONVSTART.VAL",3320,1850,16777215,"",0)
+#! Record("$(P)$(Q):SENDMSG",2120,3020,0,1,"$(P)$(Q):SENDMSG")
