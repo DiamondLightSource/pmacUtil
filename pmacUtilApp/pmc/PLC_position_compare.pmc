@@ -189,8 +189,8 @@ if (state = ST_WATCH)
     ; drop out if we go into a setup window in auto mode
     if (output = OP_AUTO)
         if (start > stop)
-            ; if currentPos greater than or equal to start
-            if (currentPos !< start) 
+            ; if currentPos greater than start
+            if (currentPos > start) 
                 if (pulse = 0)
                 or (step = 0)
                 or (pulse = 1)
@@ -203,8 +203,8 @@ if (state = ST_WATCH)
                 endif            
             endif        
         else
-            ; if currentPos less than or equal to start
-            if (currentPos !> start)
+            ; if currentPos less than start
+            if (currentPos < start)
                 if (pulse = 0)
                 or (step = 0)
                 or (pulse = 1)                
