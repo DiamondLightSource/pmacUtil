@@ -156,7 +156,8 @@ if (state = ST_WATCH)
             output = demandOutput                        
             if (output = OP_AUTO)
                 setOutputInit
-                writeOutput                                     
+                writeOutput         
+                setAutoIncr                                            
             else
                 state = ST_MANUAL
             endif

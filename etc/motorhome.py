@@ -106,10 +106,23 @@ RLIM = 5
 ## Don't do any homing, just the post home move 
 # (htype Enum passed to PLC.add_motor()).
 NOTHING = 6
-
+## Home on a home switch or index mark on a stage that has no limit switches.
+#  Detection of following error due to hitting the hard stop is taken as the
+#  limit indication.
+# (htype Enum passed to PLC.add_motor()).
+# -# (Prehome Move) Jog in hdir until either index/home switch (Figure 1) or 
+# following error
+#  -# If following error, jog in -hdir until index/home switch
+# -# (Fast Search) Jog in hdir until index/home switch
+# -# (Fast Retrace) Jog in -hdir until off the index/home switch
+# -# (Home) Home
+#
+# Finally do post home move if any.
+#
+HSW_HSTOP = 7
 
 ## String list of htypes
-htypes = ["HOME", "LIMIT", "HSW", "HSW_HLIM", "HSW_DIR", "RLIM", "NOTHING"]
+htypes = ["HOME", "LIMIT", "HSW", "HSW_HLIM", "HSW_DIR", "RLIM", "NOTHING", "HSW_HSTOP"]
 
 
 # Setup some controller types
@@ -316,7 +329,7 @@ class PLC:
                     # ms external axis                  
                     self.__cmd1.append("MSW%d,i912,%s"%(d["ms"],val))
 
-    def __write_cmds(self, f, state, htypes=None):
+    def __write_cmds(self, f, state, htypes=None, ferr_htypes=None):
         # process self.__cmd1 and self.__cmd2 and write them out
         has_pre = state == "PreHomeMove" and self.groups[self.group]["pre"]
         has_post = state == "PostHomeMove" and self.groups[self.group]["pre"]
@@ -351,6 +364,10 @@ class PLC:
             self.__d["InPosition"] = "&".join(inpos)
             self.__d["FFErr"] = "|".join("m%d42" % 
                 m["ax"] for i,m in self.__sel()) 
+            self.__d["FFErrCh"] = "|".join("m%d42" % 
+                m["ax"] for i,m in self.__sel(htypes=ferr_htypes)) 
+            if not self.__d["FFErrCh"]:
+                self.__d["FFErrCh"] = '0'
             # only check the limit switches of htypes 
             self.__d["LimitCheck"] = ""
             self.__d["LimitResults"] = ""            
@@ -462,13 +479,13 @@ class PLC:
             # for hsw_dir motors, set the trigger to be the inverse flag
             self.__set_hflags([HSW_DIR],inv=True)
             # for hsw/hsw_dir motors jog until trigger in direction of -ix23
-            self.__jog_until_trig([HSW,HSW_DIR],reverse=True)
+            self.__jog_until_trig([HSW,HSW_DIR,HSW_HSTOP],reverse=True)
             # for rlim motors jog in direction of -ix23
             self.__jog_inc([RLIM],reverse=True)          
             # for hsw_hlim motors jog until trigger in direction of ix23        
             self.__jog_until_trig([HSW_HLIM])
             # add the commands, HSW_DIR can't hit the limit
-            self.__write_cmds(f,"PreHomeMove",htypes=[HSW_DIR]) 
+            self.__write_cmds(f,"PreHomeMove",htypes=[HSW_DIR], ferr_htypes=[HOME, LIMIT, HSW, HSW_HLIM, HSW_DIR, RLIM, NOTHING]) 
 
             # for hsw_hlim we could have gone past the limit and hit the limit switch
             ems = self.__sel([HSW_HLIM])
@@ -492,13 +509,14 @@ class PLC:
                 f.write('\tendif\n\n')
 
             #---- FastSearch State ----        
-            htypes = [LIMIT,HSW,HSW_DIR,HSW_HLIM,RLIM]
+            htypes = [LIMIT,HSW,HSW_DIR,HSW_HLIM,RLIM,HSW_HSTOP]
             # for hsw_dir motors, set the trigger to be the original flag
             self.__set_hflags([HSW_DIR]) 
             # for all motors except hsw_hlim jog until trigger in direction of ix23
             self.__jog_until_trig(htypes)
             # add the commands, wait for the moves to complete
-            self.__write_cmds(f,"FastSearch",htypes=[HSW,HSW_DIR,HSW_HLIM,RLIM])
+            self.__write_cmds(f,"FastSearch",htypes=[HSW,HSW_DIR,HSW_HLIM,RLIM,HSW_HSTOP],
+                ferr_htypes=[HOME, LIMIT, HSW, HSW_HLIM, HSW_DIR, RLIM, NOTHING])
             
             # store home points
             ems = self.__sel(htypes+[HSW_HLIM])  
@@ -511,13 +529,13 @@ class PLC:
                 f.write('\tendif\n\n')  
                 
             #---- FastRetrace State ----
-            htypes = [LIMIT,HSW,HSW_HLIM,HSW_DIR,RLIM]
+            htypes = [LIMIT,HSW,HSW_HLIM,HSW_DIR,RLIM,HSW_HSTOP]
             # for limit/hsw_* motors, set the trigger to be the inverse flag
             self.__set_hflags(htypes,inv=True)
             # then jog until trigger in direction of -ix23
             self.__jog_until_trig(htypes,reverse=True)
             # add the commands, wait for the moves to complete
-            self.__write_cmds(f,"FastRetrace",htypes=[LIMIT,HSW,HSW_HLIM,HSW_DIR])
+            self.__write_cmds(f,"FastRetrace",htypes=[LIMIT,HSW,HSW_HLIM,HSW_DIR,HSW_HSTOP])
 
             # check that the limit flags are reasonable for LIMIT motors, and remove limits if so  
             ems = self.__sel([LIMIT])  
@@ -549,7 +567,7 @@ class PLC:
                 f.write('\tendif\n\n')                
 
             #---- Homing State ----        
-            htypes = [HOME,LIMIT,HSW,HSW_HLIM,HSW_DIR,RLIM]
+            htypes = [HOME,LIMIT,HSW,HSW_HLIM,HSW_DIR,RLIM,HSW_HSTOP]
             # for all motors, set the trigger to be the home flag
             self.__set_hflags(htypes)
             # Then execute the home command
@@ -711,14 +729,13 @@ wait_for_move = """\t\t; Wait for the move to complete
 \t\tand (HomingStatus = StatusHoming) ; Check that we didn't abort
 %(checks)s\t\tendw
 \t\t; Check why we left the while loop
-\t\tif (%(FFErr)s=1) ; If a motor hit a following error
+\t\tif (%(FFErrCh)s=1) ; If a motor hit a following error
 \t\t\tHomingStatus = StatusFFErr
 \t\tendif
 %(LimitResults)s\t\tif (timer<0 or timer=0) ; If we timed out
 \t\t\tHomingStatus = StatusTimeout
 \t\tendif
 %(results)s"""
-
 
 if __name__=="__main__":
     p = PLC(1,timeout=100000,htype=HOME,jdist=0,ctype=GEOBRICK)
