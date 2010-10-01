@@ -12,9 +12,6 @@ include $(TOP)/configure/CONFIG
 # templates like this
 #
 DB += energise.template
-DB += 2jack.template
-DB += 3jack.template
-DB += 3jack-mirror.template
 DB += pmacVariableWrite.template
 DB += gather.template
 DB += motorstatus.template
@@ -31,7 +28,6 @@ DB += compensationtable.template
 DB += energyModes.template
 DB += motion_stop.template
 DB += bender.template
-DB += qcm.template
 DB += dls_readback_asyn_motor.template
 DB += encoderReadback.template
 DB += positionCompare.template
