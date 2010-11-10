@@ -23,10 +23,10 @@ DB += autohome.template
 DB += dls_pmac_asyn_motor.template
 DB += dls_pmac_prot_asyn_motor.template
 DB += dls_pmac_cs_asyn_motor.template
+DB += dls_pmac_patch_asyn_motor.template
 DB += encoder_loss_detection.template
 DB += nanomotor_pmac.template
 DB += nanomotor_axis.template
-DB += patch_panel_asyn_motor.template
 DB += compensationtable.template
 DB += energyModes.template
 DB += motion_stop.template
@@ -72,4 +72,8 @@ include $(TOP)/configure/RULES
 ../O.Common/dls_readback_asyn_motor.template: ../dls_pmac_asyn_motor_extras.template
 	cat ../readback_asyn_motor.template > $@
 	cat $< >> $@
+
+../O.Common/dls_pmac_patch_asyn_motor.template: ../dls_pmac_asyn_motor_extras.template ../dls_pmac_asyn_motor_eloss_extras.template ../dls_pmac_asyn_motor_patch_extras.template
+	cat $(MOTOR)/db/basic_asyn_motor.template > $@
+	cat $^ >> $@
 
