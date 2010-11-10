@@ -46,7 +46,6 @@ record(scalcout, "$(P)$(M):LIMSTRING") {
 
 # User chooses to enable/disable limits
 # via this record
-#% autosave 2 VAL
 record(bo, "$(P)$(M):SETLIMITS") {
   field(ZNAM, "ENABLE")
   field(ONAM, "DISABLE")
