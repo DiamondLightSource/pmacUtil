@@ -160,8 +160,8 @@ P465..496=0
 #define following_error_limit    I(P400*100 + 11)
 
 ; define some kill commands
-#define abort_coordinate_move    &COMMAND"A"
-#define kill_axis                &COMMAND"K"
+#define abort_coordinate_move    COMMAND"A"
+#define kill_axis                COMMAND"K"
 
 ;**********************************************************
 ;
