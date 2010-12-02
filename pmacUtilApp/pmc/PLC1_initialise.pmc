@@ -32,6 +32,7 @@ IF (runFlag = 0)
     runFlag = 1
     
     ; Disable PLCs
+    DISABLE PLC0    
     DISABLE PLC2..31    
     timer=1000 MilliSeconds
     WHILE(timer>0)
@@ -160,6 +161,7 @@ ADDRESS&2
 COMMAND"DEFINE LOOKAHEAD 50,10"
 
 ; Enable or disable all PLCs
+$(PLC0=DISABLE) PLC0
 $(PLC2=DISABLE) PLC2
 $(PLC3=DISABLE) PLC3
 $(PLC4=DISABLE) PLC4
