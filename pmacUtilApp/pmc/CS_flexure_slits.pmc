@@ -1,0 +1,61 @@
+CLOSE
+
+;################################################
+; Define motion for flexure slits
+; Original Author: Alan Greer
+; Used variables: Q71..Q79, Q81..Q89, Q91..Q99
+; Macros
+; COORD = $(COORD) ;CS number, e.g. 2
+; PLC = $(PLC) ;PLC number, should be CS number+15, e.g. 17
+; AS = $(AS) ;Axisnum for actuator stroke, e.g. 1
+; LL = $(LL) ;Lever length in mm
+; SW = $(SW) ;Slit width at U=0 in mm
+;################################################
+
+; Note that we are providing a CS axis with an MRES of 0.0001 and EGU the same
+; as the underlying axes
+; This is needed as the motor record will only move in full steps
+
+; Change to CS$(COORD)
+&$(COORD)
+
+; Set relevant axes to use kinematics
+#$(AS)->I ; +ve blade
+
+; These are set by mres_reporting_motor.template
+#define ASMRES P(100+$(AS))
+#define ASOFF  P(300+$(AS))
+
+OPEN FORWARD
+; Calculate Gap
+; X = Q7 = gap in mm = (SW + 2LL(1-cos(arcsin(U/LL))))
+; U = resolution * Position + Offset
+; Note that we divide by 0.0001 to give CS mres of 0.0001
+; Also note the use of mres and offset in the calculation
+; The formula used for this calculation can be found in the document
+; 100208 FAT protocol 301.pdf
+; located in
+; S:/Technical/Engineering/Beamline Eng/I10/Design(AndyM & A Day)/beamline components/14_Exit sl
+CLEAR
+Q7=(($(SW))+2*$(LL)*(1-COS(ASIN((ASMRES*P$(AS)+ASOFF)/$(LL)))))/0.0001
+CLOSE
+
+OPEN INVERSE
+; P$(AS)=(LL*sin(arccos(1-((gap-SW)/2LL))))
+CLEAR
+P$(AS)=((($(LL)*SIN(ACOS(1-(((Q7*0.0001)-($(SW)))/(2*$(LL))))))-ASOFF)/ASMRES)
+CLOSE
+
+; A PLC(sx+15) needs to be made to do position reporting
+; Readbacks should be in &{axisnum}Q81..89 
+OPEN PLC$(PLC)
+CLEAR
+; As forward kinematic, but with Px = mx62/(Ix08*32)
+#define ASVAL m$(AS)62/(I$(AS)08*32)
+; Put deadband into Q9x
+#define ASDB  i$(AS)65*ASMRES/16
+ADDRESS&$(COORD)
+Q87=(($(SW))+2*$(LL)*(1-COS(ASIN((ASMRES*ASVAL+ASOFF)/$(LL)))))/0.0001
+Q97=(ABS(ASDB))/0.0001
+CLOSE
+ENABLE PLC$(PLC)
