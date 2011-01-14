@@ -209,6 +209,12 @@ record(mbbi, "$(DEVICE):VME_ADDR_MODE") {
   field(TWST, "32-bit addr")
 }
 
+# I97 VME DPRAM Base Address Bits A23-A20
+record(longin, "$(DEVICE):VME_DPRAMBASE") {
+  field(DTYP, "stream")
+  field(INP, "@pmac.proto getHexVar(I97) $(PORT)")
+  field(PINI, "YES")
+}
 # I95 VME Interrupt Level
 record(longin, "$(DEVICE):VME_INTLVL") {
   field(DTYP, "stream")
