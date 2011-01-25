@@ -83,6 +83,11 @@ class CS_3jack_mirror(AutoSubstitution):
 SetSimulation(CS_3jack, None)     
 SetSimulation(CS_3jack_mirror, None)
 
+class CS_B22_Optics_Box(AutoSubstitution):
+    TemplateFile = 'B22_optics_box.template'    
+
+SetSimulation(CS_B22_Optics_Box, None)     
+
 class gather(AutoSubstitution, Device):
     '''Setup PMAC or Geobrick gathering template'''
 

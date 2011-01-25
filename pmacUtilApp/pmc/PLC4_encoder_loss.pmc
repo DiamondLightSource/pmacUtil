@@ -159,10 +159,6 @@ P465..496=0
 ; this is the actual following error limit
 #define following_error_limit    I(P400*100 + 11)
 
-; define some kill commands
-#define abort_coordinate_move    COMMAND"A"
-#define kill_axis                COMMAND"K"
-
 ;**********************************************************
 ;
 ; Encoder loss detection PLC.  This checks if the encoder
@@ -227,12 +223,10 @@ while(axis_number < 33)
             if(in_coord_system)
                 ; Abort any coordinate system motion
                 temp_var = coord_system_number + 1
-                ADDRESS&temp_var
-                abort_coordinate_move
+                ADDRESS&temp_var CMD"A"
             endif
             ; Kill the specific axis
-            ADDRESS#axis_number
-            kill_axis
+            ADDRESS#axis_number CMD"K"
             ; Finally signal that protection is tripped
             protection_tripped = 1
         endif
