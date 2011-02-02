@@ -1,0 +1,29 @@
+CLOSE
+
+;################################################
+; Define motion for two parallel axes that 
+; converge at a pivot point
+: 
+;################################################
+
+#
+; local variables
+OPEN FORWARD
+CLEAR
+Q8=
+Q7=
+CLOSE
+
+OPEN INVERSE
+CLEAR
+CLOSE
+
+OPEN PLC$(PLC)
+CLEAR
+ADDRESS&$(COORD)
+Q88=THETA/$(MRESTHETA)
+Q87=(J1POS+RATIO*PIVOT+DEPTH/cos(THETA))/$(MRESX)
+Q97=ABS(J1DB)/$(MRESX)
+Q98=ABS(J1DB)/$(MRESTHETA)
+CLOSE
+ENABLE PLC$(PLC)
