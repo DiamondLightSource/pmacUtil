@@ -15,7 +15,7 @@ record(scalcout, "$(P)$(M):MRESSET") {
   field(OUT, "$(P)$(M):MRESASET.AOUT PP")
   field(OOPT, "On Change")
   field(DOPT, "Use OCAL")
-  field(OCAL, "$P('P1%02d',$(ADDR))+$P('=%.12f',A)")
+  field(OCAL, "$P('P48%02d',$(ADDR))+$P('=%.12f',A)")
 }
 
 record(asyn, "$(P)$(M):MRESASET") {
@@ -34,7 +34,7 @@ record(scalcout, "$(P)$(M):OFFSET") {
   field(OUT, "$(P)$(M):OFFASET.AOUT PP")
   field(OOPT, "On Change")
   field(DOPT, "Use OCAL")
-  field(OCAL, "$P('P3%02d',$(ADDR))+$P('=%.12f',A)")
+  field(OCAL, "$P('P49%02d',$(ADDR))+$P('=%.12f',A)")
   field(PINI, "YES")
 }
 
