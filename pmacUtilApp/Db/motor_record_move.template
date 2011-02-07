@@ -1,0 +1,84 @@
+############################################################
+#
+# Template to distiguish real motor record initiated moves 
+# from externally generated moves (eg. from a coordinate system motor).
+#
+###############################################################
+
+#Calculate if a move was internal or not
+record(calcout, "$(P)$(M):MR_MIP_INTERNAL") {
+  field(DESC, "MR internal")
+  field(DTYP, "Soft Channel")
+  field(CALC, "(A!=0)&&(!(A==0x8000))")
+  field(INPA, "$(P)$(M).MIP CP")
+  field(OUT, "$(P)$(M):MR_MIP_INTERNAL_FLAG.VAL")
+  field(DOPT, "Use CALC")
+  field(OOPT, "Transition To Non-zero")
+  field(FLNK, "$(P)$(M):MR_MIP_INTERNAL_FLAG")
+}
+
+#Cache the internal move flag
+record(bo, "$(P)$(M):MR_MIP_INTERNAL_FLAG") {
+  field(DTYP, "Soft Channel")
+  field(ZNAM, "External")
+  field(ONAM, "Internal")
+  field(VAL, "0")
+  field(OMSL, "supervisory")
+}
+
+#At the end of a move, process the record that queries the internal move flag.
+record(calcout, "$(P)$(M):MR_DMOV") {
+  field(DESC, "MR Done")
+  field(DTYP, "Soft Channel")
+  field(CALC, "A==1")
+  field(INPA, "$(P)$(M).DMOV CP")
+  field(OUT, "$(P)$(M):MR_WAS_INTERNAL.PROC")
+  field(DOPT, "Use CALC")
+  field(OOPT, "Transition To Non-zero")
+}
+
+#Was the move internal? If so, process the record to write to p47xx.
+record(calcout, "$(P)$(M):MR_WAS_INTERNAL") {
+  field(DESC, "MR was internal")
+  field(DTYP, "Soft Channel")
+  field(CALC, "A")
+  field(INPA, "$(P)$(M):MR_MIP_INTERNAL_FLAG.VAL")
+  field(DOPT, "Use CALC")
+  field(OOPT, "When Non-zero")
+  field(OUT, "$(P)$(M):MR_MOVE_WRITE.PROC")
+}
+
+#Write 1 to p47xx, then reset the internal move flag.
+record(scalcout, "$(P)$(M):MR_MOVE_WRITE") {
+  field(DESC, "Motor record move")
+  field(DTYP, "Soft Channel")
+  field(CALC, "A")
+  field(INPA, "$(P)$(M):MR_WAS_INTERNAL.VAL")
+  field(OUT, "$(P)$(M):MR_MOVE_SET.AOUT PP")
+  field(OOPT, "When Non-zero")
+  field(DOPT, "Use OCAL")
+  field(OCAL, "$P('P47%02d',$(ADDR))+$P('=%d',A)")
+  field(FLNK, "$(P)$(M):MR_RESET_FLAGS.PROC")
+}
+
+
+record(asyn, "$(P)$(M):MR_MOVE_SET") {
+  field(SCAN, "Passive")
+  field(DTYP, "asynRecordDevice")
+  field(PORT, "$(SPORT)")
+  field(DESC, "Set MR move flag")
+  field(TMOT, "5")
+}
+
+#Reset the internal move flag
+record(seq, $(P)$(M):MR_RESET_FLAGS) {
+  field(DESC, "Reset MIP flags")
+  field(DO1, "0")
+  field(LNK1, "$(P)$(M):MR_MIP_INTERNAL_FLAG")
+  field(DO2, "1")
+  field(LNK2, "$(P)$(M):MR_MIP_INTERNAL_FLAG.PROC")
+}
+
+
+
+
