@@ -35,6 +35,7 @@ DB += pmacStatus.template
 DB += pmacStatusAxis.template
 DB += pmacStatus8Axes.template
 DB += pmacStatus32Axes.template
+DB += motor_record_move.template
 
 # not using streams since this doesnt work with tpmac
 #DB += energise_streams.template
