@@ -102,7 +102,7 @@ record(bi, "$(P)$(M):COLLECTING") {
 record(busy, "$(P)$(M):EXECUTE") {
   field(DESC, "Start gather function")
   field(SCAN, "Passive")
-  field(VAL, "Done")
+  field(VAL, "0")
 }
 
 record(stringout, "$(P)$(M):MOTOR") {
