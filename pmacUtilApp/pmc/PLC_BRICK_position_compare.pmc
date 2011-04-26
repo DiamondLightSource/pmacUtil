@@ -63,7 +63,7 @@ CLOSE
 
 ;; this is the state of the machine
 #define state p$(PLC)86
-
+state=0
 ;; this is the initial value of the output, before the first toggle
 #define init p$(PLC)87
 
