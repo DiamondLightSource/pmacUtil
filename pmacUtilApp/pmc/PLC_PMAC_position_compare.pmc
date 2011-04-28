@@ -5,26 +5,29 @@ CLOSE
 ;; PLC for setting up position compare for a PMAC.
 ;; Needs dls_PMAC_M_variables.pmc loaded
 ;;
-;; Macros: 
+;; Macros:
 ;; - axis: Axis number to run position compare on
-;; - eaxis: EQU axis number. If you want EQUx to compare against axis x pos then 
+;; - eaxis: EQU axis number. If you want EQUx to compare against axis x pos then
 ;;          eaxis = axis. If you want EQUx to compare against pos of the fist
-;;          axis on the IC (1, 5, 9, etc.), then axis = 1 or 5 or 9 etc. 
-;;          eaxis = x and MSn,I911 = 1 for axis x. E.g. if you want EQU2 to do 
+;;          axis on the IC (1, 5, 9, etc.), then axis = 1 or 5 or 9 etc.
+;;          eaxis = x and MSn,I911 = 1 for axis x. E.g. if you want EQU2 to do
 ;;          position compare on axis 1, axis = 1, eaxis = 2 and MS1,I911 = 1.
 ;;          Note: the output of EQU1 will be the logical OR of any EQU registers
 ;;          comparing on axis 1. See 16 axis macro SRM p48 for details
 ;; - ms: Macrostation variable for the EQU register
 ;; - PLC: PLC number to run as
+;; - SCALE: Scale factor between 24 bit register and displayed counts
+;;          This should be 32 for MX GeoMacro, and 1 for everything else
 ;####################################################
 
 #define homeOffset m$(axis)73 + (i$(axis)26 / 16)
-#define setAutoIncr MSW$(ms),i923,step
+#define setAutoIncr MSW$(ms),i923,scaledStep
 #define setCmpA MSW$(ms),i925,cmpA
 #define setCmpB MSW$(ms),i926,cmpB
 #define setOutputInit MSW$(ms),i929,init
 #define setOutputOutput MSW$(ms),i929,output
 #define writeOutput MSW$(ms),i928,one
+#define SCALE $(SCALE=1)
 
 ; ####################################################################
 ; The section below is common, also modify PLC_BRICK_position_compare
@@ -104,20 +107,40 @@ state=0
 ;; This is the number of times position compare registers have been moved to
 ;; avoid a trigger
 #define avoids p$(PLC)12
+;; This is the number of times cmpA is changed to avoid rollover
+#define moveA p$(PLC)13
+;; This is the number of times cmpB is changed to avoid rollover
+#define moveB p$(PLC)14
+
+;; This is 2^24 with scale factor applied
+#define rollover p$(PLC)15
+rollover = 16777216/SCALE
+
+;; This is a number of steps that the axis will not be able to move in one tick
+;; of the PLC
+#define BIGNUMBER 100000
+#define scaledBigNumber p$(PLC)16
+scaledBigNumber = BIGNUMBER * SCALE
+
+;; This temp var is used to store scaled pos
+#define scaledCurrentPos p$(PLC)17
+
+;; This flag tells us if we are watching for rollover
+#define needRollover p$(PLC)18
+
+;; This is for the scaled version of step
+#define scaledStep p$(PLC)19
 
 one=1
 zero=0
 configs=0
 manuals=0
 avoids=0
+moveA=0
+moveB=0
 
 OPEN PLC $(PLC)
 CLEAR
-
-; Get the current motor position and velo
-currentPos=m$(axis)62/(I$(axis)08*32)  
-currentDir=m$(axis)74
-actualOutput=m$(eaxis)13
 
 ; Service inputs
 if (output != demandOutput)
@@ -130,21 +153,27 @@ or (savedHomeOffset != homeOffset)
     inputsChanged = 1
 endif
 
+; Get the current motor position and velo
+currentPos=m$(axis)62/(I$(axis)08*32)
+scaledCurrentPos=(currentPos+homeOffset)*SCALE
+currentDir=m$(axis)74
+actualOutput=m$(eaxis)13
+
 if (state = ST_WATCH)
     ; service inputs
     if (inputsChanged = 1)
         ; mode change
         if (output != demandOutput)
-            output = demandOutput                        
+            output = demandOutput
             if (output = OP_AUTO)
                 setOutputInit
-                writeOutput                                     
+                writeOutput
             else
                 state = ST_MANUAL
             endif
         endif
         ; acknowledge init change
-        if (init != demandInit)   
+        if (init != demandInit)
             init = demandInit
             if (output = OP_AUTO)
                 setOutputInit
@@ -163,59 +192,74 @@ if (state = ST_WATCH)
         endif
         ; acknowledge step change
         if (demandStep != step)
-            step = demandStep                    
+            step = demandStep
+			scaledStep = step * SCALE
             setAutoIncr
         endif
-        inputsChanged = 0        
+        inputsChanged = 0
     endif
     ; drop out if we go into a setup window in auto mode
     if (output = OP_AUTO)
-        if (start > stop)     
-            if (currentPos > start) 
+        if (start > stop)
+            if (currentPos > start)
                 if (pulse = 0)
                 or (step = 0)
-                or (pulse = 1)
-                    state = ST_CONFIG
-                else 
-                    if (currentPos < start - pulse + step)
-                    and (currentDir !> 0) 
+                    ; check that we won't rollover before we get there
+                    if (currentPos - start < rollover - 3 * BIGNUMBER)
                         state = ST_CONFIG
                     endif
-                endif            
-            endif        
+                else
+                    if (currentPos < start - pulse + step)
+                    and (currentDir !> 0)
+                        state = ST_CONFIG
+                    endif
+                endif
+            endif
         else
             if (currentPos < start)
                 if (pulse = 0)
                 or (step = 0)
-                or (pulse = 1)                
-                    state = ST_CONFIG
-                else 
+                    ; check that we won't rollover before we get there
+                    if (start - currentPos < rollover - 3 * BIGNUMBER)
+                        state = ST_CONFIG
+                    endif
+                else
                     if (currentPos > start + pulse - step)
                     and (currentDir !< 0)
                         state = ST_CONFIG
                     endif
                 endif
             endif
-        endif            
-    endif    
-endif         
-
-; If we're ready to setup position compare        
-if (state = ST_CONFIG)
-    ; setup position compare
-    savedHomeOffset = homeOffset
-    if (pulse = 0)
-    or (step = 0)
-        cmpB = stop + homeOffset
-    else
-        if (start > stop)
-            cmpB = start - pulse + step + homeOffset        
-        else
-            cmpB = start + pulse - step + homeOffset
         endif
     endif
-    cmpA=start + homeOffset
-    setCmpB     
+endif
+
+; If we're ready to setup position compare
+if (state = ST_CONFIG)
+    ; setup position compare
+	needRollover = 0
+    cmpA = (start + homeOffset) * SCALE
+    if (pulse = 0)
+    or (step = 0)
+        ; check if we need to avoid rollover
+        if (abs(currentPos - stop) > rollover - BIGNUMBER)
+            if (start > stop)
+                cmpB = cmpA - 2 * scaledBigNumber
+            else
+                cmpB = cmpA + 2 * scaledBigNumber
+            endif
+			needRollover = 1
+        else
+            cmpB = (stop + homeOffset) * SCALE
+        endif
+    else
+        if (start > stop)
+            cmpB = (start - pulse + step + homeOffset) * SCALE
+        else
+            cmpB = (start + pulse - step + homeOffset) * SCALE
+        endif
+    endif
+    setCmpB
     setCmpA
     configs = configs + 1
     state = ST_COMP
@@ -230,75 +274,110 @@ if (state = ST_COMP)
         ; drop out if we're out of the window
         if (start > stop)
             if (currentPos !> stop)
-            and (stop != start)
                 state = ST_PREP_WATCH
-            else 
-                if (pulse != 0)
-                and (step != 0)            
-                and (pulse != 1)                
-                and (currentPos > start - pulse + step)                                    
-                    state = ST_PREP_WATCH
+            else
+                if (pulse = 0)
+                and (step = 0)
+                    if (currentPos - start > rollover - 3 * BIGNUMBER)
+                        state = ST_PREP_WATCH
+                    endif
+                else
+                    if (currentPos > start - pulse + step)
+                        state = ST_PREP_WATCH
+                    endif
                 endif
             endif
-        else 
+        else
             if (currentPos !< stop)
             and (stop != start)
                 state = ST_PREP_WATCH
-            else 
-                if (pulse != 0)
-                and (step != 0)      
-                 and (pulse != 1)                      
-                and (currentPos < start + pulse - step)                         
-                    state = ST_PREP_WATCH
+            else
+                if (pulse = 0)
+                and (step = 0)
+                    if (start - currentPos > rollover - 3 * BIGNUMBER)
+                        state = ST_PREP_WATCH
+                    endif
+                else
+                    if (currentPos < start + pulse - step)
+                        state = ST_PREP_WATCH
+                    endif
                 endif
-            endif        
-        endif 
+            endif
+        endif
+    endif
+    ; check if comp registers need moving to avoid rollover
+    if (state = ST_COMP)
+        if (needRollover = 1)
+            ; if we've started
+            if (start > stop and currentPos < start - BIGNUMBER)
+            or (start < stop and currentPos > start + BIGNUMBER)
+                ; and are in the danger zone for a
+                if (abs(scaledCurrentPos - cmpA) > (rollover - BIGNUMBER) * SCALE)
+                or (abs(scaledCurrentPos - cmpA) < scaledBigNumber)
+                    ; move cmpA out of the way
+                    if (start > stop)
+                        cmpA = scaledCurrentPos + rollover * SCALE / 2
+                    else
+                        cmpA = scaledCurrentPos - rollover * SCALE / 2
+                    endif
+                    setCmpA
+                    moveA = moveA + 1
+                endif
+                ; if it's in the danger zone for b
+                if (abs(scaledCurrentPos - cmpB) > (rollover - BIGNUMBER) * SCALE)
+                or (abs(scaledCurrentPos - cmpB) < scaledBigNumber)
+                    ; check if we can set the stop position
+                    if (abs(currentPos - stop) > rollover - BIGNUMBER)
+                        ; move cmpB out of the way
+                        if (start > stop)
+                            cmpB = scaledCurrentPos + rollover * SCALE / 2
+                        else
+                            cmpB = scaledCurrentPos - rollover * SCALE / 2
+                        endif
+	                    setCmpB
+						moveB = moveB + 1
+                    else
+						if (cmpB != (stop + homeOffset) * SCALE)
+	                        cmpB = (stop + homeOffset) * SCALE
+		                    setCmpB
+							moveB = moveB + 1
+						endif
+                    endif
+                endif
+            endif
+        endif
     endif
 endif
 
-; Going from a position compare to a watch state
+; Make sure we don't accidentally trigger
 if (state = ST_PREP_WATCH)
-    cmpA=currentPos+homeOffset-1000000
-    cmpB=currentPos+homeOffset-1000001
-    setCmpA
-    setCmpB    
-    setOutputInit
-    writeOutput         
-    state = ST_WATCH    
+or (state = ST_WATCH)
+    ; if current pos is within BIGNUMBER cts of either compare register
+    if (abs(scaledCurrentPos - cmpA) < scaledBigNumber)
+    or (abs(scaledCurrentPos - cmpB) < scaledBigNumber)
+    or (abs(scaledCurrentPos - cmpA) > (rollover - BIGNUMBER) * SCALE)
+    or (abs(scaledCurrentPos - cmpB) > (rollover - BIGNUMBER) * SCALE)
+        ; set them to be as far away as possible
+        cmpA = scaledCurrentPos + rollover * SCALE / 2
+        cmpB = cmpA
+        setCmpA
+        setCmpB
+        avoids = avoids + 1
+    endif
+    if (state = ST_PREP_WATCH)
+        setOutputInit
+        writeOutput
+        state = ST_WATCH
+    endif
 endif
 
-; If we want to write a manual output    
+; If we want to write a manual output
 if (state = ST_MANUAL)
     ; setup manual output
     setOutputOutput
     writeOutput
-    manuals = manuals + 1    
-    state = ST_WATCH    
-endif
-    
-; move compare outputs out of the way    
-if (state = ST_WATCH)    
-    if (currentDir > 0)
-        if (cmpA > currentPos)
-        or (cmpB > currentPos)
-            cmpA=currentPos+homeOffset-1000000
-            cmpB=currentPos+homeOffset-1000001
-            setCmpA
-            setCmpB    
-            avoids = avoids + 1
-        endif
-    else 
-        if (currentDir < 0)    
-            if (cmpA < currentPos)
-            or (cmpB < currentPos)
-                cmpA=currentPos+homeOffset+1000000
-                cmpB=currentPos+homeOffset+1000001
-                setCmpA
-                setCmpB    
-                avoids = avoids + 1                
-            endif
-        endif            
-    endif
+    manuals = manuals + 1
+    state = ST_WATCH
 endif
 
 CLOSE
