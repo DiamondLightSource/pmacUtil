@@ -1,0 +1,3 @@
+# Place any example specific dependencies here
+TPMAC=$(WORK)/tpmac_nocoord
+PMACCOORD=$(WORK)/pmacCoord

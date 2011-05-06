@@ -13,7 +13,7 @@
 # % macro, EGU, Engineering units
 
 # need this record so VDCT doesn't delete our comments
-record(stringout, "$(P):3JACK:dummy") {
+record(stringout, "$(P):dummy") {
 }
 
 expand("pmacVariableWriteRecords.vdb", pmacVariableWrite) {

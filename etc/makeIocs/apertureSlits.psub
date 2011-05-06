@@ -1,0 +1,5 @@
+substitute "COORD=2,PLC=17,AP=1,AM=3,ASIZE=6"
+include "CS_aperture_slits.pmc"
+substitute "COORD=3,PLC=18,AP=2,AM=4,ASIZE=8"
+include "CS_aperture_slits.pmc"
+include "PROG10_CS_motion.pmc"

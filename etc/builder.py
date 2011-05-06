@@ -2,6 +2,7 @@ from iocbuilder import AutoSubstitution, SetSimulation, Device, Architecture, Mo
 from iocbuilder.arginfo import *
 
 from iocbuilder.modules.motor import basic_asyn_motor, MotorRecord
+from iocbuilder.modules.asyn import AsynPort
 from iocbuilder.modules.calc import Calc
 from iocbuilder.modules.busy import Busy
 from iocbuilder.modules.seq import Seq
@@ -20,21 +21,32 @@ class autohome(AutoSubstitution):
     TemplateFile = 'autohome.template'                                               
 SetSimulation(autohome, None)
 
-class dls_pmac_asyn_motor(AutoSubstitution, MotorRecord):
-    Dependencies = (Calc,Busy)
-    # Substitution attributes
+class _dls_pmac_asyn_motor(AutoSubstitution):
+    WarnMacros = False
     TemplateFile = 'dls_pmac_asyn_motor.template'
+
+class dls_pmac_asyn_motor(basic_asyn_motor, AutoProtocol):
+    ProtocolFiles = ['pmac.proto']
+    Dependencies = (Busy,)
+    TemplateFile = 'dls_pmac_asyn_motor.template'    
+    Arguments = basic_asyn_motor.Arguments + _dls_pmac_asyn_motor.Arguments
+    ArgInfo = basic_asyn_motor.ArgInfo + _dls_pmac_asyn_motor.ArgInfo
+dls_pmac_asyn_motor.Defaults.update(_dls_pmac_asyn_motor.Defaults)
 
 def dls_pmac_asyn_motor_sim(**args):
     # if it's a simulation, just connect it to a basic_asyn_motor 
     return basic_asyn_motor(**filter_dict(args, basic_asyn_motor.Arguments))
 SetSimulation(dls_pmac_asyn_motor, dls_pmac_asyn_motor_sim)
 
-
-class dls_pmac_cs_asyn_motor(AutoSubstitution, MotorRecord):
-    Dependencies = (Calc,)
-    # Substitution attributes
+class _dls_pmac_cs_asyn_motor(AutoSubstitution):
+    WarnMacros = False
     TemplateFile = 'dls_pmac_cs_asyn_motor.template'
+
+class dls_pmac_cs_asyn_motor(basic_asyn_motor):
+    TemplateFile = 'dls_pmac_cs_asyn_motor.template'
+    Arguments = basic_asyn_motor.Arguments + _dls_pmac_cs_asyn_motor.Arguments
+    ArgInfo = basic_asyn_motor.ArgInfo + _dls_pmac_cs_asyn_motor.ArgInfo
+dls_pmac_cs_asyn_motor.Defaults.update(basic_asyn_motor.Defaults)
 
 def dls_pmac_cs_asyn_motor_sim(**args):
     # if it's a simulation, just connect it to a basic_asyn_motor 
@@ -61,11 +73,11 @@ class pmacStatus(AutoSubstitution, AutoProtocol):
     TemplateFile = 'pmacStatus.template'
     
     def __init__(self, **args):
-    	# init the super class
+        # init the super class
         self.__super.__init__(**args)
         self.axes = []
         NAXES = int(args["NAXES"])
-        assert NAXES in range(1,33), "Number of axes (%d) mut be in range 1..32" % NAXES 
+        assert NAXES in range(1,33), "Number of axes (%d) must be in range 1..32" % NAXES 
         # for each axis
         for i in range(1, NAXES + 1):
             args["AXIS"] = i
@@ -73,15 +85,6 @@ class pmacStatus(AutoSubstitution, AutoProtocol):
             self.axes.append(
                 _pmacStatusAxis(
                     **filter_dict(args, _pmacStatusAxis.ArgInfo.Names())))
-
-class CS_3jack(AutoSubstitution):
-    TemplateFile = '3jack.template'    
-                
-class CS_3jack_mirror(AutoSubstitution):
-    TemplateFile = '3jack-mirror.template'    
-
-SetSimulation(CS_3jack, None)     
-SetSimulation(CS_3jack_mirror, None)
 
 class gather(AutoSubstitution, Device):
     '''Setup PMAC or Geobrick gathering template'''
