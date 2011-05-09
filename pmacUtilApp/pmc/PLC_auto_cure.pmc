@@ -58,6 +58,9 @@ P$(PLC)16 = $(SM16)
 
 #define kill_axis             &COMMAND"K"
 
+; this is how many matching readings are needed for amplifier status
+#define NREADINGS 5
+
 OPEN PLC $(PLC)
 CLEAR
 
@@ -67,7 +70,7 @@ WHILE(axis_number !> $(NAXIS))
 		IF(amp_mode_bit=0)  ;this says it is a  Brushless or dc servo
 		AND(amplifier_mode=1) ;if configured as stepper we have a problem...
 			error_count=error_count+1 ;debounce
-			IF (error_count>1)
+			IF (error_count !< NREADINGS)
 				ADDRESS#axis_number
 				kill_axis
 				fault_counter=fault_counter+1
