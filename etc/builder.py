@@ -21,22 +21,28 @@ class autohome(AutoSubstitution):
     TemplateFile = 'autohome.template'                                               
 SetSimulation(autohome, None)
 
-class _dls_pmac_asyn_motor(AutoSubstitution):
-    WarnMacros = False
-    TemplateFile = 'dls_pmac_asyn_motor.template'
+try:
+    from iocbuilder.modules.pmacCoord import PmacCoord
 
-class dls_pmac_asyn_motor(basic_asyn_motor, AutoProtocol):
-    ProtocolFiles = ['pmac.proto']
-    Dependencies = (Busy,)
-    TemplateFile = 'dls_pmac_asyn_motor.template'    
-    Arguments = basic_asyn_motor.Arguments + _dls_pmac_asyn_motor.Arguments
-    ArgInfo = basic_asyn_motor.ArgInfo + _dls_pmac_asyn_motor.ArgInfo
-dls_pmac_asyn_motor.Defaults.update(_dls_pmac_asyn_motor.Defaults)
+    class _dls_pmac_asyn_motor(AutoSubstitution):
+        WarnMacros = False
+        TemplateFile = 'dls_pmac_asyn_motor.template'
 
-def dls_pmac_asyn_motor_sim(**args):
-    # if it's a simulation, just connect it to a basic_asyn_motor 
-    return basic_asyn_motor(**filter_dict(args, basic_asyn_motor.Arguments))
-SetSimulation(dls_pmac_asyn_motor, dls_pmac_asyn_motor_sim)
+    class dls_pmac_asyn_motor(basic_asyn_motor, AutoProtocol):
+        ProtocolFiles = ['pmac.proto']
+        Dependencies = (Busy,PmacCoord)
+        TemplateFile = 'dls_pmac_asyn_motor.template'    
+        Arguments = basic_asyn_motor.Arguments + _dls_pmac_asyn_motor.Arguments
+        ArgInfo = basic_asyn_motor.ArgInfo + _dls_pmac_asyn_motor.ArgInfo
+    dls_pmac_asyn_motor.Defaults.update(_dls_pmac_asyn_motor.Defaults)
+
+    def dls_pmac_asyn_motor_sim(**args):
+        # if it's a simulation, just connect it to a basic_asyn_motor 
+        return basic_asyn_motor(**filter_dict(args, basic_asyn_motor.Arguments))
+    SetSimulation(dls_pmac_asyn_motor, dls_pmac_asyn_motor_sim)
+    
+except ImportError:
+    print "# pmacCoord not found, dls_pmac_asyn_motor will not be available"
 
 class _dls_pmac_cs_asyn_motor(AutoSubstitution):
     WarnMacros = False
@@ -52,16 +58,6 @@ def dls_pmac_cs_asyn_motor_sim(**args):
     # if it's a simulation, just connect it to a basic_asyn_motor 
     return basic_asyn_motor(**filter_dict(args, basic_asyn_motor.Arguments))
 SetSimulation(dls_pmac_cs_asyn_motor, dls_pmac_cs_asyn_motor_sim)
-
-class dls_pmac_prot_asyn_motor(AutoSubstitution, MotorRecord):
-    Dependencies = (Calc,)
-    # Substitution attributes
-    TemplateFile = 'dls_pmac_prot_asyn_motor.template'
-
-def dls_pmac_prot_asyn_motor_sim(**args):
-    # if it's a simulation, just connect it to a basic_asyn_motor 
-    return basic_asyn_motor(**filter_dict(args, basic_asyn_motor.Arguments))
-SetSimulation(dls_pmac_prot_asyn_motor, dls_pmac_prot_asyn_motor_sim)
 
 class _pmacStatusAxis(AutoSubstitution, AutoProtocol):
     ProtocolFiles = ['pmac.proto']
@@ -99,10 +95,6 @@ class gather(AutoSubstitution, Device):
 
     # Substitution attributes
     TemplateFile = 'gather.template'
-
-class pmacVariableWrite(AutoSubstitution):
-    '''Couple of records to write variables to a Delta tau'''
-    TemplateFile = 'pmacVariableWrite.template'
 
 class positionCompare(AutoSubstitution, AutoProtocol):
     '''Setup position compare on a delta tau. Needs PLC_PMAC_position_compare
