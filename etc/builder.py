@@ -18,44 +18,43 @@ class PmacUtil(Device):
     AutoInstantiate = True
 
 class autohome(AutoSubstitution):
-    TemplateFile = 'autohome.template'                                               
+    TemplateFile = 'autohome.template'
 SetSimulation(autohome, None)
+
+def add_basic(cls):
+    """Convenience function to add basic_asyn_motor attributes to a class that
+    includes it via an msi include statement rather than verbatim"""
+    cls.Arguments += [x for x in basic_asyn_motor.Arguments if x not in cls.Arguments]
+    cls.ArgInfo += basic_asyn_motor.ArgInfo
+    cls.Defaults.update(basic_asyn_motor.Defaults)
+    return cls
 
 try:
     from iocbuilder.modules.pmacCoord import PmacCoord
 
-    class _dls_pmac_asyn_motor(AutoSubstitution):
+    @add_basic
+    class dls_pmac_asyn_motor(AutoSubstitution, AutoProtocol):
         WarnMacros = False
         TemplateFile = 'dls_pmac_asyn_motor.template'
-
-    class dls_pmac_asyn_motor(basic_asyn_motor, AutoProtocol):
         ProtocolFiles = ['pmac.proto']
         Dependencies = (Busy,PmacCoord)
-        TemplateFile = 'dls_pmac_asyn_motor.template'    
-        Arguments = basic_asyn_motor.Arguments + _dls_pmac_asyn_motor.Arguments
-        ArgInfo = basic_asyn_motor.ArgInfo + _dls_pmac_asyn_motor.ArgInfo
-    dls_pmac_asyn_motor.Defaults.update(_dls_pmac_asyn_motor.Defaults)
 
     def dls_pmac_asyn_motor_sim(**args):
-        # if it's a simulation, just connect it to a basic_asyn_motor 
+        # if it's a simulation, just connect it to a basic_asyn_motor
         return basic_asyn_motor(**filter_dict(args, basic_asyn_motor.Arguments))
     SetSimulation(dls_pmac_asyn_motor, dls_pmac_asyn_motor_sim)
-    
+
 except ImportError:
     print "# pmacCoord not found, dls_pmac_asyn_motor will not be available"
 
-class _dls_pmac_cs_asyn_motor(AutoSubstitution):
+@add_basic
+class dls_pmac_cs_asyn_motor(AutoSubstitution):
     WarnMacros = False
     TemplateFile = 'dls_pmac_cs_asyn_motor.template'
-
-class dls_pmac_cs_asyn_motor(basic_asyn_motor):
-    TemplateFile = 'dls_pmac_cs_asyn_motor.template'
-    Arguments = basic_asyn_motor.Arguments + _dls_pmac_cs_asyn_motor.Arguments
-    ArgInfo = basic_asyn_motor.ArgInfo + _dls_pmac_cs_asyn_motor.ArgInfo
-dls_pmac_cs_asyn_motor.Defaults.update(basic_asyn_motor.Defaults)
+    Dependencies = (Busy,)
 
 def dls_pmac_cs_asyn_motor_sim(**args):
-    # if it's a simulation, just connect it to a basic_asyn_motor 
+    # if it's a simulation, just connect it to a basic_asyn_motor
     return basic_asyn_motor(**filter_dict(args, basic_asyn_motor.Arguments))
 SetSimulation(dls_pmac_cs_asyn_motor, dls_pmac_cs_asyn_motor_sim)
 
@@ -67,13 +66,13 @@ class pmacStatus(AutoSubstitution, AutoProtocol):
     Dependencies = (PmacUtil,)
     ProtocolFiles = ['pmac.proto']
     TemplateFile = 'pmacStatus.template'
-    
+
     def __init__(self, **args):
         # init the super class
         self.__super.__init__(**args)
         self.axes = []
         NAXES = int(args["NAXES"])
-        assert NAXES in range(1,33), "Number of axes (%d) must be in range 1..32" % NAXES 
+        assert NAXES in range(1,33), "Number of axes (%d) must be in range 1..32" % NAXES
         # for each axis
         for i in range(1, NAXES + 1):
             args["AXIS"] = i
@@ -81,11 +80,6 @@ class pmacStatus(AutoSubstitution, AutoProtocol):
             self.axes.append(
                 _pmacStatusAxis(
                     **filter_dict(args, _pmacStatusAxis.ArgInfo.Names())))
-
-class CS_B22_Optics_Box(AutoSubstitution):
-    TemplateFile = 'B22_optics_box.template'    
-
-SetSimulation(CS_B22_Optics_Box, None)     
 
 class gather(AutoSubstitution, Device):
     '''Setup PMAC or Geobrick gathering template'''
@@ -95,7 +89,7 @@ class gather(AutoSubstitution, Device):
     def PostIocInitialise(self):
         if Architecture() == "linux-x86":
             print 'seq(gather,"P=%(P)s,M=%(M)s")' % self.args
-        else:        
+        else:
             print 'seq &gather,"P=%(P)s,M=%(M)s"' % self.args
 
     # Substitution attributes
@@ -104,6 +98,6 @@ class gather(AutoSubstitution, Device):
 class positionCompare(AutoSubstitution, AutoProtocol):
     '''Setup position compare on a delta tau. Needs PLC_PMAC_position_compare
     or PLC_BRICK_position_compare'''
-    Dependencies = (Calc,)    
+    Dependencies = (Calc,)
     ProtocolFiles = ['pmac.proto']
     TemplateFile = 'positionCompare.template'
