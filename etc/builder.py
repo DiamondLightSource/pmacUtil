@@ -82,6 +82,11 @@ class pmacStatus(AutoSubstitution, AutoProtocol):
                 _pmacStatusAxis(
                     **filter_dict(args, _pmacStatusAxis.ArgInfo.Names())))
 
+class CS_B22_Optics_Box(AutoSubstitution):
+    TemplateFile = 'B22_optics_box.template'    
+
+SetSimulation(CS_B22_Optics_Box, None)     
+
 class gather(AutoSubstitution, Device):
     '''Setup PMAC or Geobrick gathering template'''
 

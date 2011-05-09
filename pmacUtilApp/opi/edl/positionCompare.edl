@@ -3,8 +3,8 @@ beginScreenProperties
 major 4
 minor 0
 release 1
-x 188
-y 71
+x 917
+y 53
 w 340
 h 966
 font "arial-medium-r-18.0"
@@ -232,7 +232,7 @@ w 120
 h 35
 controlPv "$(P)$(Q):STOP"
 displayMode "decimal"
-precision 4
+precision 6
 fgColor index 25
 fgAlarm
 bgColor index 3
@@ -274,7 +274,7 @@ w 120
 h 35
 controlPv "$(P)$(Q):START"
 displayMode "decimal"
-precision 4
+precision 6
 fgColor index 25
 fgAlarm
 bgColor index 3
@@ -629,7 +629,7 @@ w 120
 h 35
 controlPv "$(P)$(Q):PULSE"
 displayMode "decimal"
-precision 4
+precision 6
 fgColor index 25
 fgAlarm
 bgColor index 3
@@ -671,7 +671,7 @@ w 120
 h 35
 controlPv "$(P)$(Q):STEP"
 displayMode "decimal"
-precision 4
+precision 6
 fgColor index 25
 fgAlarm
 bgColor index 3

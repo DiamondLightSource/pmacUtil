@@ -15,19 +15,16 @@ template() {
 # % macro, AXIS,    Axis number
 # % macro, PORT,    Asyn port
 
-#% archiver 0.5 Monitor
 record(ai, "$(DEVICE):AXIS$(AXIS):POSITION") {
   field(DTYP, "stream")
   field(INP, "@pmac.proto getVar(#$(AXIS)P) $(PORT)")
 }
 
-#% archiver 0.5 Monitor
 record(ai, "$(DEVICE):AXIS$(AXIS):FOLL_ERROR") {
   field(DTYP, "stream")
   field(INP, "@pmac.proto getVar(#$(AXIS)F) $(PORT)")
 }
 
-#% archiver 0.5 Monitor
 record(ai, "$(DEVICE):AXIS$(AXIS):VELOCITY") {
   field(DTYP, "stream")
   field(INP, "@pmac.proto getVar(#$(AXIS)V) $(PORT)")
@@ -48,17 +45,17 @@ record(seq, "$(DEVICE):AXIS$(AXIS):ReadBack") {
   field(DOL4, "1")
 }
 
-#% archiver 0.5 Monitor
+#% archiver 10 Monitor
 record(mbbiDirect, "$(DEVICE):AXIS$(AXIS):status1") {
   field(DTYP, "stream")
   field(INP, "@pmac.proto getStatus(#$(AXIS)?,$(DEVICE):AXIS$(AXIS)) $(PORT)")
 }
 
-#% archiver 0.5 Monitor
+#% archiver 10 Monitor
 record(mbbiDirect, "$(DEVICE):AXIS$(AXIS):status2") {
 }
 
-#% archiver 0.5 Monitor
+#% archiver 10 Monitor
 record(mbbiDirect, "$(DEVICE):AXIS$(AXIS):status3") {
 }
 

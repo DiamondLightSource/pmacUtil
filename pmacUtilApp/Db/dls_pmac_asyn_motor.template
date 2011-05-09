@@ -2,6 +2,8 @@
 # usually PMAC_S<n> for pmacs, the name of the pmacAsynIpPort for bricks
 #% macro, HOME, Prefix for autohome instance. Defaults to $(P). If unspecified,
 # the template contains enough records to keep the motor record happy
+#% macro, ALLOW_HOMED_SET, Set to a blank to allow this axis to have its homed
+# status manually.  This is set to a comment character by default.
 
 include "basic_asyn_motor.template"
 include "motor_in_cs.template"
@@ -71,3 +73,18 @@ record(calcout, "$(P)$(M):ELOSSRC") {
   field(CALC, "A")
   field(A, "0")  
 }
+
+$(ALLOW_HOMED_SET=#)record(bo, "$(P)$(M):HOMED") {
+$(ALLOW_HOMED_SET=#)  field(DESC, "Set homed status for axis $(ADDR)")
+$(ALLOW_HOMED_SET=#)  field(ZNAM, "NOT HOMED")
+$(ALLOW_HOMED_SET=#)  field(ONAM, "HOMED")
+$(ALLOW_HOMED_SET=#)  field(FLNK, "$(P)$(M):HOMEDSET")
+$(ALLOW_HOMED_SET=#)}
+
+$(ALLOW_HOMED_SET=#)record(calcout, "$(P)$(M):HOMEDSET") {
+$(ALLOW_HOMED_SET=#)  field(DESC, "Homed status")
+$(ALLOW_HOMED_SET=#)  field(DTYP, "stream")
+$(ALLOW_HOMED_SET=#)  field(CALC, "A")
+$(ALLOW_HOMED_SET=#)  field(INPA, "$(P)$(M):HOMED")
+$(ALLOW_HOMED_SET=#)  field(OUT, "@pmac.proto setIntVar(m$(ADDR)45) $(SPORT)")
+$(ALLOW_HOMED_SET=#)}

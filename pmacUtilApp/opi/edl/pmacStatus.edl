@@ -3,10 +3,10 @@ beginScreenProperties
 major 4
 minor 0
 release 1
-x 737
-y 98
+x 990
+y 80
 w 560
-h 686
+h 716
 font "arial-medium-r-16.0"
 ctlFont "arial-bold-r-16.0"
 btnFont "arial-medium-r-16.0"
@@ -395,7 +395,7 @@ major 4
 minor 1
 release 0
 x 445
-y 655
+y 670
 w 110
 h 25
 fgColor index 46
@@ -1749,7 +1749,7 @@ fgColor index 14
 bgColor index 0
 useDisplayBg
 value {
-  "0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15"
+  "1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16"
 }
 autoSize
 endObjectProperties
@@ -1763,7 +1763,7 @@ release 0
 x 5
 y 570
 w 305
-h 110
+h 125
 lineColor index 14
 fill
 fillColor index 5
@@ -1773,7 +1773,7 @@ endObjectProperties
 object activeXTextDspClass:noedit
 beginObjectProperties
 major 4
-minor 4
+minor 5
 release 0
 x 185
 y 650
@@ -1835,7 +1835,7 @@ endObjectProperties
 object activeXTextDspClass:noedit
 beginObjectProperties
 major 4
-minor 4
+minor 5
 release 0
 x 185
 y 665
@@ -1877,7 +1877,7 @@ endObjectProperties
 object activeXTextDspClass:noedit
 beginObjectProperties
 major 4
-minor 4
+minor 5
 release 0
 x 185
 y 575
@@ -1900,7 +1900,7 @@ endObjectProperties
 object activeXTextDspClass:noedit
 beginObjectProperties
 major 4
-minor 4
+minor 5
 release 0
 x 185
 y 605
@@ -1922,7 +1922,7 @@ endObjectProperties
 object activeXTextDspClass:noedit
 beginObjectProperties
 major 4
-minor 4
+minor 5
 release 0
 x 185
 y 590
@@ -1984,7 +1984,7 @@ endObjectProperties
 object activeXTextDspClass:noedit
 beginObjectProperties
 major 4
-minor 4
+minor 5
 release 0
 x 185
 y 620
@@ -2006,7 +2006,7 @@ endObjectProperties
 object activeXTextDspClass:noedit
 beginObjectProperties
 major 4
-minor 4
+minor 5
 release 0
 x 185
 y 635
@@ -2555,5 +2555,48 @@ visPv "$(pmac):NAXES"
 visInvert
 visMin "0"
 visMax "29"
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 5
+release 0
+x 185
+y 680
+w 120
+h 12
+controlPv "$(pmac):VME_DPRAMBASE"
+format "hex"
+font "arial-medium-r-10.0"
+fgColor index 16
+bgColor index 10
+limitsFromDb
+nullColor index 0
+useHexPrefix
+newPos
+objType "monitors"
+noExecuteClipMask
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 10
+y 680
+w 153
+h 12
+font "arial-medium-r-10.0"
+fgColor index 14
+bgColor index 3
+useDisplayBg
+value {
+  "VME DPRAM Base Address (I97)"
+}
+autoSize
 endObjectProperties
 
