@@ -24,8 +24,8 @@ SetSimulation(autohome, None)
 def add_basic(cls):
     """Convenience function to add basic_asyn_motor attributes to a class that
     includes it via an msi include statement rather than verbatim"""
-    cls.Arguments += [x for x in basic_asyn_motor.Arguments if x not in cls.Arguments]
-    cls.ArgInfo += basic_asyn_motor.ArgInfo
+    cls.Arguments += basic_asyn_motor.Arguments + [x for x in cls.Arguments if x not in basic_asyn_motor.Arguments]
+    cls.ArgInfo = basic_asyn_motor.ArgInfo + cls.ArgInfo.filtered(without=basic_asyn_motor.ArgInfo.Names())
     cls.Defaults.update(basic_asyn_motor.Defaults)
     return cls
 
