@@ -88,5 +88,46 @@ long parseProgBitString(struct genSubRecord *pgsub)
     return 0;
 }
 
+long parseGPIOBitString(struct genSubRecord *pgsub)
+{
+    static int pcount = 0; /* processing count */
+    long bits1;       /* holds 16 bits for coordinate systems 1 .. 16 */
+    short int *val;
+
+    int DEBUG = 0;    /* debug flag 0=off */
+    const int NBITS = 16;
+    int i;
+
+    long mask = 0x00000001; /* bit number 1 */
+                            /* where most significant bit is bit 16 */
+
+    bits1 = 0x0; 
+    val = (short int *)pgsub->a; 
+    for (i = 0; i < NBITS ; i++) {
+        if (val[i] != 0) bits1 |= mask;
+        mask <<= 1;
+    }
+    if (DEBUG) {
+        for ( i = 0; i < NBITS; i++) {
+            printf("%d", val[i]);
+            /* separate on 4 bit bunches for comparison to hex digits*/
+            if ( (i+1) % 4 == 0)
+                printf(" ");
+        }
+        printf("VAL=0x%lX\n", bits1);
+    }
+
+    /* store the values to the output fields */
+    *(long *)(pgsub->vala) = bits1;
+
+    if (DEBUG) {
+        pcount++;
+        printf("Processing GPIOBitString: %d\n", pcount);
+    }
+    return 0;
+}
+
+
 epicsRegisterFunction( parsePlcBitString );
 epicsRegisterFunction( parseProgBitString );
+epicsRegisterFunction( parseGPIOBitString );

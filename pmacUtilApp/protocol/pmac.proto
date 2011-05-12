@@ -37,6 +37,20 @@ getPlcsDisabled1
   in  "%i" ;
 }
 
+getGPIOInputs1
+{
+  # version for GeoBrick
+  out "M0..15";
+  in  "%i" ;
+}
+
+getGPIOOutputs1
+{
+  # version for GeoBrick
+  out "M32..39 i0 i0 i0 i0 i0 i0 i0 i0";
+  in  "%i" ;
+}
+
 getMotionProgramActive1
 {
   # version for GeoBrick
@@ -48,6 +62,20 @@ getPlcsDisabled0
 {
   # version for VME
   out "M5000..5031" CR;
+  in  "%i" ;
+}
+
+getGPIOInputs0
+{
+  # version for VME
+  out "M7616..7623 M7640..7647" CR;
+  in  "%i" ;
+}
+
+getGPIOOutputs0
+{
+  # version for VME
+  out "M7716..7723 M7740..7747" CR;
   in  "%i" ;
 }
 

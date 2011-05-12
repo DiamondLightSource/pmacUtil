@@ -3,10 +3,10 @@ beginScreenProperties
 major 4
 minor 0
 release 1
-x 990
-y 80
+x 1000
+y 128
 w 560
-h 716
+h 860
 font "arial-medium-r-16.0"
 ctlFont "arial-bold-r-16.0"
 btnFont "arial-medium-r-16.0"
@@ -395,7 +395,7 @@ major 4
 minor 1
 release 0
 x 445
-y 670
+y 820
 w 110
 h 25
 fgColor index 46
@@ -1761,7 +1761,7 @@ major 4
 minor 0
 release 0
 x 5
-y 570
+y 720
 w 305
 h 125
 lineColor index 14
@@ -1773,10 +1773,10 @@ endObjectProperties
 object activeXTextDspClass:noedit
 beginObjectProperties
 major 4
-minor 5
+minor 4
 release 0
 x 185
-y 650
+y 800
 w 120
 h 12
 controlPv "$(pmac):VME_ADDR_MODE"
@@ -1798,7 +1798,7 @@ major 4
 minor 1
 release 0
 x 10
-y 650
+y 800
 w 126
 h 12
 font "arial-medium-r-10.0"
@@ -1818,7 +1818,7 @@ major 4
 minor 1
 release 0
 x 10
-y 665
+y 815
 w 117
 h 12
 font "arial-medium-r-10.0"
@@ -1835,10 +1835,10 @@ endObjectProperties
 object activeXTextDspClass:noedit
 beginObjectProperties
 major 4
-minor 5
+minor 4
 release 0
 x 185
-y 665
+y 815
 w 120
 h 12
 controlPv "$(pmac):VME_INTLVL"
@@ -1860,7 +1860,7 @@ major 4
 minor 1
 release 0
 x 10
-y 575
+y 725
 w 118
 h 12
 font "arial-medium-r-10.0"
@@ -1877,10 +1877,10 @@ endObjectProperties
 object activeXTextDspClass:noedit
 beginObjectProperties
 major 4
-minor 5
+minor 4
 release 0
 x 185
-y 575
+y 725
 w 120
 h 12
 controlPv "$(pmac):PLC_CONTROL"
@@ -1900,10 +1900,10 @@ endObjectProperties
 object activeXTextDspClass:noedit
 beginObjectProperties
 major 4
-minor 5
+minor 4
 release 0
 x 185
-y 605
+y 755
 w 120
 h 12
 controlPv "$(pmac):ERRREPMODE"
@@ -1922,10 +1922,10 @@ endObjectProperties
 object activeXTextDspClass:noedit
 beginObjectProperties
 major 4
-minor 5
+minor 4
 release 0
 x 185
-y 590
+y 740
 w 120
 h 12
 controlPv "$(pmac):IO_HANDSHAKE"
@@ -1947,7 +1947,7 @@ major 4
 minor 1
 release 0
 x 10
-y 590
+y 740
 w 123
 h 12
 font "arial-medium-r-10.0"
@@ -1967,7 +1967,7 @@ major 4
 minor 1
 release 0
 x 10
-y 605
+y 755
 w 119
 h 12
 font "arial-medium-r-10.0"
@@ -1984,10 +1984,10 @@ endObjectProperties
 object activeXTextDspClass:noedit
 beginObjectProperties
 major 4
-minor 5
+minor 4
 release 0
 x 185
-y 620
+y 770
 w 120
 h 12
 controlPv "$(pmac):DPRAM_COMMS_INT"
@@ -2006,10 +2006,10 @@ endObjectProperties
 object activeXTextDspClass:noedit
 beginObjectProperties
 major 4
-minor 5
+minor 4
 release 0
 x 185
-y 635
+y 785
 w 120
 h 12
 controlPv "$(pmac):DPRAM_COMMS"
@@ -2031,7 +2031,7 @@ major 4
 minor 1
 release 0
 x 10
-y 635
+y 785
 w 129
 h 12
 font "arial-medium-r-10.0"
@@ -2051,7 +2051,7 @@ major 4
 minor 1
 release 0
 x 10
-y 620
+y 770
 w 173
 h 12
 font "arial-medium-r-10.0"
@@ -2071,7 +2071,7 @@ major 4
 minor 1
 release 0
 x 5
-y 560
+y 710
 w 97
 h 14
 font "arial-medium-r-12.0"
@@ -2561,10 +2561,10 @@ endObjectProperties
 object activeXTextDspClass:noedit
 beginObjectProperties
 major 4
-minor 5
+minor 4
 release 0
 x 185
-y 680
+y 830
 w 120
 h 12
 controlPv "$(pmac):VME_DPRAMBASE"
@@ -2587,7 +2587,7 @@ major 4
 minor 1
 release 0
 x 10
-y 680
+y 830
 w 153
 h 12
 font "arial-medium-r-10.0"
@@ -2596,6 +2596,154 @@ bgColor index 3
 useDisplayBg
 value {
   "VME DPRAM Base Address (I97)"
+}
+autoSize
+endObjectProperties
+
+# (Rectangle)
+object activeRectangleClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 5
+y 570
+w 305
+h 55
+lineColor index 14
+fill
+fillColor index 5
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 5
+y 560
+w 144
+h 14
+font "arial-medium-r-12.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 8
+value {
+  "  General Purpose Inputs  "
+}
+autoSize
+border
+endObjectProperties
+
+# (Byte)
+object ByteClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 15
+y 595
+w 285
+h 20
+controlPv "$(pmac):GPIO_INP_BITS"
+lineColor index 14
+onColor index 15
+offColor index 19
+lineWidth 2
+endian "little"
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 20
+y 580
+w 276
+h 10
+font "courier-bold-r-10.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16"
+}
+autoSize
+endObjectProperties
+
+# (Rectangle)
+object activeRectangleClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 5
+y 645
+w 305
+h 55
+lineColor index 14
+fill
+fillColor index 5
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 5
+y 635
+w 154
+h 14
+font "arial-medium-r-12.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 8
+value {
+  "  General Purpose Outputs  "
+}
+autoSize
+border
+endObjectProperties
+
+# (Byte)
+object ByteClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 15
+y 670
+w 285
+h 20
+controlPv "$(pmac):GPIO_OP_BITS"
+lineColor index 14
+onColor index 15
+offColor index 19
+lineWidth 2
+endian "little"
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 20
+y 655
+w 276
+h 10
+font "courier-bold-r-10.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16"
 }
 autoSize
 endObjectProperties

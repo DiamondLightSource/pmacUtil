@@ -17,12 +17,19 @@
 # Scan rate for pmac status, plc querying, cpu load querying
 record(fanout, "$(DEVICE):ReadBack") {
   field(SCAN, "1 second")
+  field(FLNK, "$(DEVICE):ReadBack2")
   field(LNK1, "$(DEVICE):CTRLSTAT:status1")
   field(LNK2, "$(DEVICE):CPULOAD")
   field(LNK3, "$(DEVICE):PLCGET")
   field(LNK4, "$(DEVICE):PROGGET")
   field(LNK5, "$(DEVICE):MACROERRS")
   field(LNK6, "$(DEVICE):AxisRB")
+}
+
+record(fanout, "$(DEVICE):ReadBack2") {
+  field(SCAN, "1 second")
+  field(LNK1, "$(DEVICE):GPIO_INPUTS_GET")
+  field(LNK2, "$(DEVICE):GPIO_OUTPUTS_GET")
 }
 
 # pmac type record
@@ -94,6 +101,52 @@ record(mbbiDirect, "$(DEVICE):PLCDISBITS00") {
 # % archiver 10 Monitor
 record(mbbiDirect, "$(DEVICE):PLCDISBITS01") {
   field(INP, "$(DEVICE):PLCPARSE.VALB")
+}
+
+record(waveform, "$(DEVICE):GPIO_INPUTS_GET") {
+  field(DTYP, "stream")
+  field(FLNK, "$(DEVICE):GPIO_INP_PARSE")
+  field(INP, "@pmac.proto getGPIOInputs$(VERSION) $(PORT)")
+  field(NELM, "16")
+  field(FTVL, "USHORT")
+  field(DESC, "Query GPIO Inputs")
+}
+
+record(genSub, "$(DEVICE):GPIO_INP_PARSE") {
+  field(SNAM, "parseGPIOBitString")
+  field(INPA, "$(DEVICE):GPIO_INPUTS_GET.VAL")
+  field(FTA, "USHORT")
+  field(NOA, "16")
+  field(FTVA, "ULONG")
+  field(FLNK, "$(DEVICE):GPIO_INP_BITS")
+}
+
+# % archiver 10 Monitor
+record(mbbiDirect, "$(DEVICE):GPIO_INP_BITS") {
+  field(INP, "$(DEVICE):GPIO_INP_PARSE.VALA")
+}
+
+record(waveform, "$(DEVICE):GPIO_OUTPUTS_GET") {
+  field(DTYP, "stream")
+  field(FLNK, "$(DEVICE):GPIO_OP_PARSE")
+  field(INP, "@pmac.proto getGPIOOutputs$(VERSION) $(PORT)")
+  field(NELM, "16")
+  field(FTVL, "USHORT")
+  field(DESC, "Query GPIO Outputs")
+}
+
+record(genSub, "$(DEVICE):GPIO_OP_PARSE") {
+  field(SNAM, "parseGPIOBitString")
+  field(INPA, "$(DEVICE):GPIO_OUTPUTS_GET.VAL")
+  field(FTA, "USHORT")
+  field(NOA, "16")
+  field(FTVA, "ULONG")
+  field(FLNK, "$(DEVICE):GPIO_OP_BITS")
+}
+
+# % archiver 10 Monitor
+record(mbbiDirect, "$(DEVICE):GPIO_OP_BITS") {
+  field(INP, "$(DEVICE):GPIO_OP_PARSE.VALA")
 }
 
 record(waveform, "$(DEVICE):PROGGET") {
