@@ -116,9 +116,13 @@ P432 = $(ONM32=0)
 
 ; use axis_number to calculate the P variable to look in to see
 ; if encoder loss protection is turned on on this axis
-#define encoder_protection       P(P400 + 400) & 1 = 1
-#define amp_protection           P(P400 + 400) & 2 = 2
-#define micromech_protection     P(P400 + 400) & 4 = 4
+#define ENCODER_PROTECTION_MASK 1
+#define encoder_protection       P(P400 + 400) & ENCODER_PROTECTION_MASK = ENCODER_PROTECTION_MASK
+#define AMP_PROTECTION_MASK 2
+#define amp_protection           P(P400 + 400) & AMP_PROTECTION_MASK = AMP_PROTECTION_MASK
+#define any_amp_protection P401&2=2 or P402&2=2 or P403&2=2 or P404&2=2 or P405&2=2 or P406&2=2 or P407&2=2 or P408&2=2    
+#define MICROMECH_PROTECTION_MASK 4
+#define micromech_protection     P(P400 + 400) & MICROMECH_PROTECTION_MASK = MICROMECH_PROTECTION_MASK
 
 ; m variable pointing at the memory location showing if the encoder is present
 #define encoder_loss_bit         M(P400*100 + 84)
@@ -159,6 +163,9 @@ P465..496=0
 ; this is the actual following error limit
 #define following_error_limit    I(P400*100 + 11)
 
+; this is how many matching readings are needed for amplifier status
+#define NREADINGS 5
+
 ;**********************************************************
 ;
 ; Encoder loss detection PLC.  This checks if the encoder
@@ -175,49 +182,82 @@ OPEN PLC 4
 CLEAR
 
 axis_number = 1
+
+; Check amp_1 status for all axes
+if (any_amp_protection)
+    ; The amp_status bits flicker around a bit so we read the amp_status bits NREADINGS times inside a while loop. This ensures 
+    ; that other PLC's and background tasks are run between the readings so that amp_status gets updated between readings. 
+    ; Tests have show you do not ever seem to get 3 consecutive incorrect readings from amp_status if the background 
+    ; tasks are allowed to run between readings.
+    ; Debounce the amp_1_status reading.
+    amp_1_status_debounce = amp_1_status
+    temp_var = 0
+    while (temp_var < NREADINGS)
+        if (amp_1_status = amp_1_status_debounce)
+            temp_var = temp_var + 1
+        else
+            amp_1_status_debounce = amp_1_status
+            temp_var = 0
+        endif
+    endwhile  
+endif
+
 ; Loop through all axis
 while(axis_number < 33)
 
     if (amp_protection)                         
-        ; The amp_status bits flicker around a bit so we read the amp_status bits twice inside a while loop. This ensures 
-        ; that other PLC's and background tasks are run between the readings so that amp_status gets updated between readings. 
-        ; Tests have show you do not ever seem to get two consecutive incorrect readings from amp_status if the background 
-        ; tasks are allowed to run between readings.
-
         ; Debounce the amp_status reading.
-        ; Set initial debounce values to something we will never get from amp_status to ensure we go round the while loop twice.
-        amp_status_debounce = 1
-        temp_var = 2
-        while (amp_status_debounce != temp_var)
-            temp_var = amp_status_debounce
-            amp_status_debounce = amp_status
+        amp_status_debounce = amp_status
+        temp_var = 0
+        while (temp_var < NREADINGS)
+            if (amp_status = amp_status_debounce)
+                temp_var = temp_var + 1
+            else
+                amp_status_debounce = amp_status
+                temp_var = 0
+            endif
         endwhile  
+    endif 
 
-        ; Debounce the amp_1_status reading.
-        ; Set initial debounce values to something we will never get from amp_status to ensure we go round the while loop twice.
-        amp_1_status_debounce = 1
-        temp_var = 2
-        while (amp_1_status_debounce != temp_var)
-            temp_var = amp_1_status_debounce
-            amp_1_status_debounce = amp_1_status
-        endwhile
-    endif  
+    ; Auto-reset the protection_tripped if it was an amp fault
+    if(protection_tripped = AMP_PROTECTION_MASK and amp_status_debounce = AMP_STATUS_READY and amp_1_status_debounce != AMP_STATUS_UNDER_VOLTAGE)        
+        protection_tripped = 0
+    endif
 
-    ; If encoder protection is enabled for this axis and the encoder loss bit
-    ; drops to zero and we have not already
-    if(encoder_protection and encoder_loss_bit = 0)
-    ; Or amp protection is enabled and the amp status is no longer READY
-    or(amp_protection and amp_status_debounce != AMP_STATUS_READY)
-    ; Or amp 1 is under voltage
-    or(amp_protection and amp_1_status_debounce = AMP_STATUS_UNDER_VOLTAGE)    
-    ; Or micromech amp enabled but not active
-    or(micromech_protection and micromech_status = 0 and micromech_demand = 1)
-        if (protection_tripped=0)
+    ; Auto-reset the protection_tripped if it was a micromech amp fault
+    if(protection_tripped = MICROMECH_PROTECTION_MASK and micromech_status = 1 and micromech_demand = 1)
+        protection_tripped = 0
+    endif
+
+	; If protection isn't already tripped
+    if (protection_tripped=0)
+
+	    ; If amp protection is enabled and the amp status is no longer READY
+	    if(amp_protection and amp_status_debounce != AMP_STATUS_READY)
+    	; Or amp 1 is under voltage
+	    or(amp_protection and amp_1_status_debounce = AMP_STATUS_UNDER_VOLTAGE)    
+	    	protection_tripped = AMP_PROTECTION_MASK
+	    endif
+
+	    ; If micromech amp enabled but not active
+    	if(micromech_protection and micromech_status = 0 and micromech_demand = 1)
+	    	protection_tripped = MICROMECH_PROTECTION_MASK
+		endif
+		
+        ; If encoder protection is enabled for this axis and the encoder loss bit drops to zero
+        if(encoder_protection and encoder_loss_bit = 0)
+        	protection_tripped = ENCODER_PROTECTION_MASK
+        endif
+        
+		if (protection_tripped>0)
             ; If the following error limit is sensible
             ; then save it for future reference
             if(following_error_limit != 1)
                 saved_fe_limit = following_error_limit
             endif
+            ; Protection has been tripped, so set the following
+            ; error for this axis to 1/16th count
+            following_error_limit = 1            
             ; Check to see if there is a coordinate system
             ; for this axis that needs aborting
             if(in_coord_system)
@@ -227,38 +267,12 @@ while(axis_number < 33)
             endif
             ; Kill the specific axis
             ADDRESS#axis_number CMD"K"
-            ; Finally signal that protection is tripped
-            protection_tripped = 1
-        endif
-    endif
-
-    ; Auto-reset the protection_tripped if it was an amp fault
-    if(amp_protection and amp_status_debounce = AMP_STATUS_READY and amp_1_status_debounce != AMP_STATUS_UNDER_VOLTAGE)        
-        ; If encoder loss is still tripped then don't reset protection
-        if(encoder_protection and encoder_loss_bit = 0)
         else
-            protection_tripped = 0
-        endif
-    endif
-
-    ; Auto-reset the protection_tripped if it was a micromech amp fault
-    if(micromech_protection and micromech_status = 1 and micromech_demand = 1)
-        ; If encoder loss is still tripped then don't reset protection
-        if(encoder_protection and encoder_loss_bit = 0)
-        else
-            protection_tripped = 0
-        endif
-    endif
-
-    if(protection_tripped = 1)
-        ; Protection has been tripped, so set the following
-        ; error for this axis to 1/16th count
-        following_error_limit = 1
-    else
-        ; Protection is not tripped so restore following error
-        if (following_error_limit = 1 and saved_fe_limit > 1)
-            following_error_limit = saved_fe_limit
-        endif
+            ; Protection is not tripped so restore following error
+            if (following_error_limit = 1 and saved_fe_limit > 1)
+                following_error_limit = saved_fe_limit
+            endif
+		endif        
     endif
 
     axis_number=axis_number+1
