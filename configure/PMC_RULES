@@ -1,6 +1,7 @@
 # Take the list of all variables that make knows about and strip out the
 # variables we have defined as not for msi
-MSI_DIRS := $(sort $(filter-out NON_MSI_VARS $(NON_MSI_VARS),$(.VARIABLES)))
+# do the subst so we get rid of the % characters that act as wildcards in filter-out expressions
+MSI_DIRS := $(sort $(filter-out NON_MSI_VARS $(subst %,_,$(NON_MSI_VARS)),$(subst %,_,$(.VARIABLES))))
 
 # Create a colon separated list of their data dirs
 MSI_INCLUDES := $(subst : ,:,$(foreach dir,$(MSI_DIRS),$($(dir))/data:)).

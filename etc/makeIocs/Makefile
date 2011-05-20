@@ -5,8 +5,8 @@ include $(TOP)/configure/CONFIG
 DEBUG :=
 
 # These are the xml files we will make iocs out of
-#XMLS := $(wildcard *.xml)
-XMLS := AerotechStageDemo.xml positionCompare.xml ProtectionTest.xml pmacStatusGeobrick.xml
+XMLS := $(wildcard *.xml)
+#XMLS := positionCompare.xml ProtectionTest.xml pmacStatusGeobrick.xml apertureSlits.xml
 
 # These are the IOCS
 IOCS := $(patsubst %.xml, %, $(XMLS))
@@ -25,11 +25,11 @@ install: $(IOC_DIRS)
 
 # General rule for a Standard IOC
 $(TOP)/iocs/%: %.xml
-	dls-xml-iocbuilder.py $(DEBUG) $<
+	dls-xml-iocbuilder.py -e $(DEBUG) $<
 
 # General rule for a simulation IOC
 $(TOP)/iocs/%_sim: %.xml
-	dls-xml-iocbuilder.py $(DEBUG) --sim=linux-x86 $<
+	dls-xml-iocbuilder.py -e $(DEBUG) --sim=linux-x86 $<
 
 # Remove the generated iocs on clean
 clean:

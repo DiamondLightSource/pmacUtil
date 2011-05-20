@@ -116,3 +116,20 @@ sendString
   in;
 }
 
+killMotor
+{
+  out "#\$1k" CR;
+  in;
+}
+
+getEloss
+{
+  out "P%(\$1:ELOSSVAR.VAL)d" CR;
+  in "%i";
+}
+
+resetEloss
+{
+  out "P%(\$1:ELOSSVAR.VAL)d=%d" CR;
+  in;
+}
