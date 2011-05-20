@@ -12,6 +12,7 @@ include $(TOP)/configure/CONFIG
 # templates like this
 #
 DB += energise.template
+DB += pmacVariableWrite.template
 DB += gather.template
 DB += motorstatus.template
 DB += translated_motor.template
