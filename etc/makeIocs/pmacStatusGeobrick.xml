@@ -1,5 +1,6 @@
 <?xml version="1.0" ?>
 <components arch="linux-x86">
-	<tpmac.GeoBrick DeviceName="BRICK1" IP="172.23.243.156"/>
+	<tpmac.pmacAsynIPPort IP="172.23.243.156" name="BRICK1port"/>
+	<tpmac.GeoBrick Port="BRICK1port" name="BRICK1"/>
 	<pmacUtil.pmacStatus DEVICE="PMACSTATUSTEST" NAXES="8" PLC="5" PORT="BRICK1port" VERSION="1"/>
 </components>

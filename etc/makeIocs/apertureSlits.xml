@@ -1,8 +1,9 @@
 <?xml version="1.0" ?>
 <components arch="linux-x86">
-	<tpmac.GeoBrick DeviceName="BRICK1" IP="172.23.243.156"/>
-	<pmacCoord.CS CS="2" Controller="BRICK1" DeviceName="BRICK1CS2"/>
-	<pmacCoord.CS CS="3" Controller="BRICK1" DeviceName="BRICK1CS3"/>
+	<tpmac.pmacAsynIPPort IP="172.23.243.156" name="BRICK1port"/>
+	<tpmac.GeoBrick Port="BRICK1port" name="BRICK1"/>
+	<pmacCoord.CS CS="2" Controller="BRICK1" name="BRICK1CS2"/>
+	<pmacCoord.CS CS="3" Controller="BRICK1" name="BRICK1CS3"/>
 	<pmacUtil.dls_pmac_asyn_motor ADDR="1" DESC="Aperture A X" DHLM="1000" DLLM="-1000" EGU="mm" M=":XA" MRES="0.001" OFF="2" P="APERTURESLIT" PORT="BRICK1" PREC="3" SPORT="BRICK1port" TWV="0.1" VELO="1" name="S.XA"/>
 	<pmacUtil.dls_pmac_asyn_motor ADDR="2" DESC="Aperture A Y" DHLM="1000" DLLM="-1000" EGU="mm" M=":YA" MRES="0.001" OFF="3" P="APERTURESLIT" PORT="BRICK1" PREC="3" SPORT="BRICK1port" TWV="0.1" VELO="1" name="S.YA"/>
 	<pmacUtil.dls_pmac_asyn_motor ADDR="3" DESC="Aperture B X" DHLM="1000" DLLM="-1000" EGU="mm" M=":XB" MRES="0.001" P="APERTURESLIT" PORT="BRICK1" PREC="3" SPORT="BRICK1port" TWV="0.1" VELO="1" name="S.XB"/>

@@ -1,6 +1,7 @@
 <?xml version="1.0" ?>
 <components arch="linux-x86">
-	<tpmac.GeoBrick DeviceName="PMAC1" IP="172.23.243.158" PortName="PMAC_S0"/>
-	<pmacUtil.dls_pmac_asyn_motor ADDR="2" DESC="Motor 1" DHLM="10000" DLLM="-10000" EGU="mm" M=":M1" MRES="0.001" P="TESTCOMPARE" PORT="PMAC1" PREC="3" SPORT="PMAC_S0" TWV="1" VELO="5" name="M1"/>
-	<pmacUtil.positionCompare P="TESTCOMPARE" PLC="25" PORT="PMAC_S0" Q=":COMP" motor="TESTCOMPARE:M1" name="COMP"/>
+	<tpmac.pmacAsynIPPort IP="172.23.243.156" name="BRICK1port"/>
+	<tpmac.GeoBrick Port="BRICK1port" name="BRICK1"/>
+	<pmacUtil.dls_pmac_asyn_motor ADDR="2" DESC="Motor 1" DHLM="10000" DLLM="-10000" EGU="mm" M=":M1" MRES="0.001" P="TESTCOMPARE" PORT="BRICK1" PREC="3" SPORT="BRICK1port" TWV="1" VELO="5" name="M1"/>
+	<pmacUtil.positionCompare P="TESTCOMPARE" PLC="25" PORT="BRICK1port" Q=":COMP" motor="TESTCOMPARE:M1" name="COMP"/>
 </components>
