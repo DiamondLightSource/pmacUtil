@@ -2,6 +2,7 @@ from iocbuilder import AutoSubstitution, SetSimulation, Device, Architecture, Mo
 from iocbuilder.arginfo import *
 
 from iocbuilder.modules.motor import basic_asyn_motor, MotorRecord
+from iocbuilder.modules.tpmac import DeltaTau, DeltaTauCommsPort
 from iocbuilder.modules.asyn import AsynPort
 from iocbuilder.modules.calc import Calc
 from iocbuilder.modules.busy import Busy
@@ -19,7 +20,7 @@ class PmacUtil(Device):
 
 class autohome(AutoSubstitution):
     TemplateFile = 'autohome.template'
-SetSimulation(autohome, None)
+autohome.ArgInfo.descriptions["PORT"] = Ident("Delta tau motor controller comms port", DeltaTauCommsPort)
 
 def add_basic(cls):
     """Convenience function to add basic_asyn_motor attributes to a class that
@@ -30,33 +31,26 @@ def add_basic(cls):
     return cls
 
 try:
-    from iocbuilder.modules.pmacCoord import PmacCoord
+    from iocbuilder.modules.pmacCoord import PmacCoord, CS
 
     @add_basic
-    class dls_pmac_asyn_motor(AutoSubstitution, AutoProtocol):
+    class dls_pmac_asyn_motor(AutoSubstitution, AutoProtocol, MotorRecord):
         WarnMacros = False
         TemplateFile = 'dls_pmac_asyn_motor.template'
         ProtocolFiles = ['pmac.proto']
         Dependencies = (Busy,PmacCoord)
+    dls_pmac_asyn_motor.ArgInfo.descriptions["PORT"] = Ident("Delta tau motor controller", DeltaTau)
+    dls_pmac_asyn_motor.ArgInfo.descriptions["SPORT"] = Ident("Delta tau motor controller comms port", DeltaTauCommsPort)
 
-    def dls_pmac_asyn_motor_sim(**args):
-        # if it's a simulation, just connect it to a basic_asyn_motor
-        return basic_asyn_motor(**filter_dict(args, basic_asyn_motor.Arguments))
-    SetSimulation(dls_pmac_asyn_motor, dls_pmac_asyn_motor_sim)
-
+    @add_basic
+    class dls_pmac_cs_asyn_motor(AutoSubstitution):
+        WarnMacros = False
+        TemplateFile = 'dls_pmac_cs_asyn_motor.template'
+        Dependencies = (Busy,)
+    dls_pmac_cs_asyn_motor.ArgInfo.descriptions["PORT"] = Ident("Delta tau motor CS", CS)
+        
 except ImportError:
     print "# pmacCoord not found, dls_pmac_asyn_motor will not be available"
-
-@add_basic
-class dls_pmac_cs_asyn_motor(AutoSubstitution):
-    WarnMacros = False
-    TemplateFile = 'dls_pmac_cs_asyn_motor.template'
-    Dependencies = (Busy,)
-
-def dls_pmac_cs_asyn_motor_sim(**args):
-    # if it's a simulation, just connect it to a basic_asyn_motor
-    return basic_asyn_motor(**filter_dict(args, basic_asyn_motor.Arguments))
-SetSimulation(dls_pmac_cs_asyn_motor, dls_pmac_cs_asyn_motor_sim)
 
 class _pmacStatusAxis(AutoSubstitution, AutoProtocol):
     ProtocolFiles = ['pmac.proto']
@@ -80,6 +74,7 @@ class pmacStatus(AutoSubstitution, AutoProtocol):
             self.axes.append(
                 _pmacStatusAxis(
                     **filter_dict(args, _pmacStatusAxis.ArgInfo.Names())))
+pmacStatus.ArgInfo.descriptions["PORT"] = Ident("Delta tau motor controller comms port", DeltaTauCommsPort)
 
 class gather(AutoSubstitution, Device):
     '''Setup PMAC or Geobrick gathering template'''
