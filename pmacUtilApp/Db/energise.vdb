@@ -120,7 +120,7 @@ record(calcout, "$(PMAC)$(UMAC):MASK-02") {
   field(INPA, "$(PMAC)$(UMAC):SET-02")
   field(INPB, "$(PMAC)$(UMAC):GETENERGISE CA")
   field(OUT, "$(PMAC)$(UMAC):SETENERGISE.VAL PP")
-  field(OOPT, "On Change")
+  field(OOPT, "Every Time")
 }
 
 record(bo, "$(PMAC)$(UMAC):SET-03") {
@@ -150,7 +150,7 @@ record(calcout, "$(PMAC)$(UMAC):MASK-03") {
   field(INPA, "$(PMAC)$(UMAC):SET-03")
   field(INPB, "$(PMAC)$(UMAC):GETENERGISE CA")
   field(OUT, "$(PMAC)$(UMAC):SETENERGISE.VAL PP")
-  field(OOPT, "On Change")
+  field(OOPT, "Every Time")
 }
 
 record(calcout, "$(PMAC)$(UMAC):MASK-04") {
@@ -160,7 +160,7 @@ record(calcout, "$(PMAC)$(UMAC):MASK-04") {
   field(INPA, "$(PMAC)$(UMAC):SET-04")
   field(INPB, "$(PMAC)$(UMAC):GETENERGISE CA")
   field(OUT, "$(PMAC)$(UMAC):SETENERGISE.VAL PP")
-  field(OOPT, "On Change")
+  field(OOPT, "Every Time")
 }
 
 record(calcout, "$(PMAC)$(UMAC):MASK-01") {
@@ -170,7 +170,7 @@ record(calcout, "$(PMAC)$(UMAC):MASK-01") {
   field(INPA, "$(PMAC)$(UMAC):SET-01")
   field(INPB, "$(PMAC)$(UMAC):GETENERGISE CA")
   field(OUT, "$(PMAC)$(UMAC):SETENERGISE.VAL PP")
-  field(OOPT, "On Change")
+  field(OOPT, "Every Time")
 }
 
 record(ao, "$(PMAC)$(UMAC):SETENERGISE") {
@@ -280,7 +280,7 @@ record(calcout, "$(PMAC)$(UMAC):MASK-05") {
   field(INPA, "$(PMAC)$(UMAC):SET-05")
   field(INPB, "$(PMAC)$(UMAC):GETENERGISE CA")
   field(OUT, "$(PMAC)$(UMAC):SETENERGISE.VAL PP")
-  field(OOPT, "On Change")
+  field(OOPT, "Every Time")
 }
 
 record(bo, "$(PMAC)$(UMAC):SET-07") {
@@ -310,7 +310,7 @@ record(calcout, "$(PMAC)$(UMAC):MASK-06") {
   field(INPA, "$(PMAC)$(UMAC):SET-06")
   field(INPB, "$(PMAC)$(UMAC):GETENERGISE CA")
   field(OUT, "$(PMAC)$(UMAC):SETENERGISE.VAL PP")
-  field(OOPT, "On Change")
+  field(OOPT, "Every Time")
 }
 
 record(calcout, "$(PMAC)$(UMAC):MASK-07") {
@@ -320,7 +320,7 @@ record(calcout, "$(PMAC)$(UMAC):MASK-07") {
   field(INPA, "$(PMAC)$(UMAC):SET-07")
   field(INPB, "$(PMAC)$(UMAC):GETENERGISE CA")
   field(OUT, "$(PMAC)$(UMAC):SETENERGISE.VAL PP")
-  field(OOPT, "On Change")
+  field(OOPT, "Every Time")
 }
 
 record(bo, "$(PMAC)$(UMAC):SET-09") {
@@ -350,7 +350,7 @@ record(calcout, "$(PMAC)$(UMAC):MASK-09") {
   field(INPA, "$(PMAC)$(UMAC):SET-09")
   field(INPB, "$(PMAC)$(UMAC):GETENERGISE CA")
   field(OUT, "$(PMAC)$(UMAC):SETENERGISE.VAL PP")
-  field(OOPT, "On Change")
+  field(OOPT, "Every Time")
 }
 
 record(bo, "$(PMAC)$(UMAC):SET-11") {
@@ -380,7 +380,7 @@ record(calcout, "$(PMAC)$(UMAC):MASK-10") {
   field(INPA, "$(PMAC)$(UMAC):SET-10")
   field(INPB, "$(PMAC)$(UMAC):GETENERGISE CA")
   field(OUT, "$(PMAC)$(UMAC):SETENERGISE.VAL PP")
-  field(OOPT, "On Change")
+  field(OOPT, "Every Time")
 }
 
 record(calcout, "$(PMAC)$(UMAC):MASK-11") {
@@ -390,7 +390,7 @@ record(calcout, "$(PMAC)$(UMAC):MASK-11") {
   field(INPA, "$(PMAC)$(UMAC):SET-11")
   field(INPB, "$(PMAC)$(UMAC):GETENERGISE CA")
   field(OUT, "$(PMAC)$(UMAC):SETENERGISE.VAL PP")
-  field(OOPT, "On Change")
+  field(OOPT, "Every Time")
 }
 
 record(calcout, "$(PMAC)$(UMAC):MASK-12") {
@@ -400,7 +400,7 @@ record(calcout, "$(PMAC)$(UMAC):MASK-12") {
   field(INPA, "$(PMAC)$(UMAC):SET-12")
   field(INPB, "$(PMAC)$(UMAC):GETENERGISE CA")
   field(OUT, "$(PMAC)$(UMAC):SETENERGISE.VAL PP")
-  field(OOPT, "On Change")
+  field(OOPT, "Every Time")
 }
 
 record(bo, "$(PMAC)$(UMAC):SET-13") {
@@ -430,7 +430,7 @@ record(calcout, "$(PMAC)$(UMAC):MASK-13") {
   field(INPA, "$(PMAC)$(UMAC):SET-13")
   field(INPB, "$(PMAC)$(UMAC):GETENERGISE CA")
   field(OUT, "$(PMAC)$(UMAC):SETENERGISE.VAL PP")
-  field(OOPT, "On Change")
+  field(OOPT, "Every Time")
 }
 
 record(bo, "$(PMAC)$(UMAC):SET-15") {
@@ -460,7 +460,7 @@ record(calcout, "$(PMAC)$(UMAC):MASK-14") {
   field(INPA, "$(PMAC)$(UMAC):SET-14")
   field(INPB, "$(PMAC)$(UMAC):GETENERGISE CA")
   field(OUT, "$(PMAC)$(UMAC):SETENERGISE.VAL PP")
-  field(OOPT, "On Change")
+  field(OOPT, "Every Time")
 }
 
 record(calcout, "$(PMAC)$(UMAC):MASK-15") {
@@ -470,7 +470,7 @@ record(calcout, "$(PMAC)$(UMAC):MASK-15") {
   field(INPA, "$(PMAC)$(UMAC):SET-15")
   field(INPB, "$(PMAC)$(UMAC):GETENERGISE CA")
   field(OUT, "$(PMAC)$(UMAC):SETENERGISE.VAL PP")
-  field(OOPT, "On Change")
+  field(OOPT, "Every Time")
 }
 
 record(calcout, "$(PMAC)$(UMAC):MASK-16") {
@@ -480,7 +480,7 @@ record(calcout, "$(PMAC)$(UMAC):MASK-16") {
   field(INPA, "$(PMAC)$(UMAC):SET-16")
   field(INPB, "$(PMAC)$(UMAC):GETENERGISE CA")
   field(OUT, "$(PMAC)$(UMAC):SETENERGISE.VAL PP")
-  field(OOPT, "On Change")
+  field(OOPT, "Every Time")
 }
 
 record(calcout, "$(PMAC)$(UMAC):MASK-08") {
@@ -490,7 +490,7 @@ record(calcout, "$(PMAC)$(UMAC):MASK-08") {
   field(INPA, "$(PMAC)$(UMAC):SET-08")
   field(INPB, "$(PMAC)$(UMAC):GETENERGISE CA")
   field(OUT, "$(PMAC)$(UMAC):SETENERGISE.VAL PP")
-  field(OOPT, "On Change")
+  field(OOPT, "Every Time")
 }
 
 record(fanout, "$(PMAC)$(UMAC):FLNK1") {
