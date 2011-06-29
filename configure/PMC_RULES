@@ -29,7 +29,7 @@ endef
 # rule to make a homing plc from generate_homing_plcs.py
 PLCs/%_HM.pmc: ../configure/generate_homing_plcs.py ../configure/RELEASE
 	@echo '***' Autogenerating homing plc \"$@\"
-	@PYTHONPATH=$(PMACUTIL)/etc ./$< $@
+	PYTHONPATH=$(PMACUTIL)/etc ./$< $@
 
 # rule to make i65.pmc
 DIRNAME = $(shell basename $(shell pwd))

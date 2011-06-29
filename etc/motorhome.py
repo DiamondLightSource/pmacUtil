@@ -132,6 +132,8 @@ PMAC = 0
 GEOBRICK = 1
 ## Geobrick controller (ctype passed to PLC.__init__()).
 BRICK = 1
+## Twinned Geobrick (a la I15)
+TWINBRICK = 2
 
 ## The distance in counts to move when doing large moves
 LARGEJ = 100000000
@@ -179,8 +181,13 @@ class PLC:
         self.ctype = ctype
         if self.ctype == PMAC:
             self.__d["controller"] = "PMAC"
-        else:
+        elif self.ctype == BRICK:
             self.__d["controller"] = "GeoBrick"
+        elif self.ctype == TWINBRICK:
+            self.__d["controller"] = "Twinned GeoBrick"
+        else:
+            raise TypeError, "Invalid ctype: %d, should be 0, 1 or 2"
+            
         ## Controls planting of protection PLC code
         self.protection_plc = protection_plc
 
@@ -259,19 +266,25 @@ class PLC:
         self.__d["comment"] += "; Axis %d: group = %d" % (axis, group)
         for eaxis in enc_axes:
             ed = dict(ax = eaxis)
-            if self.ctype == GEOBRICK:
-                # nx for internal amp, GEOBRICK            
+            if self.ctype == GEOBRICK or (self.ctype == TWINBRICK and eaxis < 9):
+                # nx for internal amp or redirected encoder, GEOBRICK            
                 ed["nx"] = ((eaxis-1)/4)*10 + ((eaxis-1)%4+1) 
+            elif self.ctype == TWINBRICK:
+                # mx for slave brick, TWINBRICK, encoders cannot be redirected                        
+                ed["mx"] = ((eaxis-9)/4)*10 + ((eaxis-9)%4+1)            
             else:
                 # macrostation number, PMAC             
                 ed["ms"] = 2*(eaxis-1)-(eaxis-1)%2
             d["enc_axes"].append(ed)                           
         if enc_axes:
             self.__d["comment"] += ", enc_axes = %s" % enc_axes
-        if self.ctype == GEOBRICK:
+        if self.ctype == GEOBRICK or self.ctype == TWINBRICK:
             if axis < 9:
                 # nx for internal amp, GEOBRICK            
                 d["nx"] = ((axis-1)/4)*10 + ((axis-1)%4+1) 
+            elif self.ctype == TWINBRICK:
+                # mx for slave brick, TWINBRICK                        
+                d["mx"] = ((axis-9)/4)*10 + ((axis-9)%4+1)
             else:
                 # macrostation number for external amp, GEOBRICK                        
                 d["ms"] = 2*(axis-9)-(axis-9)%2 
@@ -324,7 +337,10 @@ class PLC:
             for d in [m] + m["enc_axes"]:
                 if d.has_key("nx"):                
                     # geobrick internal axis
-                    self.__cmd1.append("i7%02d2=%s"%(d["nx"],val)) 
+                    self.__cmd1.append("i7%02d2=%s"%(d["nx"],val))
+                elif d.has_key("mx"):
+                    # geobrick slave axis
+                    self.__cmd1.append("MXW0,i7%02d2,%s"%(d["mx"],val))                 
                 else:
                     # ms external axis                  
                     self.__cmd1.append("MSW%d,i912,%s"%(d["ms"],val))
@@ -437,6 +453,9 @@ class PLC:
         for i,m in ems:
             if m.has_key("nx"):
                 cmds.append("P%d%02d=i7%02d2"%(plc,i+36,m["nx"]))
+            elif m.has_key("mx"):
+                cmds.append("MXR0,i7%02d2,P%d%02d"%(m["mx"],plc,i+36))            
+                mschecks.append("P%d%02d=0" % (plc,i+36))                
             else:
                 cmds.append("MSR%d,i912,P%d%02d"%(m["ms"],plc,i+36))
                 mschecks.append("P%d%02d=0" % (plc,i+36))
@@ -548,6 +567,8 @@ class PLC:
                 for i,m in ems:
                     if m.has_key("nx"):
                         cmds.append("P%d%02d=i7%02d3"%(plc,i+52,m["nx"]))
+                    elif m.has_key("mx"):
+                        cmds.append("MXR0,i7%02d3,P%d%02d"%(m["mx"],plc,i+52))                        
                     else:
                         cmds.append("MSR%d,i913,P%d%02d"%(m["ms"],plc,i+52))                             
                 f.write("\t\t" + " ".join(cmds)+"\n")
@@ -658,6 +679,8 @@ class PLC:
             for d in [m] + m["enc_axes"]:        
                 if d.has_key("nx"):
                     cmds.append("i7%02d2=P%d%02d"%(d["nx"],plc,i+36))
+                elif d.has_key("mx"):
+                    cmds.append("MXW0,i7%02d2,P%d%02d"%(d["mx"],plc,i+36))                    
                 else:
                     cmds.append("MSW%d,i912,P%d%02d"%(d["ms"],plc,i+36))   
         f.write(" ".join(cmds)+"\n")        
