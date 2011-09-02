@@ -12,7 +12,7 @@
 # % macro, NAXES,   Number of axes
 #
 # This associates an edm screen with the template
-# % gui, $(name), edm, pmacStatus.edl, pmac=$(DEVICE)
+# % gui, $(name=), edm, pmacStatus.edl, pmac=$(DEVICE)
 #
 # Scan rate for pmac status, plc querying, cpu load querying
 record(fanout, "$(DEVICE):ReadBack") {
@@ -45,7 +45,7 @@ record(mbbi, "$(DEVICE):PMACTYPE") {
 
 # % archiver 10 Monitor
 # This makes the component icon reflect the severity
-# % gui, $(name), sevr
+# % gui, $(name=), sevr
 record(ai, "$(DEVICE):CPULOAD") {
   field(DTYP, "stream")
   field(INP, "@pmac.proto getVar(P$(PLC)75) $(PORT)")

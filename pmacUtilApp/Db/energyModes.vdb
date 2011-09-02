@@ -16,7 +16,7 @@
 # OFFSETRBV - PV name for the beam offset readback (default is $(OFFSET).RBV)
 ##################################################################################
 
-# % gdatag,template,simpleBinary,$(gda_name).ENERGYMODE,$(gda_desc) energy mode
+# % gdatag,template,simpleBinary,$(gda_name=).ENERGYMODE,$(gda_desc=) energy mode
 
 # Write down the mode to the PMAC Q-variable
 record(asyn, "$(P):SETMODE") {
@@ -41,7 +41,7 @@ record(ai, "$(P):LASTOFFSET") {
 }
 
 # % autosave 2 VAL
-# % gdatag,binary,rw,$(gda_name).ENERGYMODE,RECORD,Energy Control Mode
+# % gdatag,binary,rw,$(gda_name=).ENERGYMODE,RECORD,Energy Control Mode
 record(bo, "$(P):ENERGYMODE") {
   field(VAL, "0")
   field(OUT, "$(P):MODESTRING.A PP")
