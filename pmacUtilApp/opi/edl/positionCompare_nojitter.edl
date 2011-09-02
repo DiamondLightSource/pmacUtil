@@ -3,8 +3,8 @@ beginScreenProperties
 major 4
 minor 0
 release 1
-x 1566
-y 76
+x 1424
+y 108
 w 340
 h 840
 font "arial-medium-r-18.0"
@@ -48,9 +48,9 @@ major 4
 minor 0
 release 0
 x 10
-y 595
+y 590
 w 320
-h 210
+h 215
 lineColor index 14
 fill
 fillColor index 5
@@ -627,7 +627,7 @@ x 160
 y 455
 w 120
 h 35
-controlPv "$(P)$(Q):PULSE"
+controlPv "$(P)$(Q):STEP"
 displayMode "decimal"
 precision 6
 fgColor index 25
@@ -647,14 +647,14 @@ minor 1
 release 0
 x 15
 y 465
-w 137
+w 85
 h 14
 font "arial-medium-r-12.0"
 fgColor index 14
 bgColor index 10
 useDisplayBg
 value {
-  "Pulse Width (high + low)"
+  "Step Increment"
 }
 autoSize
 endObjectProperties
@@ -705,14 +705,14 @@ minor 1
 release 0
 x 15
 y 550
-w 121
+w 133
 h 14
 font "arial-medium-r-12.0"
 fgColor index 14
 bgColor index 10
 useDisplayBg
 value {
-  "Pulse Width Demand"
+  "Pulse Width (High time)"
 }
 autoSize
 endObjectProperties
@@ -747,7 +747,7 @@ x 160
 y 520
 w 120
 h 20
-controlPv "$(P)$(Q):CONVSTEP"
+controlPv "CALC\\\{A*2\}($(P)$(Q):CONVSTEP)"
 fgColor index 16
 fgAlarm
 bgColor index 10
@@ -763,14 +763,14 @@ minor 1
 release 0
 x 15
 y 525
-w 115
+w 138
 h 14
 font "arial-medium-r-12.0"
 fgColor index 14
 bgColor index 10
 useDisplayBg
 value {
-  "Pulse High Demand"
+  "Step Increment Demand"
 }
 autoSize
 endObjectProperties
@@ -782,7 +782,7 @@ major 4
 minor 1
 release 0
 x 10
-y 220
+y 225
 w 51
 h 14
 font "arial-medium-r-12.0"
@@ -822,7 +822,7 @@ major 4
 minor 1
 release 0
 x 285
-y 780
+y 655
 w 37
 h 14
 font "arial-medium-r-12.0"
@@ -931,26 +931,6 @@ value {
 autoSize
 endObjectProperties
 
-# (Static Text)
-object activeXTextClass
-beginObjectProperties
-major 4
-minor 1
-release 0
-x 285
-y 705
-w 37
-h 14
-font "arial-medium-r-12.0"
-fgColor index 14
-bgColor index 10
-useDisplayBg
-value {
-  "counts"
-}
-autoSize
-endObjectProperties
-
 # (Textupdate)
 object TextupdateClass
 beginObjectProperties
@@ -961,7 +941,7 @@ x 160
 y 700
 w 120
 h 20
-controlPv "$(P)$(Q):STEP:RBV"
+controlPv "$(P)$(Q):PULSE:RBV"
 fgColor index 16
 fgAlarm
 bgColor index 10
@@ -977,14 +957,14 @@ minor 1
 release 0
 x 15
 y 705
-w 101
+w 107
 h 14
 font "arial-medium-r-12.0"
 fgColor index 14
 bgColor index 10
 useDisplayBg
 value {
-  "Pulse High Actual"
+  "Pulse Width Actual"
 }
 autoSize
 endObjectProperties
@@ -1087,6 +1067,24 @@ beginObjectProperties
 major 10
 minor 0
 release 0
+x 280
+y 455
+w 45
+h 35
+controlPv "$(P)$(Q):EGU"
+fgColor index 14
+fgAlarm
+bgColor index 5
+fill
+font "arial-medium-r-12.0"
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
 x 160
 y 750
 w 120
@@ -1127,14 +1125,14 @@ minor 1
 release 0
 x 15
 y 500
-w 247
+w 241
 h 14
 font "arial-medium-r-12.0"
 fgColor index 14
 bgColor index 10
 useDisplayBg
 value {
-  "Pulse=0 sets output high over whole window"
+  "Step=0 sets output high over whole window"
 }
 autoSize
 endObjectProperties
@@ -1260,24 +1258,6 @@ font "arial-bold-r-14.0"
 objType "controls"
 endObjectProperties
 
-# (Textupdate)
-object TextupdateClass
-beginObjectProperties
-major 10
-minor 0
-release 0
-x 280
-y 455
-w 45
-h 35
-controlPv "$(P)$(Q):EGU"
-fgColor index 14
-fgAlarm
-bgColor index 5
-fill
-font "arial-medium-r-12.0"
-endObjectProperties
-
 # (Static Text)
 object activeXTextClass
 beginObjectProperties
@@ -1285,7 +1265,7 @@ major 4
 minor 1
 release 0
 x 285
-y 655
+y 705
 w 37
 h 14
 font "arial-medium-r-12.0"

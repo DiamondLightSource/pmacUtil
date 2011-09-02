@@ -18,7 +18,7 @@
 # i.e. one or off as defined by the position compare setup below
 # - Start, stop, step and pulse setup how the output behaves in auto mode
 # - Init determines the initial state of the output before it toggles when it
-#   reaches the start position
+# reaches the start position
 # \section usage_sec Use cases
 # There are a few ways that position compare can be used:
 # - Output high between two positions
@@ -171,19 +171,12 @@ record(longout, "$(P)$(Q):STOP:SET") {
   field(OUT, "@pmac.proto setIntVar(P$(PLC)92) $(PORT)")
 }
 
-record(ai, "$(P)$(Q):STEP:RBV") {
-  field(DESC, "convert str to float")
-  field(DTYP, "stream")
-  field(FLNK, "$(P)$(Q):STEP:SYNC")
-  field(INP, "@pmac.proto getIntVar(P$(PLC)83) $(PORT)")
-}
-
 record(calcout, "$(P)$(Q):STEP:SYNC") {
   field(DESC, "sync demand with rbv")
   field(INPB, "$(motor).MRES")
-  field(CALC, "A*B")
+  field(CALC, "A*B*2")
   field(OUT, "$(P)$(Q):STEP PP")
-  field(INPA, "$(P)$(Q):STEP:RBV")
+  field(INPA, "$(P)$(Q):PULSE:RBV CP")
 }
 
 record(ao, "$(P)$(Q):STEP") {
@@ -194,24 +187,23 @@ record(ao, "$(P)$(Q):STEP") {
 record(calcout, "$(P)$(Q):CONVSTEP") {
   field(DESC, "Convert step to cts")
   field(INPB, "$(motor).MRES")
-  field(CALC, "FLOOR(A/B+0.5)")
-  field(OUT, "$(P)$(Q):STEP:SET PP")
+  field(CALC, "FLOOR(A/B/2+0.5)")
+  field(OUT, "$(P)$(Q):PULSE:SET PP")
 }
 
-record(longout, "$(P)$(Q):STEP:SET") {
-  field(DESC, "Write step incr to pmac")
+record(ai, "$(P)$(Q):PULSE:RBV") {
+  field(DESC, "convert str to float")
   field(DTYP, "stream")
-  field(SDIS, "$(P)$(Q):STEP:SYNC.PACT")
-  field(FLNK, "$(P)$(Q):DELAY.PROC")
-  field(OUT, "@pmac.proto setIntVar(P$(PLC)93) $(PORT)")
+  field(FLNK, "$(P)$(Q):PULSE:SYNC")
+  field(INP, "@pmac.proto getIntVar(P$(PLC)84) $(PORT)")
 }
 
 record(calcout, "$(P)$(Q):PULSE:SYNC") {
   field(DESC, "sync demand with rbv")
   field(INPB, "$(motor).MRES")
-  field(CALC, "A*B*2")
+  field(CALC, "A*B")
   field(OUT, "$(P)$(Q):PULSE PP")
-  field(INPA, "$(P)$(Q):STEP:RBV CP")
+  field(INPA, "$(P)$(Q):PULSE:RBV")
 }
 
 record(ao, "$(P)$(Q):PULSE") {
@@ -220,10 +212,18 @@ record(ao, "$(P)$(Q):PULSE") {
 }
 
 record(calcout, "$(P)$(Q):CONVPULSE") {
-  field(DESC, "Convert pulse to step")
+  field(DESC, "Convert pulse to cts")
   field(INPB, "$(motor).MRES")
-  field(CALC, "FLOOR(A/B/2+0.5)")
-  field(OUT, "$(P)$(Q):STEP:SET PP")
+  field(CALC, "FLOOR(A/B+0.5)")
+  field(OUT, "$(P)$(Q):PULSE:SET PP")
+}
+
+record(longout, "$(P)$(Q):PULSE:SET") {
+  field(DESC, "Write pulse width to pmac")
+  field(DTYP, "stream")
+  field(SDIS, "$(P)$(Q):PULSE:SYNC.PACT")
+  field(FLNK, "$(P)$(Q):DELAY.PROC")
+  field(OUT, "@pmac.proto setIntVar(P$(PLC)94) $(PORT)")
 }
 
 record(bi, "$(P)$(Q):STA") {
@@ -239,7 +239,7 @@ record(fanout, "$(P)$(Q):RBVFAN") {
   field(LNK1, "$(P)$(Q):CTRL:RBV")
   field(LNK2, "$(P)$(Q):START:RBV")
   field(LNK3, "$(P)$(Q):STOP:RBV")
-  field(LNK4, "$(P)$(Q):STEP:RBV")
+  field(LNK5, "$(P)$(Q):PULSE:RBV")
   field(LNK6, "$(P)$(Q):STA")
   field(FLNK, "$(P)$(Q):RBVFAN2")
 }
@@ -256,10 +256,10 @@ record(mbbi, "$(P)$(Q):STATE") {
 }
 
 record(calcout, "$(P)$(Q):NPULSES") {
-  field(CALC, "A=B?-1:(C=0|D=0)?1:(ABS(A-B)-D)/C")
+  field(CALC, "A=B?-1:D=0?1:ABS(A-B)/(2*D)")
   field(INPA, "$(P)$(Q):START:RBV CP")
   field(INPB, "$(P)$(Q):STOP:RBV CP")
-  field(INPC, "$(P)$(Q):STEP:RBV CP")
+  field(INPD, "$(P)$(Q):PULSE:RBV CP")
 }
 
 record(bi, "$(P)$(Q):INIT:RBV") {
@@ -312,13 +312,6 @@ record(ai, "$(P)$(Q):STOP:RBV") {
   field(INP, "@pmac.proto getIntVar(P$(PLC)82) $(PORT)")
 }
 
-record(calc, "$(P)$(Q):TIMINGMATTERS") {
-  field(DESC, "Check if setup timing matters")
-  field(CALC, "A!=B")
-  field(INPA, "$(P)$(Q):CONVSTART CP")
-  field(INPB, "$(P)$(Q):CONVSTOP CP")
-}
-
 record(stringout, "$(P)$(Q):SENDMSG") {
   field(DESC, "send string to pmac")
   field(DTYP, "stream")
@@ -326,7 +319,7 @@ record(stringout, "$(P)$(Q):SENDMSG") {
 }
 
 #! Further lines contain data used by VisualDCT
-#! View(2886,2072,1.2)
+#! View(1551,1963,1.2)
 #! Record("$(P)$(Q):UPDATE",1780,1520,0,0,"$(P)$(Q):UPDATE")
 #! Field("$(P)$(Q):UPDATE.FLNK",16777215,0,"$(P)$(Q):UPDATE.FLNK")
 #! Link("$(P)$(Q):UPDATE.FLNK","$(P)$(Q):RBVFAN")
@@ -379,7 +372,6 @@ record(stringout, "$(P)$(Q):SENDMSG") {
 #! Field("$(P)$(Q):CONVSTART.INPC",16777215,1,"$(P)$(Q):CONVSTART.INPC")
 #! Field("$(P)$(Q):CONVSTART.OUT",16777215,1,"$(P)$(Q):CONVSTART.OUT")
 #! Link("$(P)$(Q):CONVSTART.OUT","$(P)$(Q):START:SET.VAL")
-#! Field("$(P)$(Q):CONVSTART.VAL",16777215,0,"$(P)$(Q):CONVSTART.VAL")
 #! Record("$(P)$(Q):START:SET",3400,1671,0,0,"$(P)$(Q):START:SET")
 #! Field("$(P)$(Q):START:SET.VAL",16777215,0,"$(P)$(Q):START:SET.VAL")
 #! Field("$(P)$(Q):START:SET.SDIS",16777215,0,"$(P)$(Q):START:SET.SDIS")
@@ -402,7 +394,6 @@ record(stringout, "$(P)$(Q):SENDMSG") {
 #! Field("$(P)$(Q):CONVSTOP.A",16777215,0,"$(P)$(Q):CONVSTOP.A")
 #! Field("$(P)$(Q):CONVSTOP.INPB",16777215,1,"$(P)$(Q):CONVSTOP.INPB")
 #! Field("$(P)$(Q):CONVSTOP.INPC",16777215,1,"$(P)$(Q):CONVSTOP.INPC")
-#! Field("$(P)$(Q):CONVSTOP.VAL",16777215,1,"$(P)$(Q):CONVSTOP.VAL")
 #! Field("$(P)$(Q):CONVSTOP.OUT",16777215,1,"$(P)$(Q):CONVSTOP.OUT")
 #! Link("$(P)$(Q):CONVSTOP.OUT","$(P)$(Q):STOP:SET.VAL")
 #! Record("$(P)$(Q):STOP:SET",3400,1945,0,0,"$(P)$(Q):STOP:SET")
@@ -411,17 +402,12 @@ record(stringout, "$(P)$(Q):SENDMSG") {
 #! Link("$(P)$(Q):STOP:SET.SDIS","$(P)$(Q):STOP:SYNC.PACT")
 #! Field("$(P)$(Q):STOP:SET.FLNK",16777215,1,"$(P)$(Q):STOP:SET.FLNK")
 #! Link("$(P)$(Q):STOP:SET.FLNK","$(P)$(Q):DELAY")
-#! Record("$(P)$(Q):STEP:RBV",2320,2185,0,0,"$(P)$(Q):STEP:RBV")
-#! Field("$(P)$(Q):STEP:RBV.FLNK",16777215,1,"$(P)$(Q):STEP:RBV.FLNK")
-#! Link("$(P)$(Q):STEP:RBV.FLNK","$(P)$(Q):STEP:SYNC")
-#! Field("$(P)$(Q):STEP:RBV.VAL",16777215,1,"$(P)$(Q):STEP:RBV.VAL")
 #! Record("$(P)$(Q):STEP:SYNC",2580,2131,0,0,"$(P)$(Q):STEP:SYNC")
 #! Field("$(P)$(Q):STEP:SYNC.INPB",16777215,1,"$(P)$(Q):STEP:SYNC.INPB")
 #! Field("$(P)$(Q):STEP:SYNC.OUT",16777215,1,"$(P)$(Q):STEP:SYNC.OUT")
 #! Link("$(P)$(Q):STEP:SYNC.OUT","$(P)$(Q):STEP.VAL")
-#! Field("$(P)$(Q):STEP:SYNC.PACT",16777215,1,"$(P)$(Q):STEP:SYNC.PACT")
 #! Field("$(P)$(Q):STEP:SYNC.INPA",16777215,0,"$(P)$(Q):STEP:SYNC.INPA")
-#! Link("$(P)$(Q):STEP:SYNC.INPA","$(P)$(Q):STEP:RBV.VAL")
+#! Link("$(P)$(Q):STEP:SYNC.INPA","$(P)$(Q):PULSE:RBV.VAL")
 #! Record("$(P)$(Q):STEP",2840,2175,0,0,"$(P)$(Q):STEP")
 #! Field("$(P)$(Q):STEP.OUT",16777215,1,"$(P)$(Q):STEP.OUT")
 #! Link("$(P)$(Q):STEP.OUT","$(P)$(Q):CONVSTEP.A")
@@ -430,28 +416,33 @@ record(stringout, "$(P)$(Q):SENDMSG") {
 #! Field("$(P)$(Q):CONVSTEP.A",16777215,0,"$(P)$(Q):CONVSTEP.A")
 #! Field("$(P)$(Q):CONVSTEP.INPB",16777215,1,"$(P)$(Q):CONVSTEP.INPB")
 #! Field("$(P)$(Q):CONVSTEP.OUT",16777215,1,"$(P)$(Q):CONVSTEP.OUT")
-#! Link("$(P)$(Q):CONVSTEP.OUT","$(P)$(Q):STEP:SET.VAL")
-#! Record("$(P)$(Q):STEP:SET",3380,2151,0,0,"$(P)$(Q):STEP:SET")
-#! Field("$(P)$(Q):STEP:SET.VAL",16777215,1,"$(P)$(Q):STEP:SET.VAL")
-#! Field("$(P)$(Q):STEP:SET.SDIS",16777215,0,"$(P)$(Q):STEP:SET.SDIS")
-#! Link("$(P)$(Q):STEP:SET.SDIS","$(P)$(Q):STEP:SYNC.PACT")
-#! Field("$(P)$(Q):STEP:SET.FLNK",16777215,1,"$(P)$(Q):STEP:SET.FLNK")
-#! Link("$(P)$(Q):STEP:SET.FLNK","$(P)$(Q):DELAY")
-#! Record("$(P)$(Q):PULSE:SYNC",2600,2351,0,0,"$(P)$(Q):PULSE:SYNC")
+#! Link("$(P)$(Q):CONVSTEP.OUT","$(P)$(Q):PULSE:SET.VAL")
+#! Record("$(P)$(Q):PULSE:RBV",2320,2405,0,0,"$(P)$(Q):PULSE:RBV")
+#! Field("$(P)$(Q):PULSE:RBV.FLNK",16777215,1,"$(P)$(Q):PULSE:RBV.FLNK")
+#! Link("$(P)$(Q):PULSE:RBV.FLNK","$(P)$(Q):PULSE:SYNC")
+#! Field("$(P)$(Q):PULSE:RBV.VAL",16777215,0,"$(P)$(Q):PULSE:RBV.VAL")
+#! Record("$(P)$(Q):PULSE:SYNC",2580,2351,0,0,"$(P)$(Q):PULSE:SYNC")
 #! Field("$(P)$(Q):PULSE:SYNC.INPB",16777215,1,"$(P)$(Q):PULSE:SYNC.INPB")
 #! Field("$(P)$(Q):PULSE:SYNC.OUT",16777215,1,"$(P)$(Q):PULSE:SYNC.OUT")
 #! Link("$(P)$(Q):PULSE:SYNC.OUT","$(P)$(Q):PULSE.VAL")
+#! Field("$(P)$(Q):PULSE:SYNC.PACT",16777215,1,"$(P)$(Q):PULSE:SYNC.PACT")
 #! Field("$(P)$(Q):PULSE:SYNC.INPA",16777215,0,"$(P)$(Q):PULSE:SYNC.INPA")
-#! Link("$(P)$(Q):PULSE:SYNC.INPA","$(P)$(Q):STEP:RBV.VAL")
-#! Record("$(P)$(Q):PULSE",2860,2355,0,0,"$(P)$(Q):PULSE")
+#! Link("$(P)$(Q):PULSE:SYNC.INPA","$(P)$(Q):PULSE:RBV.VAL")
+#! Record("$(P)$(Q):PULSE",2840,2395,0,0,"$(P)$(Q):PULSE")
 #! Field("$(P)$(Q):PULSE.OUT",16777215,1,"$(P)$(Q):PULSE.OUT")
 #! Link("$(P)$(Q):PULSE.OUT","$(P)$(Q):CONVPULSE.A")
 #! Field("$(P)$(Q):PULSE.VAL",16777215,1,"$(P)$(Q):PULSE.VAL")
-#! Record("$(P)$(Q):CONVPULSE",3120,2325,0,0,"$(P)$(Q):CONVPULSE")
+#! Record("$(P)$(Q):CONVPULSE",3120,2345,0,0,"$(P)$(Q):CONVPULSE")
 #! Field("$(P)$(Q):CONVPULSE.A",16777215,0,"$(P)$(Q):CONVPULSE.A")
 #! Field("$(P)$(Q):CONVPULSE.INPB",16777215,1,"$(P)$(Q):CONVPULSE.INPB")
 #! Field("$(P)$(Q):CONVPULSE.OUT",16777215,1,"$(P)$(Q):CONVPULSE.OUT")
-#! Link("$(P)$(Q):CONVPULSE.OUT","$(P)$(Q):STEP:SET.VAL")
+#! Link("$(P)$(Q):CONVPULSE.OUT","$(P)$(Q):PULSE:SET.VAL")
+#! Record("$(P)$(Q):PULSE:SET",3380,2371,0,0,"$(P)$(Q):PULSE:SET")
+#! Field("$(P)$(Q):PULSE:SET.VAL",16777215,1,"$(P)$(Q):PULSE:SET.VAL")
+#! Field("$(P)$(Q):PULSE:SET.SDIS",16777215,0,"$(P)$(Q):PULSE:SET.SDIS")
+#! Link("$(P)$(Q):PULSE:SET.SDIS","$(P)$(Q):PULSE:SYNC.PACT")
+#! Field("$(P)$(Q):PULSE:SET.FLNK",16777215,1,"$(P)$(Q):PULSE:SET.FLNK")
+#! Link("$(P)$(Q):PULSE:SET.FLNK","$(P)$(Q):DELAY")
 #! Record("$(P)$(Q):STA",2060,2411,0,0,"$(P)$(Q):STA")
 #! Record("$(P)$(Q):RBVFAN",1760,1843,0,0,"$(P)$(Q):RBVFAN")
 #! Field("$(P)$(Q):RBVFAN.LNK1",16777215,1,"$(P)$(Q):RBVFAN.LNK1")
@@ -460,8 +451,8 @@ record(stringout, "$(P)$(Q):SENDMSG") {
 #! Link("$(P)$(Q):RBVFAN.LNK2","$(P)$(Q):START:RBV")
 #! Field("$(P)$(Q):RBVFAN.LNK3",16777215,1,"$(P)$(Q):RBVFAN.LNK3")
 #! Link("$(P)$(Q):RBVFAN.LNK3","$(P)$(Q):STOP:RBV")
-#! Field("$(P)$(Q):RBVFAN.LNK4",16777215,1,"$(P)$(Q):RBVFAN.LNK4")
-#! Link("$(P)$(Q):RBVFAN.LNK4","$(P)$(Q):STEP:RBV")
+#! Field("$(P)$(Q):RBVFAN.LNK5",16777215,1,"$(P)$(Q):RBVFAN.LNK5")
+#! Link("$(P)$(Q):RBVFAN.LNK5","$(P)$(Q):PULSE:RBV")
 #! Field("$(P)$(Q):RBVFAN.LNK6",16777215,1,"$(P)$(Q):RBVFAN.LNK6")
 #! Link("$(P)$(Q):RBVFAN.LNK6","$(P)$(Q):STA")
 #! Field("$(P)$(Q):RBVFAN.FLNK",16777215,1,"$(P)$(Q):RBVFAN.FLNK")
@@ -473,8 +464,8 @@ record(stringout, "$(P)$(Q):SENDMSG") {
 #! Link("$(P)$(Q):NPULSES.INPA","$(P)$(Q):START:RBV.VAL")
 #! Field("$(P)$(Q):NPULSES.INPB",16777215,1,"$(P)$(Q):NPULSES.INPB")
 #! Link("$(P)$(Q):NPULSES.INPB","$(P)$(Q):STOP:RBV.VAL")
-#! Field("$(P)$(Q):NPULSES.INPC",16777215,1,"$(P)$(Q):NPULSES.INPC")
-#! Link("$(P)$(Q):NPULSES.INPC","$(P)$(Q):STEP:RBV.VAL")
+#! Field("$(P)$(Q):NPULSES.INPD",16777215,1,"$(P)$(Q):NPULSES.INPD")
+#! Link("$(P)$(Q):NPULSES.INPD","$(P)$(Q):PULSE:RBV.VAL")
 #! Record("$(P)$(Q):INIT:RBV",2320,2597,0,0,"$(P)$(Q):INIT:RBV")
 #! Field("$(P)$(Q):INIT:RBV.FLNK",16777215,1,"$(P)$(Q):INIT:RBV.FLNK")
 #! Link("$(P)$(Q):INIT:RBV.FLNK","$(P)$(Q):INIT:SYNC")
@@ -507,10 +498,4 @@ record(stringout, "$(P)$(Q):SENDMSG") {
 #! Field("$(P)$(Q):STOP:RBV.FLNK",16777215,1,"$(P)$(Q):STOP:RBV.FLNK")
 #! Link("$(P)$(Q):STOP:RBV.FLNK","$(P)$(Q):STOP:SYNC")
 #! Field("$(P)$(Q):STOP:RBV.VAL",16777215,0,"$(P)$(Q):STOP:RBV.VAL")
-#! Record("$(P)$(Q):TIMINGMATTERS",3760,1765,0,1,"$(P)$(Q):TIMINGMATTERS")
-#! Field("$(P)$(Q):TIMINGMATTERS.INPA",16777215,0,"$(P)$(Q):TIMINGMATTERS.INPA")
-#! Link("$(P)$(Q):TIMINGMATTERS.INPA","$(P)$(Q):TIMINGMATTERS/INPA")
-#! Field("$(P)$(Q):TIMINGMATTERS.INPB",16777215,0,"$(P)$(Q):TIMINGMATTERS.INPB")
-#! Link("$(P)$(Q):TIMINGMATTERS.INPB","$(P)$(Q):CONVSTOP.VAL")
-#! Connector("$(P)$(Q):TIMINGMATTERS/INPA","$(P)$(Q):CONVSTART.VAL",3320,1850,16777215,"",0)
-#! Record("$(P)$(Q):SENDMSG",2120,3020,0,1,"$(P)$(Q):SENDMSG")
+#! Record("$(P)$(Q):SENDMSG",1980,1800,0,1,"$(P)$(Q):SENDMSG")

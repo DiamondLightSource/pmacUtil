@@ -35,7 +35,7 @@ CLOSE
 ;####################################################
 
 ;; ######## Geobrick specific setup #################
-$(BRICK=;)#define setAutoIncr M$(eaxis)10=scaledStep
+$(BRICK=;)#define setAutoIncr M$(eaxis)10=scaledPulse
 $(BRICK=;)#define setCmpA M$(eaxis)08=cmpA
 $(BRICK=;)#define setCmpB M$(eaxis)09=cmpB
 $(BRICK=;)#define setOutputInit M$(eaxis)12=init
@@ -43,7 +43,7 @@ $(BRICK=;)#define setOutputOutput M$(eaxis)12=output
 $(BRICK=;)#define writeOutput M$(eaxis)11=one
 
 ;; ######## VME PMAC specific setup #################
-$(PMAC=;)#define setAutoIncr MSW$(ms),i923,scaledStep
+$(PMAC=;)#define setAutoIncr MSW$(ms),i923,scaledPulse
 $(PMAC=;)#define setCmpA MSW$(ms),i925,cmpA
 $(PMAC=;)#define setCmpB MSW$(ms),i926,cmpB
 $(PMAC=;)#define setOutputInit MSW$(ms),i929,init
@@ -68,14 +68,14 @@ $(PMAC=;)#define writeOutput MSW$(ms),i928,one
 #define start p$(PLC)81
 ;; End of position compare window
 #define stop p$(PLC)82
-;; Step used for auto increment of position compare registers
-#define step p$(PLC)83
+;; Distance between compare registers in auto increment mode
+#define pulse p$(PLC)84
 
 ;; demand values set by epics
 #define demandOutput p$(PLC)90
 #define demandStart p$(PLC)91
 #define demandStop p$(PLC)92
-#define demandStep p$(PLC)93
+#define demandPulse p$(PLC)94
 #define demandInit p$(PLC)97
 
 ;; This is the saved home offset
@@ -145,8 +145,8 @@ scaledBigNumber = BIGNUMBER * SCALE
 ;; This flag tells us if we are watching for rollover
 #define needRollover p$(PLC)18
 
-;; This is for the scaled version of step
-#define scaledStep p$(PLC)19
+;; This is for the scaled version of pulse
+#define scaledPulse p$(PLC)19
 
 one=1
 zero=0
@@ -163,7 +163,7 @@ CLEAR
 if (output != demandOutput)
 or (start != demandStart)
 or (stop != demandStop)
-or (step != demandStep)
+or (pulse != demandPulse)
 or (init != demandInit)
 or (savedHomeOffset != homeOffset)
     inputsChanged = 1
@@ -204,10 +204,10 @@ if (state = ST_WATCH)
             stop = demandStop
             savedHomeOffset = homeOffset
         endif
-        ; acknowledge step change
-        if (demandStep != step)
-            step = demandStep
-            scaledStep = step * SCALE
+        ; acknowledge pulse change
+        if (demandPulse != pulse)
+            pulse = demandPulse
+            scaledPulse = pulse * SCALE
             setAutoIncr
         endif
         inputsChanged = 0
@@ -217,7 +217,7 @@ if (state = ST_WATCH)
         if (start < stop)
             ; if we are further away than JITTER cts from start pos
             if (currentPos < start - JITTER)
-                if (step = 0)
+                if (pulse = 0)
                     ; check that we won't rollover before we get there
                     if (start - currentPos < rollover - 3 * BIGNUMBER)
                         state = ST_CONFIG
@@ -230,7 +230,7 @@ if (state = ST_WATCH)
             ; if we are further away than JITTER cts from start pos
             if (currentPos > start + JITTER)
             or (start = stop and currentPos < start - JITTER)
-                if (step = 0)
+                if (pulse = 0)
                     ; check that we won't rollover before we get there
                     if (currentPos - start < rollover - 3 * BIGNUMBER)
                         state = ST_CONFIG
@@ -248,7 +248,7 @@ if (state = ST_CONFIG)
     ; setup position compare
     needRollover = 0
     cmpA = (start + homeOffset) * SCALE
-    if (step = 0)
+    if (pulse = 0)
         ; check if we need to avoid rollover
         if (abs(currentPos - stop) > rollover - BIGNUMBER)
             if (start > stop)
@@ -280,12 +280,8 @@ if (state = ST_COMP)
             if (currentPos !< stop)
                 state = ST_PREP_WATCH
             else
-                if (step = 0)
+                if (pulse = 0)
                     if (start - currentPos > rollover - 3 * BIGNUMBER)
-                        state = ST_PREP_WATCH
-                    endif
-                else
-                    if (currentPos < start - JITTER)
                         state = ST_PREP_WATCH
                     endif
                 endif
@@ -295,12 +291,8 @@ if (state = ST_COMP)
             and (stop != start)
                 state = ST_PREP_WATCH
             else
-                if (step = 0)
+                if (pulse = 0)
                     if (currentPos - start > rollover - 3 * BIGNUMBER)
-                        state = ST_PREP_WATCH
-                    endif
-                else
-                    if (currentPos > start + JITTER)
                         state = ST_PREP_WATCH
                     endif
                 endif
@@ -359,6 +351,7 @@ or (state = ST_WATCH)
     or (abs(scaledCurrentPos - cmpB) < scaledBigNumber)
     or (abs(scaledCurrentPos - cmpA) > (rollover - BIGNUMBER) * SCALE)
     or (abs(scaledCurrentPos - cmpB) > (rollover - BIGNUMBER) * SCALE)
+    or (state = ST_MANUAL)
         ; set them to be as far away as possible
         cmpA = scaledCurrentPos + rollover * SCALE / 2
         cmpB = cmpA
