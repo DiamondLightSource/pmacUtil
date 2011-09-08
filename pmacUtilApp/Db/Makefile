@@ -27,6 +27,7 @@ DB += energyModes.template
 DB += motion_stop.template
 DB += encoderReadback.template
 DB += positionCompare.template
+DB += positionCompare_nojitter.template
 DB += pmacStatus.template
 DB += pmacStatusAxis.template
 DB += pmacStatus8Axes.template

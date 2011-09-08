@@ -19,7 +19,7 @@ CLOSE
 ;;          Note: the output of EQU1 will be the logical OR of any EQU registers
 ;;          comparing on axis 1. See turbo SRM p274 for details
 ;; - PLC: PLC number to run as
-;; - JITTER: Number of counts an axis can jitter by at standstill. Used to
+;; - JITTER=1: Number of counts an axis can jitter by at standstill. Used to
 ;;           prevent false counts near the position compare boundary.
 ;####################################################
 
@@ -30,8 +30,8 @@ CLOSE
 #define setOutputOutput M$(eaxis)12=output
 #define writeOutput M$(eaxis)11=one
 #define homeOffset m$(axis)73 + (i$(axis)26 / 16)
-#define SCALE $(SCALE=1)
-#define JITTER $(JITTER=0)
+#define SCALE 1
+#define JITTER $(JITTER=1)
 
 ;; This is the output mode
 #define output p$(PLC)80
