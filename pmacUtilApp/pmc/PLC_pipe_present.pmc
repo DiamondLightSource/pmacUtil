@@ -1,0 +1,91 @@
+
+;################################
+; PLC_pipe_present.pmc (for I12)
+; This PLC looks at a GPIO input signal on a Geobrick and
+; decides whether to disable or enable motors on the brick.
+; The GPIO signal will be 1 if the pipe which carries the
+; X-ray beam through to the external building is present
+; in the internal EH. In this case, we need to disable certain
+; motors which could be driven into the pipe.
+; The GPIO signal will be 0 if the pipe is not present. In
+; this case, we want to enable all the motors again.
+;
+; Author: Andy Foster
+; Date:   22/09/11
+;
+; Macros:
+; PLC                - PLC number
+; NAXES              - Number of axes on controller (8 for a standard geobrick)
+; SIGNAL_IN          - M-variable pointing at GPIO input signal
+; DISFLAG1..DISFLAG8 - Set to 1 if this axis needs to be disabled
+;################################
+
+; Should axis be disabled or not - set to 1 for disable, 0 otherwise
+P$(PLC)01 = $(DISFLAG1)
+P$(PLC)02 = $(DISFLAG2)
+P$(PLC)03 = $(DISFLAG3)
+P$(PLC)04 = $(DISFLAG4)
+P$(PLC)05 = $(DISFLAG5)
+P$(PLC)06 = $(DISFLAG6)
+P$(PLC)07 = $(DISFLAG7)
+P$(PLC)08 = $(DISFLAG8)
+P$(PLC)09 = $(DISFLAG9)
+P$(PLC)10 = $(DISFLAG10)
+P$(PLC)11 = $(DISFLAG11)
+P$(PLC)12 = $(DISFLAG12)
+P$(PLC)13 = $(DISFLAG13)
+P$(PLC)14 = $(DISFLAG14)
+P$(PLC)15 = $(DISFLAG15)
+P$(PLC)16 = $(DISFLAG16)
+
+; Set axis disabled flags to 0 i.e. all enabled to begin with.
+P$(PLC)17 = 0
+P$(PLC)18 = 0
+P$(PLC)19 = 0
+P$(PLC)20 = 0
+P$(PLC)21 = 0
+P$(PLC)22 = 0
+P$(PLC)23 = 0
+P$(PLC)24 = 0
+P$(PLC)25 = 0
+P$(PLC)26 = 0
+P$(PLC)27 = 0
+P$(PLC)28 = 0
+P$(PLC)29 = 0
+P$(PLC)30 = 0
+P$(PLC)31 = 0
+P$(PLC)32 = 0
+
+; used for storing current axis number
+#define axisNumber           P$(PLC)00
+
+#define axisDisableFlag      P(axis_number + $(PLC)00)
+#define axisDisabled         P(axis_number + $(PLC)16)
+
+#define pipePresent          M$(SIGNAL_IN)
+
+
+OPEN PLC $(PLC)
+CLEAR
+
+IF(  pipePresent = 1 )                                ; Pipe is present
+  axisNumber = 1
+  WHILE( axisNumber !> $(NAXES) )
+    IF( axisDisableFlag = 1 ) AND ( axisDisabled = 0 )
+      I$(axis_number)00 = 0                           ; disable this axis
+      axisDisabled      = 1                           ; remember we disabled this axis
+    END IF
+    axisNumber = axisNumber + 1
+  END WHILE
+ELSE                                                  ; Pipe is not present
+  axisNumber = 1
+  WHILE( axisNumber !> $(NAXES) )
+    IF( axisDisableFlag = 1 ) AND ( axisDisabled = 1 )
+      I$(axis_number)00 = 1                           ; enable this axis
+      axisDisabled      = 0                           ; remember we enabled this axis
+    END IF
+    axisNumber = axisNumber + 1
+  END WHILE
+END IF
+
+CLOSE
