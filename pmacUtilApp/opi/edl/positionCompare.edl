@@ -6,7 +6,7 @@ release 1
 x 917
 y 53
 w 340
-h 966
+h 910
 font "arial-medium-r-18.0"
 ctlFont "arial-medium-r-18.0"
 btnFont "arial-medium-r-18.0"
@@ -35,7 +35,7 @@ release 0
 x 10
 y 445
 w 320
-h 225
+h 170
 lineColor index 14
 fill
 fillColor index 5
@@ -48,7 +48,7 @@ major 4
 minor 0
 release 0
 x 10
-y 690
+y 635
 w 320
 h 240
 lineColor index 14
@@ -207,7 +207,7 @@ major 4
 minor 1
 release 0
 x 15
-y 705
+y 650
 w 37
 h 14
 font "arial-medium-r-12.0"
@@ -311,7 +311,7 @@ major 10
 minor 0
 release 0
 x 160
-y 725
+y 670
 w 120
 h 20
 controlPv "$(P)$(Q):RAWCTS"
@@ -329,7 +329,7 @@ major 4
 minor 1
 release 0
 x 15
-y 730
+y 675
 w 89
 h 14
 font "arial-medium-r-12.0"
@@ -465,7 +465,7 @@ major 4
 minor 1
 release 0
 x 285
-y 730
+y 675
 w 37
 h 14
 font "arial-medium-r-12.0"
@@ -605,7 +605,7 @@ major 4
 minor 1
 release 0
 x 240
-y 935
+y 880
 w 95
 h 25
 fgColor index 46
@@ -745,26 +745,6 @@ beginObjectProperties
 major 4
 minor 1
 release 0
-x 15
-y 590
-w 121
-h 14
-font "arial-medium-r-12.0"
-fgColor index 14
-bgColor index 10
-useDisplayBg
-value {
-  "Pulse Width Demand"
-}
-autoSize
-endObjectProperties
-
-# (Static Text)
-object activeXTextClass
-beginObjectProperties
-major 4
-minor 1
-release 0
 x 285
 y 565
 w 37
@@ -844,7 +824,7 @@ major 4
 minor 1
 release 0
 x 10
-y 680
+y 625
 w 72
 h 14
 font "arial-medium-r-12.0"
@@ -864,7 +844,7 @@ major 4
 minor 1
 release 0
 x 285
-y 755
+y 700
 w 37
 h 14
 font "arial-medium-r-12.0"
@@ -884,7 +864,7 @@ major 4
 minor 1
 release 0
 x 285
-y 780
+y 725
 w 37
 h 14
 font "arial-medium-r-12.0"
@@ -904,7 +884,7 @@ major 10
 minor 0
 release 0
 x 160
-y 775
+y 720
 w 120
 h 20
 controlPv "$(P)$(Q):STOP:RBV"
@@ -922,7 +902,7 @@ major 4
 minor 1
 release 0
 x 15
-y 780
+y 725
 w 113
 h 14
 font "arial-medium-r-12.0"
@@ -942,7 +922,7 @@ major 10
 minor 0
 release 0
 x 160
-y 750
+y 695
 w 120
 h 20
 controlPv "$(P)$(Q):START:RBV"
@@ -960,7 +940,7 @@ major 4
 minor 1
 release 0
 x 15
-y 755
+y 700
 w 114
 h 14
 font "arial-medium-r-12.0"
@@ -980,7 +960,7 @@ major 4
 minor 1
 release 0
 x 285
-y 805
+y 750
 w 37
 h 14
 font "arial-medium-r-12.0"
@@ -1000,7 +980,7 @@ major 4
 minor 1
 release 0
 x 285
-y 830
+y 775
 w 37
 h 14
 font "arial-medium-r-12.0"
@@ -1020,7 +1000,7 @@ major 10
 minor 0
 release 0
 x 160
-y 825
+y 770
 w 120
 h 20
 controlPv "$(P)$(Q):PULSE:RBV"
@@ -1038,7 +1018,7 @@ major 4
 minor 1
 release 0
 x 15
-y 830
+y 775
 w 107
 h 14
 font "arial-medium-r-12.0"
@@ -1058,7 +1038,7 @@ major 10
 minor 0
 release 0
 x 160
-y 800
+y 745
 w 120
 h 20
 controlPv "$(P)$(Q):STEP:RBV"
@@ -1076,7 +1056,7 @@ major 4
 minor 1
 release 0
 x 15
-y 805
+y 750
 w 124
 h 14
 font "arial-medium-r-12.0"
@@ -1096,7 +1076,7 @@ major 10
 minor 0
 release 0
 x 100
-y 900
+y 845
 w 225
 h 20
 controlPv "$(P)$(Q):MOTOR"
@@ -1114,7 +1094,7 @@ major 4
 minor 1
 release 0
 x 15
-y 905
+y 850
 w 76
 h 14
 font "arial-medium-r-12.0"
@@ -1134,7 +1114,7 @@ major 10
 minor 0
 release 0
 x 160
-y 700
+y 645
 w 120
 h 20
 controlPv "$(P)$(Q):STA"
@@ -1224,7 +1204,7 @@ major 10
 minor 0
 release 0
 x 160
-y 875
+y 820
 w 120
 h 20
 controlPv "$(P)$(Q):STATE"
@@ -1242,7 +1222,7 @@ major 4
 minor 1
 release 0
 x 15
-y 880
+y 825
 w 86
 h 14
 font "arial-medium-r-12.0"
@@ -1322,7 +1302,7 @@ major 4
 minor 1
 release 0
 x 15
-y 855
+y 800
 w 99
 h 14
 font "arial-medium-r-12.0"
@@ -1342,7 +1322,7 @@ major 10
 minor 0
 release 0
 x 160
-y 850
+y 795
 w 120
 h 20
 controlPv "$(P)$(Q):NPULSES"
@@ -1396,46 +1376,6 @@ font "arial-bold-r-14.0"
 objType "controls"
 endObjectProperties
 
-# (Textupdate)
-object TextupdateClass
-beginObjectProperties
-major 10
-minor 0
-release 0
-x 160
-y 610
-w 120
-h 20
-controlPv "$(P)$(Q):MINSTEP"
-displayMode "decimal"
-precision 4
-fgColor index 16
-fgAlarm
-bgColor index 10
-fill
-font "arial-bold-r-14.0"
-endObjectProperties
-
-# (Textupdate)
-object TextupdateClass
-beginObjectProperties
-major 10
-minor 0
-release 0
-x 160
-y 635
-w 120
-h 20
-controlPv "$(P)$(Q):MAXVELO"
-displayMode "decimal"
-precision 4
-fgColor index 16
-fgAlarm
-bgColor index 10
-fill
-font "arial-bold-r-14.0"
-endObjectProperties
-
 # (Static Text)
 object activeXTextClass
 beginObjectProperties
@@ -1443,74 +1383,16 @@ major 4
 minor 1
 release 0
 x 15
-y 615
-w 140
+y 590
+w 133
 h 14
 font "arial-medium-r-12.0"
 fgColor index 14
 bgColor index 10
 useDisplayBg
 value {
-  "Minimum Step Increment"
+  "Pulse Width (High time)"
 }
 autoSize
-endObjectProperties
-
-# (Static Text)
-object activeXTextClass
-beginObjectProperties
-major 4
-minor 1
-release 0
-x 15
-y 640
-w 103
-h 14
-font "arial-medium-r-12.0"
-fgColor index 14
-bgColor index 10
-useDisplayBg
-value {
-  "Maximum Velocity"
-}
-autoSize
-endObjectProperties
-
-# (Byte)
-object ByteClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 290
-y 615
-w 30
-h 30
-controlPv "$(P)$(Q):VALIDTIMING"
-lineColor index 14
-onColor index 24
-offColor index 20
-numBits 1
-endObjectProperties
-
-# (Rectangle)
-object activeRectangleClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 155
-y 605
-w 170
-h 55
-lineColor index 5
-fill
-fillColor index 5
-lineWidth 0
-lineStyle "dash"
-visPv "$(P)$(Q):TIMINGMATTERS"
-visInvert
-visMin "1"
-visMax "2"
 endObjectProperties
 

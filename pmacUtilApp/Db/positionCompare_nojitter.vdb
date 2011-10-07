@@ -50,6 +50,9 @@
 # % macro, motor, Motor record that this is associated with
 # % macro, OFF, Text string shown when output off
 # % macro, ON, Text string shown when output on
+# % macro, gda_name, Name for GDA
+# % macro, gda_desc, Description for GDA
+# % gdatag,template,positionCompare,$(gda_name=),$(gda_desc=)
 record(ao, "$(P)$(Q):UPDATE") {
   field(DESC, "Trigger periodic poll")
   field(SCAN, "10 second")
@@ -67,6 +70,7 @@ record(stringin, "$(P)$(Q):EGU") {
   field(INP, "$(motor).EGU CP")
 }
 
+# % gdatag,motor,ro,$(gda_name=),MOTOR,Motor Record,$(motor)
 record(stringin, "$(P)$(Q):MOTOR") {
   field(DESC, "motor record name")
   field(VAL, "$(motor)")
@@ -90,6 +94,7 @@ record(longout, "$(P)$(Q):CTRL:SYNC") {
   field(OUT, "$(P)$(Q):CTRL PP")
 }
 
+# % gdatag,mbbinary,rw,$(gda_name=),CTRL
 record(mbbo, "$(P)$(Q):CTRL") {
   field(DESC, "Output mode demand")
   field(ZRST, "$(OFF=Off)")
@@ -122,6 +127,7 @@ record(calcout, "$(P)$(Q):START:SYNC") {
   field(INPA, "$(P)$(Q):START:RBV")
 }
 
+# % gdatag,pv,rw,$(gda_name=),START
 record(ao, "$(P)$(Q):START") {
   field(DESC, "Start point demand")
   field(OUT, "$(P)$(Q):CONVSTART.A PP")
@@ -152,6 +158,7 @@ record(calcout, "$(P)$(Q):STOP:SYNC") {
   field(INPA, "$(P)$(Q):STOP:RBV")
 }
 
+# % gdatag,pv,rw,$(gda_name=),STOP
 record(ao, "$(P)$(Q):STOP") {
   field(DESC, "Stop point demand")
   field(OUT, "$(P)$(Q):CONVSTOP.A PP")
@@ -180,6 +187,7 @@ record(calcout, "$(P)$(Q):STEP:SYNC") {
   field(INPA, "$(P)$(Q):PULSE:RBV CP")
 }
 
+# % gdatag,pv,ro,$(gda_name=),STEP
 record(ao, "$(P)$(Q):STEP") {
   field(DESC, "Step incr demand")
   field(OUT, "$(P)$(Q):CONVSTEP.A PP")
@@ -207,6 +215,7 @@ record(calcout, "$(P)$(Q):PULSE:SYNC") {
   field(INPA, "$(P)$(Q):PULSE:RBV")
 }
 
+# % gdatag,pv,rw,$(gda_name=),PULSE
 record(ao, "$(P)$(Q):PULSE") {
   field(DESC, "Pulse width demand")
   field(OUT, "$(P)$(Q):CONVPULSE.A PP")
@@ -227,6 +236,7 @@ record(longout, "$(P)$(Q):PULSE:SET") {
   field(OUT, "@pmac.proto setIntVar(P$(PLC)94) $(PORT)")
 }
 
+# % gdatag,binary,rw,$(gda_name=),STA
 record(bi, "$(P)$(Q):STA") {
   field(DESC, "Physical output status")
   field(ZNAM, "$(OFF=Off)")
@@ -245,6 +255,7 @@ record(fanout, "$(P)$(Q):RBVFAN") {
   field(FLNK, "$(P)$(Q):RBVFAN2")
 }
 
+# % gdatag,mbbinary,rw,$(gda_name=),STATE
 record(mbbi, "$(P)$(Q):STATE") {
   field(DESC, "PLC state machine")
   field(ZRST, "ST_COMP")
@@ -256,6 +267,7 @@ record(mbbi, "$(P)$(Q):STATE") {
   field(INP, "@pmac.proto getIntVar(P$(PLC)86) $(PORT)")
 }
 
+# % gdatag,pv,rw,$(gda_name=),NPULSES
 record(calcout, "$(P)$(Q):NPULSES") {
   field(CALC, "A=B?-1:D=0?1:ABS(A-B)/(2*D)")
   field(INPA, "$(P)$(Q):START:RBV CP")
@@ -279,6 +291,7 @@ record(calcout, "$(P)$(Q):INIT:SYNC") {
   field(INPA, "$(P)$(Q):INIT:RBV")
 }
 
+# % gdatag,binary,rw,$(gda_name=),INIT
 record(bo, "$(P)$(Q):INIT") {
   field(DESC, "Start point demand")
   field(OUT, "$(P)$(Q):INIT:SET PP")
