@@ -1,16 +1,32 @@
 ;################################
 ; PLC_pipe_present.pmc (for I12)
-; This PLC looks at a GPIO input signal on a Geobrick and
-; decides whether to disable or enable motors on the brick.
-; The GPIO signal will be 1 if the pipe which carries the
-; X-ray beam through to the external building is present
-; in the internal EH. In this case, we need to disable certain
-; motors which could be driven into the pipe.
-; The GPIO signal will be 0 if the pipe is not present. In
-; this case, we want to enable all the motors again.
 ;
 ; Author: Andy Foster
-; Date:   22/09/11
+; Date:   07/10/11
+;
+; This PLC looks at a GPIO input signal on a Geobrick.
+; The GPIO signal will be 1 if the pipe which carries the
+; X-ray beam through to the external building is present
+; in the internal EH. In this case, we need to stop certain
+; motors moving which could be driven into the pipe.
+; The GPIO signal will be 0 if the pipe is not present. In
+; this case, we allow all motors to move.
+;
+; Method:
+; Put all motors (not currently in a coordinate system)
+; into a coordinate system and use the feedrate parameter to prevent
+; motion.
+;
+; When the signal is detected:
+; (a) a kill command will be sent to all relevant motors
+; (b) an abort motion command will be sent to the coordinate system
+; (c) the feedrate parameter for the coordinate system will be set to 0%.
+;
+; When the signal is removed:
+; (a) the feedrate parameter for the coordinate system will be set back to 100%.
+;
+; Note: We should not use "Ixx0=0" as this leaves the axis in an
+;       indeterminant state.
 ;
 ; Macros:
 ; PLC                 - PLC number
@@ -20,50 +36,62 @@
 ;################################
 
 ; Should axis be disabled or not - set to 1 for disable, 0 otherwise
-P$(PLC)01 = $(DISFLAG1)
-P$(PLC)02 = $(DISFLAG2)
-P$(PLC)03 = $(DISFLAG3)
-P$(PLC)04 = $(DISFLAG4)
-P$(PLC)05 = $(DISFLAG5)
-P$(PLC)06 = $(DISFLAG6)
-P$(PLC)07 = $(DISFLAG7)
-P$(PLC)08 = $(DISFLAG8)
-P$(PLC)09 = $(DISFLAG9)
-P$(PLC)10 = $(DISFLAG10)
-P$(PLC)11 = $(DISFLAG11)
-P$(PLC)12 = $(DISFLAG12)
-P$(PLC)13 = $(DISFLAG13)
-P$(PLC)14 = $(DISFLAG14)
-P$(PLC)15 = $(DISFLAG15)
-P$(PLC)16 = $(DISFLAG16)
+P$(PLC)01 = $(DISFLAG1=0)
+P$(PLC)02 = $(DISFLAG2=0)
+P$(PLC)03 = $(DISFLAG3=0)
+P$(PLC)04 = $(DISFLAG4=0)
+P$(PLC)05 = $(DISFLAG5=0)
+P$(PLC)06 = $(DISFLAG6=0)
+P$(PLC)07 = $(DISFLAG7=0)
+P$(PLC)08 = $(DISFLAG8=0)
+P$(PLC)09 = $(DISFLAG9=0)
+P$(PLC)10 = $(DISFLAG10=0)
+P$(PLC)11 = $(DISFLAG11=0)
+P$(PLC)12 = $(DISFLAG12=0)
+P$(PLC)13 = $(DISFLAG13=0)
+P$(PLC)14 = $(DISFLAG14=0)
+P$(PLC)15 = $(DISFLAG15=0)
+P$(PLC)16 = $(DISFLAG16=0)
 
-; used for storing current axis number
-#define axisNumber           P$(PLC)00
-
-#define axisDisableFlag      P(axis_number + $(PLC)00)
-
-#define pipePresent          $(SIGNAL_IN)
+#define axisNumber       P$(PLC)00
+#define axisDisableFlag  P(axisNumber + $(PLC)00)
+#define pipePresent      $(SIGNAL_IN)
+#define lastPipePresent  P$(PLC)17
+#define coordSystemSet   P$(PLC)18
+#define coordNum         P$(PLC)19
 
 
 OPEN PLC $(PLC)
 CLEAR
 
-IF(  pipePresent = 1 )                                ; Pipe is present
-  axisNumber = 1
+IF( coordSystemSet = 0 )               ; Motors not in a coordinate system
   WHILE( axisNumber !> $(NAXES) )
-    IF( axisDisableFlag = 1 ) AND ( I$(axisNumber)00 = 1 )
-      I$(axisNumber)00 = 0                           ; disable this axis
+    IF( axisDisableFlag = 1 )
+      CMD "&coordNum axisNumber->X"    ; Assign motor to coordinate system
     END IF
     axisNumber = axisNumber + 1
   END WHILE
-ELSE                                                  ; Pipe is not present
-  axisNumber = 1
-  WHILE( axisNumber !> $(NAXES) )
-    IF( axisDisableFlag = 1 ) AND ( I(axisNumber)00 = 0 )
-      I$(axisNumber)00 = 1                            ; enable this axis
+  CMD "&coordNum %100"                 ; Set feedrate of coordinate system to 100%
+  coordSystemSet = 1                   ; Only do this once
+END IF
+
+IF( pipePresent != lastPipePresent )   ; Change of state of the pipe-present signal
+  lastPipePresent = pipePresent
+  IF( pipePresent = 1 )                ; the pipe is present
+    axisNumber = 1
+    WHILE( axisNumber !> $(NAXES) )
+      IF( axisDisableFlag = 1 )
+        CMD "#axisNumber K"            ; Kill motor (jogs)
+      END IF
+      axisNumber = axisNumber + 1
+    END WHILE
+    CMD "&coordNum A"                  ; Abort motion in coordinate system (motion programs)
+    CMD "&coordNum %0"                 ; Set feedrate of coordinate system to 0%
+  ELSE 
+    IF( pipePresent = 0 )              ; pipe removed
+      CMD "&coordNum %100"             ; Set feedrate of coordinate system to 100%
     END IF
-    axisNumber = axisNumber + 1
-  END WHILE
+  END IF
 END IF
 
 CLOSE
