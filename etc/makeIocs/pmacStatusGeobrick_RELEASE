@@ -1,5 +1,5 @@
 # Place any example specific dependencies here
-TPMAC=$(SUPPORT)/tpmac/3-7dls8
-PMACCOORD=$(SUPPORT)/pmacCoord/1-0
+TPMAC=$(SUPPORT)/tpmac/3-7dls9
+PMACCOORD=$(SUPPORT)/pmacCoord/1-5
 
 
