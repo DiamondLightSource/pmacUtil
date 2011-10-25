@@ -120,7 +120,7 @@ if (timer < 0)
 	axis_number = 1
 	WHILE(axis_number !> $(NAXIS))
 		if (timeout_period>0)
-			if (in_position_bit = 1 And zero_velocity_bit = 1 And amplifier_enabled = 1)
+			if (in_position_bit = 1 And amplifier_enabled = 1)
 				; motor is stationary with amp on
 				time_counter = time_counter + clock_tick
 				if (time_counter !< timeout_period)
@@ -150,7 +150,7 @@ endif
 axis_number = 1
 WHILE(axis_number !> $(NAXIS))
 	if (drive_current!=0)
-		if (in_position_bit=0 And zero_velocity_bit=0 And amplifier_enabled = 1)
+		if (in_position_bit=0 And amplifier_enabled = 1)
 			if (amplifier_current<full_current)
 				amplifier_current=full_current
 			endif
