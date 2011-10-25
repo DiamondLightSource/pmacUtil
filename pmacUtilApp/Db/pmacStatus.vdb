@@ -27,7 +27,6 @@ record(fanout, "$(DEVICE):ReadBack") {
 }
 
 record(fanout, "$(DEVICE):ReadBack2") {
-  field(SCAN, "1 second")
   field(LNK1, "$(DEVICE):GPIO_INPUTS_GET")
   field(LNK2, "$(DEVICE):GPIO_OUTPUTS_GET")
 }
