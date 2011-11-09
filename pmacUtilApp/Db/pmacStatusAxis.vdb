@@ -18,16 +18,19 @@ template() {
 record(ai, "$(DEVICE):AXIS$(AXIS):POSITION") {
   field(DTYP, "stream")
   field(INP, "@pmac.proto getVar(#$(AXIS)P) $(PORT)")
+  field(PREC, "2")
 }
 
 record(ai, "$(DEVICE):AXIS$(AXIS):FOLL_ERROR") {
   field(DTYP, "stream")
   field(INP, "@pmac.proto getVar(#$(AXIS)F) $(PORT)")
+  field(PREC, "2")
 }
 
 record(ai, "$(DEVICE):AXIS$(AXIS):VELOCITY") {
   field(DTYP, "stream")
   field(INP, "@pmac.proto getVar(#$(AXIS)V) $(PORT)")
+  field(PREC, "2")
 }
 
 record(seq, "$(DEVICE):AXIS$(AXIS):ReadBack") {
