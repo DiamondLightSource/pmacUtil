@@ -4,9 +4,11 @@
 # the template contains enough records to keep the motor record happy
 #% macro, ALLOW_HOMED_SET, Set to a blank to allow this axis to have its homed
 # status manually.  This is set to a comment character by default.
+#% macro, nocoord, Set to a # to comment out the include motor_in_cs.template
+# command. This allows the dependency on pmacCoord to be dropped
 
 include "basic_asyn_motor.template"
-include "motor_in_cs.template"
+$(nocoord=)include "motor_in_cs.template"
 
 # disable motor when homing
 record(calcout, "$(P)$(M):SDIS") {
