@@ -31,10 +31,34 @@ def add_basic(cls):
     cls.guiTags = basic_asyn_motor.guiTags
     return cls
 
+class eloss_kill_autohome_records(AutoSubstitution):
+    WarnMacros = False
+    TemplateFile = "eloss_kill_autohome_records.template"
+
+def add_eloss_kill_autohome(cls):
+    """Convenience function to add eloss_kill_autohome_records attributes to a class that
+    includes it via an msi include statement rather than verbatim"""
+    cls.Arguments += eloss_kill_autohome_records.Arguments + [x for x in cls.Arguments if x not in eloss_kill_autohome_records.Arguments]
+    cls.ArgInfo = eloss_kill_autohome_records.ArgInfo + cls.ArgInfo.filtered(without=eloss_kill_autohome_records.ArgInfo.Names())
+    cls.Defaults.update(eloss_kill_autohome_records.Defaults)
+    cls.guiTags = eloss_kill_autohome_records.guiTags
+    return cls
+
+@add_basic
+@add_eloss_kill_autohome
+class dls_pmac_asyn_motor_no_coord(AutoSubstitution, AutoProtocol, MotorRecord):
+    WarnMacros = False
+    TemplateFile = 'dls_pmac_asyn_motor_no_coord.template'
+    ProtocolFiles = ['pmac.proto']
+    Dependencies = (Busy,)
+dls_pmac_asyn_motor_no_coord.ArgInfo.descriptions["PORT"] = Ident("Delta tau motor controller", DeltaTau)
+dls_pmac_asyn_motor_no_coord.ArgInfo.descriptions["SPORT"] = Ident("Delta tau motor controller comms port", DeltaTauCommsPort)
+
 try:
     from iocbuilder.modules.pmacCoord import PmacCoord, CS
 
     @add_basic
+    @add_eloss_kill_autohome
     class dls_pmac_asyn_motor(AutoSubstitution, AutoProtocol, MotorRecord):
         WarnMacros = False
         TemplateFile = 'dls_pmac_asyn_motor.template'
