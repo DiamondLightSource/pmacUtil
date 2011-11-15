@@ -52,6 +52,8 @@
 # % macro, ON, Text string shown when output on
 # % macro, gda_name, Name for GDA
 # % macro, gda_desc, Description for GDA
+# % macro, name, Object and gui association name
+# % gui, $(name=), edm, positionCompare_nojitter.edl, P=$(P),Q=$(Q)
 # % gdatag,template,positionCompare,$(gda_name=),$(gda_desc=)
 record(ao, "$(P)$(Q):UPDATE") {
   field(DESC, "Trigger periodic poll")
