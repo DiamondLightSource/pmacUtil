@@ -377,6 +377,7 @@ or (state = ST_WATCH)
     or (abs(scaledCurrentPos - cmpB) < scaledBigNumber)
     or (abs(scaledCurrentPos - cmpA) > (rollover - BIGNUMBER) * SCALE)
     or (abs(scaledCurrentPos - cmpB) > (rollover - BIGNUMBER) * SCALE)
+    or (state = ST_PREP_WATCH)    
         ; set them to be as far away as possible
         cmpA = scaledCurrentPos + rollover * SCALE / 2
         cmpB = cmpA

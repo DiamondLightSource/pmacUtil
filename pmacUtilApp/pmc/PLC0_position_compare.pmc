@@ -1,3 +1,5 @@
+##### TEST idea, not ready for use yet #####
+
 #define autoincr p90
 #define stop p91
 #define currentPos p92

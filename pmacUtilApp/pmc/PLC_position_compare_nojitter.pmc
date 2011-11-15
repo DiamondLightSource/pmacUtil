@@ -161,7 +161,6 @@ if (state = ST_WATCH)
             if (output = OP_AUTO)
                 setOutputInit
                 writeOutput
-                setAutoIncr
             else
                 state = ST_MANUAL
             endif
@@ -185,8 +184,6 @@ if (state = ST_WATCH)
         ; acknowledge pulse change
         if (demandPulse != pulse)
             pulse = demandPulse
-            scaledPulse = pulse * SCALE
-            setAutoIncr
         endif
         inputsChanged = 0
     endif
@@ -243,6 +240,8 @@ if (state = ST_CONFIG)
     endif
     setCmpB
     setCmpA
+    scaledPulse = pulse * SCALE
+    setAutoIncr    
     configs = configs + 1
     state = ST_COMP
 endif
@@ -329,8 +328,10 @@ or (state = ST_WATCH)
     or (abs(scaledCurrentPos - cmpB) < scaledBigNumber)
     or (abs(scaledCurrentPos - cmpA) > (rollover - BIGNUMBER) * SCALE)
     or (abs(scaledCurrentPos - cmpB) > (rollover - BIGNUMBER) * SCALE)
-    or (state = ST_MANUAL)
+    or (state = ST_PREP_WATCH)
         ; set them to be as far away as possible
+        scaledPulse = 0
+        setAutoIncr          
         cmpA = scaledCurrentPos + rollover * SCALE / 2
         cmpB = cmpA
         setCmpA
