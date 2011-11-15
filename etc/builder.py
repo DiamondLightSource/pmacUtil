@@ -28,6 +28,7 @@ def add_basic(cls):
     cls.Arguments += basic_asyn_motor.Arguments + [x for x in cls.Arguments if x not in basic_asyn_motor.Arguments]
     cls.ArgInfo = basic_asyn_motor.ArgInfo + cls.ArgInfo.filtered(without=basic_asyn_motor.ArgInfo.Names())
     cls.Defaults.update(basic_asyn_motor.Defaults)
+    cls.guiTags = basic_asyn_motor.guiTags
     return cls
 
 try:
@@ -91,8 +92,14 @@ class gather(AutoSubstitution, Device):
     TemplateFile = 'gather.template'
 
 class positionCompare(AutoSubstitution, AutoProtocol):
-    '''Setup position compare on a delta tau. Needs PLC_PMAC_position_compare
-    or PLC_BRICK_position_compare'''
+    '''Setup position compare on a delta tau. Needs PLC_position_compare.pmc'''
     Dependencies = (Calc,)
     ProtocolFiles = ['pmac.proto']
     TemplateFile = 'positionCompare.template'
+
+class positionCompare_nojitter(AutoSubstitution, AutoProtocol):
+    '''Setup position compare on a delta tau. Needs 
+    PLC_position_compare_nojitter.pmc'''
+    Dependencies = (Calc,)
+    ProtocolFiles = ['pmac.proto']
+    TemplateFile = 'positionCompare_nojitter.template'
