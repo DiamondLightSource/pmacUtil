@@ -1,6 +1,4 @@
 CLOSE
-DELETE GATHER
-DELETE TRACE
 
 ;##########################################################################
 ; I Variable Settings for a set of default Axes without msx,i9xx variables
