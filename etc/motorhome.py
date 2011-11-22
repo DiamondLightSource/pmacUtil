@@ -473,10 +473,7 @@ class PLC:
         f.write(" ".join(["P%d%02d=M%d62"%(plc,i+84,m["ax"]) for i,m in ems])+"\n")
         f.write(';Clear the soft limits\n')
         f.write(" ".join(["i%d13=0"%m["ax"] for i,m in ems])+"\n")
-        f.write(" ".join(["i%d14=0"%m["ax"] for i,m in ems])+"\n")
-        #########################################################
-        # TODO: Clear encoder capture register                  #
-        #########################################################          
+        f.write(" ".join(["i%d14=0"%m["ax"] for i,m in ems])+"\n")       
         f.write("\n")
                 
         # write some PLC for each group
@@ -493,6 +490,11 @@ class PLC:
                 ems = self.__sel()          
                 f.write("\t;Disable protection PLC\n")
                 f.write("\t"+" ".join(["P4%02d=P4%02d|$4"%(m["ax"],m["ax"]) for i,m in ems])+"\n")
+
+            #---- Remove all the home flags for this group ---- 
+            ems = self.__sel(htypes = [HOME, LIMIT, HSW, HSW_HLIM, HSW_DIR, RLIM, HSW_HSTOP])          
+            f.write("\t;Clear home flags\n")
+            f.write("\t"+" ".join(["m%d45=0"%m["ax"] for i,m in ems])+"\n")
             
             #---- PreHomeMove State ----
             # for hsw_dir motors, set the trigger to be the inverse flag
