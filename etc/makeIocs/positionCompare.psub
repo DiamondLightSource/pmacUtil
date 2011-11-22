@@ -1,0 +1,2 @@
+substitute "PLC=25,axis=7,eaxis=7"
+include "PLC_position_compare_nojitter.pmc"

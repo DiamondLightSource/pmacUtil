@@ -156,6 +156,37 @@ class PositionCompareTestCase( unittest.TestCase ):
                 self.failUnless( counts[self.pc.npulses + 10] == 0,
                                  'Did not stop within 10 counts (%s!=0)' % counts[self.pc.npulses + 10])'''
         f.close()
+
+    def test_labposcomp(self):
+        """Lab test with mca"""
+        print
+        f = open("labresults.csv", "w")
+        for r in range(50):
+            for t in [30, 45, 60, 90, 120, 150, 180, 300, 600, 900, 1200, 1800, 3600]:
+                velocity = (float(self.param['stopposition']) - float(self.param['startposition'])) / t
+                self.pc.configure( self.param['stepincrement'], 
+                              self.param['pulsewidth'], 
+                              self.param['startposition'], 
+                              self.param['stopposition'])
+                self.pc.flyback(self.param['motorstart'])
+                self.scalermcs.start()
+                self.pc.driveposcomp(self.param['destination'], velo = velocity)
+                cothread.Sleep(5)
+                counts,nelm = self.scalermcs.getCount()
+                self.failUnless( nelm >= self.pc.npulses - 1,
+                    'Number of measured counts (%d) does not match the expected counts (%d)'%(nelm, self.pc.npulses))
+                self.pc.flyback(self.param['motorstart'])
+                print "Time: %s, Velocity: %s, Nelm: %s, Npulses: %s" %(t, velocity, nelm,self.pc.npulses) 
+                f.write("# Time: %s, Velocity: %s, Nelm: %s, Npulses: %s\n" %(t, velocity, nelm,self.pc.npulses)) 
+                for i in range(nelm):
+                    f.write("%s," % counts[i])
+                f.write("\n")
+                f.flush()
+                
+                '''                 
+                self.failUnless( counts[self.pc.npulses + 10] == 0,
+                                 'Did not stop within 10 counts (%s!=0)' % counts[self.pc.npulses + 10]) '''
+        f.close()
         
 if __name__ == '__main__':
     #unittest.main() 
