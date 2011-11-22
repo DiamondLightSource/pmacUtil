@@ -1,0 +1,133 @@
+# brake.template
+# A template that manages a brake on a PMAC axis
+
+# Parameters:
+#  P      Prefix name
+#  M      Motor name
+#  PLC    The PLC that is running the brake
+#  PORT   The asyn port the connects to the PMAC
+
+# Read the P variables P$(PLC)00 and P$(PLC)01
+# which are commanded park state and current
+# brake state respectively.
+record(asyn, "$(P)$(M):BRAKE:ASYNRX") {
+  field(DESC, "Read brake status from PMAC")
+  field(SCAN, ".5 second")
+  field(PINI, "NO")
+  field(DTYP, "asynRecordDevice")
+  field(PORT, "$(PORT)")
+  field(AOUT, "P$(PLC)00 P$(PLC)01")
+  field(FLNK, "$(P)$(M):BRAKE:PARSE1")
+}
+
+# Read the P variables P$(PLC)00 and P$(PLC)01
+# which are commanded park state and current
+# brake state respectively.
+record(asyn, "$(P)$(M):BRAKE:ASYNTX") {
+  field(DESC, "Write park command to PMAC")
+  field(PINI, "NO")
+  field(DTYP, "asynRecordDevice")
+  field(PORT, "$(PORT)")
+}
+
+# Extract the current brake status
+record(scalcout, "$(P)$(M):BRAKE:PARSE1") {
+  field(DESC, "Parse PMAC response to P$(PLC)01")
+  field(DTYP, "Soft Channel")
+  field(SCAN, "Passive")
+  field(PINI, "NO")
+  field(CALC, "SSCANF(AA,'%*d %d')")
+  field(OOPT, "On Change")
+  field(DOPT, "Use CALC")
+  field(INAA, "$(P)$(M):BRAKE:ASYNRX.AINP")
+  field(OUT, "$(P)$(M):BRAKE:STATUS.RVAL PP")
+  field(FLNK, "$(P)$(M):BRAKE:PARSE2")
+  field(PREC, "0")
+}
+
+# Indicates the brake status.
+record(bi, "$(P)$(M):BRAKE:STATUS") {
+  field(DTYP, "Raw Soft Channel")
+  field(ZNAM, "Brake Released")
+  field(ONAM, "Brake Applied")
+}
+
+# Extract the current park status
+record(scalcout, "$(P)$(M):BRAKE:PARSE2") {
+  field(DESC, "Parse PMAC response to P$(PLC)00")
+  field(DTYP, "Soft Channel")
+  field(SCAN, "Passive")
+  field(PINI, "NO")
+  field(CALC, "SSCANF(AA,'%d %*d')")
+  field(OOPT, "On Change")
+  field(DOPT, "Use CALC")
+  field(INAA, "$(P)$(M):BRAKE:ASYNRX.AINP")
+  field(PREC, "0")
+  field(OUT, "$(P)$(M):BRAKE:PARKSTATUS.RVAL PP")
+  field(FLNK, "$(P)$(M):BRAKE:DOINIT")
+}
+
+# Indicates the current park status.
+record(bi, "$(P)$(M):BRAKE:PARKSTATUS") {
+  field(DTYP, "Raw Soft Channel")
+  field(ZNAM, "Run")
+  field(ONAM, "Park")
+}
+
+# Records whether the initial park command status
+# has been written to the park command variable
+record(bo, "$(P)$(M):BRAKE:INITIALISED") {
+  field(VAL, "0")
+  field(ZNAM, "Uninitialised")
+  field(ONAM, "Initialised")
+}
+
+# Determines whether the PARKCMD needs initialising from
+# the status read from the PMAC.
+record(calcout, "$(P)$(M):BRAKE:DOINIT") {
+  field(INPA, "$(P)$(M):BRAKE:INITIALISED")
+  field(CALC, "A")
+  field(OOPT, "When Zero")
+  field(DOPT, "Use CALC")
+  field(OUT, "$(P)$(M):BRAKE:INITIALISE.PROC")
+}
+
+# Initialise the database by copying the park command
+# status read from the PMAC into the PARKCMD record
+# and setting the initialised flag.
+record(seq, "$(P)$(M):BRAKE:INITIALISE") {
+  field(SELM, "All")
+  field(DLY1, "0")
+  field(DOL1, "$(P)$(M):BRAKE:PARKSTATUS")
+  field(LNK1, "$(P)$(M):BRAKE:PARKCMD")
+  field(DLY2, "0")
+  field(DOL2, "1")
+  field(LNK2, "$(P)$(M):BRAKE:INITIALISED")
+}
+
+# Send the park command by writing to P$(PLC)00, but
+# only once the database is initialised
+record(scalcout, "$(P)$(M):BRAKE:SENDPARK") {
+  field(DESC, "Send the park command")
+  field(SCAN, "Passive")
+  field(DTYP, "Soft Channel")
+  field(INPA, "$(P)$(M):BRAKE:PARKCMD")
+  field(INPB, "$(P)$(M):BRAKE:INITIALISED")
+  field(CALC, "B")
+  field(OCAL, "PRINTF('P$(PLC)00=%i',A)")
+  field(OOPT, "When Non-zero")
+  field(DOPT, "Use OCAL")
+  field(OUT, "$(P)$(M):BRAKE:ASYNTX.AOUT PP")
+}
+
+# Write the current park command state here.
+record(bo, "$(P)$(M):BRAKE:PARKCMD") {
+  field(DESC, "Motor park command")
+  field(ZNAM, "Run")
+  field(ONAM, "Park")
+  field(FLNK, "$(P)$(M):BRAKE:SENDPARK")
+}
+
+
+
+
