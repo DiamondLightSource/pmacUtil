@@ -1,5 +1,6 @@
 TOP = ../..
 include $(TOP)/configure/CONFIG
+include pmacCoord_RELEASE
 
 # this is the dls-xml-iocbuilder.py file
 XMLBUILDER := dls-xml-iocbuilder.py
