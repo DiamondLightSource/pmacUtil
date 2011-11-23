@@ -43,7 +43,7 @@ $(TOP)/iocs/%_sim: %.py
 	
 # Rule for making a pmc file from a psub file
 $(TOP)/iocs/%/defs.pmc: %.psub $(IOC_DIRS)
-	msi -I.:$(TOP)/data $< > $@	
+	msi -I.:$(PMACCOORD)/data:$(TOP)/data $< > $@	
 
 # Remove the generated iocs on clean
 clean:

@@ -1,0 +1,2 @@
+substitute "PLC=5"
+include "PLC_cpu_load.pmc"
