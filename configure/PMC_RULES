@@ -29,21 +29,7 @@ endef
 # rule to make a homing plc from generate_homing_plcs.py
 PLCs/%_HM.pmc: ../configure/generate_homing_plcs.py ../configure/RELEASE
 	@echo '***' Autogenerating homing plc \"$@\"
-	PYTHONPATH=$(PMACUTIL)/etc ./$< $@
-
-# rule to make i65.pmc
-DIRNAME = $(shell basename $(shell pwd))
-PMACUTILVERSION=$(shell echo "$(shell basename $(PMACUTIL))" | sed -e 's/\([0-9]\+\)\?.*/\1/')
-ifeq ($(PMACUTILVERSION),)
-	PMACUTILVERSION = 127
-endif
-Variables/i65.pmc: ../configure/RELEASE
-	@echo '***' Generating \"$@\" for \"$(DIRNAME)\"
-	@echo ';####################################################' > $@
-	@echo '; DO NOT MODIFY: File created from dls-pmac-i65.py' >> $@
-	@echo ';####################################################' >> $@
-	@echo >> $@
-	dls-pmac-i65.py -n $(DIRNAME) -v $(PMACUTILVERSION) > $@
+	PYTHONPATH=$(PMACUTIL)/pmacUtilApp/src ./$< $@
 
 # define general rules to make a pmc from a psub file
 # or copy a file from one in an MSI_INCLUDES dir

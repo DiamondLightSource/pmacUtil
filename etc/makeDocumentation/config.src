@@ -2,4 +2,3 @@
 # use <module>.<func> instead of <module>::<func>
 OPTIMIZE_OUTPUT_JAVA   = YES
 SHOW_NAMESPACES = YES
-INPUT += ../../etc
