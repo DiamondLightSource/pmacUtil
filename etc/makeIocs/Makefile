@@ -3,14 +3,14 @@ include $(TOP)/configure/CONFIG
 
 # this is the dls-xml-iocbuilder.py file
 XMLBUILDER := dls-xml-iocbuilder.py
-XMLBUILDER := /dls_sw/work/common/python/iocbuilder/xmlbuilder/xmlbuilder.py
+#XMLBUILDER := /dls_sw/work/common/python/iocbuilder/xmlbuilder/xmlbuilder.py
 
 # set to -d to get debugging
 DEBUG :=
 
 # Create an IOC from all .xml files and all .py files
 IOCS := $(patsubst %.xml, %, $(wildcard *.xml)) $(patsubst %.py, %, $(wildcard *.py))
-IOCS := positionCompare
+#IOCS := positionCompare
 
 # These are the IOCS we don't want to make simulations out of
 #NO_SIMS :=
