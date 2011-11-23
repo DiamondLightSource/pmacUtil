@@ -75,6 +75,8 @@ i414=0 i514=0 i614=0 i714=0
 if (HomingBackupGroup=1 and HomingStatus=StatusHoming)
 	HomingGroup=1
 
+	;Clear home flags
+	m445=0 m545=0 m645=0 m745=0
 	;---- PreHomeMove State ----
 	if (HomingStatus=StatusHoming)
 		HomingState=StatePreHomeMove

@@ -5,33 +5,38 @@
 CLOSE
 
 ;###############################################
-; Define motion of a 3 jack system with a mirror on top
-; Look at 3jack-mirror-help.edl for a picture
-; Original Author: Tom Cobb
-; Used variables: Q71..Q79, Q81..Q89, Q91..Q99, Q100..
-; Macros (and example values): 
-; COORD = 2 ;CS number (only works for CS 1..9), e.g. 2
-; PLC = 17 ;PLC number, should be CS number+15, e.g. 17
-; J1 = 1 ;Axisnum for jack 1, e.g. 2
-; J1X = 0 ;global X co-ord of J1 base in mm, e.g. 0
-; J1Z = 0 ;global Z co-ord of J1 base in mm, e.g. -100
-; J2 = 2 ;Axisnum for jack 2, e.g. 3
-; J2X = 125.57 ;global X co-ord of J2 base in mm, e.g. 50
-; J2Z = 217.5 ;global Z co-ord of J2 base in mm, e.g. 100
-; J3 = 3 ;Axisnum for jack 3, e.g. 4
-; J3X = -125.57 ;global X co-ord of J3 base in mm, e.g. -50
-; J3Z = 217.5 ;global Z co-ord of J3 base in mm, e.g. 100
-; JTX = 7.45 ;jack plane X co-ord of J1 top in mm, e.g. 20
-; JTZ = 0 ;jack plane Z co-ord of J1 top in mm, e.g. 20
-; MP = -45 ;pitch of mirror support in deg, e.g. 45
-; MR = 0 ;roll of mirror support in deg, e.g. 45
-; MD = 60 ;depth of actual mirror in mm, e.g. 10
-; MCX = 0 ;global X co-ord of measure point in mm, e.g. 0
-; MCZ = 120 ;global Z co-ord of measure in mm, e.g. 10
+;; \file
+;; Define motion of a generic 3 jack system with a mirror on top. Jacks should 
+;; be numbered in a clockwise order looking from the top with J1 having the 
+;; smallest Z value
+;;
+;; Original Author: Tom Cobb
+;;
+;; Defined axes:
+;; - X (addr 6) = Pitch in i15 EGUs
+;; - Y (addr 7) = Roll in i15 EGUs
+;; - Z (addr 8) = Height in same EGUs as jacks
+;;
+;; Macros (and example values):
+;; - COORD = 2  CS number (only works for CS 1..9), e.g. 2
+;; - PLC = 17  PLC number, should be CS number+15, e.g. 17
+;; - J1 = 1  Axisnum for jack 1, e.g. 2
+;; - J1X = 0  global X co-ord of J1 base in mm, e.g. 0
+;; - J1Z = 0  global Z co-ord of J1 base in mm, e.g. -100
+;; - J2 = 2  Axisnum for jack 2, e.g. 3
+;; - J2X = 125.57  global X co-ord of J2 base in mm, e.g. 50
+;; - J2Z = 217.5  global Z co-ord of J2 base in mm, e.g. 100
+;; - J3 = 3  Axisnum for jack 3, e.g. 4
+;; - J3X = -125.57  global X co-ord of J3 base in mm, e.g. -50
+;; - J3Z = 217.5  global Z co-ord of J3 base in mm, e.g. 100
+;; - MD = 60  depth of surface in mm, e.g. 10
+;; - MCX = 0  global X co-ord of measure point in mm, e.g. 0
+;; - MCZ = 120  global Z co-ord of measure in mm, e.g. 10
+;; - JTX = 7.45  jack plane X co-ord of J1 top in mm, e.g. 20
+;; - JTZ = 0  jack plane Z co-ord of J1 top in mm, e.g. 20
+;; - MP = -45  pitch of mirror support in deg, e.g. 45
+;; - MR = 0  roll of mirror support in deg, e.g. 45
 ;################################################
-
-; Note that we are providing a CS axis with an MRES of 0.0001 and EGU in mm
-; This is needed as the motor record will only move in full steps
 
 ; Change to CS2
 &2
@@ -41,225 +46,225 @@ CLOSE
 #2->I
 #3->I
 
-; Trig in degrees
-i15=0
+; These are set by motor_in_cs.template
+#define J1MOVE P(4700+1)
+#define J1MRES P(4800+1)
+#define J1OFF  P(4900+1)
+#define J2MOVE P(4700+2)
+#define J2MRES P(4800+2)
+#define J2OFF  P(4900+2)
+#define J3MOVE P(4700+3)
+#define J3MRES P(4800+3)
+#define J3OFF  P(4900+3)
 
-; These are set by mres_reporting_motor.template
-#define J1MRES P(100+1)
-#define J1OFF  P(300+1)
-#define J2MRES P(100+2)
-#define J2OFF  P(300+2)
-#define J3MRES P(100+3)
-#define J3OFF  P(300+3)
-
-; Setup the inputs, all are in degrees or mm
+; Setup the inputs, all are in i15 EGUs or mm
 ; These are the global co-ordinates of J1
-#define J1X Q100
+#define J1X Q20
 J1X = 0
-#define J1Z Q101
+#define J1Z Q21
 J1Z = 0
 ; These are the global co-ordinates of J2
-#define J2X Q102
+#define J2X Q22
 J2X = 125.57
-#define J2Z Q103
+#define J2Z Q23
 J2Z = 217.5
 ; These are the global co-ordinates of J3
-#define J3X Q104
+#define J3X Q24
 J3X = -125.57
-#define J3Z Q105
+#define J3Z Q25
 J3Z = 217.5
-; These are the jack plane co-ordinates of J1
 ; The mirror support is mounted at (0,0) relative to these co-ordinates
-#define JTX Q106
+#define JTX Q26
 JTX = 7.45
-#define JTZ Q107
+#define JTZ Q27
 JTZ = 0
 ; This is the pitch of the mirror support mounted on the jack plane
-#define MP  Q108
+#define MP  Q28
 MP = -45
 ; This is the roll of the mirror support
-#define MR  Q109
+#define MR  Q29
 MR = 0
-; This is the mirror depth
-#define MD  Q110
+; This is the surface depth
+#define MD  Q30
 MD = 60
 ; This is the measure point for pitch, roll, Y in global co-ordinates
-#define MCX Q111
+#define MCX Q31
 MCX = 0
-#define MCZ Q112
+#define MCZ Q32
 MCZ = 120
 
-; These are some general purpose vectors for use in the kinematic calculations
-#define J1Y Q113
-#define J2Y Q114
-#define J3Y Q115
-#define JP  Q116
-#define JR  Q117
-#define TP  Q118
-#define TR  Q119
-#define UX  Q120
-#define UY  Q121
-#define UZ  Q122
-#define VX  Q123
-#define VY  Q124
-#define VZ  Q125
-#define WX  Q126
-#define WY  Q127
-#define WZ  Q128
 
+; Calculate Pitch, Roll and Height from jack positions
+#define J1Y (J1MRES*P1+J1OFF)
+#define J2Y (J2MRES*P2+J2OFF)
+#define J3Y (J3MRES*P3+J3OFF)
+#define PITCH Q7
+#define ROLL Q8
+#define HEIGHT Q9
+; Local variables
+#define JP  Q128
+#define JR  Q129
+#define UX  Q130
+#define UY  Q131
+#define UZ  Q132
+#define VX  Q133
+#define VY  Q134
+#define VZ  Q135
+#define WX  Q136
+#define WY  Q137
+#define WZ  Q138
 OPEN FORWARD
-; This kinematic translates jacks into pitch, roll, y
-; Q7 = PITCH in degrees
-; Q8 = ROLL in degrees
-; Q9 = Y in mm
 CLEAR
-	; First we get the jack heights and put them in the correct variables
-	J1Y = J1MRES*P1+J1OFF
-	J2Y = J2MRES*P2+J2OFF
-	J3Y = J3MRES*P3+J3OFF
-	; Next we calculate vectors U = J3 - J1, V = J2 - J1
-	; note that J3X must be > J2X
-	UX = J3X - J1X
-	UY = J3Y - J1Y
-	UZ = J3Z - J1Z
-	VX = J2X - J1X
-	VY = J2Y - J1Y
-	VZ = J2Z - J1Z
-	; The cross product of these gives W, the normal to the jack plane
-	WX = UY*VZ-UZ*VY
-	WY = UZ*VX-UX*VZ
-	WZ = UX*VY-UY*VX
-	; We can calculate the pitch and roll of this normal from the Y+ vector
-	; WY != 0 as jacks are all in Y direction
-	JP = atan(WZ/WY)
-	JR = -atan(WX/WY)	
-	TP = JP + MP
-	TR = JR + MR
-	; Add the pitch and roll of the mirror support in and we have pitch and roll
-	Q7 = TP*10000	
-	Q8 = TR*10000
-	; Now we work out Y
-	; First we calculate U, mirror plane normal
-    UX = -tan(TR)
+    ; We calculate vectors U = J3 - J1, V = J2 - J1
+    UX = J3X - J1X
+    UY = J3Y - J1Y
+    UZ = J3Z - J1Z
+    VX = J2X - J1X
+    VY = J2Y - J1Y
+    VZ = J2Z - J1Z
+    ; The cross product of these gives W, the normal to the jack plane
+    WX = UY*VZ-UZ*VY
+    WY = UZ*VX-UX*VZ
+    WZ = UX*VY-UY*VX
+    ; We can calculate the pitch and roll of this normal from the Y+ vector
+    ; WY != 0 as jacks are all in Y direction
+    JP = atan(WZ/WY)
+    JR = -atan(WX/WY)
+    ; Add the pitch and roll of the mirror support in and we have pitch and roll
+    PITCH = JP + MP
+    ROLL = JR + MR
+    ; Now we work out Y
+    ; First we calculate U, mirror plane normal
+    UX = -tan(ROLL)
     UY = 1.0
-    UZ = tan(TP)	
-	; Now work out V, the origin of the jack plane
-	; Start at the top of jack1, then move to the origin of the jack plane
-	; Then up by the depth of the mirror plane
-	VX = J1X - cos(JR)*JTX
-	VY = J1Y + sin(JP)*JTZ - sin(JR)*JTX + MD/(cos(TR)*cos(TP))
-	VZ = J1Z - cos(JP)*JTZ
-	; Now we can calculate the equation of the mirror plane, and so Y
-	Q9 = (UX*(VX-MCX)/UY + VY + UZ*(VZ-MCZ)/UY)*10000
+    UZ = tan(PITCH)
+    ; Now work out V, the origin of the jack plane
+    ; Start at the top of jack1, then move to the origin of the jack plane
+    ; Then up by the depth of the mirror plane
+    VX = J1X - cos(JR)*JTX
+    VY = J1Y + sin(JP)*JTZ - sin(JR)*JTX + MD/(cos(ROLL)*cos(PITCH))
+    VZ = J1Z - cos(JP)*JTZ
+    ; Now we can calculate the equation of the mirror plane, and so Y
+    HEIGHT = UX*(VX-MCX)/UY + VY + UZ*(VZ-MCZ)/UY
 CLOSE
-	
+
+
+; Calculate jack positions from Pitch, Roll and Height
+; Local variables
+#define JP  Q228
+#define JR  Q229
+#define UX  Q230
+#define UY  Q231
+#define UZ  Q232
+#define VX  Q233
+#define VY  Q234
+#define VZ  Q235
+#define WX  Q236
+#define WY  Q237
+#define WZ  Q238
+#define J1Y Q239
+#define J2Y Q240
+#define J3Y Q241
 OPEN INVERSE
-; This kinematic translates pitch, roll, y into jacks
-; P1 = J1 in mm
-; P2 = J2 in mm
-; P3 = J3 in mm
 CLEAR
-	; get the total pitch and roll
-	TP = Q7 * 0.0001
-	TR = Q8 * 0.0001
-	JP = TP - MP
-	JR = TR - MR
-	; define U, normal to the mirror plane
-	UX = -tan(TR)
-	UY = 1.0
-	UZ = tan(TP)
-	; define V, the measurement point on the mirror plane, moved down by the depth of the mirror
-	VX = MCX
-	VY = Q9 * 0.0001 - MD/(cos(TR)*cos(TP))
-	VZ = MCZ
-	; Now work out W, the origin of the jack plane
-	; Start at the top of jack1, then move to the origin of the jack plane
-	WX = J1X - cos(JR)*JTX
-	WZ = J1Z - cos(JP)*JTZ
-	; work out VY using the equation of the lower mirror plane
-	WY = UX*(VX-WX)/UY + VY + UZ*(VZ-WZ)/UY
-	; define V, normal to jack plane
-	VX = -tan(JR)
-	VY = 1.0
-	VZ = tan(JP)
-	; we now have W, a point on the jack plane, and a V, the normal, so use equation to work out jack heights
-	P1 = (VX*(WX-J1X)/VY + WY + VZ*(WZ-J1Z)/VY - J1OFF) / J1MRES
-	P2 = (VX*(WX-J2X)/VY + WY + VZ*(WZ-J2Z)/VY - J2OFF) / J2MRES
-	P3 = (VX*(WX-J3X)/VY + WY + VZ*(WZ-J3Z)/VY - J3OFF) / J3MRES
-CLOSE	
-
-; These are some general purpose vectors for use in the PLC calculations
-#define J1Y Q129
-#define J2Y Q130
-#define J3Y Q131
-#define JP  Q132
-#define JR  Q133
-#define UX  Q136
-#define UY  Q137
-#define UZ  Q138
-#define VX  Q139
-#define VY  Q140
-#define VZ  Q141
-#define WX  Q142
-#define WY  Q143
-#define WZ  Q144
-#define timer i(5111+(17&30)*50+17%2)
-#define MilliSeconds * 8388608/i10
-
-OPEN PLC 17
-; PLC for position reporting
-CLEAR
-; As forward kinematic, but with Px = mx62/(Ix08*32)
-#define J1VAL m162/(I108*32)
-#define J2VAL m262/(I208*32)
-#define J3VAL m362/(I308*32)
-; Put deadband into Q9x
-#define J1DB  i165*J1MRES/16
-#define J2DB  i265*J2MRES/16
-#define J3DB  i365*J3MRES/16
-ADDRESS&2
-	; First we get the jack heights and put them in the correct variables
-	J1Y = J1MRES*J1VAL+J1OFF
-	J2Y = J2MRES*J2VAL+J2OFF
-	J3Y = J3MRES*J3VAL+J3OFF
-	; Next we calculate vectors U = J3 - J1, V = J2 - J1
-	; note that J3X must be > J2X
-	UX = J3X - J1X
-	UY = J3Y - J1Y
-	UZ = J3Z - J1Z
-	VX = J2X - J1X
-	VY = J2Y - J1Y
-	VZ = J2Z - J1Z
-	; The cross product of these gives W, the normal to the jack plane
-	WX = UY*VZ-UZ*VY
-	WY = UZ*VX-UX*VZ
-	WZ = UX*VY-UY*VX
-	; We can calculate the pitch and roll of this normal from the Y+ vector
-	; WY != 0 as jacks are all in Y direction
-	JP = atan(WZ/WY)
-	JR = -atan(WX/WY)	
-	TP = JP + MP
-	TR = JR + MR
-	; Add the pitch and roll of the mirror support in and we have pitch and roll
-	Q87 = TP*10000	
-	Q88 = TR*10000
-	; Now we work out Y
-	; First we calculate U, mirror plane normal
-    UX = -tan(TR)
+    ; get the total pitch and roll
+    JP = PITCH - MP
+    JR = ROLL - MR
+    ; define U, normal to the mirror plane
+    UX = -tan(ROLL)
     UY = 1.0
-    UZ = tan(TP)	
-	; Now work out V, the origin of the jack plane
-	; Start at the top of jack1, then move to the origin of the jack plane
-	; Then up by the depth of the mirror plane
-	VX = J1X - cos(JR)*JTX
-	VY = J1Y + sin(JP)*JTZ - sin(JR)*JTX + MD/(cos(TR)*cos(TP))
-	VZ = J1Z - cos(JP)*JTZ
-	; Now we can calculate the equation of the mirror plane, and so Y
-	Q89 = (UX*(VX-MCX)/UY + VY + UZ*(VZ-MCZ)/UY)*10000
-	; Now calculate deadbands
-    Q97=ABS(J1DB)*10000
-    Q98=ABS(J1DB)*10000
-    Q99=ABS(J1DB)*10000
+    UZ = tan(PITCH)
+    ; define V, the measurement point on the mirror plane, moved down by the depth of the mirror
+    VX = MCX
+    VY = HEIGHT - MD/(cos(ROLL)*cos(PITCH))
+    VZ = MCZ
+    ; Now work out W, the origin of the jack plane
+    ; Start at the top of jack1, then move to the origin of the jack plane
+    WX = J1X - cos(JR)*JTX
+    WZ = J1Z - cos(JP)*JTZ
+    ; work out VY using the equation of the lower mirror plane
+    WY = UX*(VX-WX)/UY + VY + UZ*(VZ-WZ)/UY
+    ; define V, normal to jack plane
+    VX = -tan(JR)
+    VY = 1.0
+    VZ = tan(JP)
+    ; we now have W, a point on the jack plane, and a V, the normal, so use equation to work out jack heights in EGUs
+    J1Y = VX*(WX-J1X)/VY + WY + VZ*(WZ-J1Z)/VY
+    J2Y = VX*(WX-J2X)/VY + WY + VZ*(WZ-J2Z)/VY
+    J3Y = VX*(WX-J3X)/VY + WY + VZ*(WZ-J3Z)/VY
+    ; and now in cts
+    P1 = (J1Y - J1OFF) / J1MRES
+    P2 = (J2Y - J2OFF) / J2MRES
+    P3 = (J3Y - J3OFF) / J3MRES
+CLOSE
+
+
+; A PLC(sx+15) needs to be made to do position reporting
+; Readbacks should be in &{axisnum}Q81..89
+; As forward kinematic, but with Px = mx62/(Ix08*32)
+#define J1Y (J1MRES*m162/(I108*32)+J1OFF)
+#define J2Y (J2MRES*m262/(I208*32)+J2OFF)
+#define J3Y (J3MRES*m362/(I308*32)+J3OFF)
+#define PITCH Q87
+#define ROLL Q88
+#define HEIGHT Q89
+; Local variables
+#define JP  Q328
+#define JR  Q329
+#define UX  Q330
+#define UY  Q331
+#define UZ  Q332
+#define VX  Q333
+#define VY  Q334
+#define VZ  Q335
+#define WX  Q336
+#define WY  Q337
+#define WZ  Q338
+OPEN PLC 17
+CLEAR
+    ADDRESS&2
+    ; We calculate vectors U = J3 - J1, V = J2 - J1
+    UX = J3X - J1X
+    UY = J3Y - J1Y
+    UZ = J3Z - J1Z
+    VX = J2X - J1X
+    VY = J2Y - J1Y
+    VZ = J2Z - J1Z
+    ; The cross product of these gives W, the normal to the jack plane
+    WX = UY*VZ-UZ*VY
+    WY = UZ*VX-UX*VZ
+    WZ = UX*VY-UY*VX
+    ; We can calculate the pitch and roll of this normal from the Y+ vector
+    ; WY != 0 as jacks are all in Y direction
+    JP = atan(WZ/WY)
+    JR = -atan(WX/WY)
+    ; Add the pitch and roll of the mirror support in and we have pitch and roll
+    PITCH = JP + MP
+    ROLL = JR + MR
+    ; Now we work out Y
+    ; First we calculate U, mirror plane normal
+    UX = -tan(ROLL)
+    UY = 1.0
+    UZ = tan(PITCH)
+    ; Now work out V, the origin of the jack plane
+    ; Start at the top of jack1, then move to the origin of the jack plane
+    ; Then up by the depth of the mirror plane
+    VX = J1X - cos(JR)*JTX
+    VY = J1Y + sin(JP)*JTZ - sin(JR)*JTX + MD/(cos(ROLL)*cos(PITCH))
+    VZ = J1Z - cos(JP)*JTZ
+    ; Now we can calculate the equation of the mirror plane, and so Y
+    HEIGHT = UX*(VX-MCX)/UY + VY + UZ*(VZ-MCZ)/UY
+    ; If jack motor record did the last move, set demands = readbacks
+    if (J1MOVE = 1)
+    or (J2MOVE = 1)
+    or (J3MOVE = 1)
+        J1MOVE = 0
+        J2MOVE = 0
+        J3MOVE = 0
+        Q77 = Q87
+        Q78 = Q88
+        Q79 = Q89
+    endif
 CLOSE
 ENABLE PLC 17
 

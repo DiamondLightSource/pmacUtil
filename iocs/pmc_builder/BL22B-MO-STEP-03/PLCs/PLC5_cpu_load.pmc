@@ -2,6 +2,8 @@
 ; DO NOT MODIFY: File created from src/PLC5_cpu_load.psub
 ;####################################################
 
+CLOSE
+
 ;####################################################
 ; Calculation of CPU load for a Turbo PMAC
 ;

@@ -1,5 +1,5 @@
 ;####################################################
-; DO NOT MODIFY: File created from /dls_sw/prod/R3.14.11/support/pmacUtil/3-11/data/PROG10_CS_motion.pmc
+; DO NOT MODIFY: File created from /dls_sw/work/R3.14.11/support/pmacCoord/data/PROG10_CS_motion.pmc
 ;####################################################
 
 CLOSE
@@ -8,8 +8,8 @@ CLOSE
 ; Generic program for moving any co-ordinate system
 ; Original Author: Tom Cobb
 ; Used variables: Q71..Q79, Q81..Q89
-; You should do a $$$ or type the following the first time you load this prog. 
-; If you type the commands in, ignore any errors. If you $$$, PLC1 will do it 
+; You should do a $$$ or type the following the first time you load this prog.
+; If you type the commands in, ignore any errors. If you $$$, PLC1 will do it
 ; automatically for you at startup:
 ;&16 DEFINE LOOKAHEAD 50,10
 ;&15 DEFINE LOOKAHEAD 50,10
@@ -28,18 +28,18 @@ CLOSE
 ;&2 DEFINE LOOKAHEAD 50,10
 ;####################################################
 
-;This program defines the program needed to do a move using the motor record 
+;This program defines the program needed to do a move using the motor record
 ;on a CS axis
 ;to do a move we need to do &{CS}R
 ;to stop a move we need to do &{CS}A
 ;demand values are in &{CS}Q71..79
 ;The following are set by the motor record:
-;Isx87 = Acceleration 
+;Isx87 = Acceleration
 ;Isx88 = S curve
 ;Isx89 = Feedrate
 
 ; Set some defaults for all CS axes
-i5213,15,100=10   ; segmentation time (needed for lookahead)
+i5213,15,100=50   ; segmentation time (needed for lookahead)
 i5220,15,100=50   ; lookahead length (needed to limit max velocity to max set in CS)
 i5250,15,100=1    ; Enable kinematics
 

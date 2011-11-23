@@ -72,6 +72,8 @@ i714=0
 if (HomingBackupGroup=1 and HomingStatus=StatusHoming)
 	HomingGroup=1
 
+	;Clear home flags
+	m745=0
 	;---- FastSearch State ----
 	if (HomingStatus=StatusHoming)
 		HomingState=StateFastSearch

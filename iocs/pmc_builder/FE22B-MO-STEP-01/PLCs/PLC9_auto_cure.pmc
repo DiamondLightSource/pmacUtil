@@ -7,6 +7,7 @@
  
 ; Define which axis are in stepper mode - set to 1 for a stepper, 0 for servo
  
+CLOSE
 
 ;###########################################################
 ; PLC_auto_cure.pmc

@@ -1,5 +1,5 @@
 ;####################################################
-; DO NOT MODIFY: File created from /dls_sw/prod/R3.14.11/support/pmacUtil/3-11/data/clear_PLC_CS.pmc
+; DO NOT MODIFY: File created from /dls_sw/work/R3.14.11/support/pmacUtil/data/clear_PLC_CS.pmc
 ;####################################################
 
 CLOSE
