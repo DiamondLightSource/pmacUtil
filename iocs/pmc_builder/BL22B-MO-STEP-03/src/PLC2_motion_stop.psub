@@ -1,0 +1,2 @@
+substitute "STOPTIME=200"
+include "PLC2_motion_stop.pmc"

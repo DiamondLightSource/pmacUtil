@@ -1,0 +1,3 @@
+substitute "ONM1=2"
+substitute "ONM2=2"
+include "PLC4_encoder_loss.pmc"

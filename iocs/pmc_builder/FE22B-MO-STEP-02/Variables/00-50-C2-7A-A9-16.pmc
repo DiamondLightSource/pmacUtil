@@ -1,0 +1,40 @@
+; MAC: 00 50 C2 7A A9 16 Current(AMPS) Offset .PMC File 
+; Time Stamp: 18 November 2009            15:13
+; -----------------------------------------------------
+
+
+; ----- Axis 1
+I129 =  -2         ;Output/1st Phase Offset
+I179 = -1          ;2nd Phase Output (DAC) Bias
+
+; ----- Axis 2
+I229 = -2          ;Output/1st Phase Offset
+I279 = -2          ;2nd Phase Output (DAC) Bias
+
+; ----- Axis 3
+I329 = -100        ;Output/1st Phase Offset
+I379 = -200        ;2nd Phase Output (DAC) Bias
+
+; ----- Axis 4
+I429 = -100        ;Output/1st Phase Offset
+I479 = -100        ;2nd Phase Output (DAC) Bias
+
+; ----- Axis 5
+I529 = -50         ;Output/1st Phase Offset
+I579 = -150        ;2nd Phase Output (DAC) Bias
+
+; ----- Axis 6
+I629 =  0          ;Output/1st Phase Offset
+I679 = -150        ;2nd Phase Output (DAC) Bias
+
+; ----- Axis 7
+I729 = -80         ;Output/1st Phase Offset
+I779 = -180        ;2nd Phase Output (DAC) Bias
+
+; ----- Axis 8
+I829 = -100        ;Output/1st Phase Offset
+I879 = -100        ;2nd Phase Output (DAC) Bias
+; -----------------------------------------------------
+
+; End Current Offset Values 
+

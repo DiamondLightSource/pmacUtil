@@ -1,0 +1,2 @@
+substitute "COORD=2,MD=60,J1=1,J3=3,J1Z=0,J2=2,J1X=0,MCX=0,PLC=17,J2X=125.57,J3X=-125.57,J2Z=217.5,J3Z=217.5,MCZ=120,JTX=7.45,JTZ=0,MP=-45,MR=0"
+include "CS_3jack_mirror.pmc"

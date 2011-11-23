@@ -1,0 +1,43 @@
+; SPREADSHEET GENERATED BL22B-MO-STEP-03
+; FROM - BL22B-MO-RACK-01.xls
+; Current(AMPS) Offset .pmc File 
+; Time Stamp: 22 October 2010             11:35
+; MAC: 00 50 C2 7A B3 8D
+; -----------------------------------------------------
+
+
+; ----- Axis 1
+I129 =  0               ;Output/1st Phase Offset
+I179 =  45              ;2nd Phase Output (DAC) Bias
+
+; ----- Axis 2
+I229 = -30              ;Output/1st Phase Offset
+I279 = -25              ;2nd Phase Output (DAC) Bias
+
+; ----- Axis 3
+I329 = -25              ;Output/1st Phase Offset
+I379 =  25              ;2nd Phase Output (DAC) Bias
+
+; ----- Axis 4
+I429 =  70              ;Output/1st Phase Offset
+I479 =  0               ;2nd Phase Output (DAC) Bias
+
+; ----- Axis 5
+I529 = -40              ;Output/1st Phase Offset
+I579 = -90              ;2nd Phase Output (DAC) Bias
+
+; ----- Axis 6
+I629 =  10              ;Output/1st Phase Offset
+I679 = -40              ;2nd Phase Output (DAC) Bias
+
+; ----- Axis 7
+I729 = -60              ;Output/1st Phase Offset
+I779 =  20              ;2nd Phase Output (DAC) Bias
+
+; ----- Axis 8
+I829 = -50              ;Output/1st Phase Offset
+I879 =  20              ;2nd Phase Output (DAC) Bias
+; -----------------------------------------------------
+
+; End Current Offset Values 
+

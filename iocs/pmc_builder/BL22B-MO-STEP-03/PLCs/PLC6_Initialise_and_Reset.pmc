@@ -1,0 +1,106 @@
+; SPREADSHEET GENERATED BL22B-MO-STEP-03
+; FROM - BL22B-MO-RACK-01.xls
+; Time Stamp: 27 May 2010   11:55
+; IP: 172.23.092.168        MAC: 00 50 C2 xx xx xx
+; -----------------------------------------------------
+P600..699 = 0   ;Clear All PLC6 Variables on first load
+
+CLOSE
+OPEN PLC6
+CLEAR
+
+;Set Axis Type and RESET Bits 
+i5411 = 2000 * 8388608/i10    ;First Delay
+WHILE (i5411 > 0)
+END WHILE
+Command "wx$78014, $F8CDFE"
+i5411 = 50 * 8388608/i10    ;Delay
+WHILE (i5411 > 0)
+END WHILE
+Command "wx$78014, $F9CDFE"
+i5411 = 50 * 8388608/i10    ;Delay
+WHILE (i5411 > 0)
+END WHILE
+Command "wx$78014, $FACDFE"
+i5411 = 50 * 8388608/i10    ;Delay
+WHILE (i5411 > 0)
+END WHILE
+Command "wx$78014, $FBCDFE"
+i5411 = 50 * 8388608/i10    ;Delay
+WHILE (i5411 > 0)
+END WHILE
+Command "wx$78114, $F8CDFE"
+i5411 = 50 * 8388608/i10    ;Delay
+WHILE (i5411 > 0)
+END WHILE
+Command "wx$78114, $F9CDFE"
+i5411 = 50 * 8388608/i10    ;Delay
+WHILE (i5411 > 0)
+END WHILE
+Command "wx$78114, $FACDFE"
+i5411 = 50 * 8388608/i10    ;Delay
+WHILE (i5411 > 0)
+END WHILE
+Command "wx$78114, $FBCDFE"
+i5411 = 50 * 8388608/i10    ;Delay
+WHILE (i5411 > 0)
+END WHILE
+
+;Clear RESET Bits and Flags 
+Command "wx$78014, $F84DFE"
+i5411 = 50 * 8388608/i10    ;Delay
+WHILE (i5411 > 0)
+END WHILE
+ M148 = 0 ;reset phase error
+Command "wx$78014, $F94DFE"
+i5411 = 50 * 8388608/i10    ;Delay
+WHILE (i5411 > 0)
+END WHILE
+ M248 = 0 ;reset phase error
+Command "wx$78014, $FA4DFE"
+i5411 = 50 * 8388608/i10    ;Delay
+WHILE (i5411 > 0)
+END WHILE
+ M348 = 0 ;reset phase error
+Command "wx$78014, $FB4DFE"
+i5411 = 50 * 8388608/i10    ;Delay
+WHILE (i5411 > 0)
+END WHILE
+ M448 = 0 ;reset phase error
+Command "wx$78114, $F84DFE"
+i5411 = 50 * 8388608/i10    ;Delay
+WHILE (i5411 > 0)
+END WHILE
+ M548 = 0 ;reset phase error
+Command "wx$78114, $F94DFE"
+i5411 = 50 * 8388608/i10    ;Delay
+WHILE (i5411 > 0)
+END WHILE
+ M648 = 0 ;reset phase error
+Command "wx$78114, $FA4DFE"
+i5411 = 50 * 8388608/i10    ;Delay
+WHILE (i5411 > 0)
+END WHILE
+ M748 = 0 ;reset phase error
+Command "wx$78114, $FB4DFE"
+i5411 = 50 * 8388608/i10    ;Delay
+WHILE (i5411 > 0)
+END WHILE
+ M848 = 0 ;reset phase error
+
+;Configurations settings 0=Brushless or DC,  1 = Stepper
+P601 = 1
+P602 = 1
+P603 = 1
+P604 = 1
+P605 = 1
+P606 = 1
+P607 = 1
+P608 = 1
+
+DISABLE PLC6
+CLOSE
+; -----------------------------------------------------
+
+; End Of PLC6
+

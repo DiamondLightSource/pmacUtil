@@ -1,0 +1,47 @@
+; First we want to clear all the PLCs and CSs
+#include "PLCs/clear_PLC_CS.pmc"
+
+; Setup the current offsets
+#include "Variables/00-50-C2-7A-AB-B8.pmc"
+
+; Add the axes and control I Variables
+#include "Variables/Axis.pmc"
+#include "Variables/Control.pmc"
+
+; And the m-variable definitions
+#include "../BRICK_M_variables.pmc"
+
+; a PLC to initialise the brick
+#include "PLCs/PLC1_initialise.pmc"
+
+; a PLC to do encoder loss and amp status protection
+#include "PLCs/PLC4_encoder_loss.pmc"
+
+; a PLC to do cpu load
+#include "PLCs/PLC5_cpu_load.pmc"
+
+; a PLC to setup the internal amps
+#include "PLCs/PLC6_Initialise_and_Reset.pmc"
+
+; a PLC to kill axes after a move
+#include "PLCs/PLC7_kill_when_idle.pmc"
+
+; a PLC to cure the axis 2 stepper forgetfullness
+#include "PLCs/PLC9_auto_cure.pmc"
+
+; Finally add some homing PLCs
+#include "PLCs/PLC10_M1_HM.pmc"
+#include "PLCs/PLC11_M2_HM.pmc"
+
+; the CS for M1
+#include "PLCs/PLC17_M1_CS.pmc"
+
+; the CS for M2
+#include "PLCs/PLC18_M2_CS.pmc"
+
+; a motion program for the CS moves
+#include "PROGs/PROG10_CS_motion.pmc"
+
+
+
+

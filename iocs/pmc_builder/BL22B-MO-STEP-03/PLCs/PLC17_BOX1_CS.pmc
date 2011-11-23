@@ -1,0 +1,165 @@
+;####################################################
+; DO NOT MODIFY: File created from src/PLC17_BOX1_CS.psub
+;####################################################
+
+CLOSE
+
+;###############################################
+; Define motion of B22's optics box
+; Original Author: Tom Cobb
+; Used variables: Q71..Q79, Q81..Q89, Q91..Q99, Q200..
+; Macros (and example values): 
+; COORD = 2 ;CS number (only works for CS 1..9), e.g. 2
+; PLC = 17 ;PLC number, should be CS number+15, e.g. 17
+; M9PITCH = 1 ;Axisnum for M9 pitch actuator, e.g. 1
+; M9ROLL = 2 ;Axisnum for M9 roll actuator, e.g. 2
+; XM9 = 50 ;Lateral distance between actuator and pivot ball on M9 in mm
+; YM9 = 50 ;Distance between M9 pitch actuator and pivot ball on M9 in mm
+; M10PITCH = 3 ;Axisnum for M10 pitch actuator, e.g. 3
+; M10ROLL = 4 ;Axisnum for M10 roll actuator, e.g. 4
+; XM10 = 50 ;Lateral distance between actuator and pivot ball on M10 in mm
+; YM10 = 50 ;Distance between M10 pitch actuator and pivot ball on M10 in mm
+; LM9M10 = 400 ;Distance between M9 and M10 centres in mm
+; MRES = 0.0001 ;Mres of motor record
+;################################################
+
+; Note that we are providing a CS axis with an MRES of 0.0001 and EGU in rad/deg
+; depending on the setting of i15
+; This is needed as the motor record will only move in full steps
+
+; Change to CS2
+&2
+
+; Set relevant axes to use kinematics
+#1->I
+#2->I
+#3->I
+#4->I
+
+; These are set by mres_reporting_motor.template
+#define M9PITCHMRES P(100+1)
+#define M9PITCHOFF  P(300+1)
+#define M9ROLLMRES P(100+2)
+#define M9ROLLOFF  P(300+2)
+#define M10PITCHMRES P(100+3)
+#define M10PITCHOFF  P(300+3)
+#define M10ROLLMRES P(100+4)
+#define M10ROLLOFF  P(300+4)
+
+; Set epics motor record to look at this address - 1
+#define $(XEXIT,undefined)     6
+#define $(YEXIT,undefined)     7
+#define $(THETAEXIT,undefined) 8
+#define $(PHIEXIT,undefined)   9
+
+; Setup the inputs, all are in mm
+#define XM9      Q200
+#define YM9      Q201
+#define XM10     Q202
+#define YM10     Q203
+#define LM9M10   Q204
+XM9 = 50
+YM9 = 50
+XM10 = 50
+YM10 = 50
+LM9M10 = 400
+
+; Some temp vars for kinematics
+#define THETAM9  Q207
+#define PHIM9    Q208
+#define THETAM10 Q209
+#define PHIM10   Q210
+
+OPEN FORWARD
+; This kinematic translates actuators into exit X, Y, Theta, and Phi
+; Xexit in mm = ThetaM9 x lM9M10 / 1000
+; Yexit in mm = PhiM9 x lM9M10 / 1000
+; ThetaExit in mrad = 2 x ThetaM9 + 2 x ThetaM10
+; PhiExit in mrad = 2 x PhiM9 + 2 x PhiM10
+; where:
+;   ThetaM9 in mrad = M9Pitch x 1000 / xM9
+;   PhiM9 in mrad = M9Roll x 1000 / yM9
+;   ThetaM10 in mrad = M10Pitch x 1000 / xM10
+;   PhiM10 in mrad = M10Roll x 1000 / yM10
+CLEAR
+	; get angles from actuators
+    THETAM9 = (M9PITCHMRES*P1+M9PITCHOFF) * 1000 / XM9
+    PHIM9 = (M9ROLLMRES*P2+M9ROLLOFF) * 1000 / YM9
+    THETAM10 = (M10PITCHMRES*P3+M10PITCHOFF) * 1000 / XM10
+    PHIM10 = (M10ROLLMRES*P4+M10ROLLOFF) * 1000 / YM10
+    ; calculate exit values from angles
+	Q$(XEXIT,undefined) = (THETAM9 * LM9M10) / 0.0001 / 1000
+	Q$(YEXIT,undefined) = (PHIM9 * LM9M10) / 0.0001 / 1000
+	Q$(THETAEXIT,undefined) = 2 * (THETAM9 + THETAM10) / 0.0001
+	Q$(PHIEXIT,undefined) = 2 * (PHIM9 + PHIM10) / 0.0001
+CLOSE
+
+; Some temp vars for kinematics
+#define THETAM9  Q211
+#define PHIM9    Q212
+#define THETAM10 Q213
+#define PHIM10   Q214
+	
+OPEN INVERSE
+; This kinematic translates exit X, Y, Theta, and Phi into actuator positions
+; M9Pitch in mm = ThetaM9 * xM9 / 1000
+; M9Roll in mm = PhiM9 * yM9 / 1000
+; M10Pitch in mm = ThetaM10 * xM10 / 1000
+; M10Roll in mm = PhiM10 * yM10 / 1000
+; where:
+;   ThetaM9 in mrad = Xexit * 1000 / lM9M10
+;   PhiM9 in mrad = Yexit * 1000 / lM9M10
+;   ThetaM10 in mrad = (ThetaExit - 2 x ThetaM9) / 2
+;   PhiM10 in mrad = (PhiExit - 2 x PhiM9) / 2
+CLEAR
+	; get angles from exit
+    THETAM9 = Q$(XEXIT,undefined) * 0.0001 * 1000 / LM9M10
+    PHIM9 = Q$(YEXIT,undefined) * 0.0001 * 1000 / LM9M10
+    THETAM10 = (Q$(THETAEXIT,undefined) * 0.0001 - 2 * THETAM9) / 2
+    PHIM10 = (Q$(PHIEXIT,undefined) * 0.0001 - 2 * PHIM9) / 2
+    ; calculate actuator values from angles
+	P1 = (THETAM9 * XM9 / 1000 - M9PITCHOFF) / M9PITCHMRES
+	P2 = (PHIM9 * YM9 / 1000 - M9ROLLOFF) / M9ROLLMRES
+	P3 = (THETAM10 * XM10 / 1000 - M10PITCHOFF) / M10PITCHMRES
+	P4 = (PHIM10 * YM10 / 1000 - M10ROLLOFF) / M10ROLLMRES
+CLOSE	
+
+; Some temp vars for PLC reporting
+#define THETAM9  Q215
+#define PHIM9    Q216
+#define THETAM10 Q217
+#define PHIM10   Q218
+
+OPEN PLC 17
+; PLC for position reporting
+CLEAR
+; As forward kinematic, but with Px = mx62/(Ix08*32)
+#define M9PITCHVAL m162/(I108*32)
+#define M9ROLLVAL m262/(I208*32)
+#define M10PITCHVAL m362/(I308*32)
+#define M10ROLLVAL m462/(I408*32)
+; Put deadband into Q9x
+#define M9PITCHDB  i165*M9PITCHMRES/16
+#define M9ROLLDB  i265*M9ROLLMRES/16
+#define M10PITCHDB  i365*M10PITCHMRES/16
+#define M10ROLLDB  i465*M10ROLLMRES/16
+ADDRESS&2
+	; get angles from actuators
+    THETAM9 = (M9PITCHMRES*M9PITCHVAL+M9PITCHOFF) * 1000 / XM9
+    PHIM9 = (M9ROLLMRES*M9ROLLVAL+M9ROLLOFF) * 1000 / YM9
+    THETAM10 = (M10PITCHMRES*M10PITCHVAL+M10PITCHOFF) * 1000 / XM10
+    PHIM10 = (M10ROLLMRES*M10ROLLVAL+M10ROLLOFF) * 1000 / YM10
+    ; calculate exit values from angles
+	Q8$(XEXIT,undefined) = (THETAM9 * LM9M10) / 0.0001 / 1000
+	Q8$(YEXIT,undefined) = (PHIM9 * LM9M10) / 0.0001 / 1000
+	Q8$(THETAEXIT,undefined) = 2 * (THETAM9 + THETAM10) / 0.0001
+	Q8$(PHIEXIT,undefined) = 2 * (PHIM9 + PHIM10) / 0.0001
+	; calculate deadbands
+	Q9$(XEXIT,undefined) = ABS(M9PITCHDB * 1000 / XM9 * LM9M10 / 0.0001)
+	Q9$(YEXIT,undefined) = ABS(M10PITCHDB * 1000 / YM9 * LM9M10 / 0.0001)
+	Q9$(THETAEXIT,undefined) = ABS(2 * (M9PITCHDB * 1000 / XM9 + M10PITCHDB * 1000 / XM10) / 0.0001)
+	Q9$(PHIEXIT,undefined) = ABS(2 * (M9ROLLDB * 1000 / YM9 + M10ROLLDB * 1000 / YM10) / 0.0001)
+CLOSE
+ENABLE PLC 17
+
+
