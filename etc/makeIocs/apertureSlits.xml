@@ -14,4 +14,5 @@
 	<pmacUtil.dls_pmac_cs_asyn_motor ADDR="7" DESC="Y Gap (compound)" DHLM="1000" DLLM="-1000" EGU="mm" M=":Y:GAP" MRES="0.0001" P="APERTURESLIT" PORT="BRICK1CS3" PREC="3" TWV="0.1" VELO="1" name="S.YGAP"/>
 	<pmacCoord.CS_aperture_slits AMPV="APERTURESLIT:XB" APPV="APERTURESLIT:XA" COORD="2" P="APERTURESLIT:X" PORT="BRICK1port" name="S.XSETUP"/>
 	<pmacCoord.CS_aperture_slits AMPV="APERTURESLIT:YB" APPV="APERTURESLIT:YA" COORD="3" P="APERTURESLIT:Y" PORT="BRICK1port" name="S.YSETUP"/>
+	<records.bo DTYP="asynUInt32Digital" ONAM="On" OUT="@asynMask(BRICK1CS3,0,1)MOTOR_DEFER_MOVES" ZNAM="Off" record="APERTURESLIT:X:DEFER"/>
 </components>
