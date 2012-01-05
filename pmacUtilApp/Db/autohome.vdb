@@ -8,14 +8,17 @@
 # sure to label them here
 # % macro, P, Pv Prefix
 # % macro, PLC, PLC number
-# % macro, PORT, Serial port to do communications across
-# % macro, GRP1, Homing group 1 description
-# % macro, GRP2, Homing group 2 description
-# % macro, GRP3, Homing group 3 description
-# % macro, GRP4, Homing group 4 description
-# % macro, GRP5, Homing group 5 description
-# % macro, GRP6, Homing group 6 description
-# % macro, GRP7, Homing group 7 description
+# % macro, PORT,  Serial port to do communications across
+# % macro, GRP1,  Homing group 1 description
+# % macro, GRP2,  Homing group 2 description
+# % macro, GRP3,  Homing group 3 description
+# % macro, GRP4,  Homing group 4 description
+# % macro, GRP5,  Homing group 5 description
+# % macro, GRP6,  Homing group 6 description
+# % macro, GRP7,  Homing group 7 description
+# % macro, GRP8,  Homing group 8 description
+# % macro, GRP9,  Homing group 9 description
+# % macro, GRP10, Homing group 10 description
 # % macro, STATE11, Homing state 11 description
 # % macro, STATE12, Homing state 11 description
 # % macro, STATE13, Homing state 11 description
