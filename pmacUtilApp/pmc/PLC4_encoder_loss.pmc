@@ -115,7 +115,7 @@ P432 = $(ONM32=0)
 #define axis_number              P400
 
 ; use axis_number to calculate the P variable to look in to see
-; if encoder loss protection is turned on on this axis
+; if protection is turned on on this axis
 #define encoder_protection       P(P400 + 400) & 1 = 1
 #define amp_protection           P(P400 + 400) & 2 = 2
 #define micromech_protection     P(P400 + 400) & 4 = 4
@@ -143,8 +143,13 @@ P432 = $(ONM32=0)
 
 ; this is the flag that is set if encoder is lost
 ; needs to be reset by EPICS when encoder is restored
-#define protection_tripped       P(P400+464)
+#define protection_tripped       P(P400 + 464)
 P465..496=0
+
+; if protection is tripped on this axis
+#define encoder_tripped          P(P400 + 464) & 1 = 1
+#define amp_tripped              P(P400 + 464) & 2 = 2
+#define micromech_tripped        P(P400 + 464) & 4 = 4
 
 ; this is a temp var
 #define temp_var P497
@@ -212,16 +217,27 @@ while(axis_number < 33)
         endwhile          
     endif  
 
-    ; If encoder protection is enabled for this axis and the encoder loss bit
-    ; drops to zero and we have not already
-    if(encoder_protection and encoder_loss_bit = 0)
-    ; Or amp protection is enabled and the amp status is no longer READY
-    or(amp_protection and amp_status_debounce != AMP_STATUS_READY)
-    ; Or amp 1 is under voltage
-    or(amp_protection and amp_1_status_debounce = AMP_STATUS_UNDER_VOLTAGE)    
-    ; Or micromech amp enabled but not active
-    or(micromech_protection and micromech_status = 0 and micromech_demand = 1)
-        if (protection_tripped=0)
+    ; If protection hasn't been tripped, check to see if it should be
+    if (protection_tripped = 0)
+        ; If encoder protection is enabled for this axis and the encoder loss bit
+        ; drops to zero and we have not already
+        if (encoder_protection and encoder_loss_bit = 0)
+            protection_tripped = protection_tripped | 1
+        endif
+    
+        ; Or amp protection is enabled and the amp status is no longer READY
+        if (amp_protection and amp_status_debounce != AMP_STATUS_READY)
+        ; Or amp 1 is under voltage
+        or (amp_protection and amp_1_status_debounce = AMP_STATUS_UNDER_VOLTAGE)    
+            protection_tripped = protection_tripped | 2
+        endif
+    
+        ; Or micromech amp enabled but not active
+        if (micromech_protection and micromech_status = 0 and micromech_demand = 1)
+            protection_tripped = protection_tripped | 4
+        endif
+                
+        if (protection_tripped != 0)
             ; If the following error limit is sensible
             ; then save it for future reference
             if(following_error_limit != 1)
@@ -236,30 +252,24 @@ while(axis_number < 33)
             endif
             ; Kill the specific axis
             ADDRESS#axis_number CMD"K"
-            ; Finally signal that protection is tripped
-            protection_tripped = 1
         endif
     endif
 
     ; Auto-reset the protection_tripped if it was an amp fault
-    if(amp_protection and amp_status_debounce = AMP_STATUS_READY and amp_1_status_debounce != AMP_STATUS_UNDER_VOLTAGE)        
-        ; If encoder loss is still tripped then don't reset protection
-        if(encoder_protection and encoder_loss_bit = 0)
-        else
-            protection_tripped = 0
-        endif
+    if (amp_protection and amp_tripped)
+    and (amp_status_debounce = AMP_STATUS_READY and amp_1_status_debounce != AMP_STATUS_UNDER_VOLTAGE)       
+        ; XOR with 2 to clear amp protection
+        protection_tripped = protection_tripped ^ 2 
     endif
 
     ; Auto-reset the protection_tripped if it was a micromech amp fault
-    if(micromech_protection and micromech_status = 1 and micromech_demand = 1)
-        ; If encoder loss is still tripped then don't reset protection
-        if(encoder_protection and encoder_loss_bit = 0)
-        else
-            protection_tripped = 0
-        endif
+    if (micromech_protection and micromech_tripped) 
+    and (micromech_status = 1 and micromech_demand = 1)
+        ; XOR with 4 to clear micromech protection
+        protection_tripped = protection_tripped ^ 4
     endif
 
-    if(protection_tripped = 1)
+    if (protection_tripped != 0)
         ; Protection has been tripped, so set the following
         ; error for this axis to 1/16th count
         following_error_limit = 1
