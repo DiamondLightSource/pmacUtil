@@ -246,6 +246,7 @@ class PLC:
     # \param post Where to move after the home. This can be:
     # - None: Stay at the home position
     # - an integer: move to this position in motor cts
+    # - "z" +  an integer: move to this position in motor cts and zero using a HMZ
     # - "r" +  an integer: move relative by this amount. For example: post="r100"
     # - "i": go to the initial position (does nothing for HOME htype motors)
     # - "h": go to the hign limit (ix13)
@@ -637,11 +638,24 @@ class PLC:
                 elif type(m["post"])==str and m["post"].startswith("r"):
                     # jog relative by m["post"][1:]
                     self.__cmd2.append("#%dJ=%d"%(m["ax"],int(m["post"][1:])))                                                    
+                elif type(m["post"])==str and m["post"].startswith("z"):
+                    # go to m["post"][1:]
+                    self.__cmd2.append("#%dJ=%d"%(m["ax"],int(m["post"][1:])))                                                    
                 else:
                     # go to m["post"]
                     self.__cmd2.append("#%dJ=%d"%(m["ax"],m["post"]))
             # add the commands, wait for the moves to complete
             self.__write_cmds(f,"PostHomeMove")
+            # make the current position zero if required
+            cmds = []
+            for i,m in [(i,m) for i,m in enumerate(self.motors) if m["post"]!=None and m["grp"]==self.group]:
+                if type(m["post"])==str and m["post"].startswith("z"):
+                    cmds.append("#%dhmz"%m["ax"])
+            if cmds:
+                f.write('\t;---- Make current position zero ----\n')
+                f.write('\tif (HomingStatus=StatusHoming)\n') 
+                f.write("\t\tcmd \"" + " ".join(cmds)+"\"\n")                
+                f.write('\tendif\n\n')  
 
             #---- Enable any protection ---- 
             if self.protection_plc:
