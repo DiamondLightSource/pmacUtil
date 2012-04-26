@@ -87,7 +87,7 @@ HSW_HLIM = 3
 # The first figure shows what happens when the axis starts on the home switch. 
 # E.g. Pos = -20000 cts, Index = 0 cts
 # \image html HSW_DIR.png "HSW_DIR homing, Figure 1"
-# The second figure shows what happens when the axis starts on the home switch. 
+# The second figure shows what happens when the axis starts off the home switch. 
 # E.g. Pos = 20000 cts, Index = 0 cts
 # \image html HSW_DIR2.png "HSW_DIR homing, Figure 2"
 HSW_DIR = 4
@@ -160,6 +160,7 @@ def parse_args():
 # \param protection_plc The PMAC is using the protection PLC4 rather than 
 # the encoder loss PLC4 (or no PLC4).  If True, code is planted that
 # disables the limit protection during the execution of the homing PLC.
+#
 # All other parameters setup defaults that can be overridden for a particular
 # motor in add_motor()
 class PLC:       
@@ -238,7 +239,8 @@ class PLC:
     # - \ref motorhome::HSW_HLIM "HSW_HLIM"
     # - \ref motorhome::HSW_DIR "HSW_DIR"
     # - \ref motorhome::RLIM "RLIM"                    
-    # - \ref motorhome::NOTHING "NOTHING"              
+    # - \ref motorhome::NOTHING "NOTHING"     
+    # - \ref motorhome::HSW_HSTOP "HSW_HSTOP"
     # \param jdist Distance to jog by after finding the trigger. Should always 
     # be in -hdir. E.g if ix23 = -1, jdist should be +ve. This should only be
     # needed for reference marks or bouncy limit switches. A recommended 
@@ -351,9 +353,15 @@ class PLC:
         has_pre = state == "PreHomeMove" and self.groups[self.group]["pre"]
         has_post = state == "PostHomeMove" and self.groups[self.group]["pre"]
         if self.__cmd1 or self.__cmd2 or has_pre or has_post:
+            f.write('\t; Wait for user to tell us to continue if in debug\n')
+            f.write('\tif (HomingStatus = StatusDebugHoming)\n')
+            f.write('\t\tHomingStatus = StatusPaused\n')
+            f.write('\t\twhile (HomingStatus = StatusPaused)\n')
+            f.write('\t\tendw\n')
+            f.write('\tendif\n\n')            
             f.write('\t;---- %s State ----\n'%state)
-            f.write('\tif (HomingStatus=StatusHoming)\n')
-            f.write('\t\tHomingState=State%s\n'%state)                            
+            f.write('\tif (HomingStatus = StatusHoming or HomingStatus = StatusDebugHoming)\n')
+            f.write('\t\tHomingState = State%s\n'%state)
             f.write('\t\t; Execute the move commands\n')
         if has_pre:
             f.write('\t\t%s\n' % self.groups[self.group]["pre"])
@@ -404,12 +412,12 @@ class PLC:
                     self.__d["results"] += "\t\tendif\n"
             f.write(wait_for_move%self.__d)
         if has_post:
-            f.write('\t\tif (HomingStatus=StatusHoming)\n')        
+            f.write('\t\tif (HomingStatus = StatusHoming or HomingStatus = StatusDebugHoming)\n')        
             f.write('\t\t\t%s\n' % self.groups[self.group]["post"])
             f.write('\t\tendif\n')            
         if self.__cmd1 or self.__cmd2 or has_pre or has_post:    
             self.__cmd1 = []            
-            self.__cmd2 = []                
+            self.__cmd2 = []
             f.write('\tendif\n\n')
     
     def __sel(self,htypes=None):
@@ -464,7 +472,7 @@ class PLC:
         if mschecks:                
             f.write(";If any are zero then there is probably a macro error\n")                
             f.write('if (%s)\n'%(" or ".join(mschecks)))
-            f.write("\tHomingStatus=StatusInvalid\n")
+            f.write("\tHomingStatus = StatusInvalid\n")
             f.write('endif\n')
         f.write(";Store 'not flag' to use in moving off a flag in P variables px52..x67\n")
         f.write(" ".join(["P%d%02d=P%d%02d^$C"%(plc,i+52,plc,i+36) for i,m in ems])+"\n")
@@ -479,9 +487,11 @@ class PLC:
                 
         # write some PLC for each group
         for g in sorted(self.groups.keys()):
-            f.write("if (HomingBackupGroup=1 and HomingStatus=StatusHoming)\n")
-            if g!=1:
-                f.write("or (HomingBackupGroup=%d and HomingStatus=StatusHoming)\n"%g)  
+            test = "HomingBackupGroup=1"
+            if g != 1:
+                test += "or HomingBackupGroup=%d" % g            
+            f.write("if (%s)\n" % test)
+            f.write("and (HomingStatus = StatusHoming or HomingStatus = StatusDebugHoming)\n")
             ## Store the motor group that is currently being generated          
             self.group = g
             f.write("\tHomingGroup=%d\n\n"%g) 
@@ -513,7 +523,7 @@ class PLC:
             ems = self.__sel([HSW_HLIM])
             if ems:
                 f.write('\t;---- Check if HSW_HLIM missed home mark and hit a limit ----\n')
-                f.write('\tif (HomingStatus=StatusHoming)\n')                
+                f.write('\tif (HomingStatus = StatusHoming or HomingStatus = StatusDebugHoming)\n')                
                 f.write('\t\t; Execute the move commands if on a limit\n')            
             for i,m in ems:
                 # if stopped on position limit, jog until trigger in direction of -ix23
@@ -544,7 +554,7 @@ class PLC:
             ems = self.__sel(htypes+[HSW_HLIM])  
             if ems:
                 f.write('\t;---- Store the difference between current pos and start pos ----\n')
-                f.write('\tif (HomingStatus=StatusHoming)\n')
+                f.write('\tif (HomingStatus = StatusHoming or HomingStatus = StatusDebugHoming)\n')
                 for i,m in ems:
                     # put back pos = (start pos - current pos) converted to counts + jdist - home off * 16
                     f.write('\t\tP%d%02d=(P%d%02d-M%d62)/(I%d08*32)+%d-(i%d26/16)\n'%(plc,i+84,plc,i+84,m["ax"],m["ax"],m["jdist"],m["ax"]))
@@ -563,7 +573,7 @@ class PLC:
             ems = self.__sel([LIMIT])  
             if ems:
                 f.write('\t;---- Check if any limits need disabling ----\n')
-                f.write('\tif (HomingStatus=StatusHoming)\n')     
+                f.write('\tif (HomingStatus = StatusHoming or HomingStatus = StatusDebugHoming)\n')     
                 f.write("\t\t;Save the user home flags to P variables px52..x67\n")
                 f.write("\t\t;NOTE: this overwrites inverse flag (ran out of P vars), so can't use inverse flag after this point\n\t")                
                 cmds = []
@@ -584,7 +594,7 @@ class PLC:
                 f.write("\t\t\t\ti%d24=i%d24 | $20000\n"%(m["ax"],m["ax"]))
                 f.write("\t\t\telse\n")
                 f.write("\t\t\t\t; if it isn't then set it into invalid error\n")
-                f.write("\t\t\t\tHomingStatus=StatusInvalid\n")
+                f.write("\t\t\t\tHomingStatus = StatusInvalid\n")
                 f.write("\t\t\tendif\n")
                 f.write("\t\tendif\n")
             if ems:
@@ -607,16 +617,16 @@ class PLC:
                     cmds.append("#%dhmz"%ed["ax"])
             if cmds:
                 f.write('\t;---- Zero encoder channels ----\n')
-                f.write('\tif (HomingStatus=StatusHoming)\n') 
+                f.write('\tif (HomingStatus = StatusHoming or HomingStatus = StatusDebugHoming)\n') 
                 f.write("\t\tcmd \"" + " ".join(cmds)+"\"\n")                
                 f.write('\tendif\n\n')  
 
             # check motors ALL have home complete flags set
             if ems:
                 f.write('\t;---- Check if all motors have homed ----\n')
-                f.write('\tif (HomingStatus=StatusHoming)\n') 
+                f.write('\tif (HomingStatus = StatusHoming or HomingStatus = StatusDebugHoming)\n') 
                 f.write('\tand (%s=0)\n'%("&".join(["m%d45"%m["ax"] for i,m in ems])))
-                f.write('\t\tHomingStatus=StatusIncomplete\n')
+                f.write('\t\tHomingStatus = StatusIncomplete\n')
                 f.write('\tendif\n\n')          
                               
             #---- Put Back State ----        
@@ -653,7 +663,7 @@ class PLC:
                     cmds.append("#%dhmz"%m["ax"])
             if cmds:
                 f.write('\t;---- Make current position zero ----\n')
-                f.write('\tif (HomingStatus=StatusHoming)\n') 
+                f.write('\tif (HomingStatus = StatusHoming or HomingStatus = StatusDebugHoming)\n') 
                 f.write("\t\tcmd \"" + " ".join(cmds)+"\"\n")                
                 f.write('\tendif\n\n')  
 
@@ -668,9 +678,9 @@ class PLC:
 
         #----- Done -----
         f.write(";---- Done ----\n")
-        f.write('if (HomingStatus = StatusHoming)\n')
+        f.write('if (HomingStatus = StatusHoming or HomingStatus = StatusDebugHoming)\n')
         f.write("\t;If we've got this far without failing, set status and state done\n")        
-        f.write('\tHomingStatus=StatusDone\n') 
+        f.write('\tHomingStatus = StatusDone\n') 
         f.write('\tHomingState=StateDone\n') 
         f.write("\t;Restore the homing group from px03\n")
         f.write("\tHomingGroup=HomingBackupGroup\n")         
@@ -742,6 +752,8 @@ HomingState = StateIdle
 #define StatusLimit       5
 #define StatusIncomplete  6
 #define StatusInvalid     7
+#define StatusPaused      8
+#define StatusDebugHoming 9
 HomingStatus = StatusDone
 
 ; Homing Group P Variable
@@ -754,8 +766,6 @@ HomingBackupGroup = 0
 
 OPEN PLC%(plc)s CLEAR
 
-HomingStatus = StatusHoming
-
 """
 wait_for_move = """\t\t; Wait for the move to complete
 \t\ttimer = 20 MilliSeconds ; Small delay to start moving
@@ -765,7 +775,7 @@ wait_for_move = """\t\t; Wait for the move to complete
 \t\twhile (%(InPosition)s=0) ; At least one motor should not be In Position
 \t\tand (%(FFErr)s=0) ; No following errors should be set for any motor
 %(LimitCheck)s\t\tand (timer > 0) ; Check for timeout
-\t\tand (HomingStatus = StatusHoming) ; Check that we didn't abort
+\t\tand (HomingStatus = StatusHoming or HomingStatus = StatusDebugHoming) ; Check that we didn't abort
 %(checks)s\t\tendw
 \t\t; Check why we left the while loop
 \t\tif (%(FFErrCh)s=1) ; If a motor hit a following error

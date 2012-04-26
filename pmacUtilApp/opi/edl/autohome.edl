@@ -3,8 +3,8 @@ beginScreenProperties
 major 4
 minor 0
 release 1
-x 587
-y 321
+x 189
+y 451
 w 684
 h 331
 font "arial-medium-r-18.0"
@@ -170,7 +170,7 @@ release 0
 x 5
 y 35
 w 96
-h 14
+h 15
 font "arial-medium-r-12.0"
 fontAlign "center"
 fgColor index 14
@@ -303,7 +303,7 @@ release 0
 x 5
 y 225
 w 100
-h 14
+h 15
 font "arial-medium-r-12.0"
 fontAlign "center"
 fgColor index 14
@@ -404,7 +404,7 @@ release 0
 x 200
 y 35
 w 74
-h 14
+h 15
 font "arial-medium-r-12.0"
 fontAlign "center"
 fgColor index 14
@@ -3342,11 +3342,63 @@ PV3 {
 }
 endObjectProperties
 
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 200
+y 305
+w 250
+h 20
+font "arial-bold-r-12.0"
+fontAlign "right"
+fgColor index 14
+bgColor index 3
+useDisplayBg
+value {
+  "Debug? (Pause after every stage)"
+}
+endObjectProperties
+
+# (Menu Button)
+object activeMenuButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 455
+y 305
+w 130
+h 20
+fgColor index 25
+bgColor index 3
+inconsistentColor index 0
+topShadowColor index 1
+botShadowColor index 11
+controlPv "$(P):HM:DEBUG"
+font "arial-medium-r-12.0"
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 10
+y 180
+w 170
+h 25
+
+beginGroup
+
 # (Text Monitor)
 object activeXTextDspClass:noedit
 beginObjectProperties
 major 4
-minor 1
+minor 5
 release 0
 x 10
 y 180
@@ -3364,5 +3416,40 @@ useHexPrefix
 showUnits
 newPos
 objType "monitors"
+noExecuteClipMask
+endObjectProperties
+
+endGroup
+
+visPv "$(P):HM:STATUS"
+visInvert
+visMin "8"
+visMax "9"
+endObjectProperties
+
+# (Message Button)
+object activeMessageButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 10
+y 180
+w 170
+h 25
+fgColor index 19
+onColor index 3
+offColor index 3
+topShadowColor index 1
+botShadowColor index 11
+controlPv "$(P):HM:RESUME.PROC"
+releaseValue "1"
+onLabel "Click to Resume"
+offLabel "Click to Resume"
+3d
+font "arial-bold-r-14.0"
+visPv "$(P):HM:STATUS"
+visMin "8"
+visMax "9"
 endObjectProperties
 

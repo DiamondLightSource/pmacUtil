@@ -2,6 +2,7 @@
 <components arch="vxWorks-ppc604_long">
 	<tpmac.pmacAsynIPPort IP="172.23.243.164" name="BRICK1port"/>
 	<tpmac.GeoBrick Port="BRICK1port" name="BRICK1"/>
+	<tpmac.pmacDisableLimitsCheck Controller="BRICK1"/>
 	<pmacUtil.dls_pmac_asyn_motor ADDR="7" DESC="Motor 1" DHLM="10000" DLLM="-10000" EGU="mm" M=":M1" MRES="0.0001" P="TESTCOMPARE" PORT="BRICK1" PREC="3" SPORT="BRICK1port" TWV="1" VELO="5" name="M1"/>
 	<pmacUtil.positionCompare_nojitter P="TESTCOMPARE:COMP" PLC="25" PORT="BRICK1port" Q="" motor="TESTCOMPARE:M1" name="COMP"/>
 	<mca.sis3820 M=":MCA-01" P="TESTCOMPARESCALAR" S=":SCALAR" baseAddress="0x06000000" name="MCA1" nchans="60000" nsignals="32"/>

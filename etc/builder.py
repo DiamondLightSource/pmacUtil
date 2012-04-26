@@ -19,6 +19,7 @@ class PmacUtil(Device):
     AutoInstantiate = True
 
 class autohome(AutoSubstitution):
+    Dependencies = (Calc,)
     TemplateFile = 'autohome.template'
 autohome.ArgInfo.descriptions["PORT"] = Ident("Delta tau motor controller comms port", DeltaTauCommsPort)
 
