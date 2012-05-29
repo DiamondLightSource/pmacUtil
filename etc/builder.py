@@ -3,7 +3,7 @@ from iocbuilder.arginfo import *
 
 from iocbuilder.modules.motor import basic_asyn_motor, MotorRecord
 from iocbuilder.modules.tpmac import DeltaTau, DeltaTauCommsPort
-from iocbuilder.modules.asyn import AsynPort
+from iocbuilder.modules.asyn import Asyn, AsynPort
 from iocbuilder.modules.calc import Calc
 from iocbuilder.modules.busy import Busy
 from iocbuilder.modules.seq import Seq
@@ -19,6 +19,7 @@ class PmacUtil(Device):
     AutoInstantiate = True
 
 class autohome(AutoSubstitution):
+    Dependencies = (Calc,)
     TemplateFile = 'autohome.template'
 autohome.ArgInfo.descriptions["PORT"] = Ident("Delta tau motor controller comms port", DeltaTauCommsPort)
 
@@ -127,3 +128,8 @@ class positionCompare_nojitter(AutoSubstitution, AutoProtocol):
     Dependencies = (Calc,)
     ProtocolFiles = ['pmac.proto']
     TemplateFile = 'positionCompare_nojitter.template'
+
+class pmacVariableWrite(AutoSubstitution):
+    '''Couple of records to write variables to a Delta tau'''
+    Dependencies = (Calc, Asyn)
+    TemplateFile = 'pmacVariableWrite.template'
