@@ -21,9 +21,18 @@
 # % macro, GRP9,  Homing group 9 description
 # % macro, GRP10, Homing group 10 description
 # % macro, STATE11, Homing state 11 description
-# % macro, STATE12, Homing state 11 description
-# % macro, STATE13, Homing state 11 description
-# % macro, STATE14, Homing state 11 description
+# % macro, STATE12, Homing state 12 description
+# % macro, STATE13, Homing state 13 description
+# % macro, STATE14, Homing state 14 description
+# % macro, STATUS11, Homing status 11 description (e.g. for custom limit checks)
+# % macro, STATUS12, Homing status 12 description (e.g. for custom limit checks)
+# % macro, STATUS13, Homing status 13 description (e.g. for custom limit checks)
+# % macro, STATUS14, Homing status 14 description (e.g. for custom limit checks)
+# % macro, STATUSSV11, Homing status 11 severity
+# % macro, STATUSSV12, Homing status 12 severity
+# % macro, STATUSSV13, Homing status 13 severity
+# % macro, STATUSSV14, Homing status 14 severity
+
 # % macro, name, Object name and gui association name
 # This associates an edm screen with the template
 # % gui, $(name=), edm, autohome.edl, P=$(P)
@@ -131,6 +140,18 @@ record(mbbi, "$(P):HM:STATUS") {
   field(NIVL, "9")
   field(NIST, "Homing (Debug)")
   field(NISV, "NO_ALARM")
+  field(ELVL, "11")
+  field(TVVL, "12")
+  field(TTVL, "13")
+  field(FTVL, "14")
+  field(ELST, "$(STATUS11=)")
+  field(TVST, "$(STATUS12=)")
+  field(TTST, "$(STATUS13=)")
+  field(FTST, "$(STATUS14=)")
+  field(ELSV, "$(STATUSSV11=NO_ALARM)")
+  field(TVSV, "$(STATUSSV12=NO_ALARM)")
+  field(TTSV, "$(STATUSSV13=NO_ALARM)")
+  field(FTSV, "$(STATUSSV14=NO_ALARM)")
 }
 
 record(mbbi, "$(P):HM:STATE") {

@@ -189,7 +189,7 @@ class Group:
     def __init__(self, group, pre, post, checks):
         # group number
         self.group = group
-        assert group in range(1,8), "Group %d not in range 1..7" % group
+        assert group in range(1,11), "Group %d not in range 1..10" % group
         self.pre = pre
         self.post = post
         self.checks = checks
@@ -516,7 +516,7 @@ class PLC:
                 
         # write some PLC for each group
         put_back_avail = []
-        for _, group in sorted(self.groups.items()):
+        for g, group in sorted(self.groups.items()):
             test = "HomingBackupGroup = 1"
             if g != 1:
                 test += " or HomingBackupGroup = %d" % g            
