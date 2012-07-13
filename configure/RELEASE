@@ -18,7 +18,7 @@ SUPPORT=	/dls_sw/prod/R3.14.11/support
 
 ASYN=		$(SUPPORT)/asyn/4-17
 CALC=		$(SUPPORT)/calc/2-8dls4
-MOTOR=		$(SUPPORT)/motor/6-7-1dls1
+MOTOR=		$(SUPPORT)/motor/6-7-1dls2
 STREAMDEVICE=$(SUPPORT)/streamDevice/2-5
 GENSUB=     $(SUPPORT)/genSub/1-6dls2-8
 BUSY=       $(SUPPORT)/busy/1-3dls5
