@@ -9,7 +9,6 @@ Delta Tau PMAC and GeoBrick systems.
 - \ref motorhome : A python package for building autohoming plcs
 - positionCompare.vdb: A database and associated plc for generating hardware position compare pulses
 - positionCompare_nojitter.vdb: As above, but for geobrick only and it doesn't give extra counts if the axis jitters
-- \ref protection : A replacement for the encoder loss PLC that also protects against running through limits
 
 \section build_sec Build Instructions 
 - \subpage build_instructions_pmacStatusGeobrick
