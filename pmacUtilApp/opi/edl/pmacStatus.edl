@@ -3,10 +3,10 @@ beginScreenProperties
 major 4
 minor 0
 release 1
-x 1000
-y 128
-w 560
-h 860
+x 708
+y 171
+w 575
+h 886
 font "arial-medium-r-16.0"
 ctlFont "arial-bold-r-16.0"
 btnFont "arial-medium-r-16.0"
@@ -32,7 +32,7 @@ beginObjectProperties
 major 4
 minor 0
 release 0
-x 5
+x 265
 y 495
 w 305
 h 55
@@ -49,7 +49,7 @@ minor 0
 release 0
 x 5
 y 145
-w 550
+w 565
 h 210
 lineColor index 14
 fill
@@ -79,7 +79,7 @@ minor 0
 release 0
 x 30
 y 0
-w 525
+w 545
 h 30
 
 beginGroup
@@ -92,7 +92,7 @@ minor 0
 release 0
 x 30
 y 0
-w 525
+w 545
 h 31
 lineColor index 3
 fill
@@ -107,15 +107,15 @@ minor 0
 release 1
 x 30
 y 3
-w 525
+w 545
 h 25
 lineColor index 11
 fillColor index 0
 numPoints 3
 xPoints {
   0 30
-  1 555
-  2 555
+  1 575
+  2 575
 }
 yPoints {
   0 28
@@ -132,7 +132,7 @@ minor 1
 release 0
 x 30
 y 3
-w 525
+w 545
 h 25
 font "arial-bold-r-16.0"
 fontAlign "center"
@@ -151,7 +151,7 @@ minor 0
 release 1
 x 30
 y 3
-w 525
+w 545
 h 25
 lineColor index 1
 fillColor index 0
@@ -159,7 +159,7 @@ numPoints 3
 xPoints {
   0 30
   1 30
-  2 555
+  2 575
 }
 yPoints {
   0 28
@@ -280,7 +280,7 @@ release 0
 x 5
 y 40
 w 71
-h 14
+h 13
 font "arial-medium-r-12.0"
 fontAlign "center"
 fgColor index 14
@@ -300,7 +300,7 @@ minor 0
 release 0
 x 270
 y 50
-w 285
+w 300
 h 75
 lineColor index 14
 fill
@@ -334,7 +334,7 @@ minor 0
 release 0
 x 420
 y 55
-w 130
+w 145
 h 30
 fgColor index 25
 bgColor index 3
@@ -355,7 +355,7 @@ release 0
 x 270
 y 40
 w 38
-h 14
+h 13
 font "arial-medium-r-12.0"
 fontAlign "center"
 fgColor index 14
@@ -376,7 +376,7 @@ release 0
 x 5
 y 135
 w 87
-h 14
+h 13
 font "arial-medium-r-12.0"
 fontAlign "center"
 fgColor index 14
@@ -394,8 +394,8 @@ beginObjectProperties
 major 4
 minor 1
 release 0
-x 445
-y 820
+x 460
+y 855
 w 110
 h 25
 fgColor index 46
@@ -451,10 +451,10 @@ beginObjectProperties
 major 4
 minor 1
 release 0
-x 5
+x 265
 y 485
 w 281
-h 14
+h 13
 font "arial-medium-r-12.0"
 fontAlign "center"
 fgColor index 14
@@ -472,7 +472,7 @@ beginObjectProperties
 major 4
 minor 0
 release 0
-x 15
+x 275
 y 520
 w 285
 h 20
@@ -506,7 +506,7 @@ release 0
 x 31
 y 335
 w 125
-h 12
+h 11
 font "arial-medium-r-10.0"
 fgColor index 14
 bgColor index 0
@@ -526,7 +526,7 @@ release 0
 x 31
 y 323
 w 136
-h 12
+h 11
 font "arial-medium-r-10.0"
 fgColor index 14
 bgColor index 0
@@ -545,8 +545,8 @@ minor 1
 release 0
 x 31
 y 311
-w 51
-h 12
+w 50
+h 11
 font "arial-medium-r-10.0"
 fgColor index 14
 bgColor index 0
@@ -566,7 +566,7 @@ release 0
 x 31
 y 299
 w 64
-h 12
+h 11
 font "arial-medium-r-10.0"
 fgColor index 14
 bgColor index 0
@@ -586,7 +586,7 @@ release 0
 x 31
 y 287
 w 111
-h 12
+h 11
 font "arial-medium-r-10.0"
 fgColor index 14
 bgColor index 0
@@ -606,7 +606,7 @@ release 0
 x 31
 y 275
 w 133
-h 12
+h 11
 font "arial-medium-r-10.0"
 fgColor index 14
 bgColor index 0
@@ -626,7 +626,7 @@ release 0
 x 31
 y 263
 w 129
-h 12
+h 11
 font "arial-medium-r-10.0"
 fgColor index 14
 bgColor index 0
@@ -646,7 +646,7 @@ release 0
 x 31
 y 251
 w 74
-h 12
+h 11
 font "arial-medium-r-10.0"
 fgColor index 14
 bgColor index 0
@@ -666,7 +666,7 @@ release 0
 x 31
 y 239
 w 67
-h 12
+h 11
 font "arial-medium-r-10.0"
 fgColor index 14
 bgColor index 0
@@ -686,7 +686,7 @@ release 0
 x 31
 y 227
 w 127
-h 12
+h 11
 font "arial-medium-r-10.0"
 fgColor index 14
 bgColor index 0
@@ -706,7 +706,7 @@ release 0
 x 31
 y 215
 w 115
-h 12
+h 11
 font "arial-medium-r-10.0"
 fgColor index 14
 bgColor index 0
@@ -725,8 +725,8 @@ minor 1
 release 0
 x 31
 y 203
-w 135
-h 12
+w 134
+h 11
 font "arial-medium-r-10.0"
 fgColor index 14
 bgColor index 0
@@ -746,7 +746,7 @@ release 0
 x 31
 y 191
 w 53
-h 12
+h 11
 font "arial-medium-r-10.0"
 fgColor index 14
 bgColor index 0
@@ -766,7 +766,7 @@ release 0
 x 31
 y 179
 w 73
-h 12
+h 11
 font "arial-medium-r-10.0"
 fgColor index 14
 bgColor index 0
@@ -803,7 +803,7 @@ release 0
 x 31
 y 167
 w 127
-h 12
+h 11
 font "arial-medium-r-10.0"
 fgColor index 14
 bgColor index 0
@@ -823,7 +823,7 @@ release 0
 x 31
 y 155
 w 115
-h 12
+h 11
 font "arial-medium-r-10.0"
 fgColor index 14
 bgColor index 0
@@ -856,7 +856,7 @@ release 0
 x 201
 y 335
 w 67
-h 12
+h 11
 font "arial-medium-r-10.0"
 fgColor index 14
 bgColor index 0
@@ -876,7 +876,7 @@ release 0
 x 201
 y 323
 w 76
-h 12
+h 11
 font "arial-medium-r-10.0"
 fgColor index 14
 bgColor index 0
@@ -896,7 +896,7 @@ release 0
 x 201
 y 311
 w 113
-h 12
+h 11
 font "arial-medium-r-10.0"
 fgColor index 14
 bgColor index 0
@@ -916,7 +916,7 @@ release 0
 x 201
 y 299
 w 87
-h 12
+h 11
 font "arial-medium-r-10.0"
 fgColor index 14
 bgColor index 0
@@ -936,7 +936,7 @@ release 0
 x 201
 y 287
 w 122
-h 12
+h 11
 font "arial-medium-r-10.0"
 fgColor index 14
 bgColor index 0
@@ -956,7 +956,7 @@ release 0
 x 201
 y 275
 w 72
-h 12
+h 11
 font "arial-medium-r-10.0"
 fgColor index 14
 bgColor index 0
@@ -976,7 +976,7 @@ release 0
 x 201
 y 263
 w 54
-h 12
+h 11
 font "arial-medium-r-10.0"
 fgColor index 14
 bgColor index 0
@@ -996,7 +996,7 @@ release 0
 x 201
 y 251
 w 69
-h 12
+h 11
 font "arial-medium-r-10.0"
 fgColor index 14
 bgColor index 0
@@ -1016,7 +1016,7 @@ release 0
 x 201
 y 239
 w 92
-h 12
+h 11
 font "arial-medium-r-10.0"
 fgColor index 14
 bgColor index 0
@@ -1036,7 +1036,7 @@ release 0
 x 201
 y 227
 w 90
-h 12
+h 11
 font "arial-medium-r-10.0"
 fgColor index 14
 bgColor index 0
@@ -1056,7 +1056,7 @@ release 0
 x 201
 y 215
 w 115
-h 12
+h 11
 font "arial-medium-r-10.0"
 fgColor index 14
 bgColor index 0
@@ -1076,7 +1076,7 @@ release 0
 x 201
 y 203
 w 93
-h 12
+h 11
 font "arial-medium-r-10.0"
 fgColor index 14
 bgColor index 0
@@ -1096,7 +1096,7 @@ release 0
 x 201
 y 191
 w 115
-h 12
+h 11
 font "arial-medium-r-10.0"
 fgColor index 14
 bgColor index 0
@@ -1116,7 +1116,7 @@ release 0
 x 201
 y 167
 w 119
-h 12
+h 11
 font "arial-medium-r-10.0"
 fgColor index 14
 bgColor index 0
@@ -1136,7 +1136,7 @@ release 0
 x 201
 y 155
 w 89
-h 12
+h 11
 font "arial-medium-r-10.0"
 fgColor index 14
 bgColor index 0
@@ -1173,7 +1173,7 @@ release 0
 x 201
 y 179
 w 162
-h 12
+h 11
 font "arial-medium-r-10.0"
 fgColor index 14
 bgColor index 0
@@ -1206,7 +1206,7 @@ release 0
 x 385
 y 336
 w 115
-h 12
+h 11
 font "arial-medium-r-10.0"
 fgColor index 14
 bgColor index 0
@@ -1226,7 +1226,7 @@ release 0
 x 385
 y 323
 w 115
-h 12
+h 11
 font "arial-medium-r-10.0"
 fgColor index 14
 bgColor index 0
@@ -1246,7 +1246,7 @@ release 0
 x 385
 y 311
 w 115
-h 12
+h 11
 font "arial-medium-r-10.0"
 fgColor index 14
 bgColor index 0
@@ -1266,7 +1266,7 @@ release 0
 x 385
 y 299
 w 115
-h 12
+h 11
 font "arial-medium-r-10.0"
 fgColor index 14
 bgColor index 0
@@ -1286,7 +1286,7 @@ release 0
 x 385
 y 287
 w 115
-h 12
+h 11
 font "arial-medium-r-10.0"
 fgColor index 14
 bgColor index 0
@@ -1306,7 +1306,7 @@ release 0
 x 385
 y 275
 w 115
-h 12
+h 11
 font "arial-medium-r-10.0"
 fgColor index 14
 bgColor index 0
@@ -1326,7 +1326,7 @@ release 0
 x 385
 y 263
 w 115
-h 12
+h 11
 font "arial-medium-r-10.0"
 fgColor index 14
 bgColor index 0
@@ -1346,7 +1346,7 @@ release 0
 x 385
 y 251
 w 115
-h 12
+h 11
 font "arial-medium-r-10.0"
 fgColor index 14
 bgColor index 0
@@ -1366,7 +1366,7 @@ release 0
 x 385
 y 239
 w 115
-h 12
+h 11
 font "arial-medium-r-10.0"
 fgColor index 14
 bgColor index 0
@@ -1386,7 +1386,7 @@ release 0
 x 385
 y 227
 w 115
-h 12
+h 11
 font "arial-medium-r-10.0"
 fgColor index 14
 bgColor index 0
@@ -1406,7 +1406,7 @@ release 0
 x 385
 y 215
 w 115
-h 12
+h 11
 font "arial-medium-r-10.0"
 fgColor index 14
 bgColor index 0
@@ -1426,7 +1426,7 @@ release 0
 x 385
 y 203
 w 115
-h 12
+h 11
 font "arial-medium-r-10.0"
 fgColor index 14
 bgColor index 0
@@ -1445,8 +1445,8 @@ minor 1
 release 0
 x 385
 y 191
-w 76
-h 12
+w 75
+h 11
 font "arial-medium-r-10.0"
 fgColor index 14
 bgColor index 0
@@ -1466,7 +1466,7 @@ release 0
 x 385
 y 179
 w 137
-h 12
+h 11
 font "arial-medium-r-10.0"
 fgColor index 14
 bgColor index 0
@@ -1486,7 +1486,7 @@ release 0
 x 385
 y 167
 w 81
-h 12
+h 11
 font "arial-medium-r-10.0"
 fgColor index 14
 bgColor index 0
@@ -1506,7 +1506,7 @@ release 0
 x 385
 y 155
 w 81
-h 12
+h 11
 font "arial-medium-r-10.0"
 fgColor index 14
 bgColor index 0
@@ -1611,7 +1611,7 @@ minor 0
 release 0
 x 420
 y 90
-w 130
+w 145
 h 30
 controlPv "$(pmac):MACROERRS"
 fgColor index 16
@@ -1628,7 +1628,7 @@ beginObjectProperties
 major 4
 minor 0
 release 0
-x 5
+x 265
 y 375
 w 305
 h 100
@@ -1643,10 +1643,10 @@ beginObjectProperties
 major 4
 minor 1
 release 0
-x 5
+x 265
 y 365
 w 96
-h 14
+h 13
 font "arial-medium-r-12.0"
 fontAlign "center"
 fgColor index 14
@@ -1664,7 +1664,7 @@ beginObjectProperties
 major 4
 minor 0
 release 0
-x 15
+x 275
 y 400
 w 285
 h 20
@@ -1682,7 +1682,7 @@ beginObjectProperties
 major 4
 minor 1
 release 0
-x 20
+x 280
 y 385
 w 276
 h 10
@@ -1702,7 +1702,7 @@ beginObjectProperties
 major 4
 minor 0
 release 0
-x 15
+x 275
 y 445
 w 285
 h 20
@@ -1720,7 +1720,7 @@ beginObjectProperties
 major 4
 minor 1
 release 0
-x 15
+x 275
 y 430
 w 282
 h 10
@@ -1740,7 +1740,7 @@ beginObjectProperties
 major 4
 minor 1
 release 0
-x 20
+x 280
 y 505
 w 276
 h 10
@@ -1760,7 +1760,7 @@ beginObjectProperties
 major 4
 minor 0
 release 0
-x 5
+x 265
 y 720
 w 305
 h 125
@@ -1773,9 +1773,9 @@ endObjectProperties
 object activeXTextDspClass:noedit
 beginObjectProperties
 major 4
-minor 4
+minor 5
 release 0
-x 185
+x 445
 y 800
 w 120
 h 12
@@ -1797,10 +1797,10 @@ beginObjectProperties
 major 4
 minor 1
 release 0
-x 10
+x 270
 y 800
 w 126
-h 12
+h 11
 font "arial-medium-r-10.0"
 fgColor index 14
 bgColor index 3
@@ -1817,10 +1817,10 @@ beginObjectProperties
 major 4
 minor 1
 release 0
-x 10
+x 270
 y 815
 w 117
-h 12
+h 11
 font "arial-medium-r-10.0"
 fgColor index 14
 bgColor index 3
@@ -1835,9 +1835,9 @@ endObjectProperties
 object activeXTextDspClass:noedit
 beginObjectProperties
 major 4
-minor 4
+minor 5
 release 0
-x 185
+x 445
 y 815
 w 120
 h 12
@@ -1859,10 +1859,10 @@ beginObjectProperties
 major 4
 minor 1
 release 0
-x 10
+x 270
 y 725
 w 118
-h 12
+h 11
 font "arial-medium-r-10.0"
 fgColor index 14
 bgColor index 3
@@ -1877,9 +1877,9 @@ endObjectProperties
 object activeXTextDspClass:noedit
 beginObjectProperties
 major 4
-minor 4
+minor 5
 release 0
-x 185
+x 445
 y 725
 w 120
 h 12
@@ -1900,9 +1900,9 @@ endObjectProperties
 object activeXTextDspClass:noedit
 beginObjectProperties
 major 4
-minor 4
+minor 5
 release 0
-x 185
+x 445
 y 755
 w 120
 h 12
@@ -1922,9 +1922,9 @@ endObjectProperties
 object activeXTextDspClass:noedit
 beginObjectProperties
 major 4
-minor 4
+minor 5
 release 0
-x 185
+x 445
 y 740
 w 120
 h 12
@@ -1946,10 +1946,10 @@ beginObjectProperties
 major 4
 minor 1
 release 0
-x 10
+x 270
 y 740
 w 123
-h 12
+h 11
 font "arial-medium-r-10.0"
 fgColor index 14
 bgColor index 3
@@ -1966,10 +1966,10 @@ beginObjectProperties
 major 4
 minor 1
 release 0
-x 10
+x 270
 y 755
 w 119
-h 12
+h 11
 font "arial-medium-r-10.0"
 fgColor index 14
 bgColor index 3
@@ -1984,9 +1984,9 @@ endObjectProperties
 object activeXTextDspClass:noedit
 beginObjectProperties
 major 4
-minor 4
+minor 5
 release 0
-x 185
+x 445
 y 770
 w 120
 h 12
@@ -2006,9 +2006,9 @@ endObjectProperties
 object activeXTextDspClass:noedit
 beginObjectProperties
 major 4
-minor 4
+minor 5
 release 0
-x 185
+x 445
 y 785
 w 120
 h 12
@@ -2030,10 +2030,10 @@ beginObjectProperties
 major 4
 minor 1
 release 0
-x 10
+x 270
 y 785
 w 129
-h 12
+h 11
 font "arial-medium-r-10.0"
 fgColor index 14
 bgColor index 3
@@ -2050,10 +2050,10 @@ beginObjectProperties
 major 4
 minor 1
 release 0
-x 10
+x 270
 y 770
 w 173
-h 12
+h 11
 font "arial-medium-r-10.0"
 fgColor index 14
 bgColor index 3
@@ -2070,10 +2070,10 @@ beginObjectProperties
 major 4
 minor 1
 release 0
-x 5
+x 265
 y 710
 w 97
-h 14
+h 13
 font "arial-medium-r-12.0"
 fontAlign "center"
 fgColor index 14
@@ -2085,485 +2085,13 @@ autoSize
 border
 endObjectProperties
 
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 320
-y 365
-w 235
-h 30
-
-beginGroup
-
-# (Related Display)
-object relatedDisplayClass
-beginObjectProperties
-major 4
-minor 2
-release 0
-x 320
-y 365
-w 235
-h 30
-fgColor index 43
-bgColor index 3
-topShadowColor index 1
-botShadowColor index 11
-font "arial-bold-r-14.0"
-buttonLabel "Axes 1 - 4"
-numPvs 4
-numDsps 4
-displayFileName {
-  0 "pmacStatusAxis.edl"
-  1 "pmacStatusAxis.edl"
-  2 "pmacStatusAxis.edl"
-  3 "pmacStatusAxis.edl"
-}
-menuLabel {
-  0 "Axis 1"
-  1 "Axis 2"
-  2 "Axis 3"
-  3 "Axis 4"
-}
-symbols {
-  0 "M=$(pmac),A=AXIS1"
-  1 "M=$(pmac),A=AXIS2"
-  2 "M=$(pmac),A=AXIS3"
-  3 "M=$(pmac),A=AXIS4"
-}
-endObjectProperties
-
-endGroup
-
-visPv "$(pmac):NAXES"
-visInvert
-visMin "0"
-visMax "1"
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 320
-y 400
-w 235
-h 30
-
-beginGroup
-
-# (Related Display)
-object relatedDisplayClass
-beginObjectProperties
-major 4
-minor 2
-release 0
-x 320
-y 400
-w 235
-h 30
-fgColor index 43
-bgColor index 3
-topShadowColor index 1
-botShadowColor index 11
-font "arial-bold-r-14.0"
-buttonLabel "Axes 5 - 8"
-numPvs 4
-numDsps 4
-displayFileName {
-  0 "pmacStatusAxis.edl"
-  1 "pmacStatusAxis.edl"
-  2 "pmacStatusAxis.edl"
-  3 "pmacStatusAxis.edl"
-}
-menuLabel {
-  0 "Axis 5"
-  1 "Axis 6"
-  2 "Axis 7"
-  3 "Axis 8"
-}
-symbols {
-  0 "M=$(pmac),A=AXIS5"
-  1 "M=$(pmac),A=AXIS6"
-  2 "M=$(pmac),A=AXIS7"
-  3 "M=$(pmac),A=AXIS8"
-}
-endObjectProperties
-
-endGroup
-
-visPv "$(pmac):NAXES"
-visInvert
-visMin "0"
-visMax "5"
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 320
-y 435
-w 235
-h 30
-
-beginGroup
-
-# (Related Display)
-object relatedDisplayClass
-beginObjectProperties
-major 4
-minor 2
-release 0
-x 320
-y 435
-w 235
-h 30
-fgColor index 43
-bgColor index 3
-topShadowColor index 1
-botShadowColor index 11
-font "arial-bold-r-14.0"
-buttonLabel "Axes 9 - 12"
-numPvs 4
-numDsps 4
-displayFileName {
-  0 "pmacStatusAxis.edl"
-  1 "pmacStatusAxis.edl"
-  2 "pmacStatusAxis.edl"
-  3 "pmacStatusAxis.edl"
-}
-menuLabel {
-  0 "Axis 9"
-  1 "Axis 10"
-  2 "Axis 11"
-  3 "Axis 12"
-}
-symbols {
-  0 "M=$(pmac),A=AXIS9"
-  1 "M=$(pmac),A=AXIS10"
-  2 "M=$(pmac),A=AXIS11"
-  3 "M=$(pmac),A=AXIS12"
-}
-endObjectProperties
-
-endGroup
-
-visPv "$(pmac):NAXES"
-visInvert
-visMin "0"
-visMax "9"
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 320
-y 470
-w 235
-h 30
-
-beginGroup
-
-# (Related Display)
-object relatedDisplayClass
-beginObjectProperties
-major 4
-minor 2
-release 0
-x 320
-y 470
-w 235
-h 30
-fgColor index 43
-bgColor index 3
-topShadowColor index 1
-botShadowColor index 11
-font "arial-bold-r-14.0"
-buttonLabel "Axes 13 - 16"
-numPvs 4
-numDsps 4
-displayFileName {
-  0 "pmacStatusAxis.edl"
-  1 "pmacStatusAxis.edl"
-  2 "pmacStatusAxis.edl"
-  3 "pmacStatusAxis.edl"
-}
-menuLabel {
-  0 "Axis 13"
-  1 "Axis 14"
-  2 "Axis 15"
-  3 "Axis 16"
-}
-symbols {
-  0 "M=$(pmac),A=AXIS13"
-  1 "M=$(pmac),A=AXIS14"
-  2 "M=$(pmac),A=AXIS15"
-  3 "M=$(pmac),A=AXIS16"
-}
-endObjectProperties
-
-endGroup
-
-visPv "$(pmac):NAXES"
-visInvert
-visMin "0"
-visMax "13"
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 320
-y 505
-w 235
-h 30
-
-beginGroup
-
-# (Related Display)
-object relatedDisplayClass
-beginObjectProperties
-major 4
-minor 2
-release 0
-x 320
-y 505
-w 235
-h 30
-fgColor index 43
-bgColor index 3
-topShadowColor index 1
-botShadowColor index 11
-font "arial-bold-r-14.0"
-buttonLabel "Axes 17 - 20"
-numPvs 4
-numDsps 4
-displayFileName {
-  0 "pmacStatusAxis.edl"
-  1 "pmacStatusAxis.edl"
-  2 "pmacStatusAxis.edl"
-  3 "pmacStatusAxis.edl"
-}
-menuLabel {
-  0 "Axis 17"
-  1 "Axis 18"
-  2 "Axis 19"
-  3 "Axis 20"
-}
-symbols {
-  0 "M=$(pmac),A=AXIS17"
-  1 "M=$(pmac),A=AXIS18"
-  2 "M=$(pmac),A=AXIS19"
-  3 "M=$(pmac),A=AXIS20"
-}
-endObjectProperties
-
-endGroup
-
-visPv "$(pmac):NAXES"
-visInvert
-visMin "0"
-visMax "17"
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 320
-y 540
-w 235
-h 30
-
-beginGroup
-
-# (Related Display)
-object relatedDisplayClass
-beginObjectProperties
-major 4
-minor 2
-release 0
-x 320
-y 540
-w 235
-h 30
-fgColor index 43
-bgColor index 3
-topShadowColor index 1
-botShadowColor index 11
-font "arial-bold-r-14.0"
-buttonLabel "Axes 21 - 24"
-numPvs 4
-numDsps 4
-displayFileName {
-  0 "pmacStatusAxis.edl"
-  1 "pmacStatusAxis.edl"
-  2 "pmacStatusAxis.edl"
-  3 "pmacStatusAxis.edl"
-}
-menuLabel {
-  0 "Axis 21"
-  1 "Axis 22"
-  2 "Axis 23"
-  3 "Axis 24"
-}
-symbols {
-  0 "M=$(pmac),A=AXIS21"
-  1 "M=$(pmac),A=AXIS22"
-  2 "M=$(pmac),A=AXIS23"
-  3 "M=$(pmac),A=AXIS24"
-}
-endObjectProperties
-
-endGroup
-
-visPv "$(pmac):NAXES"
-visInvert
-visMin "0"
-visMax "21"
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 320
-y 575
-w 235
-h 30
-
-beginGroup
-
-# (Related Display)
-object relatedDisplayClass
-beginObjectProperties
-major 4
-minor 2
-release 0
-x 320
-y 575
-w 235
-h 30
-fgColor index 43
-bgColor index 3
-topShadowColor index 1
-botShadowColor index 11
-font "arial-bold-r-14.0"
-buttonLabel "Axes 25 - 28"
-numPvs 4
-numDsps 4
-displayFileName {
-  0 "pmacStatusAxis.edl"
-  1 "pmacStatusAxis.edl"
-  2 "pmacStatusAxis.edl"
-  3 "pmacStatusAxis.edl"
-}
-menuLabel {
-  0 "Axis 25"
-  1 "Axis 26"
-  2 "Axis 27"
-  3 "Axis 28"
-}
-symbols {
-  0 "M=$(pmac),A=AXIS25"
-  1 "M=$(pmac),A=AXIS26"
-  2 "M=$(pmac),A=AXIS27"
-  3 "M=$(pmac),A=AXIS28"
-}
-endObjectProperties
-
-endGroup
-
-visPv "$(pmac):NAXES"
-visInvert
-visMin "0"
-visMax "25"
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 320
-y 610
-w 235
-h 30
-
-beginGroup
-
-# (Related Display)
-object relatedDisplayClass
-beginObjectProperties
-major 4
-minor 2
-release 0
-x 320
-y 610
-w 235
-h 30
-fgColor index 43
-bgColor index 3
-topShadowColor index 1
-botShadowColor index 11
-font "arial-bold-r-14.0"
-buttonLabel "Axes 29 - 32"
-numPvs 4
-numDsps 4
-displayFileName {
-  0 "pmacStatusAxis.edl"
-  1 "pmacStatusAxis.edl"
-  2 "pmacStatusAxis.edl"
-  3 "pmacStatusAxis.edl"
-}
-menuLabel {
-  0 "Axis 29"
-  1 "Axis 30"
-  2 "Axis 31"
-  3 "Axis 32"
-}
-symbols {
-  0 "M=$(pmac),A=AXIS29"
-  1 "M=$(pmac),A=AXIS30"
-  2 "M=$(pmac),A=AXIS31"
-  3 "M=$(pmac),A=AXIS32"
-}
-endObjectProperties
-
-endGroup
-
-visPv "$(pmac):NAXES"
-visInvert
-visMin "0"
-visMax "29"
-endObjectProperties
-
 # (Text Monitor)
 object activeXTextDspClass:noedit
 beginObjectProperties
 major 4
-minor 4
+minor 5
 release 0
-x 185
+x 445
 y 830
 w 120
 h 12
@@ -2586,10 +2114,10 @@ beginObjectProperties
 major 4
 minor 1
 release 0
-x 10
+x 270
 y 830
 w 153
-h 12
+h 11
 font "arial-medium-r-10.0"
 fgColor index 14
 bgColor index 3
@@ -2606,7 +2134,7 @@ beginObjectProperties
 major 4
 minor 0
 release 0
-x 5
+x 265
 y 570
 w 305
 h 55
@@ -2621,10 +2149,10 @@ beginObjectProperties
 major 4
 minor 1
 release 0
-x 5
+x 265
 y 560
 w 144
-h 14
+h 13
 font "arial-medium-r-12.0"
 fontAlign "center"
 fgColor index 14
@@ -2642,7 +2170,7 @@ beginObjectProperties
 major 4
 minor 0
 release 0
-x 15
+x 275
 y 595
 w 285
 h 20
@@ -2660,7 +2188,7 @@ beginObjectProperties
 major 4
 minor 1
 release 0
-x 20
+x 280
 y 580
 w 276
 h 10
@@ -2680,7 +2208,7 @@ beginObjectProperties
 major 4
 minor 0
 release 0
-x 5
+x 265
 y 645
 w 305
 h 55
@@ -2695,10 +2223,10 @@ beginObjectProperties
 major 4
 minor 1
 release 0
-x 5
+x 265
 y 635
 w 154
-h 14
+h 13
 font "arial-medium-r-12.0"
 fontAlign "center"
 fgColor index 14
@@ -2716,7 +2244,7 @@ beginObjectProperties
 major 4
 minor 0
 release 0
-x 15
+x 275
 y 670
 w 285
 h 20
@@ -2734,7 +2262,7 @@ beginObjectProperties
 major 4
 minor 1
 release 0
-x 20
+x 280
 y 655
 w 276
 h 10
@@ -2746,5 +2274,2761 @@ value {
   "1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16"
 }
 autoSize
+endObjectProperties
+
+# (Rectangle)
+object activeRectangleClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 5
+y 375
+w 250
+h 490
+lineColor index 14
+fill
+fillColor index 5
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 5
+y 365
+w 39
+h 13
+font "arial-medium-r-12.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 8
+value {
+  "  Axes  "
+}
+autoSize
+border
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 10
+y 380
+w 240
+h 16
+
+beginGroup
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 10
+y 380
+w 16
+h 16
+font "arial-medium-r-10.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 3
+value {
+  "1"
+}
+border
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 25
+y 380
+w 210
+h 15
+controlPv "$(pmac):AXIS1:DESC"
+fgColor index 14
+bgColor index 3
+font "arial-medium-r-10.0"
+fontAlign "center"
+lineWidth 1
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 235
+y 380
+w 15
+h 15
+fgColor index 43
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-bold-r-12.0"
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "pmacStatusAxis.edl"
+}
+symbols {
+  0 "M=$(pmac),A=AXIS1"
+}
+icon
+endObjectProperties
+
+endGroup
+
+visPv "$(pmac):NAXES"
+visInvert
+visMin "0"
+visMax "1"
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 10
+y 395
+w 240
+h 16
+
+beginGroup
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 10
+y 395
+w 16
+h 16
+font "arial-medium-r-10.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 3
+value {
+  "2"
+}
+border
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 25
+y 395
+w 210
+h 15
+controlPv "$(pmac):AXIS2:DESC"
+fgColor index 14
+bgColor index 3
+font "arial-medium-r-10.0"
+fontAlign "center"
+lineWidth 1
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 235
+y 395
+w 15
+h 15
+fgColor index 43
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-bold-r-12.0"
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "pmacStatusAxis.edl"
+}
+symbols {
+  0 "M=$(pmac),A=AXIS2"
+}
+icon
+endObjectProperties
+
+endGroup
+
+visPv "$(pmac):NAXES"
+visInvert
+visMin "0"
+visMax "2"
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 10
+y 410
+w 240
+h 16
+
+beginGroup
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 10
+y 410
+w 16
+h 16
+font "arial-medium-r-10.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 3
+value {
+  "3"
+}
+border
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 25
+y 410
+w 210
+h 15
+controlPv "$(pmac):AXIS3:DESC"
+fgColor index 14
+bgColor index 3
+font "arial-medium-r-10.0"
+fontAlign "center"
+lineWidth 1
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 235
+y 410
+w 15
+h 15
+fgColor index 43
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-bold-r-12.0"
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "pmacStatusAxis.edl"
+}
+symbols {
+  0 "M=$(pmac),A=AXIS3"
+}
+icon
+endObjectProperties
+
+endGroup
+
+visPv "$(pmac):NAXES"
+visInvert
+visMin "0"
+visMax "3"
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 10
+y 425
+w 240
+h 16
+
+beginGroup
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 10
+y 425
+w 16
+h 16
+font "arial-medium-r-10.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 3
+value {
+  "4"
+}
+border
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 25
+y 425
+w 210
+h 15
+controlPv "$(pmac):AXIS4:DESC"
+fgColor index 14
+bgColor index 3
+font "arial-medium-r-10.0"
+fontAlign "center"
+lineWidth 1
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 235
+y 425
+w 15
+h 15
+fgColor index 43
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-bold-r-12.0"
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "pmacStatusAxis.edl"
+}
+symbols {
+  0 "M=$(pmac),A=AXIS4"
+}
+icon
+endObjectProperties
+
+endGroup
+
+visPv "$(pmac):NAXES"
+visInvert
+visMin "0"
+visMax "4"
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 10
+y 440
+w 240
+h 16
+
+beginGroup
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 10
+y 440
+w 16
+h 16
+font "arial-medium-r-10.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 3
+value {
+  "5"
+}
+border
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 25
+y 440
+w 210
+h 15
+controlPv "$(pmac):AXIS5:DESC"
+fgColor index 14
+bgColor index 3
+font "arial-medium-r-10.0"
+fontAlign "center"
+lineWidth 1
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 235
+y 440
+w 15
+h 15
+fgColor index 43
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-bold-r-12.0"
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "pmacStatusAxis.edl"
+}
+symbols {
+  0 "M=$(pmac),A=AXIS5"
+}
+icon
+endObjectProperties
+
+endGroup
+
+visPv "$(pmac):NAXES"
+visInvert
+visMin "0"
+visMax "5"
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 10
+y 455
+w 240
+h 16
+
+beginGroup
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 10
+y 455
+w 16
+h 16
+font "arial-medium-r-10.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 3
+value {
+  "6"
+}
+border
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 25
+y 455
+w 210
+h 15
+controlPv "$(pmac):AXIS6:DESC"
+fgColor index 14
+bgColor index 3
+font "arial-medium-r-10.0"
+fontAlign "center"
+lineWidth 1
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 235
+y 455
+w 15
+h 15
+fgColor index 43
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-bold-r-12.0"
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "pmacStatusAxis.edl"
+}
+symbols {
+  0 "M=$(pmac),A=AXIS6"
+}
+icon
+endObjectProperties
+
+endGroup
+
+visPv "$(pmac):NAXES"
+visInvert
+visMin "0"
+visMax "6"
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 10
+y 470
+w 240
+h 16
+
+beginGroup
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 10
+y 470
+w 16
+h 16
+font "arial-medium-r-10.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 3
+value {
+  "7"
+}
+border
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 25
+y 470
+w 210
+h 15
+controlPv "$(pmac):AXIS7:DESC"
+fgColor index 14
+bgColor index 3
+font "arial-medium-r-10.0"
+fontAlign "center"
+lineWidth 1
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 235
+y 470
+w 15
+h 15
+fgColor index 43
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-bold-r-12.0"
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "pmacStatusAxis.edl"
+}
+symbols {
+  0 "M=$(pmac),A=AXIS7"
+}
+icon
+endObjectProperties
+
+endGroup
+
+visPv "$(pmac):NAXES"
+visInvert
+visMin "0"
+visMax "7"
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 10
+y 485
+w 240
+h 16
+
+beginGroup
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 10
+y 485
+w 16
+h 16
+font "arial-medium-r-10.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 3
+value {
+  "8"
+}
+border
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 25
+y 485
+w 210
+h 15
+controlPv "$(pmac):AXIS8:DESC"
+fgColor index 14
+bgColor index 3
+font "arial-medium-r-10.0"
+fontAlign "center"
+lineWidth 1
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 235
+y 485
+w 15
+h 15
+fgColor index 43
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-bold-r-12.0"
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "pmacStatusAxis.edl"
+}
+symbols {
+  0 "M=$(pmac),A=AXIS8"
+}
+icon
+endObjectProperties
+
+endGroup
+
+visPv "$(pmac):NAXES"
+visInvert
+visMin "0"
+visMax "8"
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 10
+y 500
+w 240
+h 16
+
+beginGroup
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 10
+y 500
+w 16
+h 16
+font "arial-medium-r-10.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 3
+value {
+  "9"
+}
+border
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 25
+y 500
+w 210
+h 15
+controlPv "$(pmac):AXIS9:DESC"
+fgColor index 14
+bgColor index 3
+font "arial-medium-r-10.0"
+fontAlign "center"
+lineWidth 1
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 235
+y 500
+w 15
+h 15
+fgColor index 43
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-bold-r-12.0"
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "pmacStatusAxis.edl"
+}
+symbols {
+  0 "M=$(pmac),A=AXIS9"
+}
+icon
+endObjectProperties
+
+endGroup
+
+visPv "$(pmac):NAXES"
+visInvert
+visMin "0"
+visMax "9"
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 10
+y 515
+w 240
+h 16
+
+beginGroup
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 10
+y 515
+w 16
+h 16
+font "arial-medium-r-10.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 3
+value {
+  "10"
+}
+border
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 25
+y 515
+w 210
+h 15
+controlPv "$(pmac):AXIS10:DESC"
+fgColor index 14
+bgColor index 3
+font "arial-medium-r-10.0"
+fontAlign "center"
+lineWidth 1
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 235
+y 515
+w 15
+h 15
+fgColor index 43
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-bold-r-12.0"
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "pmacStatusAxis.edl"
+}
+symbols {
+  0 "M=$(pmac),A=AXIS10"
+}
+icon
+endObjectProperties
+
+endGroup
+
+visPv "$(pmac):NAXES"
+visInvert
+visMin "0"
+visMax "10"
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 10
+y 530
+w 240
+h 16
+
+beginGroup
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 10
+y 530
+w 16
+h 16
+font "arial-medium-r-10.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 3
+value {
+  "11"
+}
+border
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 25
+y 530
+w 210
+h 15
+controlPv "$(pmac):AXIS11:DESC"
+fgColor index 14
+bgColor index 3
+font "arial-medium-r-10.0"
+fontAlign "center"
+lineWidth 1
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 235
+y 530
+w 15
+h 15
+fgColor index 43
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-bold-r-12.0"
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "pmacStatusAxis.edl"
+}
+symbols {
+  0 "M=$(pmac),A=AXIS11"
+}
+icon
+endObjectProperties
+
+endGroup
+
+visPv "$(pmac):NAXES"
+visInvert
+visMin "0"
+visMax "11"
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 10
+y 545
+w 240
+h 16
+
+beginGroup
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 10
+y 545
+w 16
+h 16
+font "arial-medium-r-10.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 3
+value {
+  "12"
+}
+border
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 25
+y 545
+w 210
+h 15
+controlPv "$(pmac):AXIS12:DESC"
+fgColor index 14
+bgColor index 3
+font "arial-medium-r-10.0"
+fontAlign "center"
+lineWidth 1
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 235
+y 545
+w 15
+h 15
+fgColor index 43
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-bold-r-12.0"
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "pmacStatusAxis.edl"
+}
+symbols {
+  0 "M=$(pmac),A=AXIS12"
+}
+icon
+endObjectProperties
+
+endGroup
+
+visPv "$(pmac):NAXES"
+visInvert
+visMin "0"
+visMax "12"
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 10
+y 560
+w 240
+h 16
+
+beginGroup
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 10
+y 560
+w 16
+h 16
+font "arial-medium-r-10.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 3
+value {
+  "13"
+}
+border
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 25
+y 560
+w 210
+h 15
+controlPv "$(pmac):AXIS13:DESC"
+fgColor index 14
+bgColor index 3
+font "arial-medium-r-10.0"
+fontAlign "center"
+lineWidth 1
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 235
+y 560
+w 15
+h 15
+fgColor index 43
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-bold-r-12.0"
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "pmacStatusAxis.edl"
+}
+symbols {
+  0 "M=$(pmac),A=AXIS13"
+}
+icon
+endObjectProperties
+
+endGroup
+
+visPv "$(pmac):NAXES"
+visInvert
+visMin "0"
+visMax "13"
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 10
+y 575
+w 240
+h 16
+
+beginGroup
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 10
+y 575
+w 16
+h 16
+font "arial-medium-r-10.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 3
+value {
+  "14"
+}
+border
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 25
+y 575
+w 210
+h 15
+controlPv "$(pmac):AXIS14:DESC"
+fgColor index 14
+bgColor index 3
+font "arial-medium-r-10.0"
+fontAlign "center"
+lineWidth 1
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 235
+y 575
+w 15
+h 15
+fgColor index 43
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-bold-r-12.0"
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "pmacStatusAxis.edl"
+}
+symbols {
+  0 "M=$(pmac),A=AXIS14"
+}
+icon
+endObjectProperties
+
+endGroup
+
+visPv "$(pmac):NAXES"
+visInvert
+visMin "0"
+visMax "14"
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 10
+y 590
+w 240
+h 16
+
+beginGroup
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 10
+y 590
+w 16
+h 16
+font "arial-medium-r-10.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 3
+value {
+  "15"
+}
+border
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 25
+y 590
+w 210
+h 15
+controlPv "$(pmac):AXIS15:DESC"
+fgColor index 14
+bgColor index 3
+font "arial-medium-r-10.0"
+fontAlign "center"
+lineWidth 1
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 235
+y 590
+w 15
+h 15
+fgColor index 43
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-bold-r-12.0"
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "pmacStatusAxis.edl"
+}
+symbols {
+  0 "M=$(pmac),A=AXIS15"
+}
+icon
+endObjectProperties
+
+endGroup
+
+visPv "$(pmac):NAXES"
+visInvert
+visMin "0"
+visMax "15"
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 10
+y 605
+w 240
+h 16
+
+beginGroup
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 10
+y 605
+w 16
+h 16
+font "arial-medium-r-10.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 3
+value {
+  "16"
+}
+border
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 25
+y 605
+w 210
+h 15
+controlPv "$(pmac):AXIS16:DESC"
+fgColor index 14
+bgColor index 3
+font "arial-medium-r-10.0"
+fontAlign "center"
+lineWidth 1
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 235
+y 605
+w 15
+h 15
+fgColor index 43
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-bold-r-12.0"
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "pmacStatusAxis.edl"
+}
+symbols {
+  0 "M=$(pmac),A=AXIS16"
+}
+icon
+endObjectProperties
+
+endGroup
+
+visPv "$(pmac):NAXES"
+visInvert
+visMin "0"
+visMax "16"
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 10
+y 620
+w 240
+h 16
+
+beginGroup
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 10
+y 620
+w 16
+h 16
+font "arial-medium-r-10.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 3
+value {
+  "17"
+}
+border
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 25
+y 620
+w 210
+h 15
+controlPv "$(pmac):AXIS17:DESC"
+fgColor index 14
+bgColor index 3
+font "arial-medium-r-10.0"
+fontAlign "center"
+lineWidth 1
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 235
+y 620
+w 15
+h 15
+fgColor index 43
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-bold-r-12.0"
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "pmacStatusAxis.edl"
+}
+symbols {
+  0 "M=$(pmac),A=AXIS17"
+}
+icon
+endObjectProperties
+
+endGroup
+
+visPv "$(pmac):NAXES"
+visInvert
+visMin "0"
+visMax "17"
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 10
+y 635
+w 240
+h 16
+
+beginGroup
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 10
+y 635
+w 16
+h 16
+font "arial-medium-r-10.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 3
+value {
+  "18"
+}
+border
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 25
+y 635
+w 210
+h 15
+controlPv "$(pmac):AXIS18:DESC"
+fgColor index 14
+bgColor index 3
+font "arial-medium-r-10.0"
+fontAlign "center"
+lineWidth 1
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 235
+y 635
+w 15
+h 15
+fgColor index 43
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-bold-r-12.0"
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "pmacStatusAxis.edl"
+}
+symbols {
+  0 "M=$(pmac),A=AXIS18"
+}
+icon
+endObjectProperties
+
+endGroup
+
+visPv "$(pmac):NAXES"
+visInvert
+visMin "0"
+visMax "18"
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 10
+y 650
+w 240
+h 16
+
+beginGroup
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 10
+y 650
+w 16
+h 16
+font "arial-medium-r-10.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 3
+value {
+  "19"
+}
+border
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 25
+y 650
+w 210
+h 15
+controlPv "$(pmac):AXIS19:DESC"
+fgColor index 14
+bgColor index 3
+font "arial-medium-r-10.0"
+fontAlign "center"
+lineWidth 1
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 235
+y 650
+w 15
+h 15
+fgColor index 43
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-bold-r-12.0"
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "pmacStatusAxis.edl"
+}
+symbols {
+  0 "M=$(pmac),A=AXIS19"
+}
+icon
+endObjectProperties
+
+endGroup
+
+visPv "$(pmac):NAXES"
+visInvert
+visMin "0"
+visMax "19"
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 10
+y 665
+w 240
+h 16
+
+beginGroup
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 10
+y 665
+w 16
+h 16
+font "arial-medium-r-10.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 3
+value {
+  "20"
+}
+border
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 25
+y 665
+w 210
+h 15
+controlPv "$(pmac):AXIS20:DESC"
+fgColor index 14
+bgColor index 3
+font "arial-medium-r-10.0"
+fontAlign "center"
+lineWidth 1
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 235
+y 665
+w 15
+h 15
+fgColor index 43
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-bold-r-12.0"
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "pmacStatusAxis.edl"
+}
+symbols {
+  0 "M=$(pmac),A=AXIS20"
+}
+icon
+endObjectProperties
+
+endGroup
+
+visPv "$(pmac):NAXES"
+visInvert
+visMin "0"
+visMax "20"
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 10
+y 800
+w 240
+h 16
+
+beginGroup
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 10
+y 800
+w 16
+h 16
+font "arial-medium-r-10.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 3
+value {
+  "29"
+}
+border
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 25
+y 800
+w 210
+h 15
+controlPv "$(pmac):AXIS29:DESC"
+fgColor index 14
+bgColor index 3
+font "arial-medium-r-10.0"
+fontAlign "center"
+lineWidth 1
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 235
+y 800
+w 15
+h 15
+fgColor index 43
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-bold-r-12.0"
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "pmacStatusAxis.edl"
+}
+symbols {
+  0 "M=$(pmac),A=AXIS29"
+}
+icon
+endObjectProperties
+
+endGroup
+
+visPv "$(pmac):NAXES"
+visInvert
+visMin "0"
+visMax "29"
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 10
+y 785
+w 240
+h 16
+
+beginGroup
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 10
+y 785
+w 16
+h 16
+font "arial-medium-r-10.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 3
+value {
+  "28"
+}
+border
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 25
+y 785
+w 210
+h 15
+controlPv "$(pmac):AXIS28:DESC"
+fgColor index 14
+bgColor index 3
+font "arial-medium-r-10.0"
+fontAlign "center"
+lineWidth 1
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 235
+y 785
+w 15
+h 15
+fgColor index 43
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-bold-r-12.0"
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "pmacStatusAxis.edl"
+}
+symbols {
+  0 "M=$(pmac),A=AXIS28"
+}
+icon
+endObjectProperties
+
+endGroup
+
+visPv "$(pmac):NAXES"
+visInvert
+visMin "0"
+visMax "28"
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 10
+y 770
+w 240
+h 16
+
+beginGroup
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 10
+y 770
+w 16
+h 16
+font "arial-medium-r-10.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 3
+value {
+  "27"
+}
+border
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 25
+y 770
+w 210
+h 15
+controlPv "$(pmac):AXIS27:DESC"
+fgColor index 14
+bgColor index 3
+font "arial-medium-r-10.0"
+fontAlign "center"
+lineWidth 1
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 235
+y 770
+w 15
+h 15
+fgColor index 43
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-bold-r-12.0"
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "pmacStatusAxis.edl"
+}
+symbols {
+  0 "M=$(pmac),A=AXIS27"
+}
+icon
+endObjectProperties
+
+endGroup
+
+visPv "$(pmac):NAXES"
+visInvert
+visMin "0"
+visMax "27"
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 10
+y 755
+w 240
+h 16
+
+beginGroup
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 10
+y 755
+w 16
+h 16
+font "arial-medium-r-10.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 3
+value {
+  "26"
+}
+border
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 25
+y 755
+w 210
+h 15
+controlPv "$(pmac):AXIS26:DESC"
+fgColor index 14
+bgColor index 3
+font "arial-medium-r-10.0"
+fontAlign "center"
+lineWidth 1
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 235
+y 755
+w 15
+h 15
+fgColor index 43
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-bold-r-12.0"
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "pmacStatusAxis.edl"
+}
+symbols {
+  0 "M=$(pmac),A=AXIS26"
+}
+icon
+endObjectProperties
+
+endGroup
+
+visPv "$(pmac):NAXES"
+visInvert
+visMin "0"
+visMax "26"
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 10
+y 740
+w 240
+h 16
+
+beginGroup
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 10
+y 740
+w 16
+h 16
+font "arial-medium-r-10.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 3
+value {
+  "25"
+}
+border
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 25
+y 740
+w 210
+h 15
+controlPv "$(pmac):AXIS25:DESC"
+fgColor index 14
+bgColor index 3
+font "arial-medium-r-10.0"
+fontAlign "center"
+lineWidth 1
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 235
+y 740
+w 15
+h 15
+fgColor index 43
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-bold-r-12.0"
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "pmacStatusAxis.edl"
+}
+symbols {
+  0 "M=$(pmac),A=AXIS25"
+}
+icon
+endObjectProperties
+
+endGroup
+
+visPv "$(pmac):NAXES"
+visInvert
+visMin "0"
+visMax "25"
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 10
+y 725
+w 240
+h 16
+
+beginGroup
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 10
+y 725
+w 16
+h 16
+font "arial-medium-r-10.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 3
+value {
+  "24"
+}
+border
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 25
+y 725
+w 210
+h 15
+controlPv "$(pmac):AXIS24:DESC"
+fgColor index 14
+bgColor index 3
+font "arial-medium-r-10.0"
+fontAlign "center"
+lineWidth 1
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 235
+y 725
+w 15
+h 15
+fgColor index 43
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-bold-r-12.0"
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "pmacStatusAxis.edl"
+}
+symbols {
+  0 "M=$(pmac),A=AXIS24"
+}
+icon
+endObjectProperties
+
+endGroup
+
+visPv "$(pmac):NAXES"
+visInvert
+visMin "0"
+visMax "24"
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 10
+y 710
+w 240
+h 16
+
+beginGroup
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 10
+y 710
+w 16
+h 16
+font "arial-medium-r-10.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 3
+value {
+  "23"
+}
+border
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 25
+y 710
+w 210
+h 15
+controlPv "$(pmac):AXIS23:DESC"
+fgColor index 14
+bgColor index 3
+font "arial-medium-r-10.0"
+fontAlign "center"
+lineWidth 1
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 235
+y 710
+w 15
+h 15
+fgColor index 43
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-bold-r-12.0"
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "pmacStatusAxis.edl"
+}
+symbols {
+  0 "M=$(pmac),A=AXIS23"
+}
+icon
+endObjectProperties
+
+endGroup
+
+visPv "$(pmac):NAXES"
+visInvert
+visMin "0"
+visMax "23"
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 10
+y 695
+w 240
+h 16
+
+beginGroup
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 10
+y 695
+w 16
+h 16
+font "arial-medium-r-10.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 3
+value {
+  "22"
+}
+border
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 25
+y 695
+w 210
+h 15
+controlPv "$(pmac):AXIS22:DESC"
+fgColor index 14
+bgColor index 3
+font "arial-medium-r-10.0"
+fontAlign "center"
+lineWidth 1
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 235
+y 695
+w 15
+h 15
+fgColor index 43
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-bold-r-12.0"
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "pmacStatusAxis.edl"
+}
+symbols {
+  0 "M=$(pmac),A=AXIS22"
+}
+icon
+endObjectProperties
+
+endGroup
+
+visPv "$(pmac):NAXES"
+visInvert
+visMin "0"
+visMax "22"
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 10
+y 680
+w 240
+h 16
+
+beginGroup
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 10
+y 680
+w 16
+h 16
+font "arial-medium-r-10.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 3
+value {
+  "21"
+}
+border
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 25
+y 680
+w 210
+h 15
+controlPv "$(pmac):AXIS21:DESC"
+fgColor index 14
+bgColor index 3
+font "arial-medium-r-10.0"
+fontAlign "center"
+lineWidth 1
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 235
+y 680
+w 15
+h 15
+fgColor index 43
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-bold-r-12.0"
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "pmacStatusAxis.edl"
+}
+symbols {
+  0 "M=$(pmac),A=AXIS21"
+}
+icon
+endObjectProperties
+
+endGroup
+
+visPv "$(pmac):NAXES"
+visInvert
+visMin "0"
+visMax "21"
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 10
+y 815
+w 240
+h 16
+
+beginGroup
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 10
+y 815
+w 16
+h 16
+font "arial-medium-r-10.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 3
+value {
+  "30"
+}
+border
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 25
+y 815
+w 210
+h 15
+controlPv "$(pmac):AXIS30:DESC"
+fgColor index 14
+bgColor index 3
+font "arial-medium-r-10.0"
+fontAlign "center"
+lineWidth 1
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 235
+y 815
+w 15
+h 15
+fgColor index 43
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-bold-r-12.0"
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "pmacStatusAxis.edl"
+}
+symbols {
+  0 "M=$(pmac),A=AXIS30"
+}
+icon
+endObjectProperties
+
+endGroup
+
+visPv "$(pmac):NAXES"
+visInvert
+visMin "0"
+visMax "30"
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 10
+y 845
+w 240
+h 16
+
+beginGroup
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 10
+y 845
+w 16
+h 16
+font "arial-medium-r-10.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 3
+value {
+  "32"
+}
+border
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 25
+y 845
+w 210
+h 15
+controlPv "$(pmac):AXIS32:DESC"
+fgColor index 14
+bgColor index 3
+font "arial-medium-r-10.0"
+fontAlign "center"
+lineWidth 1
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 235
+y 845
+w 15
+h 15
+fgColor index 43
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-bold-r-12.0"
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "pmacStatusAxis.edl"
+}
+symbols {
+  0 "M=$(pmac),A=AXIS32"
+}
+icon
+endObjectProperties
+
+endGroup
+
+visPv "$(pmac):NAXES"
+visInvert
+visMin "0"
+visMax "32"
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 10
+y 830
+w 240
+h 16
+
+beginGroup
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 10
+y 830
+w 16
+h 16
+font "arial-medium-r-10.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 3
+value {
+  "31"
+}
+border
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 25
+y 830
+w 210
+h 15
+controlPv "$(pmac):AXIS31:DESC"
+fgColor index 14
+bgColor index 3
+font "arial-medium-r-10.0"
+fontAlign "center"
+lineWidth 1
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 235
+y 830
+w 15
+h 15
+fgColor index 43
+bgColor index 3
+topShadowColor index 1
+botShadowColor index 11
+font "arial-bold-r-12.0"
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "pmacStatusAxis.edl"
+}
+symbols {
+  0 "M=$(pmac),A=AXIS31"
+}
+icon
+endObjectProperties
+
+endGroup
+
+visPv "$(pmac):NAXES"
+visInvert
+visMin "0"
+visMax "31"
 endObjectProperties
 

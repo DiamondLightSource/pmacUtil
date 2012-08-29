@@ -15,6 +15,10 @@ template() {
 # % macro, AXIS,    Axis number
 # % macro, PORT,    Asyn port
 
+record(stringout, "$(DEVICE):AXIS$(AXIS):DESC"){
+  field(PINI, "YES")
+}
+
 record(ai, "$(DEVICE):AXIS$(AXIS):POSITION") {
   field(DTYP, "stream")
   field(INP, "@pmac.proto getVar(#$(AXIS)P) $(PORT)")
