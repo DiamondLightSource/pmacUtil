@@ -3,7 +3,7 @@
 import os, sys, signal
 
 from pkg_resources import require
-require("cothread")
+require("cothread==2.8")
 
 from PyQt4 import QtCore, QtGui
 from PyQt4.Qt import *
