@@ -15,7 +15,6 @@ record(scalcout, "$(P)$(Q):RBV") {
 }
 
 record(scalcout, "$(P)$(Q):SET") {
-  field(DESC, "Energy switch calculation")
   field(DTYP, "Soft Channel")
   field(CALC, "A")
   field(INPA, "$(P)$(Q).VAL")
