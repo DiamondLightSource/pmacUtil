@@ -6,6 +6,11 @@ MSI_DIRS := $(sort $(filter-out NON_MSI_VARS $(subst %,_,$(NON_MSI_VARS)),$(subs
 # Create a colon separated list of their data dirs
 MSI_INCLUDES := $(subst : ,:,$(foreach dir,$(MSI_DIRS),$($(dir))/data:)).
 
+# location of configure
+ifeq (,$(CONFIGURE))
+CONFIGURE := ../configure
+endif
+
 # make sure that we look for files to copy from all MSI_INCULDES dirs
 vpath %.pmc $(MSI_INCLUDES)
 
@@ -27,7 +32,7 @@ define print_header
 endef
 
 # rule to make a homing plc from generate_homing_plcs.py
-PLCs/%_HM.pmc: ../configure/generate_homing_plcs.py ../configure/RELEASE
+PLCs/%_HM.pmc: $(CONFIGURE)/generate_homing_plcs.py $(CONFIGURE)/RELEASE
 	@echo '***' Autogenerating homing plc \"$@\"
 	PYTHONPATH=$(PMACUTIL)/pmacUtilApp/src ./$< $@
 
@@ -35,12 +40,12 @@ PLCs/%_HM.pmc: ../configure/generate_homing_plcs.py ../configure/RELEASE
 # or copy a file from one in an MSI_INCLUDES dir
 # these need to be instantiated for each dir
 define RULES
-$1%.pmc: src/%.psub ../configure/RELEASE
+$1%.pmc: src/%.psub $(CONFIGURE)/RELEASE
 	@echo '***' Preprocessing \"$$@\" from psub src
 	$(print_header)
 	msi -I$$(MSI_INCLUDES):src $$< >> $$@
 	
-$1%.pmc: %.pmc ../configure/RELEASE
+$1%.pmc: %.pmc $(CONFIGURE)/RELEASE
 	@echo '***' Copying across pmacUtil file \"$$@\"
 	$(print_header)
 	cat $$< >> $$@
