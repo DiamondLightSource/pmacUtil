@@ -130,6 +130,7 @@ P432 = $(ONM32=0)
 #define amp_1_status             M190 & 448
 #define AMP_STATUS_READY         64
 #define AMP_STATUS_UNDER_VOLTAGE 128
+#define I2T_WITH_AMP_STATUS_READY (256+64)
 
 ; These are for checking the status of the micromech amps (PMAC UMAC systems)
 #define micromech_status         M(7599 + P400 + (P400 - 1) & 16 / 16 * 8)
@@ -178,6 +179,14 @@ P465..496=0
 ; then the following error will be set back to its orginal
 ; value
 ;
+; This PLC also checks the amp status bits Mxx90
+;  Bits (6,7,8)   Error Code
+;  000 ($0)       No error, Not ready
+;  001 ($1)       No error, Ready
+;  010 ($2)       Bus Under-Voltage Warning
+;  011 ($3)       Over-Temperature (>70C)
+;  100 ($4)       I2T Warning/Fault
+;  110 ($6)       Over-Current Fault
 ;**********************************************************
 OPEN PLC 4
 CLEAR
@@ -216,6 +225,12 @@ while(axis_number < 33)
             endif
         endwhile          
     endif  
+
+    ; Treat I2T_WITH_AMP_STATUS_READY the same as AMP_STATUS_READY
+    ; (New geobrick firmware appears a bit more susceptible to I2T warnings 12/11/12)
+    if (amp_status_debounce = I2T_WITH_AMP_STATUS_READY)
+        amp_status_debounce = AMP_STATUS_READY
+    endif
 
     ; If protection hasn't been tripped, check to see if it should be
     if (protection_tripped = 0)
