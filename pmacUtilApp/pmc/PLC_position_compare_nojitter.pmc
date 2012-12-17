@@ -21,14 +21,30 @@ CLOSE
 ;; - PLC: PLC number to run as
 ;; - JITTER=1: Number of counts an axis can jitter by at standstill. Used to
 ;;           prevent false counts near the position compare boundary.
+;; - ms: Only needed for (vme)PMAC: Macrostation variable for the EQU register
+;; - PMAC=; If you are running this PLC on a VME based PMAC, set this macro to nothing.
+;;          The default is a comment to comment out VME PMAC specific settings in the program.
+;; - BRICK=; If you are running this PLC on a geobrick, set this macro to nothing.
+;;          The default is nothing to use geobrick specific settings in the program.
 ;####################################################
 
-#define setAutoIncr M$(eaxis)10=scaledPulse
-#define setCmpA M$(eaxis)08=cmpA
-#define setCmpB M$(eaxis)09=cmpB
-#define setOutputInit M$(eaxis)12=init
-#define setOutputOutput M$(eaxis)12=output
-#define writeOutput M$(eaxis)11=one
+;; ###########  Geobrick specific setup ##########################
+$(BRICK=)#define setAutoIncr M$(eaxis)10=scaledPulse
+$(BRICK=)#define setCmpA M$(eaxis)08=cmpA
+$(BRICK=)#define setCmpB M$(eaxis)09=cmpB
+$(BRICK=)#define setOutputInit M$(eaxis)12=init
+$(BRICK=)#define setOutputOutput M$(eaxis)12=output
+$(BRICK=)#define writeOutput M$(eaxis)11=one
+
+;; ###########  VME PMAC specific setup ##########################
+$(PMAC=;)#define setAutoIncr MSW$(ms),i923,scaledPulse
+$(PMAC=;)#define setCmpA MSW$(ms),i925,cmpA
+$(PMAC=;)#define setCmpB MSW$(ms),i926,cmpB
+$(PMAC=;)#define setOutputInit MSW$(ms),i929,init
+$(PMAC=;)#define setOutputOutput MSW$(ms),i929,output
+$(PMAC=;)#define writeOutput MSW$(ms),i928,one
+
+;; ###########  Common section ##########################
 #define homeOffset m$(axis)73 + (i$(axis)26 / 16)
 #define SCALE 1
 #define JITTER $(JITTER=1)
