@@ -92,6 +92,9 @@ HSW_HLIM = 3
 # \image html HSW_DIR2.png "HSW_DIR homing, Figure 2"
 HSW_DIR = 4
 ## Home on release of a limit (htype Enum passed to PLC.add_motor()).
+#  This can also be used for homing on a rotary encoder (back of motor)
+#  with an index mark on the rotation: Drive to limit and then home away
+#  from limit to the first index mark.
 # -# (Prehome Move) Jog in -hdir until the limit switch is hit
 # -# (Fast Search) Jog in hdir until the limit switch is released
 # -# (Fast Retrace) Jog in -hdir until the limit switch is hit
