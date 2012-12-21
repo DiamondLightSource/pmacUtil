@@ -99,7 +99,7 @@ def main(pvname, check_value_str, start_str, end_str ):
         print "no data available"
 
 if __name__ == "__main__":
-    if sys.argv[1] == "-h":
+    if len(sys.argv) < 2 or sys.argv[1] == "-h":
         help()
         sys.exit(1)
     if len(sys.argv) < 5:
