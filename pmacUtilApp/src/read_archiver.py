@@ -28,22 +28,22 @@ The output is of the form:
 Example pvs and masks:
 
   for $(pmac):PLCDISBITS00 use these values
-       plc0 0x1             
-       plc1 0x2
-       plc2 0x4
-       plc3 0x8
-       plc4 0x10
-       plc5 0x20
-       plc6 0x40
-       plc7 0x80
-       plc8 0x100
-       plc9 0x200
-       plc10 0x400
-       plc11 0x800
-       plc12 0x1000
-       plc13 0x2000
-       plc14 0x4000
-       plc15 0x8000         
+       plc0           0x1             
+       plc1           0x2   
+       plc2           0x4   
+       plc3           0x8   
+       plc4           0x10  
+       plc5           0x20  
+       plc6           0x40  
+       plc7           0x80  
+       plc8           0x100 
+       plc9           0x200 
+       plc10          0x400 
+       plc11          0x800 
+       plc12          0x1000
+       plc13          0x2000
+       plc14          0x4000
+       plc15          0x8000
 
   for $(pmac):AXIS<N>:status1 use these values cf. Turbo SRM p. 310-315
        motor activated           0x8000
