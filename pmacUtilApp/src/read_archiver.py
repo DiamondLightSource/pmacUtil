@@ -5,14 +5,18 @@ import time
 import sys
 from xmlrpclib import ServerProxy, Error
 
+Archiver_URL = "http://archiver.pri.diamond.ac.uk/" \
+                + "archive/cgi/ArchiveDataServer.cgi"
+
 def help():
-    print """ read-archiver.py    read bits from mbbo records in DLS archiver
+    print sys.argv[0] + """
+read bits from bit field records in DLS archiver
 Invocation:
-   read-archiver.py <pvname> <value> <start_time> <end_time>
+   read_archiver.py <pvname> <value> <start_time> <end_time>
 
 Where:
    <pvname> is a bit field pv, e.g. BL23I-MO-STEP-01:PLCDISBITS00
-   <value>  is a bit field mask in decima or hex, e.g. 0x800 or 2048
+   <value>  is a bit field mask in decimal or hex, e.g. 0x800 or 2048
    <start_time> is a time in the format "%Y-%m-%d@%H:%M" (no seconds)
                 for example 2012-11-11@17:10
    <end_time>   is a time in the format "%Y-%m-%d@%H:%M" (no seconds)
@@ -61,7 +65,7 @@ Example pvs and masks:
 """
 
 def main(pvname, check_value_str, start_str, end_str ):
-    server = ServerProxy("http://archiver.pri.diamond.ac.uk/archive/cgi/ArchiveDataServer.cgi")
+    server = ServerProxy(Archiver_URL)
     archiver_key = 1000 # key for "all" archiver
     # start time
     t1 = time.strptime(start_str, "%Y-%m-%d@%H:%M")
