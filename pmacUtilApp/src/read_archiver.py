@@ -11,7 +11,7 @@ Invocation:
    read-archiver.py <pvname> <value> <start_time> <end_time>
 
 Where:
-   <pvname> is a bit field pv, e.g. BL23I-OP-DCM-01:PLCDISBITS00
+   <pvname> is a bit field pv, e.g. BL23I-MO-STEP-01:PLCDISBITS00
    <value>  is a bit field mask in decima or hex, e.g. 0x800 or 2048
    <start_time> is a time in the format "%Y-%m-%d@%H:%M" (no seconds)
                 for example 2012-11-11@17:10
