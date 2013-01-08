@@ -638,6 +638,14 @@ class PLC:
             # add the commands, wait for the moves to complete
             self.__write_cmds(f,"Homing",lim_htypes=htypes_without(NOTHING, RLIM))
 
+            # restore limit flags for LIMIT motors  
+            ems = self.__sel([LIMIT])  
+            if ems:
+                f.write('\t;---- Restore limits if needed ----\n')
+                f.write('\t;Restore the limit flags to P variables px68..x83\n\t')        
+                f.write(" ".join(["i%d24=P%d%02d"%(m.ax,plc,m.i+68) for m in ems])+"\n")
+                f.write("\n")                
+
             # Zero all encoders
             ems = self.__sel(htypes)          
             cmds = []
