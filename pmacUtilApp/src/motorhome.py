@@ -598,7 +598,7 @@ class PLC:
             # then jog until trigger in direction of -ix23
             self.__jog_until_trig(htypes,reverse=True)
             # add the commands, wait for the moves to complete
-            self.__write_cmds(f,"FastRetrace",lim_htypes=htypes_without(HOME, NOTHING, RLIM))
+            self.__write_cmds(f,"FastRetrace",lim_htypes=htypes_without(HOME, NOTHING, LIMIT, RLIM))
 
             # check that the limit flags are reasonable for LIMIT motors, and remove limits if so  
             ems = self.__sel([LIMIT])  
