@@ -29,6 +29,7 @@
 # % macro, STATUS12, Homing status 12 description (e.g. for custom limit checks)
 # % macro, STATUS13, Homing status 13 description (e.g. for custom limit checks)
 # % macro, STATUS14, Homing status 14 description (e.g. for custom limit checks)
+# % macro, STATUS15, Homing status 15 description (e.g. for custom limit checks)
 # % macro, STATUSSV11, Homing status 11 severity
 # % macro, STATUSSV12, Homing status 12 severity
 # % macro, STATUSSV13, Homing status 13 severity
