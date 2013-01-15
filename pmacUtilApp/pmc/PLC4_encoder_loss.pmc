@@ -116,9 +116,9 @@ P432 = $(ONM32=0)
 
 ; use axis_number to calculate the P variable to look in to see
 ; if protection is turned on on this axis
-#define encoder_protection       P(P400 + 400) & 1 = 1
-#define amp_protection           P(P400 + 400) & 2 = 2
-#define micromech_protection     P(P400 + 400) & 4 = 4
+#define encoder_protection       (P(P400 + 400) & 1) = 1
+#define amp_protection           (P(P400 + 400) & 2) = 2
+#define micromech_protection     (P(P400 + 400) & 4) = 4
 
 ; m variable pointing at the memory location showing if the encoder is present
 #define encoder_loss_bit         M(P400*100 + 84)
@@ -148,9 +148,9 @@ P432 = $(ONM32=0)
 P465..496=0
 
 ; if protection is tripped on this axis
-#define encoder_tripped          P(P400 + 464) & 1 = 1
-#define amp_tripped              P(P400 + 464) & 2 = 2
-#define micromech_tripped        P(P400 + 464) & 4 = 4
+#define encoder_tripped          (P(P400 + 464) & 1) = 1
+#define amp_tripped              (P(P400 + 464) & 2) = 2
+#define micromech_tripped        (P(P400 + 464) & 4) = 4
 
 ; this is a temp var
 #define temp_var P497
