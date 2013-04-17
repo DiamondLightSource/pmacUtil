@@ -174,7 +174,7 @@ class Motor:
         assert len(self.instances) < 16, \
             "Only 16 motors may be defined in a single PLC"     
         # Add encoder axes to be zeroed
-        self.enc_axes = [Motor(ax, enc_axes, ctype) for ax in enc_axes]
+        self.enc_axes = [Motor(ax, [], ctype) for ax in enc_axes]
         # Add other properties
         if ctype == GEOBRICK:
             if ax < 9:
