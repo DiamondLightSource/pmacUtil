@@ -174,7 +174,7 @@ class Motor:
         assert len(self.instances) < 16, \
             "Only 16 motors may be defined in a single PLC"     
         # Add encoder axes to be zeroed
-        self.enc_axes = [Motor(ax, [], ctype) for ax in enc_axes]
+        self.enc_axes = enc_axes
         # Add other properties
         if ctype == GEOBRICK:
             if ax < 9:
@@ -358,18 +358,17 @@ class PLC:
 
     def __set_hflags(self, htypes, inv=False):
         # set the hflags of all types of motors in htypes
-        for m in self.__sel(htypes):
-            for d in [m] + m.enc_axes:
-                if inv:
-                    val = "P%d%02d"%(self.plc,d.i+52)
-                else:
-                    val = "P%d%02d"%(self.plc,d.i+36)            
-                if hasattr(d, "nx"):
-                    # geobrick internal axis
-                    self.__cmd1.append("i7%02d2=%s"%(d.nx,val))
-                else:
-                    # ms external axis                  
-                    self.__cmd1.append("MSW%d,i912,%s"%(d.ms,val))
+        for d in self.__sel(htypes):
+            if inv:
+                val = "P%d%02d"%(self.plc,d.i+52)
+            else:
+                val = "P%d%02d"%(self.plc,d.i+36)            
+            if hasattr(d, "nx"):
+                # geobrick internal axis
+                self.__cmd1.append("i7%02d2=%s"%(d.nx,val))
+            else:
+                # ms external axis                  
+                self.__cmd1.append("MSW%d,i912,%s"%(d.ms,val))
 
     def __check_not_aborted(self, f, tabs=1):        
         for i in range(tabs):
@@ -467,7 +466,7 @@ class PLC:
             for motor, htype, post in group.actions:
                 self.comment += ";  Axis %d: htype = %s, jdist = %s, post = %s" % (motor.ax, htypes_str[htype], motor.jdist, post)
                 if motor.enc_axes:
-                    self.comment += ", enc_axes = %s" % [e.ax for e in motor.enc_axes]
+                    self.comment += ", enc_axes = %s" % motor.enc_axes
                 self.comment += "\n"
                 
         f.write(header % self.__dict__)        
@@ -651,7 +650,7 @@ class PLC:
             cmds = []
             for m in ems:
                 for e in m.enc_axes:
-                    cmds.append("#%dhmz"%e.ax)
+                    cmds.append("#%dhmz"%e)
             if cmds:
                 f.write('\t;---- Zero encoder channels ----\n')
                 self.__check_not_aborted(f) 
