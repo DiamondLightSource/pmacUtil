@@ -1,0 +1,2 @@
+substitute "COORD=2, CS=BRICK3CS2, BP=2, BM=1, PLC=17"
+include "CS_blade_slits.pmc"
