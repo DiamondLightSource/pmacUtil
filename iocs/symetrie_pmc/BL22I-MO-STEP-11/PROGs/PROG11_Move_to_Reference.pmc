@@ -1,0 +1,15 @@
+CLOSE
+
+;####################################################
+;This program moves back to a safe "reference position"
+;
+; Brief description of what this PLC does
+;
+; Brief description of the P and Q variables this reads and sets
+;####################################################
+
+OPEN PROG 11
+CLEAR
+DWELL0
+CLOSE
+

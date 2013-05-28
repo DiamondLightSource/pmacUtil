@@ -1,0 +1,15 @@
+CLOSE
+
+;####################################################
+; Current reduction PLC at standstill
+;
+; Brief description of what this PLC does
+;
+; Brief description of the P and Q variables this reads and sets
+;####################################################
+
+OPEN PLC 7
+CLEAR  
+CLOSE
+
+ENABLE PLC 7

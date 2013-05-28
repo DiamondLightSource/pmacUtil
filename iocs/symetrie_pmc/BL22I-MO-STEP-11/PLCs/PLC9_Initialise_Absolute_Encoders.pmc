@@ -1,0 +1,15 @@
+CLOSE
+
+;####################################################
+; Initialisation PLC for absolute encoder positions
+;
+; Brief description of what this PLC does
+;
+; Brief description of the P and Q variables this reads and sets
+;####################################################
+
+OPEN PLC 9
+CLEAR  
+CLOSE
+
+ENABLE PLC 9

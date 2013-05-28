@@ -1,0 +1,216 @@
+CLOSE
+
+CLOSE
+
+;####################################################
+; CS for hexapod motion
+;
+; Defined axes:
+; - Q71 = A (addr 0) = X in mm (+ve is outboard)
+; - Q72 = B (addr 1) = Y in mm (+ve is up)
+; - Q73 = C (addr 2) = Z in mm (+ve in beam direction)
+; - Q74 = U (addr 3) = Pitch (Rx) in degrees
+; - Q75 = V (addr 4) = Yaw (Ry) in degrees
+; - Q76 = W (addr 5) = Roll (Rz) in degrees
+;
+;################################################
+
+; Change to CS2
+&2
+
+; Q variable interface
+; Feedback of position in Machine CS
+#define MACHXPOS Q91
+#define MACHYPOS Q92
+#define MACHZPOS Q93
+#define MACHPITCHPOS Q94
+#define MACHYAWPOS Q95
+#define MACHROLLPOS Q96
+; Feedback of position in User CS
+#define USERXPOS Q21
+#define USERYPOS Q22
+#define USERZPOS Q23
+#define USERPITCHPOS Q24
+#define USERYAWPOS Q25
+#define USERROLLPOS Q26
+; Offset for User CS (from Machine)
+#define USERXOFF Q27
+#define USERYOFF Q28
+#define USERZOFF Q29
+#define USERPITCHOFF Q30
+#define USERYAWOFF Q31
+#define USERROLLOFF Q32
+; Offset for Object CS (from Machine)
+#define OBJECTXOFF Q33
+#define OBJECTYOFF Q34
+#define OBJECTZOFF Q35
+#define OBJECTPITCHOFF Q36
+#define OBJECTYAWOFF Q37
+#define OBJECTROLLOFF Q38
+; Limits in Machine CS NLIM=-ve, PLIM=+ve
+#define MACHXNLIM Q39
+#define MACHXPLIM Q40
+#define MACHYNLIM Q41
+#define MACHYPLIM Q42
+#define MACHZNLIM Q43
+#define MACHZPLIM Q44
+#define MACHPITCHNLIM Q45
+#define MACHPITCHPLIM Q46
+#define MACHYAWNLIM Q47
+#define MACHYAWPLIM Q48
+#define MACHROLLNLIM Q49
+#define MACHROLLPLIM Q50
+; Limits in User CS NLIM=-ve, PLIM=+ve
+#define USERXNLIM Q51
+#define USERXPLIM Q52
+#define USERYNLIM Q53
+#define USERYPLIM Q54
+#define USERZNLIM Q55
+#define USERZPLIM Q56
+#define USERPITCHNLIM Q57
+#define USERPITCHPLIM Q58
+#define USERYAWNLIM Q59
+#define USERYAWPLIM Q60
+#define USERROLLNLIM Q61
+#define USERROLLPLIM Q62
+; etc, etc, etc...
+
+; Set relevant axes to use kinematics
+#1->I ; Leg 1
+#2->I ; Leg 2
+#3->I ; Leg 3
+#4->I ; Leg 4
+#5->I ; Leg 5
+#6->I ; Leg 6
+
+; These are set by motor_in_cs.template
+#define L1MOVE P(4700+1)
+#define L1MRES P(4800+1)
+#define L1OFF  P(4900+1)
+#define L2MOVE P(4700+2)
+#define L2MRES P(4800+2)
+#define L2OFF  P(4900+2)
+#define L3MOVE P(4700+3)
+#define L3MRES P(4800+3)
+#define L3OFF  P(4900+3)
+#define L4MOVE P(4700+4)
+#define L4MRES P(4800+4)
+#define L4OFF  P(4900+4)
+#define L5MOVE P(4700+5)
+#define L5MRES P(4800+5)
+#define L5OFF  P(4900+5)
+#define L6MOVE P(4700+6)
+#define L6MRES P(4800+6)
+#define L6OFF  P(4900+6)
+
+; Calculate position in Object CS from leg positions
+#define L1POS (L1MRES*P1+L1OFF)
+#define L2POS (L2MRES*P2+L2OFF)
+#define L3POS (L3MRES*P3+L3OFF)
+#define L4POS (L4MRES*P4+L4OFF)
+#define L5POS (L5MRES*P5+L5OFF)
+#define L6POS (L6MRES*P6+L6OFF)
+#define XPOS Q1
+#define YPOS Q2
+#define ZPOS Q3
+#define PITCHPOS Q4
+#define YAWPOS Q5
+#define ROLLPOS Q6
+OPEN FORWARD
+CLEAR
+    ; dummy system for testing
+    XPOS = L1POS
+    YPOS = L2POS
+    ZPOS = L3POS
+    PITCHPOS = L4POS
+    YAWPOS = L5POS
+    ROLLPOS = L6POS
+CLOSE
+
+; Calculate leg position from position in Object CS
+#define L1POS Q228
+#define L2POS Q229
+#define L3POS Q230
+#define L4POS Q231
+#define L5POS Q232
+#define L6POS Q233
+OPEN INVERSE
+CLEAR
+    ; calculate in EGUs
+    L1POS = XPOS
+    L2POS = YPOS
+    L3POS = ZPOS
+    L4POS = PITCHPOS
+    L5POS = YAWPOS
+    L6POS = ROLLPOS                
+    ; then in cts
+    P1 = (L1POS - L1OFF)/L1MRES
+    P2 = (L2POS - L2OFF)/L2MRES
+    P3 = (L3POS - L3OFF)/L3MRES
+    P4 = (L4POS - L4OFF)/L4MRES
+    P5 = (L5POS - L5OFF)/L5MRES
+    P6 = (L6POS - L6OFF)/L6MRES
+CLOSE
+
+; A PLC(sx+15) needs to be made to do position reporting
+; Readbacks should be in &{axisnum}Q81..89
+; As forward kinematic, but with Px = mx62/(Ix08*32)
+#define L1POS (L1MRES*m162/(I108*32)+L1OFF)
+#define L2POS (L2MRES*m262/(I208*32)+L2OFF)
+#define L3POS (L3MRES*m362/(I308*32)+L3OFF)
+#define L4POS (L4MRES*m462/(I408*32)+L4OFF)
+#define L5POS (L5MRES*m562/(I508*32)+L5OFF)
+#define L6POS (L6MRES*m662/(I608*32)+L6OFF)
+#define XPOS Q81
+#define YPOS Q82
+#define ZPOS Q83
+#define PITCHPOS Q84
+#define YAWPOS Q85
+#define ROLLPOS Q86
+OPEN PLC17
+CLEAR
+    ADDRESS&2
+    ; dummy system for testing
+    XPOS = L1POS
+    YPOS = L2POS
+    ZPOS = L3POS
+    PITCHPOS = L4POS
+    YAWPOS = L5POS
+    ROLLPOS = L6POS
+    ; also report machine and User CS values
+    MACHXPOS = L1POS + 1
+    MACHYPOS = L2POS + 1
+    MACHZPOS = L3POS + 1
+    MACHPITCHPOS = L4POS + 1
+    MACHYAWPOS = L5POS + 1
+    MACHROLLPOS = L6POS + 1
+    USERXPOS = L1POS + 2
+    USERYPOS = L2POS + 2
+    USERZPOS = L3POS + 2
+    USERPITCHPOS = L4POS + 2
+    USERYAWPOS = L5POS + 2
+    USERROLLPOS = L6POS + 2
+       
+    
+    ; If raw motor did the last move, set demands = readbacks
+    if (L1MOVE = 1)
+    or (L2MOVE = 1)
+    or (L3MOVE = 1)
+    or (L4MOVE = 1)
+    or (L5MOVE = 1)
+    or (L6MOVE = 1)                
+        L1MOVE = 0
+        L2MOVE = 0
+        L3MOVE = 0
+        L4MOVE = 0
+        L5MOVE = 0
+        L6MOVE = 0
+        Q71 = Q81
+        Q72 = Q82
+        Q73 = Q83
+        Q74 = Q84
+        Q75 = Q85
+        Q76 = Q86
+    endif
+CLOSE
+ENABLE PLC17
