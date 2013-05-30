@@ -8,8 +8,13 @@ CLOSE
 ; Brief description of the P and Q variables this reads and sets
 ;####################################################
 
+; Recovery motion program 11 state
+#define RECOVERYSTA Q69
+
 OPEN PROG 11
 CLEAR
-DWELL0
+RECOVERYSTA=1
+DWELL10000
+RECOVERYSTA=0
 CLOSE
 

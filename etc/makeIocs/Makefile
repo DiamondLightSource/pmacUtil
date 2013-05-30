@@ -22,7 +22,7 @@ IOCS := $(patsubst %.xml, %, $(wildcard *.xml)) $(patsubst %.py, %, $(wildcard *
 IOC_DIRS := $(patsubst %, $(TOP)/iocs/%, $(IOCS) $(SIMS))
 
 # Add the created iocs to the install target, and add defs.pmc for each ioc
-install: $(IOC_DIRS) $(patsubst %, %/defs.pmc, $(IOC_DIRS))
+install: $(IOC_DIRS) $(patsubst %.psub, $(TOP)/iocs/%/defs.pmc, $(wildcard *.psub))
 
 # General rule for building a Standard IOC from an XML file
 $(TOP)/iocs/%: %.xml

@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<components arch="linux-x86">
+	<tpmac.pmacAsynIPPort IP="172.23.253.11" name="BRICK1port"/>
+	<tpmac.GeoBrick Port="BRICK1port" name="BRICK1"/>
+	<pmacCoord.CS CS="2" Controller="BRICK1" name="BRICK1CS2"/>
+	<pmacCoord.CS_symetrie_hexapod COORD="2" P="SYMETRIEHEX" PORT="BRICK1port" name="HEX.SETUP"/>
+	<pmacUtil.dls_pmac_cs_asyn_motor ADDR="0" DESC="X (compound)" DHLM="1000" DLLM="-1000" EGU="mm" M=":X" MRES="0.0001" P="SYMETRIEHEX" PORT="BRICK1CS2" PREC="3" TWV="0.1" VELO="1" name="HEX.X"/>
+	<pmacUtil.dls_pmac_cs_asyn_motor ADDR="1" DESC="Y (compound)" DHLM="1000" DLLM="-1000" EGU="mm" M=":Y" MRES="0.0001" P="SYMETRIEHEX" PORT="BRICK1CS2" PREC="3" TWV="0.1" VELO="1" name="HEX.Y"/>
+	<pmacUtil.dls_pmac_cs_asyn_motor ADDR="2" DESC="Z (compound)" DHLM="1000" DLLM="-1000" EGU="mm" M=":Z" MRES="0.0001" P="SYMETRIEHEX" PORT="BRICK1CS2" PREC="3" TWV="0.1" VELO="1" name="HEX.Z"/>
+	<pmacUtil.dls_pmac_cs_asyn_motor ADDR="3" DESC="Pitch (compound)" DHLM="1000" DLLM="-1000" EGU="mm" M=":PITCH" MRES="0.0001" P="SYMETRIEHEX" PORT="BRICK1CS2" PREC="3" TWV="0.1" VELO="1" name="HEX.PITCH"/>
+	<pmacUtil.dls_pmac_cs_asyn_motor ADDR="4" DESC="Yaw (compound)" DHLM="1000" DLLM="-1000" EGU="mm" M=":YAW" MRES="0.0001" P="SYMETRIEHEX" PORT="BRICK1CS2" PREC="3" TWV="0.1" VELO="1" name="HEX.YAW"/>
+	<pmacUtil.dls_pmac_cs_asyn_motor ADDR="5" DESC="Roll (compound)" DHLM="1000" DLLM="-1000" EGU="mm" M=":ROLL" MRES="0.0001" P="SYMETRIEHEX" PORT="BRICK1CS2" PREC="3" TWV="0.1" VELO="1" name="HEX.ROLL"/>
+	<records.bo DTYP="asynUInt32Digital" ONAM="On" OUT="@asynMask(BRICK1CS2,0,1)MOTOR_DEFER_MOVES" ZNAM="Off" record="SYMETRIEHEX:DEFER"/>
+</components>

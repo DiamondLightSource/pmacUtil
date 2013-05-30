@@ -18,7 +18,7 @@ CLOSE
 ; Change to CS2
 &2
 
-; Q variable interface
+; Q variable interface, feel free to move these defs to the relevant files...
 ; Feedback of position in Machine CS
 #define MACHXPOS Q91
 #define MACHYPOS Q92
@@ -40,7 +40,7 @@ CLOSE
 #define USERPITCHOFF Q30
 #define USERYAWOFF Q31
 #define USERROLLOFF Q32
-; Offset for Object CS (from Machine)
+; Offset for Object CS (from User)
 #define OBJECTXOFF Q33
 #define OBJECTYOFF Q34
 #define OBJECTZOFF Q35
@@ -52,7 +52,7 @@ CLOSE
 #define MACHXPLIM Q40
 #define MACHYNLIM Q41
 #define MACHYPLIM Q42
-#define MACHZNLIM Q43
+#define MACHZNLIM Q43O
 #define MACHZPLIM Q44
 #define MACHPITCHNLIM Q45
 #define MACHPITCHPLIM Q46
@@ -73,7 +73,19 @@ CLOSE
 #define USERYAWPLIM Q60
 #define USERROLLNLIM Q61
 #define USERROLLPLIM Q62
-; etc, etc, etc...
+; Stall current in percent of nominal
+#define STALLPERCENT Q63
+STALLPERCENT=25
+; Description of kinematic error
+#define KINEMATICERR Q64
+; Absolute Encoder Initialise PLC State
+#define ABSINITSTA Q65
+; Motion Status
+#define MOTIONSTA Q66
+; GPIO Input Monitoring
+#define GPIOSTA Q67
+; General Hexapod State
+#define HEXSTA Q68
 
 ; Set relevant axes to use kinematics
 #1->I ; Leg 1
