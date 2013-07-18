@@ -17,6 +17,14 @@ CLOSE
 ; 4 = PMAC Micromech amplifier enable detection, when the amplifier is demanded 
 ;     to be on, but is actually off, then trip the protection, auto reset when 
 ;     it comes back on
+; 8 = encoder loss detection for SSI absolute magnetic encoder only, 
+;     when the encoder is marked as lost (mx95 = 0 or mx96!=0),
+;     the protection will be tripped and will need a manual reset 
+;     (set p(464+axis_number) = 0)
+;      e.g. M195->Y:$78B20,24 /* Channel 1 Lower 24 SSI Data bits 0-23 */
+;           M196->Y:$78B21,24 /* Channel 1 Upper SSI Data bits 0-7 and bit 23 is parity error */
+;           Bit 25 of the SSI data (bit 0 of M196) is the 'sensor is too far from the tape' error bit 
+;           Bit 26 of the SSI data (bit 1 of M196) is the 'out of temperature range' error bit.
 ; So ONMx = 2 for open loop brick, 3 for closed loop brick, 4 for open loop PMAC
 ; 5 for closed loop PMAC.
 ;
@@ -119,9 +127,15 @@ P432 = $(ONM32=0)
 #define encoder_protection       (P(P400 + 400) & 1) = 1
 #define amp_protection           (P(P400 + 400) & 2) = 2
 #define micromech_protection     (P(P400 + 400) & 4) = 4
+#define encoder_protection_SSIabs (P(P400 + 400) & 8) = 8
 
 ; m variable pointing at the memory location showing if the encoder is present
 #define encoder_loss_bit         M(P400*100 + 84)
+
+; m variable pointing to the memory location showing absolute encoder reading and encoder error flags
+#define encoder_reading_SSIabs    M(P400*100 + 95)
+#define encoder_error_bits_SSIabs M(P400*100 + 96)
+
 
 ; These are for checking amp status
 ; NOTE: under voltage is only wired to the first 4 axes in a geoBrick, so 
@@ -239,6 +253,11 @@ while(axis_number < 33)
         if (encoder_protection and encoder_loss_bit = 0)
             protection_tripped = protection_tripped | 1
         endif
+
+        if (encoder_protection_SSIabs) 
+        and (encoder_reading_SSIabs = 0 or encoder_error_bits_SSIabs != 0)
+            protection_tripped = protection_tripped | 1
+        endif
     
         ; Or amp protection is enabled and the amp status is no longer READY
         if (amp_protection and amp_status_debounce != AMP_STATUS_READY)
@@ -292,6 +311,10 @@ while(axis_number < 33)
         ; Protection is not tripped so restore following error
         if (following_error_limit = 1 and saved_fe_limit > 1)
             following_error_limit = saved_fe_limit
+            if (encoder_protection_SSIabs)
+                ; re-initialise position from the absolute encoder reading 
+                ADDRESS#axis_number CMD"$*"
+            endif
         endif
     endif
 
