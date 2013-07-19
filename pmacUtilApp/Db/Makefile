@@ -35,6 +35,8 @@ DB += pmacStatusAxis.template
 DB += pmacStatus8Axes.template
 DB += pmacStatus32Axes.template
 DB += brake.template
+DB += motion_protection.template
+DB += geobrickette_motion_stop.db
 
 # not using streams since this doesnt work with tpmac
 #DB += energise_streams.template
