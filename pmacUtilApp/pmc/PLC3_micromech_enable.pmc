@@ -25,7 +25,7 @@ CLOSE
 #define amplifier_demand      M(7699 + axis_number + (axis_number - 1) & 16 / 16 * 8)
 
 #define micromech_protection     P(axis_number + 400) & 4 = 4
-#define protection_tripped       P(axis_number + 464)
+#define micromech_tripped        P(axis_number + 464) & 4 = 4
 
 
 OPEN PLC3
@@ -34,7 +34,7 @@ CLEAR
 ; Calculate axis statuses
 axis_number = 1
 WHILE (axis_number !> 32)
-	IF (micromech_protection and protection_tripped = 1)
+	IF (micromech_protection and micromech_tripped)
 		; If Encoder loss has tripped because of an amp fault, force it on
 		amplifier_demand = 1
 	ELSE
