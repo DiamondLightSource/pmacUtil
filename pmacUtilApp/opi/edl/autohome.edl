@@ -497,7 +497,7 @@ x 220
 y 55
 w 130
 h 15
-controlPv "$(M1).DESC"
+controlPv "$(Motor1).DESC"
 fgColor index 14
 bgColor index 3
 font "arial-medium-r-10.0"
@@ -515,7 +515,7 @@ x 350
 y 55
 w 85
 h 15
-controlPv "$(M1):HMPOS"
+controlPv "$(Motor1):HMPOS"
 fgColor index 16
 fgAlarm
 bgColor index 10
@@ -576,7 +576,7 @@ x 455
 y 280
 w 130
 h 15
-controlPv "$(M32).DESC"
+controlPv "$(Motor32).DESC"
 fgColor index 14
 bgColor index 3
 font "arial-medium-r-10.0"
@@ -594,7 +594,7 @@ x 585
 y 280
 w 85
 h 15
-controlPv "$(M32):HMPOS"
+controlPv "$(Motor32):HMPOS"
 fgColor index 16
 fgAlarm
 bgColor index 10
@@ -655,7 +655,7 @@ x 220
 y 70
 w 130
 h 15
-controlPv "$(M2).DESC"
+controlPv "$(Motor2).DESC"
 fgColor index 14
 bgColor index 3
 font "arial-medium-r-10.0"
@@ -673,7 +673,7 @@ x 350
 y 70
 w 85
 h 15
-controlPv "$(M2):HMPOS"
+controlPv "$(Motor2):HMPOS"
 fgColor index 16
 fgAlarm
 bgColor index 10
@@ -734,7 +734,7 @@ x 220
 y 85
 w 130
 h 15
-controlPv "$(M3).DESC"
+controlPv "$(Motor3).DESC"
 fgColor index 14
 bgColor index 3
 font "arial-medium-r-10.0"
@@ -752,7 +752,7 @@ x 350
 y 85
 w 85
 h 15
-controlPv "$(M3):HMPOS"
+controlPv "$(Motor3):HMPOS"
 fgColor index 16
 fgAlarm
 bgColor index 10
@@ -813,7 +813,7 @@ x 220
 y 100
 w 130
 h 15
-controlPv "$(M4).DESC"
+controlPv "$(Motor4).DESC"
 fgColor index 14
 bgColor index 3
 font "arial-medium-r-10.0"
@@ -831,7 +831,7 @@ x 350
 y 100
 w 85
 h 15
-controlPv "$(M4):HMPOS"
+controlPv "$(Motor4):HMPOS"
 fgColor index 16
 fgAlarm
 bgColor index 10
@@ -892,7 +892,7 @@ x 220
 y 115
 w 130
 h 15
-controlPv "$(M5).DESC"
+controlPv "$(Motor5).DESC"
 fgColor index 14
 bgColor index 3
 font "arial-medium-r-10.0"
@@ -910,7 +910,7 @@ x 350
 y 115
 w 85
 h 15
-controlPv "$(M5):HMPOS"
+controlPv "$(Motor5):HMPOS"
 fgColor index 16
 fgAlarm
 bgColor index 10
@@ -971,7 +971,7 @@ x 220
 y 130
 w 130
 h 15
-controlPv "$(M6).DESC"
+controlPv "$(Motor6).DESC"
 fgColor index 14
 bgColor index 3
 font "arial-medium-r-10.0"
@@ -989,7 +989,7 @@ x 350
 y 130
 w 85
 h 15
-controlPv "$(M6):HMPOS"
+controlPv "$(Motor6):HMPOS"
 fgColor index 16
 fgAlarm
 bgColor index 10
@@ -1050,7 +1050,7 @@ x 220
 y 145
 w 130
 h 15
-controlPv "$(M7).DESC"
+controlPv "$(Motor7).DESC"
 fgColor index 14
 bgColor index 3
 font "arial-medium-r-10.0"
@@ -1068,7 +1068,7 @@ x 350
 y 145
 w 85
 h 15
-controlPv "$(M7):HMPOS"
+controlPv "$(Motor7):HMPOS"
 fgColor index 16
 fgAlarm
 bgColor index 10
@@ -1129,7 +1129,7 @@ x 220
 y 160
 w 130
 h 15
-controlPv "$(M8).DESC"
+controlPv "$(Motor8).DESC"
 fgColor index 14
 bgColor index 3
 font "arial-medium-r-10.0"
@@ -1147,7 +1147,7 @@ x 350
 y 160
 w 85
 h 15
-controlPv "$(M8):HMPOS"
+controlPv "$(Motor8):HMPOS"
 fgColor index 16
 fgAlarm
 bgColor index 10
@@ -1208,7 +1208,7 @@ x 220
 y 175
 w 130
 h 15
-controlPv "$(M9).DESC"
+controlPv "$(Motor9).DESC"
 fgColor index 14
 bgColor index 3
 font "arial-medium-r-10.0"
@@ -1226,7 +1226,7 @@ x 350
 y 175
 w 85
 h 15
-controlPv "$(M9):HMPOS"
+controlPv "$(Motor9):HMPOS"
 fgColor index 16
 fgAlarm
 bgColor index 10
@@ -1287,7 +1287,7 @@ x 220
 y 190
 w 130
 h 15
-controlPv "$(M10).DESC"
+controlPv "$(Motor10).DESC"
 fgColor index 14
 bgColor index 3
 font "arial-medium-r-10.0"
@@ -1305,7 +1305,7 @@ x 350
 y 190
 w 85
 h 15
-controlPv "$(M10):HMPOS"
+controlPv "$(Motor10):HMPOS"
 fgColor index 16
 fgAlarm
 bgColor index 10
@@ -1366,7 +1366,7 @@ x 220
 y 205
 w 130
 h 15
-controlPv "$(M11).DESC"
+controlPv "$(Motor11).DESC"
 fgColor index 14
 bgColor index 3
 font "arial-medium-r-10.0"
@@ -1384,7 +1384,7 @@ x 350
 y 205
 w 85
 h 15
-controlPv "$(M11):HMPOS"
+controlPv "$(Motor11):HMPOS"
 fgColor index 16
 fgAlarm
 bgColor index 10
@@ -1445,7 +1445,7 @@ x 220
 y 220
 w 130
 h 15
-controlPv "$(M12).DESC"
+controlPv "$(Motor12).DESC"
 fgColor index 14
 bgColor index 3
 font "arial-medium-r-10.0"
@@ -1463,7 +1463,7 @@ x 350
 y 220
 w 85
 h 15
-controlPv "$(M12):HMPOS"
+controlPv "$(Motor12):HMPOS"
 fgColor index 16
 fgAlarm
 bgColor index 10
@@ -1524,7 +1524,7 @@ x 220
 y 235
 w 130
 h 15
-controlPv "$(M13).DESC"
+controlPv "$(Motor13).DESC"
 fgColor index 14
 bgColor index 3
 font "arial-medium-r-10.0"
@@ -1542,7 +1542,7 @@ x 350
 y 235
 w 85
 h 15
-controlPv "$(M13):HMPOS"
+controlPv "$(Motor13):HMPOS"
 fgColor index 16
 fgAlarm
 bgColor index 10
@@ -1603,7 +1603,7 @@ x 220
 y 250
 w 130
 h 15
-controlPv "$(M14).DESC"
+controlPv "$(Motor14).DESC"
 fgColor index 14
 bgColor index 3
 font "arial-medium-r-10.0"
@@ -1621,7 +1621,7 @@ x 350
 y 250
 w 85
 h 15
-controlPv "$(M14):HMPOS"
+controlPv "$(Motor14):HMPOS"
 fgColor index 16
 fgAlarm
 bgColor index 10
@@ -1682,7 +1682,7 @@ x 220
 y 265
 w 130
 h 15
-controlPv "$(M15).DESC"
+controlPv "$(Motor15).DESC"
 fgColor index 14
 bgColor index 3
 font "arial-medium-r-10.0"
@@ -1700,7 +1700,7 @@ x 350
 y 265
 w 85
 h 15
-controlPv "$(M15):HMPOS"
+controlPv "$(Motor15):HMPOS"
 fgColor index 16
 fgAlarm
 bgColor index 10
@@ -1761,7 +1761,7 @@ x 220
 y 280
 w 130
 h 15
-controlPv "$(M16).DESC"
+controlPv "$(Motor16).DESC"
 fgColor index 14
 bgColor index 3
 font "arial-medium-r-10.0"
@@ -1779,7 +1779,7 @@ x 350
 y 280
 w 85
 h 15
-controlPv "$(M16):HMPOS"
+controlPv "$(Motor16):HMPOS"
 fgColor index 16
 fgAlarm
 bgColor index 10
@@ -1840,7 +1840,7 @@ x 455
 y 55
 w 130
 h 15
-controlPv "$(M17).DESC"
+controlPv "$(Motor17).DESC"
 fgColor index 14
 bgColor index 3
 font "arial-medium-r-10.0"
@@ -1858,7 +1858,7 @@ x 585
 y 55
 w 85
 h 15
-controlPv "$(M17):HMPOS"
+controlPv "$(Motor17):HMPOS"
 fgColor index 16
 fgAlarm
 bgColor index 10
@@ -1919,7 +1919,7 @@ x 455
 y 70
 w 130
 h 15
-controlPv "$(M18).DESC"
+controlPv "$(Motor18).DESC"
 fgColor index 14
 bgColor index 3
 font "arial-medium-r-10.0"
@@ -1937,7 +1937,7 @@ x 585
 y 70
 w 85
 h 15
-controlPv "$(M18):HMPOS"
+controlPv "$(Motor18):HMPOS"
 fgColor index 16
 fgAlarm
 bgColor index 10
@@ -1998,7 +1998,7 @@ x 455
 y 85
 w 130
 h 15
-controlPv "$(M19).DESC"
+controlPv "$(Motor19).DESC"
 fgColor index 14
 bgColor index 3
 font "arial-medium-r-10.0"
@@ -2016,7 +2016,7 @@ x 585
 y 85
 w 85
 h 15
-controlPv "$(M19):HMPOS"
+controlPv "$(Motor19):HMPOS"
 fgColor index 16
 fgAlarm
 bgColor index 10
@@ -2077,7 +2077,7 @@ x 455
 y 100
 w 130
 h 15
-controlPv "$(M20).DESC"
+controlPv "$(Motor20).DESC"
 fgColor index 14
 bgColor index 3
 font "arial-medium-r-10.0"
@@ -2095,7 +2095,7 @@ x 585
 y 100
 w 85
 h 15
-controlPv "$(M20):HMPOS"
+controlPv "$(Motor20):HMPOS"
 fgColor index 16
 fgAlarm
 bgColor index 10
@@ -2156,7 +2156,7 @@ x 455
 y 115
 w 130
 h 15
-controlPv "$(M21).DESC"
+controlPv "$(Motor21).DESC"
 fgColor index 14
 bgColor index 3
 font "arial-medium-r-10.0"
@@ -2174,7 +2174,7 @@ x 585
 y 115
 w 85
 h 15
-controlPv "$(M21):HMPOS"
+controlPv "$(Motor21):HMPOS"
 fgColor index 16
 fgAlarm
 bgColor index 10
@@ -2235,7 +2235,7 @@ x 455
 y 130
 w 130
 h 15
-controlPv "$(M22).DESC"
+controlPv "$(Motor22).DESC"
 fgColor index 14
 bgColor index 3
 font "arial-medium-r-10.0"
@@ -2253,7 +2253,7 @@ x 585
 y 130
 w 85
 h 15
-controlPv "$(M22):HMPOS"
+controlPv "$(Motor22):HMPOS"
 fgColor index 16
 fgAlarm
 bgColor index 10
@@ -2314,7 +2314,7 @@ x 455
 y 145
 w 130
 h 15
-controlPv "$(M23).DESC"
+controlPv "$(Motor23).DESC"
 fgColor index 14
 bgColor index 3
 font "arial-medium-r-10.0"
@@ -2332,7 +2332,7 @@ x 585
 y 145
 w 85
 h 15
-controlPv "$(M23):HMPOS"
+controlPv "$(Motor23):HMPOS"
 fgColor index 16
 fgAlarm
 bgColor index 10
@@ -2393,7 +2393,7 @@ x 455
 y 160
 w 130
 h 15
-controlPv "$(M24).DESC"
+controlPv "$(Motor24).DESC"
 fgColor index 14
 bgColor index 3
 font "arial-medium-r-10.0"
@@ -2411,7 +2411,7 @@ x 585
 y 160
 w 85
 h 15
-controlPv "$(M24):HMPOS"
+controlPv "$(Motor24):HMPOS"
 fgColor index 16
 fgAlarm
 bgColor index 10
@@ -2472,7 +2472,7 @@ x 455
 y 175
 w 130
 h 15
-controlPv "$(M25).DESC"
+controlPv "$(Motor25).DESC"
 fgColor index 14
 bgColor index 3
 font "arial-medium-r-10.0"
@@ -2490,7 +2490,7 @@ x 585
 y 175
 w 85
 h 15
-controlPv "$(M25):HMPOS"
+controlPv "$(Motor25):HMPOS"
 fgColor index 16
 fgAlarm
 bgColor index 10
@@ -2551,7 +2551,7 @@ x 455
 y 190
 w 130
 h 15
-controlPv "$(M26).DESC"
+controlPv "$(Motor26).DESC"
 fgColor index 14
 bgColor index 3
 font "arial-medium-r-10.0"
@@ -2569,7 +2569,7 @@ x 585
 y 190
 w 85
 h 15
-controlPv "$(M26):HMPOS"
+controlPv "$(Motor26):HMPOS"
 fgColor index 16
 fgAlarm
 bgColor index 10
@@ -2630,7 +2630,7 @@ x 455
 y 205
 w 130
 h 15
-controlPv "$(M27).DESC"
+controlPv "$(Motor27).DESC"
 fgColor index 14
 bgColor index 3
 font "arial-medium-r-10.0"
@@ -2648,7 +2648,7 @@ x 585
 y 205
 w 85
 h 15
-controlPv "$(M27):HMPOS"
+controlPv "$(Motor27):HMPOS"
 fgColor index 16
 fgAlarm
 bgColor index 10
@@ -2709,7 +2709,7 @@ x 455
 y 220
 w 130
 h 15
-controlPv "$(M28).DESC"
+controlPv "$(Motor28).DESC"
 fgColor index 14
 bgColor index 3
 font "arial-medium-r-10.0"
@@ -2727,7 +2727,7 @@ x 585
 y 220
 w 85
 h 15
-controlPv "$(M28):HMPOS"
+controlPv "$(Motor28):HMPOS"
 fgColor index 16
 fgAlarm
 bgColor index 10
@@ -2788,7 +2788,7 @@ x 455
 y 235
 w 130
 h 15
-controlPv "$(M29).DESC"
+controlPv "$(Motor29).DESC"
 fgColor index 14
 bgColor index 3
 font "arial-medium-r-10.0"
@@ -2806,7 +2806,7 @@ x 585
 y 235
 w 85
 h 15
-controlPv "$(M29):HMPOS"
+controlPv "$(Motor29):HMPOS"
 fgColor index 16
 fgAlarm
 bgColor index 10
@@ -2867,7 +2867,7 @@ x 455
 y 250
 w 130
 h 15
-controlPv "$(M30).DESC"
+controlPv "$(Motor30).DESC"
 fgColor index 14
 bgColor index 3
 font "arial-medium-r-10.0"
@@ -2885,7 +2885,7 @@ x 585
 y 250
 w 85
 h 15
-controlPv "$(M30):HMPOS"
+controlPv "$(Motor30):HMPOS"
 fgColor index 16
 fgAlarm
 bgColor index 10
@@ -2946,7 +2946,7 @@ x 455
 y 265
 w 130
 h 15
-controlPv "$(M31).DESC"
+controlPv "$(Motor31).DESC"
 fgColor index 14
 bgColor index 3
 font "arial-medium-r-10.0"
@@ -2964,7 +2964,7 @@ x 585
 y 265
 w 85
 h 15
-controlPv "$(M31):HMPOS"
+controlPv "$(Motor31):HMPOS"
 fgColor index 16
 fgAlarm
 bgColor index 10
@@ -3002,25 +3002,25 @@ symbolTag {
   0 "?"
 }
 symbol0 {
-  0 "M1"
+  0 "Motor1"
 }
 PV0 {
   0 "$(P):HM:M1PV"
 }
 symbol1 {
-  0 "M2"
+  0 "Motor2"
 }
 PV1 {
   0 "$(P):HM:M2PV"
 }
 symbol2 {
-  0 "M3"
+  0 "Motor3"
 }
 PV2 {
   0 "$(P):HM:M3PV"
 }
 symbol3 {
-  0 "M4"
+  0 "Motor4"
 }
 PV3 {
   0 "$(P):HM:M4PV"
@@ -3047,25 +3047,25 @@ symbolTag {
   0 "?"
 }
 symbol0 {
-  0 "M5"
+  0 "Motor5"
 }
 PV0 {
   0 "$(P):HM:M5PV"
 }
 symbol1 {
-  0 "M6"
+  0 "Motor6"
 }
 PV1 {
   0 "$(P):HM:M6PV"
 }
 symbol2 {
-  0 "M7"
+  0 "Motor7"
 }
 PV2 {
   0 "$(P):HM:M7PV"
 }
 symbol3 {
-  0 "M8"
+  0 "Motor8"
 }
 PV3 {
   0 "$(P):HM:M8PV"
@@ -3092,25 +3092,25 @@ symbolTag {
   0 "?"
 }
 symbol0 {
-  0 "M9"
+  0 "Motor9"
 }
 PV0 {
   0 "$(P):HM:M9PV"
 }
 symbol1 {
-  0 "M10"
+  0 "Motor10"
 }
 PV1 {
   0 "$(P):HM:M10PV"
 }
 symbol2 {
-  0 "M11"
+  0 "Motor11"
 }
 PV2 {
   0 "$(P):HM:M11PV"
 }
 symbol3 {
-  0 "M12"
+  0 "Motor12"
 }
 PV3 {
   0 "$(P):HM:M12PV"
@@ -3137,25 +3137,25 @@ symbolTag {
   0 "?"
 }
 symbol0 {
-  0 "M13"
+  0 "Motor13"
 }
 PV0 {
   0 "$(P):HM:M13PV"
 }
 symbol1 {
-  0 "M14"
+  0 "Motor14"
 }
 PV1 {
   0 "$(P):HM:M14PV"
 }
 symbol2 {
-  0 "M15"
+  0 "Motor15"
 }
 PV2 {
   0 "$(P):HM:M15PV"
 }
 symbol3 {
-  0 "M16"
+  0 "Motor16"
 }
 PV3 {
   0 "$(P):HM:M16PV"
@@ -3182,25 +3182,25 @@ symbolTag {
   0 "?"
 }
 symbol0 {
-  0 "M17"
+  0 "Motor17"
 }
 PV0 {
   0 "$(P):HM:M17PV"
 }
 symbol1 {
-  0 "M18"
+  0 "Motor18"
 }
 PV1 {
   0 "$(P):HM:M18PV"
 }
 symbol2 {
-  0 "M19"
+  0 "Motor19"
 }
 PV2 {
   0 "$(P):HM:M19PV"
 }
 symbol3 {
-  0 "M20"
+  0 "Motor20"
 }
 PV3 {
   0 "$(P):HM:M20PV"
@@ -3227,25 +3227,25 @@ symbolTag {
   0 "?"
 }
 symbol0 {
-  0 "M21"
+  0 "Motor21"
 }
 PV0 {
   0 "$(P):HM:M21PV"
 }
 symbol1 {
-  0 "M22"
+  0 "Motor22"
 }
 PV1 {
   0 "$(P):HM:M22PV"
 }
 symbol2 {
-  0 "M23"
+  0 "Motor23"
 }
 PV2 {
   0 "$(P):HM:M23PV"
 }
 symbol3 {
-  0 "M24"
+  0 "Motor24"
 }
 PV3 {
   0 "$(P):HM:M24PV"
@@ -3272,25 +3272,25 @@ symbolTag {
   0 "?"
 }
 symbol0 {
-  0 "M25"
+  0 "Motor25"
 }
 PV0 {
   0 "$(P):HM:M25PV"
 }
 symbol1 {
-  0 "M26"
+  0 "Motor26"
 }
 PV1 {
   0 "$(P):HM:M26PV"
 }
 symbol2 {
-  0 "M27"
+  0 "Motor27"
 }
 PV2 {
   0 "$(P):HM:M27PV"
 }
 symbol3 {
-  0 "M28"
+  0 "Motor28"
 }
 PV3 {
   0 "$(P):HM:M28PV"
@@ -3317,25 +3317,25 @@ symbolTag {
   0 "?"
 }
 symbol0 {
-  0 "M29"
+  0 "Motor29"
 }
 PV0 {
   0 "$(P):HM:M29PV"
 }
 symbol1 {
-  0 "M30"
+  0 "Motor30"
 }
 PV1 {
   0 "$(P):HM:M30PV"
 }
 symbol2 {
-  0 "M31"
+  0 "Motor31"
 }
 PV2 {
   0 "$(P):HM:M31PV"
 }
 symbol3 {
-  0 "M32"
+  0 "Motor32"
 }
 PV3 {
   0 "$(P):HM:M32PV"
