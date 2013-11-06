@@ -703,7 +703,7 @@ class PLC:
                     # go to post[1:]
                     self.__cmd2.append("#%dJ=%d"%(m.ax,int(post[1:])))                                                    
                     lim_mtrs.append(m)
-                    z_mts.append(m)                    
+                    z_mtrs.append(m)                    
                 elif post not in (None, 0, "0"):
                     # go to post
                     self.__cmd2.append("#%dJ=%d"%(m.ax,post))
