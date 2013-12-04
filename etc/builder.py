@@ -133,3 +133,6 @@ class pmacVariableWrite(AutoSubstitution):
     '''Couple of records to write variables to a Delta tau'''
     Dependencies = (Calc, Asyn)
     TemplateFile = 'pmacVariableWrite.template'
+
+class pmacDeferMoves(AutoSubstitution):
+    TemplateFile = 'pmacDeferMoves.template'
