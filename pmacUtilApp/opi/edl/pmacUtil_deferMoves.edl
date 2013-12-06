@@ -3,8 +3,8 @@ beginScreenProperties
 major 4
 minor 0
 release 1
-x 777
-y 794
+x 779
+y 820
 w 189
 h 104
 font "arial-medium-r-14.0"
@@ -54,8 +54,8 @@ selectColor index 5
 inconsistentColor index 5
 topShadowColor index 1
 botShadowColor index 11
-controlPv "BL23I-MO-GONIO-01:DEFER"
-indicatorPv "BL23I-MO-GONIO-01:DEFER"
+controlPv "$(P):$(Q)"
+indicatorPv "$(P):$(Q)"
 font "helvetica-bold-r-14.0"
 orientation "horizontal"
 endObjectProperties
