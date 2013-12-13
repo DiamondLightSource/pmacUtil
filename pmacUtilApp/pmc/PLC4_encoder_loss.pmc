@@ -28,6 +28,11 @@ CLOSE
 ; So ONMx = 2 for open loop brick, 3 for closed loop brick, 4 for open loop PMAC
 ; 5 for closed loop PMAC.
 ;
+; The readback value p(464+axis_number) is defined as:
+; * Bit 0: Set to 1 if encoder loss (when ONMx bit0 or bit 3 is set and encoder loss tripped)
+; * Bit 1: Set to 1 if amplifier loss (when ONMx bit1 or bit 2 is set and amplifier loss tripped)
+; E.g. if amplifier for motor2 trips then P466=2
+;
 ; NB Needs either BRICK_M_variables.pmc or PMAC_M_variables.pmc loaded
 ;-------------------------------------------------------------------;
 ; The following must be uncommented in your main pmc file for PMACs ;
@@ -136,7 +141,6 @@ P432 = $(ONM32=0)
 #define encoder_reading_SSIabs    M(P400*100 + 95)
 #define encoder_error_bits_SSIabs M(P400*100 + 96)
 
-
 ; These are for checking amp status
 ; NOTE: under voltage is only wired to the first 4 axes in a geoBrick, so 
 ; always check amp 1 status for under voltage
@@ -164,7 +168,6 @@ P465..496=0
 ; if protection is tripped on this axis
 #define encoder_tripped          (P(P400 + 464) & 1) = 1
 #define amp_tripped              (P(P400 + 464) & 2) = 2
-#define micromech_tripped        (P(P400 + 464) & 4) = 4
 
 ; this is a temp var
 #define temp_var P497
@@ -268,7 +271,7 @@ while(axis_number < 33)
     
         ; Or micromech amp enabled but not active
         if (micromech_protection and micromech_status = 0 and micromech_demand = 1)
-            protection_tripped = protection_tripped | 4
+            protection_tripped = protection_tripped | 2
         endif
                 
         if (protection_tripped != 0)
@@ -297,10 +300,10 @@ while(axis_number < 33)
     endif
 
     ; Auto-reset the protection_tripped if it was a micromech amp fault
-    if (micromech_protection and micromech_tripped) 
+    if (micromech_protection and amp_tripped) 
     and (micromech_status = 1 and micromech_demand = 1)
-        ; XOR with 4 to clear micromech protection
-        protection_tripped = protection_tripped ^ 4
+        ; XOR with 2 to clear amp protection
+        protection_tripped = protection_tripped ^ 2
     endif
 
     if (protection_tripped != 0)
