@@ -7,7 +7,7 @@ pattern {P,    PORT }
 file motion_protection.template
 {
 pattern {P,    Q,                    PORT,    DESC,               , VAR, ZNAM,         ZSV,   ONAM,     OSV}
-        {$(P), ":MOTIONSTOP_ACTIVE", $(PORT), "motion stop active", I35, "Not Active", MINOR, "Active", NO_ALARM }
+        {$(P), ":MOTIONSTOP_ACTIVE", $(PORT), "mo stop actv", I35, "Not Active", MINOR, "Active", NO_ALARM }
 }
 
 

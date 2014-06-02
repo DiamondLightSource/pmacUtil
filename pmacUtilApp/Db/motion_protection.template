@@ -29,7 +29,7 @@
 
 # Record to read the specified M-variable (or other variable) from the GeoBrickette.
 record(asyn, "$(P)$(Q=:MOTIONSTOP):GET") {
-  field(DESC, "Get $(P) $(DESC=motion stop) status.")
+  field(DESC, "Get $(P) $(DESC=mo stop) stat")
   field(DTYP, "asynRecordDevice")
   field(PORT, "$(PORT)")
   field(TMOT, "$(TIMEOUT=5)")
@@ -39,7 +39,7 @@ record(asyn, "$(P)$(Q=:MOTIONSTOP):GET") {
 # The motion protection readback status value with interpreted levels.
 # Defaults appropriate for the motion stop 
 record(bi, "$(P)$(Q=:MOTIONSTOP):RBV") {
-  field(DESC, "$(P) $(DESC=motion stop) readback value." )
+  field(DESC, "$(P) $(DESC=mo stop) RB value." )
   field(INP,  "$(P)$(Q=:MOTIONSTOP):GET.AINP PP")
   field(SCAN, "$(SCAN=5 second)")
   field(ZNAM, "$(ZNAM=Stopped)")
