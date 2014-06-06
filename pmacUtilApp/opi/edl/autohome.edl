@@ -497,7 +497,7 @@ x 220
 y 55
 w 130
 h 15
-controlPv "$(Motor1).DESC"
+controlPv "$(Motor1):HMPOS.DESC"
 fgColor index 14
 bgColor index 3
 font "arial-medium-r-10.0"
@@ -576,7 +576,7 @@ x 455
 y 280
 w 130
 h 15
-controlPv "$(Motor32).DESC"
+controlPv "$(Motor32):HMPOS.DESC"
 fgColor index 14
 bgColor index 3
 font "arial-medium-r-10.0"
@@ -655,7 +655,7 @@ x 220
 y 70
 w 130
 h 15
-controlPv "$(Motor2).DESC"
+controlPv "$(Motor2):HMPOS.DESC"
 fgColor index 14
 bgColor index 3
 font "arial-medium-r-10.0"
@@ -734,7 +734,7 @@ x 220
 y 85
 w 130
 h 15
-controlPv "$(Motor3).DESC"
+controlPv "$(Motor3):HMPOS.DESC"
 fgColor index 14
 bgColor index 3
 font "arial-medium-r-10.0"
@@ -813,7 +813,7 @@ x 220
 y 100
 w 130
 h 15
-controlPv "$(Motor4).DESC"
+controlPv "$(Motor4):HMPOS.DESC"
 fgColor index 14
 bgColor index 3
 font "arial-medium-r-10.0"
@@ -892,7 +892,7 @@ x 220
 y 115
 w 130
 h 15
-controlPv "$(Motor5).DESC"
+controlPv "$(Motor5):HMPOS.DESC"
 fgColor index 14
 bgColor index 3
 font "arial-medium-r-10.0"
@@ -971,7 +971,7 @@ x 220
 y 130
 w 130
 h 15
-controlPv "$(Motor6).DESC"
+controlPv "$(Motor6):HMPOS.DESC"
 fgColor index 14
 bgColor index 3
 font "arial-medium-r-10.0"
@@ -1050,7 +1050,7 @@ x 220
 y 145
 w 130
 h 15
-controlPv "$(Motor7).DESC"
+controlPv "$(Motor7):HMPOS.DESC"
 fgColor index 14
 bgColor index 3
 font "arial-medium-r-10.0"
@@ -1129,7 +1129,7 @@ x 220
 y 160
 w 130
 h 15
-controlPv "$(Motor8).DESC"
+controlPv "$(Motor8):HMPOS.DESC"
 fgColor index 14
 bgColor index 3
 font "arial-medium-r-10.0"
@@ -1208,7 +1208,7 @@ x 220
 y 175
 w 130
 h 15
-controlPv "$(Motor9).DESC"
+controlPv "$(Motor9):HMPOS.DESC"
 fgColor index 14
 bgColor index 3
 font "arial-medium-r-10.0"
@@ -1287,7 +1287,7 @@ x 220
 y 190
 w 130
 h 15
-controlPv "$(Motor10).DESC"
+controlPv "$(Motor10):HMPOS.DESC"
 fgColor index 14
 bgColor index 3
 font "arial-medium-r-10.0"
@@ -1366,7 +1366,7 @@ x 220
 y 205
 w 130
 h 15
-controlPv "$(Motor11).DESC"
+controlPv "$(Motor11):HMPOS.DESC"
 fgColor index 14
 bgColor index 3
 font "arial-medium-r-10.0"
@@ -1445,7 +1445,7 @@ x 220
 y 220
 w 130
 h 15
-controlPv "$(Motor12).DESC"
+controlPv "$(Motor12):HMPOS.DESC"
 fgColor index 14
 bgColor index 3
 font "arial-medium-r-10.0"
@@ -1524,7 +1524,7 @@ x 220
 y 235
 w 130
 h 15
-controlPv "$(Motor13).DESC"
+controlPv "$(Motor13):HMPOS.DESC"
 fgColor index 14
 bgColor index 3
 font "arial-medium-r-10.0"
@@ -1603,7 +1603,7 @@ x 220
 y 250
 w 130
 h 15
-controlPv "$(Motor14).DESC"
+controlPv "$(Motor14):HMPOS.DESC"
 fgColor index 14
 bgColor index 3
 font "arial-medium-r-10.0"
@@ -1682,7 +1682,7 @@ x 220
 y 265
 w 130
 h 15
-controlPv "$(Motor15).DESC"
+controlPv "$(Motor15):HMPOS.DESC"
 fgColor index 14
 bgColor index 3
 font "arial-medium-r-10.0"
@@ -1761,7 +1761,7 @@ x 220
 y 280
 w 130
 h 15
-controlPv "$(Motor16).DESC"
+controlPv "$(Motor16):HMPOS.DESC"
 fgColor index 14
 bgColor index 3
 font "arial-medium-r-10.0"
@@ -1840,7 +1840,7 @@ x 455
 y 55
 w 130
 h 15
-controlPv "$(Motor17).DESC"
+controlPv "$(Motor17):HMPOS.DESC"
 fgColor index 14
 bgColor index 3
 font "arial-medium-r-10.0"
@@ -1919,7 +1919,7 @@ x 455
 y 70
 w 130
 h 15
-controlPv "$(Motor18).DESC"
+controlPv "$(Motor18):HMPOS.DESC"
 fgColor index 14
 bgColor index 3
 font "arial-medium-r-10.0"
@@ -1998,7 +1998,7 @@ x 455
 y 85
 w 130
 h 15
-controlPv "$(Motor19).DESC"
+controlPv "$(Motor19):HMPOS.DESC"
 fgColor index 14
 bgColor index 3
 font "arial-medium-r-10.0"
@@ -2077,7 +2077,7 @@ x 455
 y 100
 w 130
 h 15
-controlPv "$(Motor20).DESC"
+controlPv "$(Motor20):HMPOS.DESC"
 fgColor index 14
 bgColor index 3
 font "arial-medium-r-10.0"
@@ -2156,7 +2156,7 @@ x 455
 y 115
 w 130
 h 15
-controlPv "$(Motor21).DESC"
+controlPv "$(Motor21):HMPOS.DESC"
 fgColor index 14
 bgColor index 3
 font "arial-medium-r-10.0"
@@ -2235,7 +2235,7 @@ x 455
 y 130
 w 130
 h 15
-controlPv "$(Motor22).DESC"
+controlPv "$(Motor22):HMPOS.DESC"
 fgColor index 14
 bgColor index 3
 font "arial-medium-r-10.0"
@@ -2314,7 +2314,7 @@ x 455
 y 145
 w 130
 h 15
-controlPv "$(Motor23).DESC"
+controlPv "$(Motor23):HMPOS.DESC"
 fgColor index 14
 bgColor index 3
 font "arial-medium-r-10.0"
@@ -2393,7 +2393,7 @@ x 455
 y 160
 w 130
 h 15
-controlPv "$(Motor24).DESC"
+controlPv "$(Motor24):HMPOS.DESC"
 fgColor index 14
 bgColor index 3
 font "arial-medium-r-10.0"
@@ -2472,7 +2472,7 @@ x 455
 y 175
 w 130
 h 15
-controlPv "$(Motor25).DESC"
+controlPv "$(Motor25):HMPOS.DESC"
 fgColor index 14
 bgColor index 3
 font "arial-medium-r-10.0"
@@ -2551,7 +2551,7 @@ x 455
 y 190
 w 130
 h 15
-controlPv "$(Motor26).DESC"
+controlPv "$(Motor26):HMPOS.DESC"
 fgColor index 14
 bgColor index 3
 font "arial-medium-r-10.0"
@@ -2630,7 +2630,7 @@ x 455
 y 205
 w 130
 h 15
-controlPv "$(Motor27).DESC"
+controlPv "$(Motor27):HMPOS.DESC"
 fgColor index 14
 bgColor index 3
 font "arial-medium-r-10.0"
@@ -2709,7 +2709,7 @@ x 455
 y 220
 w 130
 h 15
-controlPv "$(Motor28).DESC"
+controlPv "$(Motor28):HMPOS.DESC"
 fgColor index 14
 bgColor index 3
 font "arial-medium-r-10.0"
@@ -2788,7 +2788,7 @@ x 455
 y 235
 w 130
 h 15
-controlPv "$(Motor29).DESC"
+controlPv "$(Motor29):HMPOS.DESC"
 fgColor index 14
 bgColor index 3
 font "arial-medium-r-10.0"
@@ -2867,7 +2867,7 @@ x 455
 y 250
 w 130
 h 15
-controlPv "$(Motor30).DESC"
+controlPv "$(Motor30):HMPOS.DESC"
 fgColor index 14
 bgColor index 3
 font "arial-medium-r-10.0"
@@ -2946,7 +2946,7 @@ x 455
 y 265
 w 130
 h 15
-controlPv "$(Motor31).DESC"
+controlPv "$(Motor31):HMPOS.DESC"
 fgColor index 14
 bgColor index 3
 font "arial-medium-r-10.0"
