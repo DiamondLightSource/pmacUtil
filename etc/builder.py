@@ -26,7 +26,7 @@ autohome.ArgInfo.descriptions["PORT"] = Ident("Delta tau motor controller comms 
 def add_basic(cls):
     """Convenience function to add basic_asyn_motor attributes to a class that
     includes it via an msi include statement rather than verbatim"""
-    cls.Arguments += basic_asyn_motor.Arguments + [x for x in cls.Arguments if x not in basic_asyn_motor.Arguments]
+    cls.Arguments = basic_asyn_motor.Arguments + [x for x in cls.Arguments if x not in basic_asyn_motor.Arguments]
     cls.ArgInfo = basic_asyn_motor.ArgInfo + cls.ArgInfo.filtered(without=basic_asyn_motor.ArgInfo.Names())
     cls.Defaults.update(basic_asyn_motor.Defaults)
     cls.guiTags = basic_asyn_motor.guiTags
@@ -39,7 +39,7 @@ class eloss_kill_autohome_records(AutoSubstitution):
 def add_eloss_kill_autohome(cls):
     """Convenience function to add eloss_kill_autohome_records attributes to a class that
     includes it via an msi include statement rather than verbatim"""
-    cls.Arguments += eloss_kill_autohome_records.Arguments + [x for x in cls.Arguments if x not in eloss_kill_autohome_records.Arguments]
+    cls.Arguments = eloss_kill_autohome_records.Arguments + [x for x in cls.Arguments if x not in eloss_kill_autohome_records.Arguments]
     cls.ArgInfo = eloss_kill_autohome_records.ArgInfo + cls.ArgInfo.filtered(without=eloss_kill_autohome_records.ArgInfo.Names())
     cls.Defaults.update(eloss_kill_autohome_records.Defaults)
     cls.guiTags = eloss_kill_autohome_records.guiTags
