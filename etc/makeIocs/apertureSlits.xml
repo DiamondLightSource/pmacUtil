@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <components arch="linux-x86">
-	<tpmac.pmacAsynIPPort IP="172.23.243.156" name="BRICK1port"/>
+	<tpmac.pmacAsynIPPort IP="172.23.253.11" name="BRICK1port"/>
 	<tpmac.GeoBrick Port="BRICK1port" name="BRICK1"/>
 	<pmacCoord.CS CS="2" Controller="BRICK1" name="BRICK1CS2"/>
 	<pmacCoord.CS CS="3" Controller="BRICK1" name="BRICK1CS3"/>
@@ -8,6 +8,7 @@
 	<pmacUtil.dls_pmac_asyn_motor ADDR="2" DESC="Aperture A Y" DHLM="1000" DLLM="-1000" EGU="mm" M=":YA" MRES="0.001" OFF="3" P="APERTURESLIT" PORT="BRICK1" PREC="3" SPORT="BRICK1port" TWV="0.1" VELO="1" name="S.YA"/>
 	<pmacUtil.dls_pmac_asyn_motor ADDR="3" DESC="Aperture B X" DHLM="1000" DLLM="-1000" EGU="mm" M=":XB" MRES="0.001" P="APERTURESLIT" PORT="BRICK1" PREC="3" SPORT="BRICK1port" TWV="0.1" VELO="1" name="S.XB"/>
 	<pmacUtil.dls_pmac_asyn_motor ADDR="4" DESC="Aperture B Y" DHLM="1000" DLLM="-1000" EGU="mm" M=":YB" MRES="0.001" P="APERTURESLIT" PORT="BRICK1" PREC="3" SPORT="BRICK1port" TWV="0.1" VELO="1" name="S.YB"/>
+	<pmacUtil.dls_pmac_asyn_motor ADDR="5" DESC="Motor 5" DHLM="1000" DLLM="-1000" EGU="mm" M=":M5" MRES="0.001" P="APERTURESLIT" PORT="BRICK1" PREC="3" SPORT="BRICK1port" TWV="0.1" VELO="1" name="M5"/>
 	<pmacUtil.dls_pmac_cs_asyn_motor ADDR="6" DESC="X Centre (compound)" DHLM="1000" DLLM="-1000" EGU="mm" M=":X:CENTRE" MRES="0.0001" P="APERTURESLIT" PORT="BRICK1CS2" PREC="3" TWV="0.1" VELO="1" name="S.XCENTRE"/>
 	<pmacUtil.dls_pmac_cs_asyn_motor ADDR="7" DESC="X Gap (compound)" DHLM="1000" DLLM="-1000" EGU="mm" M=":X:GAP" MRES="0.0001" P="APERTURESLIT" PORT="BRICK1CS2" PREC="3" TWV="0.1" VELO="1" name="S.XGAP"/>
 	<pmacUtil.dls_pmac_cs_asyn_motor ADDR="6" DESC="Y Centre (compound)" DHLM="1000" DLLM="-1000" EGU="mm" M=":Y:CENTRE" MRES="0.0001" P="APERTURESLIT" PORT="BRICK1CS3" PREC="3" TWV="0.1" VELO="1" name="S.YCENTRE"/>

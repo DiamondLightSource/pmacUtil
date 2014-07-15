@@ -3,3 +3,6 @@ include "CS_aperture_slits.pmc"
 substitute "COORD=3,PLC=18,AP=2,AM=4,ASIZE=8"
 include "CS_aperture_slits.pmc"
 include "PROG10_CS_motion.pmc"
+P3300=1
+substitute"ONM5=$13,SAFE5=P3300,SAFEOK=1"
+include "PLC4_encoder_loss.pmc"
