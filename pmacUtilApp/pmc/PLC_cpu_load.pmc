@@ -22,7 +22,7 @@ CLOSE
 ;  P$(PLC)67..$(PLC)76
 ;####################################################
 
-P$(PLC)70=4 ; 4 phase interrupts per servo interrupt
+P$(PLC)70=i7002+1 ; phase interrupts per servo interrupt
 P$(PLC)76=16 ; Length of filter for averaging duty cycle
 
 OPEN PLC $(PLC) 
