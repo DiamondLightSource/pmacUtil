@@ -55,6 +55,16 @@ class dls_pmac_asyn_motor_no_coord(AutoSubstitution, AutoProtocol, MotorRecord):
 dls_pmac_asyn_motor_no_coord.ArgInfo.descriptions["PORT"] = Ident("Delta tau motor controller", DeltaTau)
 dls_pmac_asyn_motor_no_coord.ArgInfo.descriptions["SPORT"] = Ident("Delta tau motor controller comms port", DeltaTauCommsPort)
 
+@add_basic
+@add_eloss_kill_autohome
+class dls_pmac_patch_asyn_motor(AutoSubstitution, AutoProtocol, MotorRecord):
+    WarnMacros = False
+    TemplateFile = 'dls_pmac_patch_asyn_motor.template'
+    ProtocolFiles = ['pmac.proto']
+    Dependencies = (Busy,)
+dls_pmac_asyn_motor_no_coord.ArgInfo.descriptions["PORT"] = Ident("Delta tau motor controller", DeltaTau)
+dls_pmac_asyn_motor_no_coord.ArgInfo.descriptions["SPORT"] = Ident("Delta tau motor controller comms port", DeltaTauCommsPort)
+
 try:
     from iocbuilder.modules.pmacCoord import PmacCoord, CS
 
