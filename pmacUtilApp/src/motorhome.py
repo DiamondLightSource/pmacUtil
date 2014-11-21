@@ -417,25 +417,34 @@ class PLC:
         if self.__cmd1 or self.__cmd2:
             # setup a generic wait for move routine      
             self.InPosition = "&".join(["m%d40"%m.ax for m in self.__sel()])
-            # create a list of checks
+            # create a list of checks and results
             checks = []
-            # only check the fferr of ferr_htypes
-            ffstr = "|".join("m%d42" % m.ax for m in self.__sel(htypes=ferr_htypes)) 
-            if ffstr:
-                checks.append((ffstr, "0", "StatusFFErr", "Following error check"))
+            results = []
+            # for the following error, always check, but ferr_htypes are the only ones that should fail
+            ffcheckstr = "|".join("m%d42" % m.ax for m in self.__sel()) 
+            if ffcheckstr:
+                checks.append((ffcheckstr, "0", "StatusFFErr", "Following error check"))                
+            ffresultstr = "|".join("m%d42" % m.ax for m in self.__sel(htypes=ferr_htypes)) 
+            if ffresultstr:
+                results.append((ffresultstr, "0", "StatusFFErr", "Following error check"))            
             # only check the limit switches of htypes     
             if lim_mtrs == None:
                 lim_mtrs = self.__sel(lim_htypes)                        
             lstr = "|".join("m%d30" % m.ax for m in lim_mtrs)                 
             if lstr:
-                checks.append((lstr, "0", "StatusLimit", "Limit check"))
+                lchk = (lstr, "0", "StatusLimit", "Limit check")
+                checks.append(lchk)
+                results.append(lchk)
             # Add any custom checks
-            checks += [list(x) + ["Custom check"] for x in self.group.checks]
+            c_checks = [list(x) + ["Custom check"] for x in self.group.checks]             
+            checks += c_checks
+            results += c_checks
             # write the text
             self.checks = ""
-            self.results = ""
             for exp, val, stat, chktxt in checks:
                 self.checks += "\t\tand (%s = %s) ; %s\n" % (exp, val, chktxt)
+            self.results = ""
+            for exp, val, stat, chktxt in results:
                 self.results += "\t\tif (%s != %s) ; %s failed\n" % (exp, val, chktxt)
                 self.results += "\t\t\tHomingStatus = %s\n" % stat
                 self.results += "\t\tendif\n"
@@ -575,8 +584,7 @@ class PLC:
             # for all motors except hsw_hlim jog until trigger in direction of ix23
             self.__jog_until_trig(htypes = htypes_without(HOME, NOTHING))
             # add the commands, wait for the moves to complete
-            self.__write_cmds(f,"FastSearch",lim_htypes=htypes_without(HOME, NOTHING, LIMIT, RLIM),
-                ferr_htypes = htypes_without(HSW_HSTOP))
+            self.__write_cmds(f,"FastSearch",lim_htypes=htypes_without(HOME, NOTHING, LIMIT, RLIM))
             
             # store home points
             ems = self.__sel(htypes_without(HOME, NOTHING))  
