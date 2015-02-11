@@ -1,4 +1,4 @@
-#!/usr/bin/env dls-python2.6
+#!/usr/bin/env dls-python
 # program to read bits from mbbo records in the archiver
 
 import time
