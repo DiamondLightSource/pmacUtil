@@ -1,4 +1,4 @@
-#!/usr/bin/env dls-python2.6
+#!/usr/bin/env dls-python
 ## \namespace motorhome
 # This contains a class and helper function for making automated homing 
 # routines.
@@ -161,7 +161,7 @@ def parse_args():
 ## Object that encapsulates everything we need to know about a motor
 class Motor:
     instances = []
-    def __init__(self, ax, enc_axes, ctype):
+    def __init__(self, ax, enc_axes, ctype, ms=None):
         # Axis number
         self.ax = int(ax)
         # Each time we create a motor store its index
@@ -176,7 +176,9 @@ class Motor:
         # Add encoder axes to be zeroed
         self.enc_axes = enc_axes
         # Add other properties
-        if ctype == GEOBRICK:
+        if ms:
+            self.ms = ms       
+        elif ctype == GEOBRICK:
             if ax < 9:
                 # nx for internal amp, GEOBRICK            
                 self.nx = ((ax-1)/4)*10 + ((ax-1)%4+1) 
@@ -300,8 +302,9 @@ class PLC:
     # - "l": go to the low limit (ix14)    
     # - "H": go to the hardware high limit
     # - "L": go to the hardware low limit
+    # \param ms Override value for the macrostation associated with this axis 
     def add_motor(self, axis, group=1, htype=None, jdist=None, post=None,
-            enc_axes=[]):
+            enc_axes=[], ms = None):
         # Override defaults
         if htype == None: htype = self.htype
         if jdist == None: jdist = self.jdist
@@ -313,7 +316,7 @@ class PLC:
                 motor = m
         if motor == None:
             # this object contains info about a particular motor 
-            motor = Motor(ax=axis, enc_axes=enc_axes, ctype=self.ctype)
+            motor = Motor(ax=axis, enc_axes=enc_axes, ctype=self.ctype, ms=ms)
         # If this is a homing operation, make sure motor isn't already homed in 
         # an earlier op
         if htype != NOTHING:

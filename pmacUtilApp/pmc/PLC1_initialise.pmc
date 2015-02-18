@@ -23,6 +23,10 @@ CLOSE
 #define timer                      i5112
 ; This m variable is zeroed at startup
 #define runFlag                    M4900
+; This is always set to $60000 in PLC1 so it can be used to tell an axis 
+; "your limits are on, stop now"
+; Set ixx43 to $10FF to redirect limits to this variable
+#define DummyLimitsValue           M4965
 
 OPEN PLC1
 CLEAR
@@ -30,6 +34,7 @@ CLEAR
 IF (runFlag = 0)
     ; Mark the PLC as having had its first run
     runFlag = 1
+    DummyLimitsValue=$60000
     
     ; Disable PLCs
     DISABLE PLC0    
