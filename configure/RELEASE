@@ -10,23 +10,12 @@
 
 TEMPLATE_TOP=$(EPICS_BASE)/templates/makeBaseApp/top
 
-#AJFWORK= /home/ajf67/work/R3.14.12.3/support
 WORK=    /dls_sw/work/R3.14.12.3/support
 SUPPORT= /dls_sw/prod/R3.14.12.3/support
-GKLOCAL= /dls_sw/work/R3.14.12.3/support/BL14I-WORKAREA
-
-#ASYN=    $(AJFWORK)/asyn
-#CALC=    $(AJFWORK)/calc
-#MOTOR=   $(AJFWORK)/motor
-#STREAMS= $(AJFWORK)/streamDevice
-#GENSUB=  $(AJFWORK)/genSub
-#BUSY=    $(AJFWORK)/busy
-#SNCSEQ=  $(AJFWORK)/seq
 
 ASYN=    $(SUPPORT)/asyn/4-21
 CALC=    $(SUPPORT)/calc/3-1
-#MOTOR=   $(SUPPORT)/motor/6-8-1dls4
-MOTOR=   $(GKLOCAL)/motor
+MOTOR=   $(SUPPORT)/motor/6-7-1dls14
 STREAMS= $(SUPPORT)/streamDevice/2-5dls2
 GENSUB=  $(SUPPORT)/genSub/1-8dls2-9
 BUSY=    $(SUPPORT)/busy/1-4dls1
