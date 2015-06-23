@@ -35,10 +35,41 @@
 # % macro, STATUSSV13, Homing status 13 severity
 # % macro, STATUSSV14, Homing status 14 severity
 # % macro, STATUSSV15, Homing status 15 severity
+# % macro, DESC, Description
+# % macro, MOTOR1, The P of the first motor
+# % macro, MOTOR2, The P of the second motor
+# % macro, MOTOR3, The P of the third motor
+# % macro, MOTOR4, The P of the fourth motor
+# % macro, MOTOR5, The P of the fifth motor
+# % macro, MOTOR6, The P of the sixth motor
+# % macro, MOTOR7, The P of the seventh motor
+# % macro, MOTOR8, The P of the eighth motor
 
 # % macro, name, Object name and gui association name
 # This associates an edm screen with the template
 # % gui, $(name=), edm, autohome.edl, P=$(P)
+# This associates a BOY screen with the template
+# % gui, $(name=), boydetail, pmacUtilApp_opi/motorhome_detail.opi, P=$(P),DESC=$(DESC), MOTOR1=$(MOTOR1), MOTOR2=$(MOTOR2), MOTOR3=$(MOTOR3), MOTOR4=$(MOTOR4), MOTOR5=$(MOTOR5), MOTOR6=$(MOTOR6), MOTOR7=$(MOTOR7), MOTOR8=$(MOTOR8)
+# % gui, $(name=), boyembed, pmacUtilApp_opi/motorhome_embed_box.opi, P=$(P), DESC=$(DESC), MOTOR1=$(MOTOR1), MOTOR2=$(MOTOR2), MOTOR3=$(MOTOR3), MOTOR4=$(MOTOR4), MOTOR5=$(MOTOR5), MOTOR6=$(MOTOR6), MOTOR7=$(MOTOR7), MOTOR8=$(MOTOR8)
+# % gui, $(name=), boyembed, pmacUtilApp_opi/motorhome_embed.opi, P=$(P), DESC=$(DESC), MOTOR1=$(MOTOR1), MOTOR2=$(MOTOR2), MOTOR3=$(MOTOR3), MOTOR4=$(MOTOR4), MOTOR5=$(MOTOR5), MOTOR6=$(MOTOR6), MOTOR7=$(MOTOR7), MOTOR8=$(MOTOR8)
+
+# These define what PVs a motor detail screen should contain
+# % gui, $(name=), readback, Homing,   $(P):HM:HOMING
+# % gui, $(name=), readback, Homing State,   $(P):HM:STATE
+# % gui, $(name=), readback, Homing Status,   $(P):HM:STATUS
+# % gui, $(name=), readback, Move Timer,   $(P):HM:TIMEOUT
+# % gui, $(name=), demand, Group to Home,  $(P):HM:HMGRP
+# % gui, $(name=), command, Do Home,  $(P):HM:HOME
+# % gui, $(name=), command, Abort,  $(P):HM:ABORT.PROC
+# % gui, $(name=), readback, Axis 1, $(MOTOR1=):HMPOS
+# % gui, $(name=), readback, Axis 2, $(MOTOR2=):HMPOS
+# % gui, $(name=), readback, Axis 3, $(MOTOR3=):HMPOS
+# % gui, $(name=), readback, Axis 4, $(MOTOR4=):HMPOS
+# % gui, $(name=), readback, Axis 5, $(MOTOR5=):HMPOS
+# % gui, $(name=), readback, Axis 6, $(MOTOR6=):HMPOS
+# % gui, $(name=), readback, Axis 7, $(MOTOR7=):HMPOS
+# % gui, $(name=), readback, Axis 8, $(MOTOR8=):HMPOS
+
 record(asyn, "$(P):HM:ASYN1") {
   field(DESC, "User cmd to PMAC")
   field(SCAN, "Passive")

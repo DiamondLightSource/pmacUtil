@@ -10,7 +10,7 @@
   <macros>
     <include_parent_macros>true</include_parent_macros>
   </macros>
-  <boy_version>4.0.103.201501191410</boy_version>
+  <boy_version>4.0.103.201503201352</boy_version>
   <show_edit_range>true</show_edit_range>
   <widget_type>Display</widget_type>
   <auto_scale_widgets>
@@ -32,72 +32,6 @@
     <color blue="192" green="192" red="192" />
   </foreground_color>
   <actions hook="false" hook_all="false" />
-  <widget typeId="org.csstudio.opibuilder.widgets.Image" version="1.0.0">
-    <border_style>0</border_style>
-    <tooltip />
-    <rules />
-    <crop_left>0</crop_left>
-    <enabled>true</enabled>
-    <wuid>-304029b7:147582c1239:-7967</wuid>
-    <auto_size>true</auto_size>
-    <image_file>symbol/motorhome 1.gif</image_file>
-    <scripts />
-    <height>20</height>
-    <border_width>1</border_width>
-    <scale_options>
-      <width_scalable>true</width_scalable>
-      <height_scalable>true</height_scalable>
-      <keep_wh_ratio>false</keep_wh_ratio>
-    </scale_options>
-    <align_to_nearest_second>false</align_to_nearest_second>
-    <visible>true</visible>
-    <crop_bottom>0</crop_bottom>
-    <degree>0</degree>
-    <border_color>
-      <color blue="255" green="128" red="0" />
-    </border_color>
-    <no_animation>false</no_animation>
-    <widget_type>Image</widget_type>
-    <flip_horizontal>false</flip_horizontal>
-    <background_color>
-      <color blue="200" green="200" name="Canvas" red="200" />
-    </background_color>
-    <permutation_matrix>
-      <row>
-        <col>1.0</col>
-        <col>0.0</col>
-      </row>
-      <row>
-        <col>0.0</col>
-        <col>1.0</col>
-      </row>
-    </permutation_matrix>
-    <width>40</width>
-    <x>0</x>
-    <name>Icon</name>
-    <y>0</y>
-    <foreground_color>
-      <color blue="192" green="192" red="192" />
-    </foreground_color>
-    <actions hook="false" hook_all="true">
-      <action type="OPEN_OPI_IN_VIEW">
-        <path>motor_detail.opi</path>
-        <macros>
-          <include_parent_macros>true</include_parent_macros>
-        </macros>
-        <Position>1</Position>
-        <description />
-      </action>
-    </actions>
-    <crop_top>0</crop_top>
-    <crop_right>0</crop_right>
-    <stretch_to_fit>false</stretch_to_fit>
-    <flip_vertical>false</flip_vertical>
-    <font>
-      <opifont.name fontName="Sans" height="10" style="0">Default</opifont.name>
-    </font>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <toggle_button>false</toggle_button>
     <border_style>2</border_style>
@@ -110,6 +44,7 @@ $(pv_value)</tooltip>
     <enabled>true</enabled>
     <wuid>712c3132:14b31443eec:-7c16</wuid>
     <pv_value />
+    <pv_control>false</pv_control>
     <text />
     <scripts />
     <border_alarm_sensitive>false</border_alarm_sensitive>
@@ -122,7 +57,7 @@ $(pv_value)</tooltip>
     </scale_options>
     <image>symbol/stop_icon.png</image>
     <visible>true</visible>
-    <pv_name>$(P)$(M).STOP</pv_name>
+    <pv_name>$(P):HM:ABORT.PROC</pv_name>
     <border_color>
       <color blue="255" green="128" red="0" />
     </border_color>
@@ -133,7 +68,7 @@ $(pv_value)</tooltip>
     </background_color>
     <width>25</width>
     <x>45</x>
-    <name>auto(command|Stop)</name>
+    <name>Stop</name>
     <y>0</y>
     <style>0</style>
     <foreground_color>
@@ -149,7 +84,7 @@ $(pv_value)</tooltip>
       </action>
     </actions>
     <font>
-      <opifont.name fontName="Arial" height="11" style="0">Default</opifont.name>
+      <opifont.name fontName="Sans Serif" height="10" style="0">Default</opifont.name>
     </font>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
@@ -179,7 +114,7 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <visible>true</visible>
-    <pv_name>$(P)$(M).RBV</pv_name>
+    <pv_name>$(P):HM:STATE</pv_name>
     <vertical_alignment>1</vertical_alignment>
     <border_color>
       <color blue="255" green="128" red="0" />
@@ -192,7 +127,7 @@ $(pv_value)</tooltip>
     <background_color>
       <color blue="64" green="64" name="Monitor: BG" red="64" />
     </background_color>
-    <width>95</width>
+    <width>91</width>
     <x>75</x>
     <name>Readback_2</name>
     <y>0</y>
@@ -201,7 +136,7 @@ $(pv_value)</tooltip>
     </foreground_color>
     <actions hook="false" hook_all="false" />
     <font>
-      <opifont.name fontName="Arial" height="11" style="1">Default Bold</opifont.name>
+      <opifont.name fontName="Sans Serif" height="10" style="1">Default Bold</opifont.name>
     </font>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
@@ -231,7 +166,7 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <visible>true</visible>
-    <pv_name>$(P)$(M).RBV</pv_name>
+    <pv_name>$(P):HM:STATUS</pv_name>
     <vertical_alignment>1</vertical_alignment>
     <border_color>
       <color blue="255" green="128" red="0" />
@@ -253,7 +188,89 @@ $(pv_value)</tooltip>
     </foreground_color>
     <actions hook="false" hook_all="false" />
     <font>
-      <opifont.name fontName="Arial" height="11" style="1">Default Bold</opifont.name>
+      <opifont.name fontName="Sans Serif" height="10" style="1">Default Bold</opifont.name>
+    </font>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.symbol.multistate.MultistateMonitorWidget" version="1.0.0">
+    <alarm_pulsing>true</alarm_pulsing>
+    <tooltip>$(pv_name)
+$(pv_value)</tooltip>
+    <rules />
+    <pv_value />
+    <auto_size>false</auto_size>
+    <image_file>symbol/motorhome 1.gif</image_file>
+    <height>20</height>
+    <border_width>0</border_width>
+    <items_from_pv>true</items_from_pv>
+    <align_to_nearest_second>false</align_to_nearest_second>
+    <visible>true</visible>
+    <pv_name>$(P):HM:HOMING</pv_name>
+    <degree>0</degree>
+    <border_color>
+      <color blue="255" green="128" red="0" />
+    </border_color>
+    <widget_type>Multistate Symbol Monitor</widget_type>
+    <flip_horizontal>false</flip_horizontal>
+    <permutation_matrix>
+      <row>
+        <col>1.0</col>
+        <col>0.0</col>
+      </row>
+      <row>
+        <col>0.0</col>
+        <col>1.0</col>
+      </row>
+    </permutation_matrix>
+    <name>Symbol</name>
+    <actions hook="false" hook_all="true">
+      <action type="OPEN_OPI_IN_VIEW">
+        <path>motorhome_detail.opi</path>
+        <macros>
+          <include_parent_macros>true</include_parent_macros>
+        </macros>
+        <Position>1</Position>
+        <description>Open detail screen</description>
+      </action>
+    </actions>
+    <items />
+    <flip_vertical>false</flip_vertical>
+    <show_boolean_label>false</show_boolean_label>
+    <border_style>0</border_style>
+    <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
+    <crop_left>0</crop_left>
+    <enabled>true</enabled>
+    <wuid>-60e8a6de:14d518b9348:-7c48</wuid>
+    <on_color>
+      <color blue="0" green="0" red="0" />
+    </on_color>
+    <scripts />
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <crop_bottom>0</crop_bottom>
+    <no_animation>false</no_animation>
+    <off_color>
+      <color blue="0" green="0" red="0" />
+    </off_color>
+    <backcolor_alarm_sensitive>true</backcolor_alarm_sensitive>
+    <background_color>
+      <color blue="200" green="200" name="Canvas" red="200" />
+    </background_color>
+    <boolean_label_position>0</boolean_label_position>
+    <width>40</width>
+    <x>0</x>
+    <y>0</y>
+    <foreground_color>
+      <color blue="0" green="0" name="Black" red="0" />
+    </foreground_color>
+    <crop_top>0</crop_top>
+    <crop_right>0</crop_right>
+    <stretch_to_fit>true</stretch_to_fit>
+    <font>
+      <opifont.name fontName="Sans Serif" height="10" style="0">Default</opifont.name>
     </font>
   </widget>
 </display>
