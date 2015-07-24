@@ -554,7 +554,7 @@ ss ssGather
 		{
 			printf("ssGather: not enough number of chars in asyn record (%d) lets try again...\n", asynNord);
 			pvPut(asynAout, ASYNC);
-			delay(0.5);
+			epicsThreadSleep(0.5);
 		} state COLLECT
 		
 		when( pvPutComplete(asynAout) && (asynNord >= (N_ELEMENTS * MAX_N_DATASRC * PMAC_N_CHAR_PER_WORD)))

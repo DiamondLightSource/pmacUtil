@@ -13,13 +13,13 @@ TEMPLATE_TOP=$(EPICS_BASE)/templates/makeBaseApp/top
 WORK=    /dls_sw/work/R3.14.12.3/support
 SUPPORT= /dls_sw/prod/R3.14.12.3/support
 
-ASYN=    $(SUPPORT)/asyn/4-21
+ASYN=    $(SUPPORT)/asyn/4-26
 CALC=    $(SUPPORT)/calc/3-1
-MOTOR=   $(SUPPORT)/motor/6-8-1dls4-3
-STREAMS= $(SUPPORT)/streamDevice/2-5dls2
+MOTOR=   $(SUPPORT)/motor/6-9dls2
+STREAMS= $(SUPPORT)/streamDevice/2-5dls4
 GENSUB=  $(SUPPORT)/genSub/1-8dls2-9
-BUSY=    $(SUPPORT)/busy/1-4dls1
-SNCSEQ=  $(SUPPORT)/seq/2-1-15dls2
+BUSY=    $(SUPPORT)/busy/1-6-1
+SNCSEQ=  $(SUPPORT)/seq/2-2-2
 
 # EPICS_BASE usually appears last so other apps can override stuff:
 EPICS_BASE=/dls_sw/epics/R3.14.12.3/base
