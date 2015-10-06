@@ -1,0 +1,8 @@
+O.*
+bin/
+data/
+db/
+dbd/
+include/
+lib/
+*~
