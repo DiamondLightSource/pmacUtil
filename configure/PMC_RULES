@@ -11,6 +11,15 @@ ifeq (,$(CONFIGURE))
 CONFIGURE := ../configure
 endif
 
+# homing script location
+ifneq ($(wildcard configure/generate_homing_plcs.py),)
+    # if controller specific generate_homing_plcs.py exists use it
+    GENERATE_HOMING := configure/generate_homing_plcs.py
+else
+    # otherwise use the global one
+    GENERATE_HOMING := ../configure/generate_homing_plcs.py
+endif
+
 # make sure that we look for files to copy from all MSI_INCULDES dirs
 vpath %.pmc $(MSI_INCLUDES)
 
@@ -32,7 +41,7 @@ define print_header
 endef
 
 # rule to make a homing plc from generate_homing_plcs.py
-PLCs/%_HM.pmc: $(CONFIGURE)/generate_homing_plcs.py $(CONFIGURE)/RELEASE
+PLCs/%_HM.pmc: $(GENERATE_HOMING) $(CONFIGURE)/RELEASE
 	@echo '***' Autogenerating homing plc \"$@\"
 	PYTHONPATH=$(PMACUTIL)/pmacUtilApp/src ./$< $@
 
