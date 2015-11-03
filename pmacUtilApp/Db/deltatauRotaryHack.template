@@ -1,0 +1,152 @@
+# deltatauRotaryHack.template
+# A template that helps handling continuous rotation on Geobrick
+# or PMAC axes
+#
+# Nicoletta De Maio - October 2015
+#
+# Parameters:
+# P        Prefix name
+# CIRCLE   A full circle in EGUs (i.e. in rad or deg)
+
+# Add a forward link to the original records
+record(motor, "$(P)") {
+    field(FLNK, "$(P):FAN")
+}
+
+# fanout to process the auxiliary records whenever the motor record processes
+record(fanout, "$(P):FAN") {
+    field(DESC, "Process extra records tied to motor")
+    field(LNK1, "$(P):AOFF_CALC")
+    field(LNK2, "$(P):SLOFF_CALC")
+    field(LNK4, "$(P):MODA_CALC")
+    field(LNK5, "$(P):NROT_CALC")
+    field(LNK6, "$(P):NXT0_CALC")
+}
+
+# "air off" PV calculation
+# constant INPB is the mask to extract bit 3 (high limit) from .MSTA
+# constant INPC is the mask to extract bit 14 (low limit) from .MSTA
+# Returns 1 if both limits are on
+record(calc, "$(P):AOFF_CALC") {
+    field(DESC, "Extract limit flags and check them")
+    field(INPA, "$(P).MSTA")
+    field(INPB, "0x4")
+    field(INPC, "0x2000")
+    field(CALC, "(A&B)&&(A&C)")
+}
+
+# Flag indicating if the pressurised air on the rotary stage is off
+record(bi, "$(P):AIROFF") {
+    field(DESC, "On if both limits are on")
+    field(DTYP, "Soft Channel")
+    field(INP, "$(P):AOFF_CALC CP")
+    field(ZNAM, "Air on")
+    field(ONAM, "Air off")
+}
+
+# "check soft limits" PV calculation
+# Returns 1 if the soft limits are off on the controller
+record(calc, "$(P):SLOFF_CALC") {
+    field(DESC, "Check if soft limits are off")
+    field(INPA, "$(P).DHLM")
+    field(INPB, "$(P).DLLM")
+    field(CALC, "(A==0)&&(B==0)")
+}
+
+# Flag indicating if the soft limits are on or off
+record(bi, "$(P):SLOFF") {
+    field(DESC, "On if soft limits are off on the controller")
+    field(DTYP, "Soft Channel")
+    field(INP, "$(P):SLOFF_CALC CP")
+    field(ZNAM, "Soft limits on")
+    field(ONAM, "Soft limits off")
+}
+
+# "modular angle" PV calculation
+record(calc, "$(P):MODA_CALC") {
+    field(DESC, "Absolute angle MOD full circle")
+    field(INPA, "$(P).RBV")
+    field(INPB, "$(CIRCLE)")
+    field(CALC, "A%B")
+}
+
+# Displays the current angle on a circle
+record(ai, "$(P):MODANGLE") {
+    field(DESC, "Angle on a full circle")
+    field(INP, "$(P):MODA_CALC CP")
+}
+
+# "number of rotations" PV calculation
+record(calc, "$(P):NROT_CALC") {
+    field(DESC, "Absolute angle DIV full circle")
+    field(INPA, "$(P).RBV")
+    field(INPB, "$(CIRCLE)")
+    field(CALC, "FLOOR(A/B)")
+}
+
+# Displays the number of completed rotations
+record(ai, "$(P):NROT") {
+    field(DESC, "Number of completed rotations")
+    field(INP, "$(P):NROT_CALC CP")
+}
+
+# "nearest zero below" PV calculation
+record(calc, "$(P):NXT0_CALC") {
+    field(DESC, "Absolute angle corresponding to 0")
+    field(INPA, "$(P).RBV")
+    field(INPB, "$(P):MODANGLE")
+    field(CALC, "A-B")
+}
+
+# Displays the nearest cumulative angle below the current one that corresponds to 0
+record(ai, "$(P):NXT0") {
+    field(DESC, "Nearest absolute angle at 0 mark")
+    field(INP, "$(P):NXT0_CALC CP")
+}
+
+# Turn soft limits on or off
+record(mbbo, "$(P):SL_ONOFF") {
+    field(DESC, "Enable/disable soft limits")
+    field(DTYP, "Raw Soft Channel")
+    field(ZRST, "Enable")
+    field(ZRVL, "1")
+    field(ONST, "Disable" )
+    field(ONVL, "2")
+    field(OUT, "$(P):SLIM_SEL.SELN PP")
+}
+
+# Propagate soft limit on/off switch to the relevant transform records
+record(fanout, "$(P):SLIM_SEL") {
+    field(LNK1, "$(P):SLON_TR" )
+    field(LNK2, "$(P):SLOFF_TR" )
+    field(SELM, "Specified")
+}
+
+# Set the alarm severity defined in HLSV to MAJOR
+record(transform, "$(P):SLON_TR") {
+    field(DESC, "Enable limit alarms")
+    field(INPA, "$(P).DRBV")
+    field(CLCB, "A+0.01")
+    field(CLCC, "A-0.01")
+    field(CLCD, "2")
+    field(OUTB, "$(P).DHLM CP")
+    field(OUTC, "$(P).DLLM CP")
+    field(OUTD, "$(P).HLSV CP")
+}
+
+# Send value 0 for both soft limits to the controller (turning them
+# off there), set the alarm severity defined in HLSV to NONE
+record(transform, "$(P):SLOFF_TR") {
+    field(DESC, "Disable soft limits (low level)")
+    field(CLCA, "0")
+    field(CLCB, "0")
+    field(CLCC, "0")
+    field(OUTA, "$(P).DHLM CP")
+    field(OUTB, "$(P).DLLM CP")
+    field(OUTC, "$(P).HLSV CP")
+}
+
+# Non-template changes to make this work
+# - Message button "Enable Soft Limits" that pokes SLIM_ON (Synoptic)
+# - Message button "Disable Soft Limits" that pokes SLIM_OFF (Synoptic)
+# - Screen reorganisation (Synoptic)
