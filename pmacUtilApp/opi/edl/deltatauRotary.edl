@@ -3,8 +3,8 @@ beginScreenProperties
 major 4
 minor 0
 release 1
-x 1336
-y 198
+x 1346
+y 328
 w 420
 h 212
 font "arial-medium-r-14.0"
@@ -65,10 +65,9 @@ x 14
 y 3
 w 374
 h 24
-lineColor index 51
+lineColor index 52
 fill
 fillColor index 51
-visPv "$(dom)-CS-INFO-01:BEAMLINEID"
 visMin "1"
 visMax "2"
 endObjectProperties
@@ -83,10 +82,9 @@ x 14
 y 3
 w 374
 h 24
-lineColor index 76
+lineColor index 52
 fill
-fillColor index 76
-visPv "$(dom)-CS-INFO-01:BEAMLINEID"
+fillColor index 51
 visMin "0"
 visMax "1"
 endObjectProperties
@@ -101,7 +99,7 @@ x 14
 y 3
 w 374
 h 24
-controlPv "$(P):NAME.DESC"
+controlPv "$(P).DESC"
 fgColor index 14
 fgAlarm
 bgColor index 48
@@ -220,7 +218,6 @@ lineColor index 52
 fill
 fillColor index 51
 lineWidth 3
-visPv "$(dom)-CS-INFO-01:BEAMLINEID"
 visMin "1"
 visMax "2"
 endObjectProperties
@@ -235,11 +232,10 @@ x 366
 y 2
 w 47
 h 27
-lineColor index 77
+lineColor index 52
 fill
-fillColor index 76
+fillColor index 51
 lineWidth 3
-visPv "$(dom)-CS-INFO-01:BEAMLINEID"
 visMin "0"
 visMax "1"
 endObjectProperties
@@ -274,7 +270,7 @@ controlPv "$(P):NAME"
 fgColor index 14
 fgAlarm
 bgColor index 0
-font "arial-bold-r-14.0"
+font "arial-bold-r-12.0"
 fontAlign "center"
 endObjectProperties
 
@@ -339,7 +335,6 @@ lineColor index 52
 fill
 fillColor index 51
 lineWidth 3
-visPv "$(dom)-CS-INFO-01:BEAMLINEID"
 visMin "1"
 visMax "2"
 endObjectProperties
@@ -354,11 +349,10 @@ x 2
 y 2
 w 47
 h 27
-lineColor index 77
+lineColor index 52
 fill
-fillColor index 76
+fillColor index 51
 lineWidth 3
-visPv "$(dom)-CS-INFO-01:BEAMLINEID"
 visMin "0"
 visMax "1"
 endObjectProperties

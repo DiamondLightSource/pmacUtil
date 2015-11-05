@@ -8,6 +8,12 @@
 # P        Prefix name
 # CIRCLE   A full circle in EGUs (i.e. in rad or deg)
 
+# Dummy PV
+record(stringout, "$(P):NAME") {
+    field(PINI, "1")
+    field(VAL, "dTau")
+}
+
 # Add a forward link to the original records
 record(motor, "$(P)") {
     field(FLNK, "$(P):FAN")
@@ -55,25 +61,34 @@ record(calc, "$(P):SLOFF_CALC") {
 
 # Flag indicating if the soft limits are on or off
 record(bi, "$(P):SLOFF") {
-    field(DESC, "On if soft limits are off on the controller")
+    field(DESC, "On if s_lims are off on the controller")
     field(DTYP, "Soft Channel")
     field(INP, "$(P):SLOFF_CALC CP")
     field(ZNAM, "Soft limits on")
     field(ONAM, "Soft limits off")
 }
 
-# "modular angle" PV calculation
+# "modular angle" PV calculation - result for positive angles
 record(calc, "$(P):MODA_CALC") {
     field(DESC, "Absolute angle MOD full circle")
     field(INPA, "$(P).RBV")
     field(INPB, "$(CIRCLE)")
-    field(CALC, "A%B")
+    field(CALC, "A-FLOOR(A/B)*B")
+}
+
+# "modular angle" PV calculation - handle negative angles
+record(calc, "$(P):MODB_CALC") {
+    field(DESC, "MOD handling for angles < 0")
+    field(INPA, "$(P):MODA_CALC CP")
+    field(INPB, "$(CIRCLE)")
+    field(CALC, "A<0?B+A:A")
 }
 
 # Displays the current angle on a circle
 record(ai, "$(P):MODANGLE") {
     field(DESC, "Angle on a full circle")
-    field(INP, "$(P):MODA_CALC CP")
+    field(INP, "$(P):MODB_CALC CP")
+    field(PREC, 3)
 }
 
 # "number of rotations" PV calculation
@@ -94,8 +109,8 @@ record(ai, "$(P):NROT") {
 record(calc, "$(P):NXT0_CALC") {
     field(DESC, "Absolute angle corresponding to 0")
     field(INPA, "$(P).RBV")
-    field(INPB, "$(P):MODANGLE")
-    field(CALC, "A-B")
+    field(INPB, "$(CIRCLE)")
+    field(CALC, "FLOOR(A/B)*B")
 }
 
 # Displays the nearest cumulative angle below the current one that corresponds to 0

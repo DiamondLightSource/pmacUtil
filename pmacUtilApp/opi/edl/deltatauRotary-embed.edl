@@ -3,8 +3,8 @@ beginScreenProperties
 major 4
 minor 0
 release 1
-x 1349
-y 555
+x 1351
+y 581
 w 391
 h 109
 font "arial-medium-r-14.0"
@@ -421,7 +421,7 @@ x 340
 y 80
 w 20
 h 20
-controlPv "$(P):AIROFF"
+controlPv "$(P):SLOFF"
 lineColor index 14
 onColor index 15
 offColor index 19
