@@ -48,6 +48,8 @@ record(bi, "$(P):AIROFF") {
     field(INP, "$(P):AOFF_CALC CP")
     field(ZNAM, "Air on")
     field(ONAM, "Air off")
+    field(ZSV, "NO_ALARM")
+    field(OSV, "MAJOR")
 }
 
 # "check soft limits" PV calculation
