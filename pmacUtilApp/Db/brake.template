@@ -2,10 +2,10 @@
 # A template that manages a brake on a PMAC axis
 
 # Parameters:
-#  P      Prefix name
-#  M      Motor name
-#  PLC    The PLC that is running the brake
-#  PORT   The asyn port the connects to the PMAC
+#% macro,  P,      Prefix name
+#% macro,  M,      Motor name
+#% macro,  PLC,    The PLC that is running the brake
+#% macro,  PORT,   The asyn port the connects to the PMAC
 
 # Read the P variables P$(PLC)00 and P$(PLC)01
 # which are commanded park state and current
