@@ -41,9 +41,9 @@
 # This associates an edm screen with the template
 # % gui, $(name=), edm, autohome.edl, P=$(P)
 # This associates a BOY screen with the template
-# % gui, $(name=), boydetail, pmacUtilApp_opi/motorhome_detail.opi, P=$(P),DESC=$(DESC), 
-# % gui, $(name=), boyembed, pmacUtilApp_opi/motorhome_embed_box.opi, P=$(P), DESC=$(DESC), 
-# % gui, $(name=), boyembed, pmacUtilApp_opi/motorhome_embed.opi, P=$(P), DESC=$(DESC),
+# % gui, $(name=), boydetail, pmacUtilApp_opi/motorhome_detail.opi, P=$(P),DESC=$(name=),
+# % gui, $(name=), boyembed, pmacUtilApp_opi/motorhome_embed_box.opi, P=$(P), DESC=$(name=),
+# % gui, $(name=), boyembed, pmacUtilApp_opi/motorhome_embed.opi, P=$(P), DESC=$(name=),
 
 # These define what PVs a motor detail screen should contain
 # % gui, $(name=), readback, Homing,   $(P):HM:HOMING
