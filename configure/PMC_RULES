@@ -53,7 +53,12 @@ $1%.pmc: src/%.psub $(CONFIGURE)/RELEASE
 	@echo '***' Preprocessing \"$$@\" from psub src
 	$(print_header)
 	msi -I$$(MSI_INCLUDES):src $$< >> $$@
-	
+
+$1%.pmc: src/%.json $(CONFIGURE)/RELEASE
+	@echo '***' Generating \"$$@\" from json src
+	$(print_header)
+	$(DLS_PMCGENERATOR)/prefix/bin/dls-pmc-from-json.py $$< >> $$@
+
 $1%.pmc: %.pmc $(CONFIGURE)/RELEASE
 	@echo '***' Copying across pmacUtil file \"$$@\"
 	$(print_header)
