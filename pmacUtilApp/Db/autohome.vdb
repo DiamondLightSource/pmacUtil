@@ -36,14 +36,14 @@
 # % macro, STATUSSV14, Homing status 14 severity
 # % macro, STATUSSV15, Homing status 15 severity
 # % macro, DESC, Description
-
 # % macro, name, Object name and gui association name
+
 # This associates an edm screen with the template
 # % gui, $(name=), edm, autohome.edl, P=$(P)
 # This associates a BOY screen with the template
-# % gui, $(name=), boydetail, pmacUtilApp_opi/motorhome_detail.opi, P=$(P),DESC=$(name=),
-# % gui, $(name=), boyembed, pmacUtilApp_opi/motorhome_embed_box.opi, P=$(P), DESC=$(name=),
-# % gui, $(name=), boyembed, pmacUtilApp_opi/motorhome_embed.opi, P=$(P), DESC=$(name=),
+# % gui, $(name=), boydetail, pmacUtilApp_opi/motorhome_detail.opi, P=$(P),DESC=$(DESC=),
+# % gui, $(name=), boyembed, pmacUtilApp_opi/motorhome_embed_box.opi, P=$(P), DESC=$(DESC=),
+# % gui, $(name=), boyembed, pmacUtilApp_opi/motorhome_embed.opi, P=$(P), DESC=$(DESC=),
 
 # These define what PVs a motor detail screen should contain
 # % gui, $(name=), readback, Homing,   $(P):HM:HOMING
@@ -228,6 +228,7 @@ record(mbbi, "$(P):HM:STATE") {
 
 record(busy, "$(P):HM:HOMING") {
   field(FLNK, "$(P):HM:HOMED")
+  field(PINI, "1")
 }
 
 record(bo, "$(P):HM:HOME") {

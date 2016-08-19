@@ -23,7 +23,7 @@
   </background_color>
   <width>500</width>
   <x>-1</x>
-  <name></name>
+  <name />
   <grid_space>5</grid_space>
   <show_ruler>true</show_ruler>
   <y>-1</y>
@@ -33,14 +33,14 @@
   </foreground_color>
   <actions hook="false" hook_all="false" />
   <widget typeId="org.csstudio.opibuilder.widgets.linkingContainer" version="1.0.0">
-    <opi_file>motorhome_embed.opi</opi_file>
+    <opi_file>pmac_status_embed.opi</opi_file>
     <border_style>13</border_style>
     <tooltip></tooltip>
     <rules />
     <enabled>true</enabled>
     <wuid>-304029b7:147582c1239:-7941</wuid>
     <scripts />
-    <height>57</height>
+    <height>68</height>
     <border_width>1</border_width>
     <scale_options>
       <width_scalable>true</width_scalable>
@@ -52,7 +52,7 @@
     </macros>
     <resize_behaviour>1</resize_behaviour>
     <visible>true</visible>
-    <group_name></group_name>
+    <group_name />
     <border_color>
       <color red="0" green="0" blue="0" />
     </border_color>
@@ -60,9 +60,9 @@
     <background_color>
       <color red="200" green="200" blue="200" />
     </background_color>
-    <width>362</width>
+    <width>363</width>
     <x>0</x>
-    <name>$(DESC)</name>
+    <name />
     <y>0</y>
     <foreground_color>
       <color name="Text: FG" red="0" green="0" blue="0" />
