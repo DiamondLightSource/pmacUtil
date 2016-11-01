@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="UTF-8"?>
 <display typeId="org.csstudio.opibuilder.Display" version="1.0.0">
   <show_close_button>true</show_close_button>
   <rules />
@@ -10,7 +10,7 @@
   <macros>
     <include_parent_macros>true</include_parent_macros>
   </macros>
-  <boy_version>4.0.103.201503201352</boy_version>
+  <boy_version>4.0.104.201510030256</boy_version>
   <show_edit_range>true</show_edit_range>
   <widget_type>Display</widget_type>
   <auto_scale_widgets>
@@ -19,17 +19,17 @@
     <min_height>-1</min_height>
   </auto_scale_widgets>
   <background_color>
-    <color blue="200" green="200" name="Canvas" red="200" />
+    <color name="Canvas" red="200" green="200" blue="200" />
   </background_color>
   <width>325</width>
   <x>-1</x>
-  <name />
+  <name></name>
   <grid_space>5</grid_space>
   <show_ruler>true</show_ruler>
   <y>-1</y>
   <snap_to_geometry>false</snap_to_geometry>
   <foreground_color>
-    <color blue="192" green="192" red="192" />
+    <color red="192" green="192" blue="192" />
   </foreground_color>
   <actions hook="false" hook_all="false" />
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
@@ -44,8 +44,7 @@ $(pv_value)</tooltip>
     <enabled>true</enabled>
     <wuid>712c3132:14b31443eec:-7c16</wuid>
     <pv_value />
-    <pv_control>false</pv_control>
-    <text />
+    <text></text>
     <scripts />
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <height>20</height>
@@ -59,12 +58,12 @@ $(pv_value)</tooltip>
     <visible>true</visible>
     <pv_name>$(P):HM:ABORT.PROC</pv_name>
     <border_color>
-      <color blue="255" green="128" red="0" />
+      <color red="0" green="128" blue="255" />
     </border_color>
     <widget_type>Action Button</widget_type>
     <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
     <background_color>
-      <color blue="205" green="205" name="Controller: BG" red="205" />
+      <color name="Controller: BG" red="205" green="205" blue="205" />
     </background_color>
     <width>25</width>
     <x>45</x>
@@ -72,15 +71,15 @@ $(pv_value)</tooltip>
     <y>0</y>
     <style>0</style>
     <foreground_color>
-      <color blue="192" green="0" name="Controller: FG" red="0" />
+      <color name="Controller: FG" red="0" green="0" blue="192" />
     </foreground_color>
     <actions hook="false" hook_all="false">
       <action type="WRITE_PV">
         <pv_name>$(pv_name)</pv_name>
         <value>1</value>
         <timeout>10</timeout>
-        <confirm_message />
-        <description />
+        <confirm_message></confirm_message>
+        <description></description>
       </action>
     </actions>
     <font>
@@ -114,10 +113,10 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <visible>true</visible>
-    <pv_name>$(P):HM:STATE</pv_name>
+    <pv_name>$(P):HM:STATUS</pv_name>
     <vertical_alignment>1</vertical_alignment>
     <border_color>
-      <color blue="255" green="128" red="0" />
+      <color red="0" green="128" blue="255" />
     </border_color>
     <precision_from_pv>true</precision_from_pv>
     <widget_type>Text Update</widget_type>
@@ -125,14 +124,14 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <format_type>0</format_type>
     <background_color>
-      <color blue="64" green="64" name="Monitor: BG" red="64" />
+      <color name="Monitor: BG" red="64" green="64" blue="64" />
     </background_color>
     <width>91</width>
     <x>75</x>
     <name>Readback_2</name>
     <y>0</y>
     <foreground_color>
-      <color blue="96" green="255" name="Monitor: FG" red="96" />
+      <color name="Monitor: FG" red="96" green="255" blue="96" />
     </foreground_color>
     <actions hook="false" hook_all="false" />
     <font>
@@ -166,10 +165,10 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <visible>true</visible>
-    <pv_name>$(P):HM:STATUS</pv_name>
+    <pv_name>$(P):HM:STATE</pv_name>
     <vertical_alignment>1</vertical_alignment>
     <border_color>
-      <color blue="255" green="128" red="0" />
+      <color red="0" green="128" blue="255" />
     </border_color>
     <precision_from_pv>true</precision_from_pv>
     <widget_type>Text Update</widget_type>
@@ -177,14 +176,14 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <format_type>0</format_type>
     <background_color>
-      <color blue="64" green="64" name="Monitor: BG" red="64" />
+      <color name="Monitor: BG" red="64" green="64" blue="64" />
     </background_color>
     <width>155</width>
     <x>170</x>
     <name>Readback_3</name>
     <y>0</y>
     <foreground_color>
-      <color blue="96" green="255" name="Monitor: FG" red="96" />
+      <color name="Monitor: FG" red="96" green="255" blue="96" />
     </foreground_color>
     <actions hook="false" hook_all="false" />
     <font>
@@ -207,7 +206,7 @@ $(pv_value)</tooltip>
     <pv_name>$(P):HM:HOMING</pv_name>
     <degree>0</degree>
     <border_color>
-      <color blue="255" green="128" red="0" />
+      <color red="0" green="128" blue="255" />
     </border_color>
     <widget_type>Multistate Symbol Monitor</widget_type>
     <flip_horizontal>false</flip_horizontal>
@@ -223,12 +222,12 @@ $(pv_value)</tooltip>
     </permutation_matrix>
     <name>Symbol</name>
     <actions hook="false" hook_all="true">
-      <action type="OPEN_OPI_IN_VIEW">
+      <action type="OPEN_DISPLAY">
         <path>motorhome_detail.opi</path>
         <macros>
           <include_parent_macros>true</include_parent_macros>
         </macros>
-        <Position>1</Position>
+        <mode>3</mode>
         <description>Open detail screen</description>
       </action>
     </actions>
@@ -241,7 +240,7 @@ $(pv_value)</tooltip>
     <enabled>true</enabled>
     <wuid>-60e8a6de:14d518b9348:-7c48</wuid>
     <on_color>
-      <color blue="0" green="0" red="0" />
+      <color red="0" green="0" blue="0" />
     </on_color>
     <scripts />
     <border_alarm_sensitive>false</border_alarm_sensitive>
@@ -253,18 +252,18 @@ $(pv_value)</tooltip>
     <crop_bottom>0</crop_bottom>
     <no_animation>false</no_animation>
     <off_color>
-      <color blue="0" green="0" red="0" />
+      <color red="0" green="0" blue="0" />
     </off_color>
     <backcolor_alarm_sensitive>true</backcolor_alarm_sensitive>
     <background_color>
-      <color blue="200" green="200" name="Canvas" red="200" />
+      <color name="Canvas" red="200" green="200" blue="200" />
     </background_color>
     <boolean_label_position>0</boolean_label_position>
     <width>40</width>
     <x>0</x>
     <y>0</y>
     <foreground_color>
-      <color blue="0" green="0" name="Black" red="0" />
+      <color name="Black" red="0" green="0" blue="0" />
     </foreground_color>
     <crop_top>0</crop_top>
     <crop_right>0</crop_right>

@@ -2,7 +2,7 @@
 <display typeId="org.csstudio.opibuilder.Display" version="1.0.0">
   <show_close_button>true</show_close_button>
   <rules />
-  <wuid>-60e8a6de:14d518b9348:-78b2</wuid>
+  <wuid>-5577500f:1503cdbe335:-78a6</wuid>
   <show_grid>true</show_grid>
   <auto_zoom_to_fit_all>false</auto_zoom_to_fit_all>
   <scripts />
@@ -10,7 +10,7 @@
   <macros>
     <include_parent_macros>true</include_parent_macros>
   </macros>
-  <boy_version>4.0.103.201503201352</boy_version>
+  <boy_version>4.0.104.201510030256</boy_version>
   <show_edit_range>true</show_edit_range>
   <widget_type>Display</widget_type>
   <auto_scale_widgets>
@@ -33,191 +33,344 @@
   </foreground_color>
   <actions hook="false" hook_all="false" />
   <widget typeId="org.csstudio.opibuilder.widgets.detailpanel" version="1.0.0">
+    <row_84_row_name_value />
+    <row_79_row_name_value />
+    <row_19_row_name_value />
+    <row_49_row_name_value />
+    <row_169_row_name_value />
+    <row_199_row_name_value />
+    <row_139_row_name_value />
+    <row_10_row_level>0</row_10_row_level>
+    <row_24_row_name_value />
+    <row_0_row_name_value />
+    <row_54_row_name_value />
+    <row_121_row_name_value />
     <x>0</x>
     <y>0</y>
-    <row_9_row_height>27</row_9_row_height>
-    <row_15_row_name>Axis 8</row_15_row_name>
-    <row_0_row_name></row_0_row_name>
-    <macros>
-      <include_parent_macros>true</include_parent_macros>
-    </macros>
-    <row_14_row_height>27</row_14_row_height>
-    <row_8_row_height>27</row_8_row_height>
-    <row_9_row_mode>3</row_9_row_mode>
-    <row_15_row_mode>3</row_15_row_mode>
-    <row_8_row_tooltip>Axis 1</row_8_row_tooltip>
-    <row_0_row_tooltip></row_0_row_tooltip>
-    <row_9_row_name>Axis 2</row_9_row_name>
-    <color_select_back>
-      <color red="217" green="217" blue="255" />
-    </color_select_back>
-    <row_13_row_height>27</row_13_row_height>
-    <row_13_row_tooltip>Axis 6</row_13_row_tooltip>
-    <row_0_row_level>0</row_0_row_level>
-    <color_even_row_back>
-      <color name="Canvas" red="200" green="200" blue="200" />
-    </color_even_row_back>
-    <border_style>0</border_style>
-    <row_15_row_height>27</row_15_row_height>
-    <height>1150</height>
-    <row_1_row_mode>3</row_1_row_mode>
-    <row_4_row_tooltip>Move Timer</row_4_row_tooltip>
-    <row_14_row_name>Axis 7</row_14_row_name>
-    <row_1_row_name>Homing</row_1_row_name>
-    <row_14_row_mode>3</row_14_row_mode>
+    <row_151_row_name_value />
+    <row_181_row_name_value />
+    <row_114_row_name_value />
+    <row_144_row_name_value />
     <row_5_row_height>27</row_5_row_height>
+    <pv_value />
+    <row_174_row_name_value />
+    <row_2_row_name>Homing State</row_2_row_name>
+    <widget_type>Detail Panel</widget_type>
+    <row_12_row_mode>3</row_12_row_mode>
+    <row_82_row_name_value />
+    <row_17_row_name_value />
+    <row_47_row_name_value />
+    <row_77_row_name_value />
     <row_7_row_mode>3</row_7_row_mode>
+    <row_178_row_name_value />
+    <row_9_row_height>27</row_9_row_height>
+    <row_148_row_name_value />
+    <vert_divider_pos>160</vert_divider_pos>
+    <row_118_row_name_value />
     <row_11_row_height>27</row_11_row_height>
+    <row_14_row_level>0</row_14_row_level>
+    <row_2_row_name_value />
     <row_3_row_level>0</row_3_row_level>
+    <row_15_row_name>=pv(concat(pv("$(P):HM:M8PV"),".DESC"))</row_15_row_name>
+    <row_75_row_name_value />
+    <row_5_row_name>Group to Home</row_5_row_name>
+    <row_172_row_name_value />
+    <row_112_row_name_value />
+    <row_142_row_name_value />
     <color_odd_row_fore>
       <color red="0" green="0" blue="0" />
     </color_odd_row_fore>
     <row_13_row_level>0</row_13_row_level>
-    <row_5_row_tooltip>Group to Home</row_5_row_tooltip>
-    <color_select_fore>
-      <color red="0" green="0" blue="0" />
-    </color_select_fore>
-    <row_2_row_level>0</row_2_row_level>
-    <enabled>true</enabled>
-    <width>360</width>
-    <visible>true</visible>
-    <color_even_row_fore>
-      <color red="0" green="0" blue="0" />
-    </color_even_row_fore>
-    <tooltip></tooltip>
-    <font>
-      <opifont.name fontName="Sans Serif" height="10" style="0">Default</opifont.name>
-    </font>
-    <row_6_row_name>Do Home</row_6_row_name>
-    <row_7_row_height>27</row_7_row_height>
-    <row_count>16</row_count>
-    <row_6_row_mode>3</row_6_row_mode>
-    <row_0_row_mode>1</row_0_row_mode>
-    <row_7_row_level>0</row_7_row_level>
-    <rules>
-      <rule name="Hide motor 1" prop_id="row_8_row_level" out_exp="true">
-        <exp bool_exp="$(MOTOR1)==&quot;&quot;">
-          <value>2</value>
-        </exp>
-        <pv trig="true"></pv>
-      </rule>
-      <rule name="Hide motor 2" prop_id="row_9_row_level" out_exp="true">
-        <exp bool_exp="$(MOTOR2)==&quot;&quot;">
-          <value>2</value>
-        </exp>
-        <pv trig="true"></pv>
-      </rule>
-      <rule name="Hide motor 3" prop_id="row_10_row_level" out_exp="true">
-        <exp bool_exp="$(MOTOR3)==&quot;&quot;">
-          <value>2</value>
-        </exp>
-        <pv trig="true"></pv>
-      </rule>
-      <rule name="Hide motor 4" prop_id="row_11_row_level" out_exp="true">
-        <exp bool_exp="$(MOTOR4)==&quot;&quot;">
-          <value>2</value>
-        </exp>
-        <pv trig="true"></pv>
-      </rule>
-      <rule name="Hide motor 5" prop_id="row_12_row_level" out_exp="true">
-        <exp bool_exp="$(MOTOR5)==&quot;&quot;">
-          <value>2</value>
-        </exp>
-        <pv trig="true"></pv>
-      </rule>
-      <rule name="Hide motor 6" prop_id="row_13_row_level" out_exp="true">
-        <exp bool_exp="$(MOTOR6)==&quot;&quot;">
-          <value>2</value>
-        </exp>
-        <pv trig="true"></pv>
-      </rule>
-      <rule name="Hide motor 7" prop_id="row_14_row_level" out_exp="true">
-        <exp bool_exp="$(MOTOR7)==&quot;&quot;">
-          <value>2</value>
-        </exp>
-        <pv trig="true"></pv>
-      </rule>
-      <rule name="Hide motor 8" prop_id="row_15_row_level" out_exp="true">
-        <exp bool_exp="$(MOTOR8)==&quot;&quot;">
-          <value>2</value>
-        </exp>
-        <pv trig="true"></pv>
-      </rule>
-    </rules>
-    <row_2_row_tooltip>Homing State</row_2_row_tooltip>
-    <row_14_row_tooltip>Axis 7</row_14_row_tooltip>
-    <row_2_row_height>27</row_2_row_height>
-    <row_10_row_level>0</row_10_row_level>
-    <widget_type>Detail Panel</widget_type>
-    <vert_divider_pos>160</vert_divider_pos>
-    <row_5_row_name>Group to Home</row_5_row_name>
-    <row_11_row_tooltip>Axis 4</row_11_row_tooltip>
-    <row_15_row_tooltip>Axis 8</row_15_row_tooltip>
+    <row_52_row_name_value />
+    <row_22_row_name_value />
+    <row_0_row_name></row_0_row_name>
+    <row_45_row_name_value />
+    <row_15_row_name_value />
+    <row_11_row_tooltip>=pv(concat(pv("$(P):HM:M4PV"),".DESC"))</row_11_row_tooltip>
+    <row_12_row_tooltip>=pv(concat(pv("$(P):HM:M5PV"),".DESC"))</row_12_row_tooltip>
+    <row_15_row_tooltip>=pv(concat(pv("$(P):HM:M8PV"),".DESC"))</row_15_row_tooltip>
+    <row_9_row_name_value />
+    <row_10_row_height>27</row_10_row_height>
+    <row_165_row_name_value />
+    <row_105_row_name_value />
+    <row_195_row_name_value />
+    <row_135_row_name_value />
+    <row_9_row_tooltip>=pv(concat(pv("$(P):HM:M2PV"),".DESC"))</row_9_row_tooltip>
+    <row_12_row_name>=pv(concat(pv("$(P):HM:M5PV"),".DESC"))</row_12_row_name>
+    <row_1_row_tooltip>Homing</row_1_row_tooltip>
+    <macros>
+      <include_parent_macros>true</include_parent_macros>
+    </macros>
     <row_6_row_level>0</row_6_row_level>
+    <row_5_row_tooltip>Group to Home</row_5_row_tooltip>
     <color_odd_row_back>
       <color name="Controller: BG" red="205" green="205" blue="205" />
     </color_odd_row_back>
+    <row_127_row_name_value />
+    <row_14_row_height>27</row_14_row_height>
+    <row_31_row_name_value />
+    <row_187_row_name_value />
+    <row_157_row_name_value />
+    <row_8_row_height>27</row_8_row_height>
+    <row_61_row_name_value />
+    <row_9_row_mode>3</row_9_row_mode>
+    <row_91_row_name_value />
+    <row_68_row_name_value />
+    <row_98_row_name_value />
+    <row_38_row_name_value />
     <row_5_row_mode>3</row_5_row_mode>
+    <row_15_row_mode>3</row_15_row_mode>
+    <row_158_row_name_value />
     <row_10_row_mode>3</row_10_row_mode>
     <actions hook="false" hook_all="false" />
+    <row_43_row_name_value />
+    <row_140_row_name_value />
     <row_1_row_height>27</row_1_row_height>
+    <row_192_row_name_value />
+    <row_37_row_name_value />
+    <row_41_row_name_value />
+    <row_97_row_name_value />
+    <row_134_row_name_value />
+    <row_194_row_name_value />
+    <color_select_fore>
+      <color red="0" green="0" blue="0" />
+    </color_select_fore>
+    <row_186_row_name_value />
+    <row_8_row_tooltip>=pv(concat(pv("$(P):HM:M1PV"),".DESC"))</row_8_row_tooltip>
+    <row_44_row_name_value />
+    <row_29_row_name_value />
+    <row_0_row_tooltip></row_0_row_tooltip>
+    <row_141_row_name_value />
+    <pv_name></pv_name>
+    <row_40_row_name_value />
     <row_6_row_tooltip>Do Home</row_6_row_tooltip>
+    <row_126_row_name_value />
+    <row_89_row_name_value />
+    <name>Detail Panel</name>
+    <row_9_row_name>=pv(concat(pv("$(P):HM:M2PV"),".DESC"))</row_9_row_name>
+    <row_36_row_name_value />
+    <color_select_back>
+      <color red="217" green="217" blue="255" />
+    </color_select_back>
+    <row_2_row_level>0</row_2_row_level>
+    <row_96_row_name_value />
+    <row_133_row_name_value />
+    <row_159_row_name_value />
+    <row_193_row_name_value />
+    <row_13_row_height>27</row_13_row_height>
+    <row_51_row_name_value />
+    <row_190_row_name_value />
+    <row_130_row_name_value />
+    <row_93_row_name_value />
+    <row_28_row_name_value />
+    <row_88_row_name_value />
     <border_color>
       <color red="0" green="128" blue="255" />
     </border_color>
-    <row_10_row_name>Axis 3</row_10_row_name>
+    <row_167_row_name_value />
+    <row_184_row_name_value />
+    <row_33_row_name_value />
+    <row_124_row_name_value />
+    <row_107_row_name_value />
+    <row_185_row_name_value />
+    <row_10_row_name>=pv(concat(pv("$(P):HM:M3PV"),".DESC"))</row_10_row_name>
     <row_3_row_height>27</row_3_row_height>
+    <row_125_row_name_value />
+    <row_34_row_name_value />
+    <row_94_row_name_value />
+    <enabled>true</enabled>
+    <row_10_row_tooltip>=pv(concat(pv("$(P):HM:M3PV"),".DESC"))</row_10_row_tooltip>
+    <row_13_row_tooltip>=pv(concat(pv("$(P):HM:M6PV"),".DESC"))</row_13_row_tooltip>
+    <row_13_row_name>=pv(concat(pv("$(P):HM:M6PV"),".DESC"))</row_13_row_name>
+    <row_1_row_level>0</row_1_row_level>
+    <width>360</width>
+    <row_2_row_mode>3</row_2_row_mode>
+    <row_86_row_name_value />
+    <row_26_row_name_value />
+    <row_35_row_name_value />
+    <row_132_row_name_value />
+    <row_0_row_level>0</row_0_row_level>
+    <row_123_row_name_value />
+    <row_183_row_name_value />
+    <visible>true</visible>
+    <row_109_row_name_value />
+    <row_95_row_name_value />
+    <color_even_row_back>
+      <color name="Canvas" red="200" green="200" blue="200" />
+    </color_even_row_back>
+    <row_168_row_name_value />
+    <row_3_row_tooltip>Homing Status</row_3_row_tooltip>
+    <row_108_row_name_value />
+    <color_even_row_fore>
+      <color red="0" green="0" blue="0" />
+    </color_even_row_fore>
+    <row_6_row_height>27</row_6_row_height>
+    <row_27_row_name_value />
+    <row_131_row_name_value />
+    <row_50_row_name_value />
+    <row_87_row_name_value />
+    <row_191_row_name_value />
+    <scripts />
+    <row_116_row_name_value />
+    <row_176_row_name_value />
+    <row_42_row_name_value />
+    <row_30_row_name_value />
+    <tooltip></tooltip>
     <border_width>1</border_width>
+    <border_style>0</border_style>
+    <row_18_row_name_value />
+    <wuid>-5577500f:1503cdbe335:-78a5</wuid>
+    <row_48_row_name_value />
+    <row_78_row_name_value />
     <row_0_row_height>57</row_0_row_height>
-    <row_11_row_name>Axis 4</row_11_row_name>
+    <row_115_row_name_value />
+    <row_145_row_name_value />
+    <row_3_row_mode>3</row_3_row_mode>
+    <row_117_row_name_value />
+    <row_175_row_name_value />
+    <row_177_row_name_value />
+    <row_147_row_name_value />
+    <row_60_row_name_value />
+    <row_90_row_name_value />
+    <font>
+      <opifont.name fontName="Sans Serif" height="10" style="0">Default</opifont.name>
+    </font>
+    <row_8_row_mode>3</row_8_row_mode>
+    <row_13_row_mode>3</row_13_row_mode>
+    <row_32_row_name_value />
+    <row_11_row_name>=pv(concat(pv("$(P):HM:M4PV"),".DESC"))</row_11_row_name>
+    <row_6_row_name>Do Home</row_6_row_name>
+    <row_122_row_name_value />
+    <row_152_row_name_value />
+    <row_182_row_name_value />
     <row_8_row_level>0</row_8_row_level>
+    <row_1_row_name_value />
+    <row_7_row_height>27</row_7_row_height>
+    <row_25_row_name_value />
+    <row_55_row_name_value />
+    <row_85_row_name_value />
+    <row_119_row_name_value />
+    <row_179_row_name_value />
+    <row_149_row_name_value />
+    <row_16_row_name_value />
     <row_4_row_height>27</row_4_row_height>
+    <row_46_row_name_value />
+    <row_76_row_name_value />
+    <row_113_row_name_value />
+    <row_106_row_name_value />
+    <row_3_row_name>Homing Status</row_3_row_name>
+    <row_69_row_name_value />
+    <row_99_row_name_value />
+    <row_173_row_name_value />
+    <row_39_row_name_value />
+    <row_143_row_name_value />
+    <row_166_row_name_value />
+    <row_136_row_name_value />
+    <row_196_row_name_value />
+    <row_62_row_name_value />
+    <row_92_row_name_value />
     <row_4_row_level>0</row_4_row_level>
+    <row_8_row_name>=pv(concat(pv("$(P):HM:M1PV"),".DESC"))</row_8_row_name>
+    <row_count>16</row_count>
+    <row_23_row_name_value />
+    <row_53_row_name_value />
     <row_12_row_level>0</row_12_row_level>
+    <row_83_row_name_value />
+    <row_3_row_name_value />
+    <row_6_row_mode>3</row_6_row_mode>
+    <row_5_row_level>0</row_5_row_level>
     <scale_options>
       <width_scalable>true</width_scalable>
       <height_scalable>true</height_scalable>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
+    <row_120_row_name_value />
+    <row_150_row_name_value />
+    <row_180_row_name_value />
     <display_level>0</display_level>
-    <row_4_row_mode>3</row_4_row_mode>
-    <row_7_row_name>Abort</row_7_row_name>
-    <row_7_row_tooltip>Abort</row_7_row_tooltip>
-    <row_11_row_mode>3</row_11_row_mode>
-    <row_4_row_name>Move Timer</row_4_row_name>
-    <row_2_row_name>Homing State</row_2_row_name>
-    <row_12_row_mode>3</row_12_row_mode>
-    <row_14_row_level>0</row_14_row_level>
-    <row_12_row_tooltip>Axis 5</row_12_row_tooltip>
-    <row_10_row_height>27</row_10_row_height>
-    <row_9_row_tooltip>Axis 2</row_9_row_tooltip>
-    <row_12_row_name>Axis 5</row_12_row_name>
-    <row_1_row_tooltip>Homing</row_1_row_tooltip>
-    <name>Detail Panel</name>
-    <row_10_row_tooltip>Axis 3</row_10_row_tooltip>
-    <row_13_row_name>Axis 6</row_13_row_name>
-    <row_1_row_level>0</row_1_row_level>
-    <row_2_row_mode>3</row_2_row_mode>
-    <row_3_row_tooltip>Homing Status</row_3_row_tooltip>
-    <row_6_row_height>27</row_6_row_height>
-    <scripts />
-    <wuid>-60e8a6de:14d518b9348:-78b1</wuid>
-    <row_3_row_mode>3</row_3_row_mode>
-    <row_8_row_mode>3</row_8_row_mode>
-    <row_13_row_mode>3</row_13_row_mode>
-    <row_3_row_name>Homing Status</row_3_row_name>
-    <row_8_row_name>Axis 1</row_8_row_name>
-    <row_5_row_level>0</row_5_row_level>
     <row_11_row_level>0</row_11_row_level>
+    <row_72_row_name_value />
+    <row_128_row_name_value />
+    <row_15_row_height>27</row_15_row_height>
+    <height>478</height>
     <row_9_row_level>0</row_9_row_level>
+    <row_5_row_name_value />
+    <row_13_row_name_value />
+    <row_0_row_mode>1</row_0_row_mode>
+    <row_71_row_name_value />
+    <row_170_row_name_value />
+    <row_110_row_name_value />
+    <row_67_row_name_value />
+    <row_11_row_name_value />
+    <row_188_row_name_value />
+    <row_164_row_name_value />
+    <row_104_row_name_value />
+    <row_73_row_name_value />
+    <row_7_row_level>0</row_7_row_level>
+    <row_14_row_name_value />
+    <row_156_row_name_value />
+    <rules />
+    <row_74_row_name_value />
+    <row_2_row_tooltip>Homing State</row_2_row_tooltip>
+    <row_171_row_name_value />
+    <row_70_row_name_value />
+    <row_111_row_name_value />
+    <row_1_row_mode>3</row_1_row_mode>
+    <row_59_row_name_value />
+    <row_4_row_name_value />
+    <row_4_row_tooltip>Move Timer</row_4_row_tooltip>
+    <row_8_row_name_value />
+    <row_10_row_name_value />
+    <row_66_row_name_value />
+    <row_14_row_name>=pv(concat(pv("$(P):HM:M7PV"),".DESC"))</row_14_row_name>
+    <row_103_row_name_value />
+    <row_189_row_name_value />
+    <row_163_row_name_value />
+    <row_4_row_mode>3</row_4_row_mode>
+    <row_129_row_name_value />
+    <row_81_row_name_value />
     <row_15_row_level>0</row_15_row_level>
+    <row_160_row_name_value />
+    <row_58_row_name_value />
+    <row_197_row_name_value />
+    <row_137_row_name_value />
+    <row_154_row_name_value />
+    <row_63_row_name_value />
+    <row_100_row_name_value />
+    <row_21_row_name_value />
+    <row_155_row_name_value />
+    <row_64_row_name_value />
+    <row_14_row_tooltip>=pv(concat(pv("$(P):HM:M7PV"),".DESC"))</row_14_row_tooltip>
+    <row_7_row_name_value />
+    <row_56_row_name_value />
+    <row_65_row_name_value />
+    <row_2_row_height>27</row_2_row_height>
+    <row_102_row_name_value />
+    <row_7_row_name>Abort</row_7_row_name>
+    <row_162_row_name_value />
+    <row_153_row_name_value />
+    <row_7_row_tooltip>Abort</row_7_row_tooltip>
+    <row_20_row_name_value />
+    <row_1_row_name>Homing</row_1_row_name>
+    <row_138_row_name_value />
+    <row_198_row_name_value />
+    <row_11_row_mode>3</row_11_row_mode>
+    <row_101_row_name_value />
+    <row_80_row_name_value />
+    <row_6_row_name_value />
+    <row_57_row_name_value />
+    <row_161_row_name_value />
+    <row_146_row_name_value />
+    <row_4_row_name>Move Timer</row_4_row_name>
     <row_12_row_height>27</row_12_row_height>
+    <row_12_row_name_value />
+    <row_14_row_mode>3</row_14_row_mode>
     <widget typeId="org.csstudio.opibuilder.widgets.groupingContainer" version="1.0.0">
       <border_style>0</border_style>
       <tooltip></tooltip>
       <rules />
       <enabled>true</enabled>
-      <wuid>-60e8a6de:14d518b9348:-78b0</wuid>
+      <wuid>-5577500f:1503cdbe335:-78a4</wuid>
       <transparent>false</transparent>
       <lock_children>false</lock_children>
       <scripts />
@@ -258,7 +411,7 @@
         <tooltip></tooltip>
         <rules />
         <enabled>true</enabled>
-        <wuid>-60e8a6de:14d518b9348:-78af</wuid>
+        <wuid>-5577500f:1503cdbe335:-78a3</wuid>
         <scripts />
         <height>56</height>
         <border_width>1</border_width>
@@ -278,7 +431,7 @@
         </border_color>
         <widget_type>Linking Container</widget_type>
         <background_color>
-          <color red="200" green="200" blue="200" />
+          <color name="Canvas" red="200" green="200" blue="200" />
         </background_color>
         <width>361</width>
         <x>0</x>
@@ -298,7 +451,7 @@
       <tooltip></tooltip>
       <rules />
       <enabled>true</enabled>
-      <wuid>-60e8a6de:14d518b9348:-78ae</wuid>
+      <wuid>-5577500f:1503cdbe335:-78a2</wuid>
       <transparent>false</transparent>
       <lock_children>false</lock_children>
       <scripts />
@@ -343,7 +496,7 @@ $(pv_value)</tooltip>
         <horizontal_alignment>1</horizontal_alignment>
         <rules />
         <enabled>true</enabled>
-        <wuid>-60e8a6de:14d518b9348:-78ad</wuid>
+        <wuid>-5577500f:1503cdbe335:-78a1</wuid>
         <transparent>false</transparent>
         <pv_value />
         <auto_size>false</auto_size>
@@ -391,7 +544,7 @@ $(pv_value)</tooltip>
       <tooltip></tooltip>
       <rules />
       <enabled>true</enabled>
-      <wuid>-60e8a6de:14d518b9348:-78ac</wuid>
+      <wuid>-5577500f:1503cdbe335:-78a0</wuid>
       <transparent>false</transparent>
       <lock_children>false</lock_children>
       <scripts />
@@ -436,7 +589,7 @@ $(pv_value)</tooltip>
         <horizontal_alignment>1</horizontal_alignment>
         <rules />
         <enabled>true</enabled>
-        <wuid>-60e8a6de:14d518b9348:-78ab</wuid>
+        <wuid>-5577500f:1503cdbe335:-789f</wuid>
         <transparent>false</transparent>
         <pv_value />
         <auto_size>false</auto_size>
@@ -484,7 +637,7 @@ $(pv_value)</tooltip>
       <tooltip></tooltip>
       <rules />
       <enabled>true</enabled>
-      <wuid>-60e8a6de:14d518b9348:-78aa</wuid>
+      <wuid>-5577500f:1503cdbe335:-789e</wuid>
       <transparent>false</transparent>
       <lock_children>false</lock_children>
       <scripts />
@@ -529,7 +682,7 @@ $(pv_value)</tooltip>
         <horizontal_alignment>1</horizontal_alignment>
         <rules />
         <enabled>true</enabled>
-        <wuid>-60e8a6de:14d518b9348:-78a9</wuid>
+        <wuid>-5577500f:1503cdbe335:-789d</wuid>
         <transparent>false</transparent>
         <pv_value />
         <auto_size>false</auto_size>
@@ -577,7 +730,7 @@ $(pv_value)</tooltip>
       <tooltip></tooltip>
       <rules />
       <enabled>true</enabled>
-      <wuid>-60e8a6de:14d518b9348:-78a8</wuid>
+      <wuid>-5577500f:1503cdbe335:-789c</wuid>
       <transparent>false</transparent>
       <lock_children>false</lock_children>
       <scripts />
@@ -622,7 +775,7 @@ $(pv_value)</tooltip>
         <horizontal_alignment>1</horizontal_alignment>
         <rules />
         <enabled>true</enabled>
-        <wuid>-60e8a6de:14d518b9348:-78a7</wuid>
+        <wuid>-5577500f:1503cdbe335:-789b</wuid>
         <transparent>false</transparent>
         <pv_value />
         <auto_size>false</auto_size>
@@ -670,7 +823,7 @@ $(pv_value)</tooltip>
       <tooltip></tooltip>
       <rules />
       <enabled>true</enabled>
-      <wuid>-60e8a6de:14d518b9348:-78a6</wuid>
+      <wuid>-5577500f:1503cdbe335:-789a</wuid>
       <transparent>false</transparent>
       <lock_children>false</lock_children>
       <scripts />
@@ -705,59 +858,45 @@ $(pv_value)</tooltip>
       <font>
         <opifont.name fontName="Sans Serif" height="10" style="0">Default</opifont.name>
       </font>
-      <widget typeId="org.csstudio.opibuilder.widgets.TextInput" version="2.0.0">
+      <widget typeId="org.csstudio.opibuilder.widgets.MenuButton" version="1.0.0">
+        <border_style>6</border_style>
+        <forecolor_alarm_sensitive>true</forecolor_alarm_sensitive>
+        <actions_from_pv>true</actions_from_pv>
         <alarm_pulsing>false</alarm_pulsing>
-        <precision>0</precision>
         <tooltip>$(pv_name)
 $(pv_value)</tooltip>
-        <horizontal_alignment>1</horizontal_alignment>
         <rules />
-        <pv_value />
-        <auto_size>false</auto_size>
-        <text></text>
-        <rotation_angle>0.0</rotation_angle>
-        <show_units>false</show_units>
-        <height>25</height>
-        <multiline_input>false</multiline_input>
-        <border_width>1</border_width>
-        <visible>true</visible>
-        <pv_name>$(P):HM:HMGRP</pv_name>
-        <selector_type>0</selector_type>
-        <border_color>
-          <color red="0" green="128" blue="255" />
-        </border_color>
-        <precision_from_pv>true</precision_from_pv>
-        <widget_type>Text Input</widget_type>
-        <confirm_message></confirm_message>
-        <name>auto(demand|Group to Home)</name>
-        <style>0</style>
-        <actions hook="false" hook_all="false" />
-        <border_style>3</border_style>
-        <forecolor_alarm_sensitive>true</forecolor_alarm_sensitive>
         <enabled>true</enabled>
-        <wuid>-60e8a6de:14d518b9348:-78a5</wuid>
+        <wuid>-5577500f:1503cdbe335:-7899</wuid>
         <transparent>false</transparent>
+        <pv_value />
         <scripts />
         <border_alarm_sensitive>false</border_alarm_sensitive>
+        <height>25</height>
+        <border_width>1</border_width>
         <scale_options>
           <width_scalable>true</width_scalable>
           <height_scalable>true</height_scalable>
           <keep_wh_ratio>false</keep_wh_ratio>
         </scale_options>
+        <visible>true</visible>
+        <pv_name>$(P):HM:HMGRP</pv_name>
+        <border_color>
+          <color red="0" green="128" blue="255" />
+        </border_color>
+        <label></label>
+        <widget_type>Menu Button</widget_type>
         <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
-        <format_type>0</format_type>
-        <limits_from_pv>false</limits_from_pv>
         <background_color>
           <color name="Controller: BG" red="205" green="205" blue="205" />
         </background_color>
         <width>200</width>
         <x>0</x>
+        <name>auto(enum|Group to Home)</name>
         <y>0</y>
-        <maximum>1.7976931348623157E308</maximum>
         <foreground_color>
           <color name="Controller: FG" red="0" green="0" blue="192" />
         </foreground_color>
-        <minimum>-1.7976931348623157E308</minimum>
         <font>
           <opifont.name fontName="Sans Serif" height="10" style="0">Default</opifont.name>
         </font>
@@ -768,7 +907,7 @@ $(pv_value)</tooltip>
       <tooltip></tooltip>
       <rules />
       <enabled>true</enabled>
-      <wuid>-60e8a6de:14d518b9348:-78a4</wuid>
+      <wuid>-5577500f:1503cdbe335:-7898</wuid>
       <transparent>false</transparent>
       <lock_children>false</lock_children>
       <scripts />
@@ -813,9 +952,8 @@ $(pv_value)</tooltip>
         <push_action_index>0</push_action_index>
         <rules />
         <enabled>true</enabled>
-        <wuid>-60e8a6de:14d518b9348:-78a3</wuid>
+        <wuid>-5577500f:1503cdbe335:-7897</wuid>
         <pv_value />
-        <pv_control>false</pv_control>
         <text>$(actions)</text>
         <scripts />
         <border_alarm_sensitive>false</border_alarm_sensitive>
@@ -864,7 +1002,7 @@ $(pv_value)</tooltip>
       <tooltip></tooltip>
       <rules />
       <enabled>true</enabled>
-      <wuid>-60e8a6de:14d518b9348:-78a2</wuid>
+      <wuid>-5577500f:1503cdbe335:-7896</wuid>
       <transparent>false</transparent>
       <lock_children>false</lock_children>
       <scripts />
@@ -909,9 +1047,8 @@ $(pv_value)</tooltip>
         <push_action_index>0</push_action_index>
         <rules />
         <enabled>true</enabled>
-        <wuid>-60e8a6de:14d518b9348:-78a1</wuid>
+        <wuid>-5577500f:1503cdbe335:-7895</wuid>
         <pv_value />
-        <pv_control>false</pv_control>
         <text>$(actions)</text>
         <scripts />
         <border_alarm_sensitive>false</border_alarm_sensitive>
@@ -960,7 +1097,7 @@ $(pv_value)</tooltip>
       <tooltip></tooltip>
       <rules />
       <enabled>true</enabled>
-      <wuid>-60e8a6de:14d518b9348:-78a0</wuid>
+      <wuid>-5577500f:1503cdbe335:-7894</wuid>
       <transparent>false</transparent>
       <lock_children>false</lock_children>
       <scripts />
@@ -1005,7 +1142,7 @@ $(pv_value)</tooltip>
         <horizontal_alignment>1</horizontal_alignment>
         <rules />
         <enabled>true</enabled>
-        <wuid>-60e8a6de:14d518b9348:-789f</wuid>
+        <wuid>-5577500f:1503cdbe335:-7893</wuid>
         <transparent>false</transparent>
         <pv_value />
         <auto_size>false</auto_size>
@@ -1022,7 +1159,7 @@ $(pv_value)</tooltip>
           <keep_wh_ratio>false</keep_wh_ratio>
         </scale_options>
         <visible>true</visible>
-        <pv_name>$(MOTOR1):HMPOS</pv_name>
+        <pv_name>=pv(concat(pv("$(P):HM:M1PV"),":HMPOS"))</pv_name>
         <vertical_alignment>1</vertical_alignment>
         <border_color>
           <color red="0" green="128" blue="255" />
@@ -1053,7 +1190,7 @@ $(pv_value)</tooltip>
       <tooltip></tooltip>
       <rules />
       <enabled>true</enabled>
-      <wuid>-60e8a6de:14d518b9348:-789e</wuid>
+      <wuid>-5577500f:1503cdbe335:-7892</wuid>
       <transparent>false</transparent>
       <lock_children>false</lock_children>
       <scripts />
@@ -1098,7 +1235,7 @@ $(pv_value)</tooltip>
         <horizontal_alignment>1</horizontal_alignment>
         <rules />
         <enabled>true</enabled>
-        <wuid>-60e8a6de:14d518b9348:-789d</wuid>
+        <wuid>-5577500f:1503cdbe335:-7891</wuid>
         <transparent>false</transparent>
         <pv_value />
         <auto_size>false</auto_size>
@@ -1115,7 +1252,7 @@ $(pv_value)</tooltip>
           <keep_wh_ratio>false</keep_wh_ratio>
         </scale_options>
         <visible>true</visible>
-        <pv_name>$(MOTOR2):HMPOS</pv_name>
+        <pv_name>=pv(concat(pv("$(P):HM:M2PV"),":HMPOS"))</pv_name>
         <vertical_alignment>1</vertical_alignment>
         <border_color>
           <color red="0" green="128" blue="255" />
@@ -1146,7 +1283,7 @@ $(pv_value)</tooltip>
       <tooltip></tooltip>
       <rules />
       <enabled>true</enabled>
-      <wuid>-60e8a6de:14d518b9348:-789c</wuid>
+      <wuid>-5577500f:1503cdbe335:-7890</wuid>
       <transparent>false</transparent>
       <lock_children>false</lock_children>
       <scripts />
@@ -1191,7 +1328,7 @@ $(pv_value)</tooltip>
         <horizontal_alignment>1</horizontal_alignment>
         <rules />
         <enabled>true</enabled>
-        <wuid>-60e8a6de:14d518b9348:-789b</wuid>
+        <wuid>-5577500f:1503cdbe335:-788f</wuid>
         <transparent>false</transparent>
         <pv_value />
         <auto_size>false</auto_size>
@@ -1208,7 +1345,7 @@ $(pv_value)</tooltip>
           <keep_wh_ratio>false</keep_wh_ratio>
         </scale_options>
         <visible>true</visible>
-        <pv_name>$(MOTOR3):HMPOS</pv_name>
+        <pv_name>=pv(concat(pv("$(P):HM:M3PV"),":HMPOS"))</pv_name>
         <vertical_alignment>1</vertical_alignment>
         <border_color>
           <color red="0" green="128" blue="255" />
@@ -1239,7 +1376,7 @@ $(pv_value)</tooltip>
       <tooltip></tooltip>
       <rules />
       <enabled>true</enabled>
-      <wuid>-60e8a6de:14d518b9348:-789a</wuid>
+      <wuid>-5577500f:1503cdbe335:-788e</wuid>
       <transparent>false</transparent>
       <lock_children>false</lock_children>
       <scripts />
@@ -1284,7 +1421,7 @@ $(pv_value)</tooltip>
         <horizontal_alignment>1</horizontal_alignment>
         <rules />
         <enabled>true</enabled>
-        <wuid>-60e8a6de:14d518b9348:-7899</wuid>
+        <wuid>-5577500f:1503cdbe335:-788d</wuid>
         <transparent>false</transparent>
         <pv_value />
         <auto_size>false</auto_size>
@@ -1301,7 +1438,7 @@ $(pv_value)</tooltip>
           <keep_wh_ratio>false</keep_wh_ratio>
         </scale_options>
         <visible>true</visible>
-        <pv_name>$(MOTOR4):HMPOS</pv_name>
+        <pv_name>=pv(concat(pv("$(P):HM:M4PV"),":HMPOS"))</pv_name>
         <vertical_alignment>1</vertical_alignment>
         <border_color>
           <color red="0" green="128" blue="255" />
@@ -1332,7 +1469,7 @@ $(pv_value)</tooltip>
       <tooltip></tooltip>
       <rules />
       <enabled>true</enabled>
-      <wuid>-60e8a6de:14d518b9348:-7898</wuid>
+      <wuid>-5577500f:1503cdbe335:-788c</wuid>
       <transparent>false</transparent>
       <lock_children>false</lock_children>
       <scripts />
@@ -1377,7 +1514,7 @@ $(pv_value)</tooltip>
         <horizontal_alignment>1</horizontal_alignment>
         <rules />
         <enabled>true</enabled>
-        <wuid>-60e8a6de:14d518b9348:-7897</wuid>
+        <wuid>-5577500f:1503cdbe335:-788b</wuid>
         <transparent>false</transparent>
         <pv_value />
         <auto_size>false</auto_size>
@@ -1394,7 +1531,7 @@ $(pv_value)</tooltip>
           <keep_wh_ratio>false</keep_wh_ratio>
         </scale_options>
         <visible>true</visible>
-        <pv_name>$(MOTOR5):HMPOS</pv_name>
+        <pv_name>=pv(concat(pv("$(P):HM:M5PV"),":HMPOS"))</pv_name>
         <vertical_alignment>1</vertical_alignment>
         <border_color>
           <color red="0" green="128" blue="255" />
@@ -1425,7 +1562,7 @@ $(pv_value)</tooltip>
       <tooltip></tooltip>
       <rules />
       <enabled>true</enabled>
-      <wuid>-60e8a6de:14d518b9348:-7896</wuid>
+      <wuid>-5577500f:1503cdbe335:-788a</wuid>
       <transparent>false</transparent>
       <lock_children>false</lock_children>
       <scripts />
@@ -1470,7 +1607,7 @@ $(pv_value)</tooltip>
         <horizontal_alignment>1</horizontal_alignment>
         <rules />
         <enabled>true</enabled>
-        <wuid>-60e8a6de:14d518b9348:-7895</wuid>
+        <wuid>-5577500f:1503cdbe335:-7889</wuid>
         <transparent>false</transparent>
         <pv_value />
         <auto_size>false</auto_size>
@@ -1487,7 +1624,7 @@ $(pv_value)</tooltip>
           <keep_wh_ratio>false</keep_wh_ratio>
         </scale_options>
         <visible>true</visible>
-        <pv_name>$(MOTOR6):HMPOS</pv_name>
+        <pv_name>=pv(concat(pv("$(P):HM:M6PV"),":HMPOS"))</pv_name>
         <vertical_alignment>1</vertical_alignment>
         <border_color>
           <color red="0" green="128" blue="255" />
@@ -1518,7 +1655,7 @@ $(pv_value)</tooltip>
       <tooltip></tooltip>
       <rules />
       <enabled>true</enabled>
-      <wuid>-60e8a6de:14d518b9348:-7894</wuid>
+      <wuid>-5577500f:1503cdbe335:-7888</wuid>
       <transparent>false</transparent>
       <lock_children>false</lock_children>
       <scripts />
@@ -1563,7 +1700,7 @@ $(pv_value)</tooltip>
         <horizontal_alignment>1</horizontal_alignment>
         <rules />
         <enabled>true</enabled>
-        <wuid>-60e8a6de:14d518b9348:-7893</wuid>
+        <wuid>-5577500f:1503cdbe335:-7887</wuid>
         <transparent>false</transparent>
         <pv_value />
         <auto_size>false</auto_size>
@@ -1580,7 +1717,7 @@ $(pv_value)</tooltip>
           <keep_wh_ratio>false</keep_wh_ratio>
         </scale_options>
         <visible>true</visible>
-        <pv_name>$(MOTOR7):HMPOS</pv_name>
+        <pv_name>=pv(concat(pv("$(P):HM:M7PV"),":HMPOS"))</pv_name>
         <vertical_alignment>1</vertical_alignment>
         <border_color>
           <color red="0" green="128" blue="255" />
@@ -1611,7 +1748,7 @@ $(pv_value)</tooltip>
       <tooltip></tooltip>
       <rules />
       <enabled>true</enabled>
-      <wuid>-60e8a6de:14d518b9348:-7892</wuid>
+      <wuid>-5577500f:1503cdbe335:-7886</wuid>
       <transparent>false</transparent>
       <lock_children>false</lock_children>
       <scripts />
@@ -1656,7 +1793,7 @@ $(pv_value)</tooltip>
         <horizontal_alignment>1</horizontal_alignment>
         <rules />
         <enabled>true</enabled>
-        <wuid>-60e8a6de:14d518b9348:-7891</wuid>
+        <wuid>-5577500f:1503cdbe335:-7885</wuid>
         <transparent>false</transparent>
         <pv_value />
         <auto_size>false</auto_size>
@@ -1673,7 +1810,7 @@ $(pv_value)</tooltip>
           <keep_wh_ratio>false</keep_wh_ratio>
         </scale_options>
         <visible>true</visible>
-        <pv_name>$(MOTOR8):HMPOS</pv_name>
+        <pv_name>=pv(concat(pv("$(P):HM:M8PV"),":HMPOS"))</pv_name>
         <vertical_alignment>1</vertical_alignment>
         <border_color>
           <color red="0" green="128" blue="255" />

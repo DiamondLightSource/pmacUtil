@@ -10,9 +10,108 @@
 # % macro, PLC,     PLC for CPU load monitoring, e.g. 5
 # % macro, PORT,    Asyn port
 # % macro, NAXES,   Number of axes
+# % macro, DESC,    Description of pmac use
+# % macro, MOIOC,   The motion IOC number controlling this brick
+# % macro, CTLIP,   The IP address to use for PMAC control
+# % macro, CTLPORT, The port number to use for PMAC control
+# % macro, CTLMODE, The mode to use for PMAC control, 'ts' for terminal server, 'tcpip' for ethernet
 #
 # This associates an edm screen with the template
 # % gui, $(name=), edm, pmacStatus.edl, pmac=$(DEVICE)
+
+# This associates BOY screens with the template
+# % gui, $(name=), boydetail, pmacUtilApp_opi/pmac_status_detail.opi, DEVICE=$(DEVICE), DESC=$(DESC=), MOIOC=$(MOIOC=), CTLIP=$(CTLIP=), CTLPORT=$(CTLPORT=), CTLMODE=$(CTLMODE=)
+# % gui, $(name=), boyembed, pmacUtilApp_opi/pmac_status_embed_box.opi, DEVICE=$(DEVICE), DESC=$(DESC=), MOIOC=$(MOIOC=), CTLIP=$(CTLIP=), CTLPORT=$(CTLPORT=), CTLMODE=$(CTLMODE=)
+# % gui, $(name=), boyembed, pmacUtilApp_opi/pmac_status_embed.opi, DEVICE=$(DEVICE), DESC=$(DESC=), MOIOC=$(MOIOC=), CTLIP=$(CTLIP=), CTLPORT=$(CTLPORT=), CTLMODE=$(CTLMODE=)
+# % gui, $(name=), boyembed, pmacUtilApp_opi/pmac_status_embed.opi, DEVICE=$(DEVICE), DESC=$(DESC=), MOIOC=$(MOIOC=), CTLIP=$(CTLIP=), CTLPORT=$(CTLPORT=), CTLMODE=$(CTLMODE=)
+# % gui, $(name=), boyembed, pmacUtilApp_opi/pmac_status_list_embed.opi, DEVICE=$(DEVICE), DESC=$(DESC=), MOIOC=$(MOIOC=), CTLIP=$(CTLIP=), CTLPORT=$(CTLPORT=), CTLMODE=$(CTLMODE=)
+
+# The BOY detail screen
+# % gui, $(name=), enum, Refresh rate,   $(DEVICE):ReadBack.SCAN
+# % gui, $(name=), readback, Pmac type,   $(DEVICE):PMACTYPE
+# % gui, $(name=), readback, CPU load,   $(DEVICE):CPULOAD
+# % gui, $(name=), readback, Macro ring errors,   $(DEVICE):MACROERRS
+# % gui, $(name=), readback, PLC program control (I5),   $(DEVICE):PLC_CONTROL
+# % gui, $(name=), readback, I/O handshake control (I3),   $(DEVICE):IO_HANDSHAKE
+# % gui, $(name=), readback, Error reporting mode (I6),   $(DEVICE):ERRREPMODE
+# % gui, $(name=), readback, DPRAM ASCII comms IRQ (I56),   $(DEVICE):DPRAM_COMMS_INT
+# % gui, $(name=), readback, DPRAM ASCII comms (I58),   $(DEVICE):DPRAM_COMMS
+# % gui, $(name=), readback, VME address modifier (I90),   $(DEVICE):VME_ADDR_MODE
+# % gui, $(name=), readback, VME IRQ level (I95),   $(DEVICE):VME_INTLVL
+# % gui, $(name=), readback, VME DPRAM base addr (I97),   $(DEVICE):VME_DPRAMBASE
+# % gui, $(name=), statusbits, Status 1,   $(DEVICE):CTRLSTAT:status1, Reserved, Real time interrupt reentry, CPU type bit 1, Servo error, Data gathering fn on, Reserved, Data gather start on trigger, Servo request, Watchdog timer, Leadscrew compensation on, Any memory checksum error, PROM checksum active, DPRAM error, Flash error, Real time interrupt warning, Illegal L variable definition
+# % gui, $(name=), statusbits, Status 2,   $(DEVICE):CTRLSTAT:status2, Configuration error, TWS variable parity error, MACRO aux comms error, MACRO ring check error, Phase clock missing, Reserved, All cards addressed, This card addressed, Turbo ultralite, Turbo VME, CPU type bit 0, Binary rotary buffers open, Motion buffer open, ASCII rotary buffer open, PLC buffer open, UMAC system
+# % gui, $(name=), statusbits, Status 3,   $(DEVICE):CTRLSTAT:status3, Kinematics active, Kinematics active, Ring master to master comms, Fixed buffer full, Reserved, Reserved, Reserved, Reserved, Reserved, Reserved, Reserved, Reserved, Reserved, Reserved, Reserved, Reserved
+# % gui, $(name=), statusbits, PLCs 0-15,   $(DEVICE):PLCDISBITS00, 0 enabled, 1 enabled, 2 enabled, 3 enabled, 4 enabled, 5 enabled, 6 enabled, 7 enabled, 8 enabled, 9 enabled, 10 enabled, 11 enabled, 12 enabled, 13 enabled, 14 enabled, 15 enabled
+# % gui, $(name=), statusbits, PLCs 16-31,   $(DEVICE):PLCDISBITS01, 16 enabled, 17 enabled, 18 enabled, 19 enabled, 20 enabled, 21 enabled, 22 enabled, 23 enabled, 24 enabled, 25 enabled, 26 enabled, 27 enabled, 28 enabled, 29 enabled, 30 enabled, 31 enabled
+# % gui, $(name=), statusbits, Motion program on CS,   $(DEVICE):PROGBITS, 1 running, 2 running, 3 running, 4 running, 5 running, 6 running, 7 running, 8 running, 9 running, 10 running, 11 running, 12 running, 13 running, 14 running, 15 running, 16 running
+# % gui, $(name=), statusbits, GP Input,   $(DEVICE):GPIO_INP_BITS, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16
+# % gui, $(name=), statusbits, GP Output,   $(DEVICE):GPIO_OP_BITS, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16
+# Axis 1
+# % gui, $(name=), readback, Axis 1,          $(DEVICE):AXIS1:DESC
+# % gui, $(name=), readback, 1 Position,        $(DEVICE):AXIS1:POSITION
+# % gui, $(name=), readback, 1 Velocity,        $(DEVICE):AXIS1:VELOCITY
+# % gui, $(name=), readback, 1 Following error, $(DEVICE):AXIS1:FOLL_ERROR
+# % gui, $(name=), statusbits, 1 Status 3,      $(DEVICE):AXIS1:status3, In position, Warning following error, Fatal following error, Amplifier fault, Backlash direction, I2T amplifier fault, Integrated fatal following error, Trigger move, Phasing search error, Motor phase request, Home complete, Stopped on position limit, Desired position limit stop, Foreground in position, Reserved, Assigned to CS
+# % gui, $(name=), statusbits, 1 Status 2,      $(DEVICE):AXIS1:status2, CS axis definition bit 0, CS axis definition bit 2, CS axis definition bit 2, CS axis definition bit 3, (CS-1) # bit 0, (CS-1) # bit 1, (CS-1) # bit 2, (CS-1) # bit 3, Rapid max velocity select, sign/magnitude servo ena, Software capture ena, Capture on error ena, Pos follow ena, Pos follow offset mode, Commutation enable, Y-addr commute enc
+# % gui, $(name=), statusbits, 1 Status 1,      $(DEVICE):AXIS1:status1, User written servo ena, User written phase ena, Home search in progress, Block request, Abort deceleration in progress, Desired velocity 0, Datablock error, Dwell in progress, Integration mode, Move timer active, Open loop mode, Amplifier enabled, Ext servo algo ena, Positive end limit set, Negative end limit set, Motor activated
+# Axis 2
+# % gui, $(name=), readback, Axis 2,          $(DEVICE):AXIS2:DESC
+# % gui, $(name=), readback, 2 Position,        $(DEVICE):AXIS2:POSITION
+# % gui, $(name=), readback, 2 Velocity,        $(DEVICE):AXIS2:VELOCITY
+# % gui, $(name=), readback, 2 Following error, $(DEVICE):AXIS2:FOLL_ERROR
+# % gui, $(name=), statusbits, 2 Status 3,      $(DEVICE):AXIS2:status3, In position, Warning following error, Fatal following error, Amplifier fault, Backlash direction, I2T amplifier fault, Integrated fatal following error, Trigger move, Phasing search error, Motor phase request, Home complete, Stopped on position limit, Desired position limit stop, Foreground in position, Reserved, Assigned to CS
+# % gui, $(name=), statusbits, 2 Status 2,      $(DEVICE):AXIS2:status2, CS axis definition bit 0, CS axis definition bit 2, CS axis definition bit 2, CS axis definition bit 3, (CS-1) # bit 0, (CS-1) # bit 1, (CS-1) # bit 2, (CS-1) # bit 3, Rapid max velocity select, sign/magnitude servo ena, Software capture ena, Capture on error ena, Pos follow ena, Pos follow offset mode, Commutation enable, Y-addr commute enc
+# % gui, $(name=), statusbits, 2 Status 1,      $(DEVICE):AXIS2:status1, User written servo ena, User written phase ena, Home search in progress, Block request, Abort deceleration in progress, Desired velocity 0, Datablock error, Dwell in progress, Integration mode, Move timer active, Open loop mode, Amplifier enabled, Ext servo algo ena, Positive end limit set, Negative end limit set, Motor activated
+# Axis 3
+# % gui, $(name=), readback, Axis 3,          $(DEVICE):AXIS3:DESC
+# % gui, $(name=), readback, 3 Position,        $(DEVICE):AXIS3:POSITION
+# % gui, $(name=), readback, 3 Velocity,        $(DEVICE):AXIS3:VELOCITY
+# % gui, $(name=), readback, 3 Following error, $(DEVICE):AXIS3:FOLL_ERROR
+# % gui, $(name=), statusbits, 3 Status 3,      $(DEVICE):AXIS3:status3, In position, Warning following error, Fatal following error, Amplifier fault, Backlash direction, I2T amplifier fault, Integrated fatal following error, Trigger move, Phasing search error, Motor phase request, Home complete, Stopped on position limit, Desired position limit stop, Foreground in position, Reserved, Assigned to CS
+# % gui, $(name=), statusbits, 3 Status 2,      $(DEVICE):AXIS3:status2, CS axis definition bit 0, CS axis definition bit 2, CS axis definition bit 2, CS axis definition bit 3, (CS-1) # bit 0, (CS-1) # bit 1, (CS-1) # bit 2, (CS-1) # bit 3, Rapid max velocity select, sign/magnitude servo ena, Software capture ena, Capture on error ena, Pos follow ena, Pos follow offset mode, Commutation enable, Y-addr commute enc
+# % gui, $(name=), statusbits, 3 Status 1,      $(DEVICE):AXIS3:status1, User written servo ena, User written phase ena, Home search in progress, Block request, Abort deceleration in progress, Desired velocity 0, Datablock error, Dwell in progress, Integration mode, Move timer active, Open loop mode, Amplifier enabled, Ext servo algo ena, Positive end limit set, Negative end limit set, Motor activated
+# Axis 4
+# % gui, $(name=), readback, Axis 4,          $(DEVICE):AXIS4:DESC
+# % gui, $(name=), readback, 4 Position,        $(DEVICE):AXIS4:POSITION
+# % gui, $(name=), readback, 4 Velocity,        $(DEVICE):AXIS4:VELOCITY
+# % gui, $(name=), readback, 4 Following error, $(DEVICE):AXIS4:FOLL_ERROR
+# % gui, $(name=), statusbits, 4 Status 3,      $(DEVICE):AXIS4:status3, In position, Warning following error, Fatal following error, Amplifier fault, Backlash direction, I2T amplifier fault, Integrated fatal following error, Trigger move, Phasing search error, Motor phase request, Home complete, Stopped on position limit, Desired position limit stop, Foreground in position, Reserved, Assigned to CS
+# % gui, $(name=), statusbits, 4 Status 2,      $(DEVICE):AXIS4:status2, CS axis definition bit 0, CS axis definition bit 2, CS axis definition bit 2, CS axis definition bit 3, (CS-1) # bit 0, (CS-1) # bit 1, (CS-1) # bit 2, (CS-1) # bit 3, Rapid max velocity select, sign/magnitude servo ena, Software capture ena, Capture on error ena, Pos follow ena, Pos follow offset mode, Commutation enable, Y-addr commute enc
+# % gui, $(name=), statusbits, 4 Status 1,      $(DEVICE):AXIS4:status1, User written servo ena, User written phase ena, Home search in progress, Block request, Abort deceleration in progress, Desired velocity 0, Datablock error, Dwell in progress, Integration mode, Move timer active, Open loop mode, Amplifier enabled, Ext servo algo ena, Positive end limit set, Negative end limit set, Motor activated
+# Axis 5
+# % gui, $(name=), readback, Axis 5,          $(DEVICE):AXIS5:DESC
+# % gui, $(name=), readback, 5 Position,        $(DEVICE):AXIS5:POSITION
+# % gui, $(name=), readback, 5 Velocity,        $(DEVICE):AXIS5:VELOCITY
+# % gui, $(name=), readback, 5 Following error, $(DEVICE):AXIS5:FOLL_ERROR
+# % gui, $(name=), statusbits, 5 Status 3,      $(DEVICE):AXIS5:status3, In position, Warning following error, Fatal following error, Amplifier fault, Backlash direction, I2T amplifier fault, Integrated fatal following error, Trigger move, Phasing search error, Motor phase request, Home complete, Stopped on position limit, Desired position limit stop, Foreground in position, Reserved, Assigned to CS
+# % gui, $(name=), statusbits, 5 Status 2,      $(DEVICE):AXIS5:status2, CS axis definition bit 0, CS axis definition bit 2, CS axis definition bit 2, CS axis definition bit 3, (CS-1) # bit 0, (CS-1) # bit 1, (CS-1) # bit 2, (CS-1) # bit 3, Rapid max velocity select, sign/magnitude servo ena, Software capture ena, Capture on error ena, Pos follow ena, Pos follow offset mode, Commutation enable, Y-addr commute enc
+# % gui, $(name=), statusbits, 5 Status 1,      $(DEVICE):AXIS5:status1, User written servo ena, User written phase ena, Home search in progress, Block request, Abort deceleration in progress, Desired velocity 0, Datablock error, Dwell in progress, Integration mode, Move timer active, Open loop mode, Amplifier enabled, Ext servo algo ena, Positive end limit set, Negative end limit set, Motor activated
+# Axis 6
+# % gui, $(name=), readback, Axis 6,          $(DEVICE):AXIS6:DESC
+# % gui, $(name=), readback, 6 Position,        $(DEVICE):AXIS6:POSITION
+# % gui, $(name=), readback, 6 Velocity,        $(DEVICE):AXIS6:VELOCITY
+# % gui, $(name=), readback, 6 Following error, $(DEVICE):AXIS6:FOLL_ERROR
+# % gui, $(name=), statusbits, 6 Status 3,      $(DEVICE):AXIS6:status3, In position, Warning following error, Fatal following error, Amplifier fault, Backlash direction, I2T amplifier fault, Integrated fatal following error, Trigger move, Phasing search error, Motor phase request, Home complete, Stopped on position limit, Desired position limit stop, Foreground in position, Reserved, Assigned to CS
+# % gui, $(name=), statusbits, 6 Status 2,      $(DEVICE):AXIS6:status2, CS axis definition bit 0, CS axis definition bit 2, CS axis definition bit 2, CS axis definition bit 3, (CS-1) # bit 0, (CS-1) # bit 1, (CS-1) # bit 2, (CS-1) # bit 3, Rapid max velocity select, sign/magnitude servo ena, Software capture ena, Capture on error ena, Pos follow ena, Pos follow offset mode, Commutation enable, Y-addr commute enc
+# % gui, $(name=), statusbits, 6 Status 1,      $(DEVICE):AXIS6:status1, User written servo ena, User written phase ena, Home search in progress, Block request, Abort deceleration in progress, Desired velocity 0, Datablock error, Dwell in progress, Integration mode, Move timer active, Open loop mode, Amplifier enabled, Ext servo algo ena, Positive end limit set, Negative end limit set, Motor activated
+# Axis 7
+# % gui, $(name=), readback, Axis 7,          $(DEVICE):AXIS7:DESC
+# % gui, $(name=), readback, 7 Position,        $(DEVICE):AXIS7:POSITION
+# % gui, $(name=), readback, 7 Velocity,        $(DEVICE):AXIS7:VELOCITY
+# % gui, $(name=), readback, 7 Following error, $(DEVICE):AXIS7:FOLL_ERROR
+# % gui, $(name=), statusbits, 7 Status 3,      $(DEVICE):AXIS7:status3, In position, Warning following error, Fatal following error, Amplifier fault, Backlash direction, I2T amplifier fault, Integrated fatal following error, Trigger move, Phasing search error, Motor phase request, Home complete, Stopped on position limit, Desired position limit stop, Foreground in position, Reserved, Assigned to CS
+# % gui, $(name=), statusbits, 7 Status 2,      $(DEVICE):AXIS7:status2, CS axis definition bit 0, CS axis definition bit 2, CS axis definition bit 2, CS axis definition bit 3, (CS-1) # bit 0, (CS-1) # bit 1, (CS-1) # bit 2, (CS-1) # bit 3, Rapid max velocity select, sign/magnitude servo ena, Software capture ena, Capture on error ena, Pos follow ena, Pos follow offset mode, Commutation enable, Y-addr commute enc
+# % gui, $(name=), statusbits, 7 Status 1,      $(DEVICE):AXIS7:status1, User written servo ena, User written phase ena, Home search in progress, Block request, Abort deceleration in progress, Desired velocity 0, Datablock error, Dwell in progress, Integration mode, Move timer active, Open loop mode, Amplifier enabled, Ext servo algo ena, Positive end limit set, Negative end limit set, Motor activated
+# Axis 8
+# % gui, $(name=), readback, Axis 8,          $(DEVICE):AXIS8:DESC
+# % gui, $(name=), readback, 8 Position,        $(DEVICE):AXIS8:POSITION
+# % gui, $(name=), readback, 8 Velocity,        $(DEVICE):AXIS8:VELOCITY
+# % gui, $(name=), readback, 8 Following error, $(DEVICE):AXIS8:FOLL_ERROR
+# % gui, $(name=), statusbits, 8 Status 3,      $(DEVICE):AXIS8:status3, In position, Warning following error, Fatal following error, Amplifier fault, Backlash direction, I2T amplifier fault, Integrated fatal following error, Trigger move, Phasing search error, Motor phase request, Home complete, Stopped on position limit, Desired position limit stop, Foreground in position, Reserved, Assigned to CS
+# % gui, $(name=), statusbits, 8 Status 2,      $(DEVICE):AXIS8:status2, CS axis definition bit 0, CS axis definition bit 2, CS axis definition bit 2, CS axis definition bit 3, (CS-1) # bit 0, (CS-1) # bit 1, (CS-1) # bit 2, (CS-1) # bit 3, Rapid max velocity select, sign/magnitude servo ena, Software capture ena, Capture on error ena, Pos follow ena, Pos follow offset mode, Commutation enable, Y-addr commute enc
+# % gui, $(name=), statusbits, 8 Status 1,      $(DEVICE):AXIS8:status1, User written servo ena, User written phase ena, Home search in progress, Block request, Abort deceleration in progress, Desired velocity 0, Datablock error, Dwell in progress, Integration mode, Move timer active, Open loop mode, Amplifier enabled, Ext servo algo ena, Positive end limit set, Negative end limit set, Motor activated
+
 #
 # Scan rate for pmac status, plc querying, cpu load querying
 record(fanout, "$(DEVICE):ReadBack") {

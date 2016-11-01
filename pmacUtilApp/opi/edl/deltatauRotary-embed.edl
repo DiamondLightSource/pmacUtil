@@ -1,0 +1,430 @@
+4 0 1
+beginScreenProperties
+major 4
+minor 0
+release 1
+x 1351
+y 581
+w 391
+h 109
+font "arial-medium-r-14.0"
+ctlFont "arial-bold-r-14.0"
+btnFont "arial-bold-r-14.0"
+fgColor index 14
+bgColor index 3
+textColor index 14
+ctlFgColor1 index 25
+ctlFgColor2 index 0
+ctlBgColor1 index 3
+ctlBgColor2 index 14
+topShadowColor index 1
+botShadowColor index 11
+title "DeltaTau Rotary Mode"
+showGrid
+snapToGrid
+endScreenProperties
+
+# (Rectangle)
+object activeRectangleClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 200
+y 5
+w 190
+h 103
+lineColor index 14
+fill
+fillColor index 5
+endObjectProperties
+
+# (Rectangle)
+object activeRectangleClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 0
+y 5
+w 190
+h 103
+lineColor index 14
+fill
+fillColor index 5
+endObjectProperties
+
+# (Menu Mux PV)
+object menuMuxPVClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 2215
+y 2040
+w 20
+h 20
+fgColour index 0
+bgColour index 0
+topShadowColour index 0
+botShadowColour index 0
+font "arial-medium-r-14.0"
+numItems 1
+symbolTag {
+  0 "."
+}
+symbol0 {
+  0 "label1"
+}
+PV0 {
+  0 "BL12I-MO-TAB-02:ST1:Y3.DESC"
+}
+symbol1 {
+  0 "label2"
+}
+PV1 {
+  0 "BL12I-MO-TAB-02:ST1:Y2.DESC"
+}
+symbol2 {
+  0 "label3"
+}
+PV2 {
+  0 "BL12I-MO-TAB-02:ST1:Y1.DESC"
+}
+symbol3 {
+  0 "label4"
+}
+PV3 {
+  0 "BL12I-MO-TAB-02:ST1:RX.DESC"
+}
+endObjectProperties
+
+# (Menu Mux PV)
+object menuMuxPVClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 2420
+y 2160
+w 20
+h 20
+fgColour index 0
+bgColour index 0
+topShadowColour index 0
+botShadowColour index 0
+font "arial-medium-r-14.0"
+numItems 1
+symbolTag {
+  0 "."
+}
+symbol0 {
+  0 "label5"
+}
+PV0 {
+  0 "BL12I-MO-TAB-02:ST1:RZ.DESC"
+}
+symbol1 {
+  0 "label6"
+}
+PV1 {
+  0 "BL12I-MO-TAB-02:ST1:PHI.DESC"
+}
+symbol2 {
+  0 "label7"
+}
+PV2 {
+  0 "BL12I-MO-TAB-02:ST1:THETA.DESC"
+}
+symbol3 {
+  0 "label8"
+}
+PV3 {
+  0 "BL12I-MO-TAB-02:ST1:X.DESC"
+}
+endObjectProperties
+
+# (Menu Mux PV)
+object menuMuxPVClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 2420
+y 2280
+w 20
+h 20
+fgColour index 0
+bgColour index 0
+topShadowColour index 0
+botShadowColour index 0
+font "arial-medium-r-14.0"
+numItems 1
+symbolTag {
+  0 "."
+}
+symbol0 {
+  0 "label9"
+}
+PV0 {
+  0 "BL12I-MO-TAB-02:ST1:Z.DESC"
+}
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 6
+release 0
+x 100
+y 20
+w 80
+h 20
+controlPv "$(P):MODANGLE"
+font "arial-bold-r-14.0"
+fgColor index 16
+bgColor index 10
+limitsFromDb
+nullColor index 0
+useHexPrefix
+newPos
+objType "monitors"
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 6
+release 0
+x 100
+y 50
+w 80
+h 20
+controlPv "$(P):NROT"
+font "arial-bold-r-14.0"
+fgColor index 16
+bgColor index 10
+limitsFromDb
+nullColor index 0
+useHexPrefix
+newPos
+objType "monitors"
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 6
+release 0
+x 100
+y 80
+w 80
+h 20
+controlPv "$(P):NXT0"
+font "arial-bold-r-14.0"
+fgColor index 16
+bgColor index 10
+limitsFromDb
+nullColor index 0
+useHexPrefix
+newPos
+objType "monitors"
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 10
+y 20
+w 78
+h 16
+font "arial-bold-r-14.0"
+fgColor index 14
+bgColor index 3
+useDisplayBg
+value {
+  "Mod. angle"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 10
+y 54
+w 57
+h 16
+font "arial-bold-r-14.0"
+fgColor index 14
+bgColor index 3
+useDisplayBg
+value {
+  "No. rots"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 10
+y 84
+w 84
+h 16
+font "arial-bold-r-14.0"
+fgColor index 14
+bgColor index 3
+useDisplayBg
+value {
+  "Next mod. 0"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 0
+y 0
+w 72
+h 13
+font "arial-medium-r-12.0"
+fgColor index 14
+bgColor index 8
+value {
+  "  Rotary Info  "
+}
+autoSize
+border
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 200
+y 0
+w 70
+h 13
+font "arial-medium-r-12.0"
+fgColor index 14
+bgColor index 8
+value {
+  "  Soft Limits  "
+}
+autoSize
+border
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 210
+y 54
+w 93
+h 16
+font "arial-bold-r-14.0"
+fgColor index 14
+bgColor index 3
+useDisplayBg
+value {
+  "Press. air off"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 210
+y 80
+w 90
+h 20
+font "arial-bold-r-14.0"
+fgColor index 14
+bgColor index 3
+useDisplayBg
+value {
+  "Soft lim. off"
+}
+endObjectProperties
+
+# (Choice Button)
+object activeChoiceButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 210
+y 20
+w 170
+h 20
+fgColor index 25
+bgColor index 3
+selectColor index 3
+inconsistentColor index 0
+topShadowColor index 1
+botShadowColor index 11
+controlPv "$(P):SL_ONOFF"
+font "arial-bold-r-12.0"
+orientation "horizontal"
+endObjectProperties
+
+# (Byte)
+object ByteClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 340
+y 50
+w 20
+h 20
+controlPv "$(P):AIROFF"
+lineColor index 14
+onColor index 21
+offColor index 24
+numBits 1
+endObjectProperties
+
+# (Byte)
+object ByteClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 340
+y 80
+w 20
+h 20
+controlPv "$(P):SLOFF"
+lineColor index 14
+onColor index 15
+offColor index 19
+numBits 1
+endObjectProperties
+
