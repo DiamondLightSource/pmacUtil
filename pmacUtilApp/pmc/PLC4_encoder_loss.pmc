@@ -251,7 +251,9 @@ while(axis_number < 33)
 
         ; Treat I2T_WITH_AMP_STATUS_READY the same as AMP_STATUS_READY
         ; (New geobrick firmware appears a bit more susceptible to I2T warnings 12/11/12)
+        ; Treat undervoltage the same as ready - this is checked by looking at amp 1 elsewhere
         if (amp_status_debounce = I2T_WITH_AMP_STATUS_READY)
+        or (amp_status_debounce = AMP_STATUS_UNDER_VOLTAGE)
             amp_status_debounce = AMP_STATUS_READY
         endif
 
