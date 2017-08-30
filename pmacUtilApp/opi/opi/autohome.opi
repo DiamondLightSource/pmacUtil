@@ -1288,7 +1288,7 @@ $(pv_value)</tooltip>
       <name>EDM Text Update</name>
       <precision>0</precision>
       <precision_from_pv>true</precision_from_pv>
-      <pv_name>$(Motor1):HMPOS.DESC</pv_name>
+      <pv_name>=pv(concat(pv(concat("$(P)", ":HM:M1PV")), ":HMPOS.DESC"))</pv_name>
       <pv_value />
       <rotation_angle>0.0</rotation_angle>
       <rules />
@@ -1340,7 +1340,7 @@ $(pv_value)</tooltip>
       <name>EDM Text Update</name>
       <precision>0</precision>
       <precision_from_pv>true</precision_from_pv>
-      <pv_name>$(Motor1):HMPOS</pv_name>
+      <pv_name>=pv(concat(pv(concat("$(P)", ":HM:M1PV")), ":HMPOS"))</pv_name>
       <pv_value />
       <rotation_angle>0.0</rotation_angle>
       <rules />
@@ -1483,7 +1483,7 @@ $(pv_value)</tooltip>
       <name>EDM Text Update</name>
       <precision>0</precision>
       <precision_from_pv>true</precision_from_pv>
-      <pv_name>$(Motor32):HMPOS.DESC</pv_name>
+      <pv_name>=pv(concat(pv(concat("$(P)", ":HM:M32PV")), ":HMPOS.DESC"))</pv_name>
       <pv_value />
       <rotation_angle>0.0</rotation_angle>
       <rules />
@@ -1535,7 +1535,7 @@ $(pv_value)</tooltip>
       <name>EDM Text Update</name>
       <precision>0</precision>
       <precision_from_pv>true</precision_from_pv>
-      <pv_name>$(Motor32):HMPOS</pv_name>
+      <pv_name>=pv(concat(pv(concat("$(P)", ":HM:M32PV")), ":HMPOS"))</pv_name>
       <pv_value />
       <rotation_angle>0.0</rotation_angle>
       <rules />
@@ -1678,7 +1678,7 @@ $(pv_value)</tooltip>
       <name>EDM Text Update</name>
       <precision>0</precision>
       <precision_from_pv>true</precision_from_pv>
-      <pv_name>$(Motor2):HMPOS.DESC</pv_name>
+      <pv_name>=pv(concat(pv(concat("$(P)", ":HM:M2PV")), ":HMPOS.DESC"))</pv_name>
       <pv_value />
       <rotation_angle>0.0</rotation_angle>
       <rules />
@@ -1730,7 +1730,7 @@ $(pv_value)</tooltip>
       <name>EDM Text Update</name>
       <precision>0</precision>
       <precision_from_pv>true</precision_from_pv>
-      <pv_name>$(Motor2):HMPOS</pv_name>
+      <pv_name>=pv(concat(pv(concat("$(P)", ":HM:M2PV")), ":HMPOS"))</pv_name>
       <pv_value />
       <rotation_angle>0.0</rotation_angle>
       <rules />
@@ -1873,7 +1873,7 @@ $(pv_value)</tooltip>
       <name>EDM Text Update</name>
       <precision>0</precision>
       <precision_from_pv>true</precision_from_pv>
-      <pv_name>$(Motor3):HMPOS.DESC</pv_name>
+      <pv_name>=pv(concat(pv(concat("$(P)", ":HM:M3PV")), ":HMPOS.DESC"))</pv_name>
       <pv_value />
       <rotation_angle>0.0</rotation_angle>
       <rules />
@@ -1925,7 +1925,7 @@ $(pv_value)</tooltip>
       <name>EDM Text Update</name>
       <precision>0</precision>
       <precision_from_pv>true</precision_from_pv>
-      <pv_name>$(Motor3):HMPOS</pv_name>
+      <pv_name>=pv(concat(pv(concat("$(P)", ":HM:M3PV")), ":HMPOS"))</pv_name>
       <pv_value />
       <rotation_angle>0.0</rotation_angle>
       <rules />
@@ -2068,7 +2068,7 @@ $(pv_value)</tooltip>
       <name>EDM Text Update</name>
       <precision>0</precision>
       <precision_from_pv>true</precision_from_pv>
-      <pv_name>$(Motor4):HMPOS.DESC</pv_name>
+      <pv_name>=pv(concat(pv(concat("$(P)", ":HM:M4PV")), ":HMPOS.DESC"))</pv_name>
       <pv_value />
       <rotation_angle>0.0</rotation_angle>
       <rules />
@@ -2120,7 +2120,7 @@ $(pv_value)</tooltip>
       <name>EDM Text Update</name>
       <precision>0</precision>
       <precision_from_pv>true</precision_from_pv>
-      <pv_name>$(Motor4):HMPOS</pv_name>
+      <pv_name>=pv(concat(pv(concat("$(P)", ":HM:M4PV")), ":HMPOS"))</pv_name>
       <pv_value />
       <rotation_angle>0.0</rotation_angle>
       <rules />
@@ -2263,7 +2263,7 @@ $(pv_value)</tooltip>
       <name>EDM Text Update</name>
       <precision>0</precision>
       <precision_from_pv>true</precision_from_pv>
-      <pv_name>$(Motor5):HMPOS.DESC</pv_name>
+      <pv_name>=pv(concat(pv(concat("$(P)", ":HM:M5PV")), ":HMPOS.DESC"))</pv_name>
       <pv_value />
       <rotation_angle>0.0</rotation_angle>
       <rules />
@@ -2315,7 +2315,7 @@ $(pv_value)</tooltip>
       <name>EDM Text Update</name>
       <precision>0</precision>
       <precision_from_pv>true</precision_from_pv>
-      <pv_name>$(Motor5):HMPOS</pv_name>
+      <pv_name>=pv(concat(pv(concat("$(P)", ":HM:M5PV")), ":HMPOS"))</pv_name>
       <pv_value />
       <rotation_angle>0.0</rotation_angle>
       <rules />
@@ -2458,7 +2458,7 @@ $(pv_value)</tooltip>
       <name>EDM Text Update</name>
       <precision>0</precision>
       <precision_from_pv>true</precision_from_pv>
-      <pv_name>$(Motor6):HMPOS.DESC</pv_name>
+      <pv_name>=pv(concat(pv(concat("$(P)", ":HM:M6PV")), ":HMPOS.DESC"))</pv_name>
       <pv_value />
       <rotation_angle>0.0</rotation_angle>
       <rules />
@@ -2510,7 +2510,7 @@ $(pv_value)</tooltip>
       <name>EDM Text Update</name>
       <precision>0</precision>
       <precision_from_pv>true</precision_from_pv>
-      <pv_name>$(Motor6):HMPOS</pv_name>
+      <pv_name>=pv(concat(pv(concat("$(P)", ":HM:M6PV")), ":HMPOS"))</pv_name>
       <pv_value />
       <rotation_angle>0.0</rotation_angle>
       <rules />
@@ -2653,7 +2653,7 @@ $(pv_value)</tooltip>
       <name>EDM Text Update</name>
       <precision>0</precision>
       <precision_from_pv>true</precision_from_pv>
-      <pv_name>$(Motor7):HMPOS.DESC</pv_name>
+      <pv_name>=pv(concat(pv(concat("$(P)", ":HM:M7PV")), ":HMPOS.DESC"))</pv_name>
       <pv_value />
       <rotation_angle>0.0</rotation_angle>
       <rules />
@@ -2705,7 +2705,7 @@ $(pv_value)</tooltip>
       <name>EDM Text Update</name>
       <precision>0</precision>
       <precision_from_pv>true</precision_from_pv>
-      <pv_name>$(Motor7):HMPOS</pv_name>
+      <pv_name>=pv(concat(pv(concat("$(P)", ":HM:M7PV")), ":HMPOS"))</pv_name>
       <pv_value />
       <rotation_angle>0.0</rotation_angle>
       <rules />
@@ -2848,7 +2848,7 @@ $(pv_value)</tooltip>
       <name>EDM Text Update</name>
       <precision>0</precision>
       <precision_from_pv>true</precision_from_pv>
-      <pv_name>$(Motor8):HMPOS.DESC</pv_name>
+      <pv_name>=pv(concat(pv(concat("$(P)", ":HM:M8PV")), ":HMPOS.DESC"))</pv_name>
       <pv_value />
       <rotation_angle>0.0</rotation_angle>
       <rules />
@@ -2900,7 +2900,7 @@ $(pv_value)</tooltip>
       <name>EDM Text Update</name>
       <precision>0</precision>
       <precision_from_pv>true</precision_from_pv>
-      <pv_name>$(Motor8):HMPOS</pv_name>
+      <pv_name>=pv(concat(pv(concat("$(P)", ":HM:M8PV")), ":HMPOS"))</pv_name>
       <pv_value />
       <rotation_angle>0.0</rotation_angle>
       <rules />
@@ -3043,7 +3043,7 @@ $(pv_value)</tooltip>
       <name>EDM Text Update</name>
       <precision>0</precision>
       <precision_from_pv>true</precision_from_pv>
-      <pv_name>$(Motor9):HMPOS.DESC</pv_name>
+      <pv_name>=pv(concat(pv(concat("$(P)", ":HM:M9PV")), ":HMPOS.DESC"))</pv_name>
       <pv_value />
       <rotation_angle>0.0</rotation_angle>
       <rules />
@@ -3095,7 +3095,7 @@ $(pv_value)</tooltip>
       <name>EDM Text Update</name>
       <precision>0</precision>
       <precision_from_pv>true</precision_from_pv>
-      <pv_name>$(Motor9):HMPOS</pv_name>
+      <pv_name>=pv(concat(pv(concat("$(P)", ":HM:M9PV")), ":HMPOS"))</pv_name>
       <pv_value />
       <rotation_angle>0.0</rotation_angle>
       <rules />
@@ -3238,7 +3238,7 @@ $(pv_value)</tooltip>
       <name>EDM Text Update</name>
       <precision>0</precision>
       <precision_from_pv>true</precision_from_pv>
-      <pv_name>$(Motor10):HMPOS.DESC</pv_name>
+      <pv_name>=pv(concat(pv(concat("$(P)", ":HM:M10PV")), ":HMPOS.DESC"))</pv_name>
       <pv_value />
       <rotation_angle>0.0</rotation_angle>
       <rules />
@@ -3290,7 +3290,7 @@ $(pv_value)</tooltip>
       <name>EDM Text Update</name>
       <precision>0</precision>
       <precision_from_pv>true</precision_from_pv>
-      <pv_name>$(Motor10):HMPOS</pv_name>
+      <pv_name>=pv(concat(pv(concat("$(P)", ":HM:M10PV")), ":HMPOS"))</pv_name>
       <pv_value />
       <rotation_angle>0.0</rotation_angle>
       <rules />
@@ -3433,7 +3433,7 @@ $(pv_value)</tooltip>
       <name>EDM Text Update</name>
       <precision>0</precision>
       <precision_from_pv>true</precision_from_pv>
-      <pv_name>$(Motor11):HMPOS.DESC</pv_name>
+      <pv_name>=pv(concat(pv(concat("$(P)", ":HM:M11PV")), ":HMPOS.DESC"))</pv_name>
       <pv_value />
       <rotation_angle>0.0</rotation_angle>
       <rules />
@@ -3485,7 +3485,7 @@ $(pv_value)</tooltip>
       <name>EDM Text Update</name>
       <precision>0</precision>
       <precision_from_pv>true</precision_from_pv>
-      <pv_name>$(Motor11):HMPOS</pv_name>
+      <pv_name>=pv(concat(pv(concat("$(P)", ":HM:M11PV")), ":HMPOS"))</pv_name>
       <pv_value />
       <rotation_angle>0.0</rotation_angle>
       <rules />
@@ -3628,7 +3628,7 @@ $(pv_value)</tooltip>
       <name>EDM Text Update</name>
       <precision>0</precision>
       <precision_from_pv>true</precision_from_pv>
-      <pv_name>$(Motor12):HMPOS.DESC</pv_name>
+      <pv_name>=pv(concat(pv(concat("$(P)", ":HM:M12PV")), ":HMPOS.DESC"))</pv_name>
       <pv_value />
       <rotation_angle>0.0</rotation_angle>
       <rules />
@@ -3680,7 +3680,7 @@ $(pv_value)</tooltip>
       <name>EDM Text Update</name>
       <precision>0</precision>
       <precision_from_pv>true</precision_from_pv>
-      <pv_name>$(Motor12):HMPOS</pv_name>
+      <pv_name>=pv(concat(pv(concat("$(P)", ":HM:M12PV")), ":HMPOS"))</pv_name>
       <pv_value />
       <rotation_angle>0.0</rotation_angle>
       <rules />
@@ -3823,7 +3823,7 @@ $(pv_value)</tooltip>
       <name>EDM Text Update</name>
       <precision>0</precision>
       <precision_from_pv>true</precision_from_pv>
-      <pv_name>$(Motor13):HMPOS.DESC</pv_name>
+      <pv_name>=pv(concat(pv(concat("$(P)", ":HM:M13PV")), ":HMPOS.DESC"))</pv_name>
       <pv_value />
       <rotation_angle>0.0</rotation_angle>
       <rules />
@@ -3875,7 +3875,7 @@ $(pv_value)</tooltip>
       <name>EDM Text Update</name>
       <precision>0</precision>
       <precision_from_pv>true</precision_from_pv>
-      <pv_name>$(Motor13):HMPOS</pv_name>
+      <pv_name>=pv(concat(pv(concat("$(P)", ":HM:M13PV")), ":HMPOS"))</pv_name>
       <pv_value />
       <rotation_angle>0.0</rotation_angle>
       <rules />
@@ -4018,7 +4018,7 @@ $(pv_value)</tooltip>
       <name>EDM Text Update</name>
       <precision>0</precision>
       <precision_from_pv>true</precision_from_pv>
-      <pv_name>$(Motor14):HMPOS.DESC</pv_name>
+      <pv_name>=pv(concat(pv(concat("$(P)", ":HM:M14PV")), ":HMPOS.DESC"))</pv_name>
       <pv_value />
       <rotation_angle>0.0</rotation_angle>
       <rules />
@@ -4070,7 +4070,7 @@ $(pv_value)</tooltip>
       <name>EDM Text Update</name>
       <precision>0</precision>
       <precision_from_pv>true</precision_from_pv>
-      <pv_name>$(Motor14):HMPOS</pv_name>
+      <pv_name>=pv(concat(pv(concat("$(P)", ":HM:M14PV")), ":HMPOS"))</pv_name>
       <pv_value />
       <rotation_angle>0.0</rotation_angle>
       <rules />
@@ -4213,7 +4213,7 @@ $(pv_value)</tooltip>
       <name>EDM Text Update</name>
       <precision>0</precision>
       <precision_from_pv>true</precision_from_pv>
-      <pv_name>$(Motor15):HMPOS.DESC</pv_name>
+      <pv_name>=pv(concat(pv(concat("$(P)", ":HM:M15PV")), ":HMPOS.DESC"))</pv_name>
       <pv_value />
       <rotation_angle>0.0</rotation_angle>
       <rules />
@@ -4265,7 +4265,7 @@ $(pv_value)</tooltip>
       <name>EDM Text Update</name>
       <precision>0</precision>
       <precision_from_pv>true</precision_from_pv>
-      <pv_name>$(Motor15):HMPOS</pv_name>
+      <pv_name>=pv(concat(pv(concat("$(P)", ":HM:M15PV")), ":HMPOS"))</pv_name>
       <pv_value />
       <rotation_angle>0.0</rotation_angle>
       <rules />
@@ -4408,7 +4408,7 @@ $(pv_value)</tooltip>
       <name>EDM Text Update</name>
       <precision>0</precision>
       <precision_from_pv>true</precision_from_pv>
-      <pv_name>$(Motor16):HMPOS.DESC</pv_name>
+      <pv_name>=pv(concat(pv(concat("$(P)", ":HM:M16PV")), ":HMPOS.DESC"))</pv_name>
       <pv_value />
       <rotation_angle>0.0</rotation_angle>
       <rules />
@@ -4460,7 +4460,7 @@ $(pv_value)</tooltip>
       <name>EDM Text Update</name>
       <precision>0</precision>
       <precision_from_pv>true</precision_from_pv>
-      <pv_name>$(Motor16):HMPOS</pv_name>
+      <pv_name>=pv(concat(pv(concat("$(P)", ":HM:M16PV")), ":HMPOS"))</pv_name>
       <pv_value />
       <rotation_angle>0.0</rotation_angle>
       <rules />
@@ -4603,7 +4603,7 @@ $(pv_value)</tooltip>
       <name>EDM Text Update</name>
       <precision>0</precision>
       <precision_from_pv>true</precision_from_pv>
-      <pv_name>$(Motor17):HMPOS.DESC</pv_name>
+      <pv_name>=pv(concat(pv(concat("$(P)", ":HM:M17PV")), ":HMPOS.DESC"))</pv_name>
       <pv_value />
       <rotation_angle>0.0</rotation_angle>
       <rules />
@@ -4655,7 +4655,7 @@ $(pv_value)</tooltip>
       <name>EDM Text Update</name>
       <precision>0</precision>
       <precision_from_pv>true</precision_from_pv>
-      <pv_name>$(Motor17):HMPOS</pv_name>
+      <pv_name>=pv(concat(pv(concat("$(P)", ":HM:M17PV")), ":HMPOS"))</pv_name>
       <pv_value />
       <rotation_angle>0.0</rotation_angle>
       <rules />
@@ -4798,7 +4798,7 @@ $(pv_value)</tooltip>
       <name>EDM Text Update</name>
       <precision>0</precision>
       <precision_from_pv>true</precision_from_pv>
-      <pv_name>$(Motor18):HMPOS.DESC</pv_name>
+      <pv_name>=pv(concat(pv(concat("$(P)", ":HM:M18PV")), ":HMPOS.DESC"))</pv_name>
       <pv_value />
       <rotation_angle>0.0</rotation_angle>
       <rules />
@@ -4850,7 +4850,7 @@ $(pv_value)</tooltip>
       <name>EDM Text Update</name>
       <precision>0</precision>
       <precision_from_pv>true</precision_from_pv>
-      <pv_name>$(Motor18):HMPOS</pv_name>
+      <pv_name>=pv(concat(pv(concat("$(P)", ":HM:M18PV")), ":HMPOS"))</pv_name>
       <pv_value />
       <rotation_angle>0.0</rotation_angle>
       <rules />
@@ -4993,7 +4993,7 @@ $(pv_value)</tooltip>
       <name>EDM Text Update</name>
       <precision>0</precision>
       <precision_from_pv>true</precision_from_pv>
-      <pv_name>$(Motor19):HMPOS.DESC</pv_name>
+      <pv_name>=pv(concat(pv(concat("$(P)", ":HM:M19PV")), ":HMPOS.DESC"))</pv_name>
       <pv_value />
       <rotation_angle>0.0</rotation_angle>
       <rules />
@@ -5045,7 +5045,7 @@ $(pv_value)</tooltip>
       <name>EDM Text Update</name>
       <precision>0</precision>
       <precision_from_pv>true</precision_from_pv>
-      <pv_name>$(Motor19):HMPOS</pv_name>
+      <pv_name>=pv(concat(pv(concat("$(P)", ":HM:M19PV")), ":HMPOS"))</pv_name>
       <pv_value />
       <rotation_angle>0.0</rotation_angle>
       <rules />
@@ -5188,7 +5188,7 @@ $(pv_value)</tooltip>
       <name>EDM Text Update</name>
       <precision>0</precision>
       <precision_from_pv>true</precision_from_pv>
-      <pv_name>$(Motor20):HMPOS.DESC</pv_name>
+      <pv_name>=pv(concat(pv(concat("$(P)", ":HM:M20PV")), ":HMPOS.DESC"))</pv_name>
       <pv_value />
       <rotation_angle>0.0</rotation_angle>
       <rules />
@@ -5240,7 +5240,7 @@ $(pv_value)</tooltip>
       <name>EDM Text Update</name>
       <precision>0</precision>
       <precision_from_pv>true</precision_from_pv>
-      <pv_name>$(Motor20):HMPOS</pv_name>
+      <pv_name>=pv(concat(pv(concat("$(P)", ":HM:M20PV")), ":HMPOS"))</pv_name>
       <pv_value />
       <rotation_angle>0.0</rotation_angle>
       <rules />
@@ -5383,7 +5383,7 @@ $(pv_value)</tooltip>
       <name>EDM Text Update</name>
       <precision>0</precision>
       <precision_from_pv>true</precision_from_pv>
-      <pv_name>$(Motor21):HMPOS.DESC</pv_name>
+      <pv_name>=pv(concat(pv(concat("$(P)", ":HM:M21PV")), ":HMPOS.DESC"))</pv_name>
       <pv_value />
       <rotation_angle>0.0</rotation_angle>
       <rules />
@@ -5435,7 +5435,7 @@ $(pv_value)</tooltip>
       <name>EDM Text Update</name>
       <precision>0</precision>
       <precision_from_pv>true</precision_from_pv>
-      <pv_name>$(Motor21):HMPOS</pv_name>
+      <pv_name>=pv(concat(pv(concat("$(P)", ":HM:M21PV")), ":HMPOS"))</pv_name>
       <pv_value />
       <rotation_angle>0.0</rotation_angle>
       <rules />
@@ -5578,7 +5578,7 @@ $(pv_value)</tooltip>
       <name>EDM Text Update</name>
       <precision>0</precision>
       <precision_from_pv>true</precision_from_pv>
-      <pv_name>$(Motor22):HMPOS.DESC</pv_name>
+      <pv_name>=pv(concat(pv(concat("$(P)", ":HM:M22PV")), ":HMPOS.DESC"))</pv_name>
       <pv_value />
       <rotation_angle>0.0</rotation_angle>
       <rules />
@@ -5630,7 +5630,7 @@ $(pv_value)</tooltip>
       <name>EDM Text Update</name>
       <precision>0</precision>
       <precision_from_pv>true</precision_from_pv>
-      <pv_name>$(Motor22):HMPOS</pv_name>
+      <pv_name>=pv(concat(pv(concat("$(P)", ":HM:M22PV")), ":HMPOS"))</pv_name>
       <pv_value />
       <rotation_angle>0.0</rotation_angle>
       <rules />
@@ -5773,7 +5773,7 @@ $(pv_value)</tooltip>
       <name>EDM Text Update</name>
       <precision>0</precision>
       <precision_from_pv>true</precision_from_pv>
-      <pv_name>$(Motor23):HMPOS.DESC</pv_name>
+      <pv_name>=pv(concat(pv(concat("$(P)", ":HM:M23PV")), ":HMPOS.DESC"))</pv_name>
       <pv_value />
       <rotation_angle>0.0</rotation_angle>
       <rules />
@@ -5825,7 +5825,7 @@ $(pv_value)</tooltip>
       <name>EDM Text Update</name>
       <precision>0</precision>
       <precision_from_pv>true</precision_from_pv>
-      <pv_name>$(Motor23):HMPOS</pv_name>
+      <pv_name>=pv(concat(pv(concat("$(P)", ":HM:M23PV")), ":HMPOS"))</pv_name>
       <pv_value />
       <rotation_angle>0.0</rotation_angle>
       <rules />
@@ -5968,7 +5968,7 @@ $(pv_value)</tooltip>
       <name>EDM Text Update</name>
       <precision>0</precision>
       <precision_from_pv>true</precision_from_pv>
-      <pv_name>$(Motor24):HMPOS.DESC</pv_name>
+      <pv_name>=pv(concat(pv(concat("$(P)", ":HM:M24PV")), ":HMPOS.DESC"))</pv_name>
       <pv_value />
       <rotation_angle>0.0</rotation_angle>
       <rules />
@@ -6020,7 +6020,7 @@ $(pv_value)</tooltip>
       <name>EDM Text Update</name>
       <precision>0</precision>
       <precision_from_pv>true</precision_from_pv>
-      <pv_name>$(Motor24):HMPOS</pv_name>
+      <pv_name>=pv(concat(pv(concat("$(P)", ":HM:M24PV")), ":HMPOS"))</pv_name>
       <pv_value />
       <rotation_angle>0.0</rotation_angle>
       <rules />
@@ -6163,7 +6163,7 @@ $(pv_value)</tooltip>
       <name>EDM Text Update</name>
       <precision>0</precision>
       <precision_from_pv>true</precision_from_pv>
-      <pv_name>$(Motor25):HMPOS.DESC</pv_name>
+      <pv_name>=pv(concat(pv(concat("$(P)", ":HM:M25PV")), ":HMPOS.DESC"))</pv_name>
       <pv_value />
       <rotation_angle>0.0</rotation_angle>
       <rules />
@@ -6215,7 +6215,7 @@ $(pv_value)</tooltip>
       <name>EDM Text Update</name>
       <precision>0</precision>
       <precision_from_pv>true</precision_from_pv>
-      <pv_name>$(Motor25):HMPOS</pv_name>
+      <pv_name>=pv(concat(pv(concat("$(P)", ":HM:M25PV")), ":HMPOS"))</pv_name>
       <pv_value />
       <rotation_angle>0.0</rotation_angle>
       <rules />
@@ -6358,7 +6358,7 @@ $(pv_value)</tooltip>
       <name>EDM Text Update</name>
       <precision>0</precision>
       <precision_from_pv>true</precision_from_pv>
-      <pv_name>$(Motor26):HMPOS.DESC</pv_name>
+      <pv_name>=pv(concat(pv(concat("$(P)", ":HM:M26PV")), ":HMPOS.DESC"))</pv_name>
       <pv_value />
       <rotation_angle>0.0</rotation_angle>
       <rules />
@@ -6410,7 +6410,7 @@ $(pv_value)</tooltip>
       <name>EDM Text Update</name>
       <precision>0</precision>
       <precision_from_pv>true</precision_from_pv>
-      <pv_name>$(Motor26):HMPOS</pv_name>
+      <pv_name>=pv(concat(pv(concat("$(P)", ":HM:M26PV")), ":HMPOS"))</pv_name>
       <pv_value />
       <rotation_angle>0.0</rotation_angle>
       <rules />
@@ -6553,7 +6553,7 @@ $(pv_value)</tooltip>
       <name>EDM Text Update</name>
       <precision>0</precision>
       <precision_from_pv>true</precision_from_pv>
-      <pv_name>$(Motor27):HMPOS.DESC</pv_name>
+      <pv_name>=pv(concat(pv(concat("$(P)", ":HM:M27PV")), ":HMPOS.DESC"))</pv_name>
       <pv_value />
       <rotation_angle>0.0</rotation_angle>
       <rules />
@@ -6605,7 +6605,7 @@ $(pv_value)</tooltip>
       <name>EDM Text Update</name>
       <precision>0</precision>
       <precision_from_pv>true</precision_from_pv>
-      <pv_name>$(Motor27):HMPOS</pv_name>
+      <pv_name>=pv(concat(pv(concat("$(P)", ":HM:M27PV")), ":HMPOS"))</pv_name>
       <pv_value />
       <rotation_angle>0.0</rotation_angle>
       <rules />
@@ -6748,7 +6748,7 @@ $(pv_value)</tooltip>
       <name>EDM Text Update</name>
       <precision>0</precision>
       <precision_from_pv>true</precision_from_pv>
-      <pv_name>$(Motor28):HMPOS.DESC</pv_name>
+      <pv_name>=pv(concat(pv(concat("$(P)", ":HM:M28PV")), ":HMPOS.DESC"))</pv_name>
       <pv_value />
       <rotation_angle>0.0</rotation_angle>
       <rules />
@@ -6800,7 +6800,7 @@ $(pv_value)</tooltip>
       <name>EDM Text Update</name>
       <precision>0</precision>
       <precision_from_pv>true</precision_from_pv>
-      <pv_name>$(Motor28):HMPOS</pv_name>
+      <pv_name>=pv(concat(pv(concat("$(P)", ":HM:M28PV")), ":HMPOS"))</pv_name>
       <pv_value />
       <rotation_angle>0.0</rotation_angle>
       <rules />
@@ -6943,7 +6943,7 @@ $(pv_value)</tooltip>
       <name>EDM Text Update</name>
       <precision>0</precision>
       <precision_from_pv>true</precision_from_pv>
-      <pv_name>$(Motor29):HMPOS.DESC</pv_name>
+      <pv_name>=pv(concat(pv(concat("$(P)", ":HM:M29PV")), ":HMPOS.DESC"))</pv_name>
       <pv_value />
       <rotation_angle>0.0</rotation_angle>
       <rules />
@@ -6995,7 +6995,7 @@ $(pv_value)</tooltip>
       <name>EDM Text Update</name>
       <precision>0</precision>
       <precision_from_pv>true</precision_from_pv>
-      <pv_name>$(Motor29):HMPOS</pv_name>
+      <pv_name>=pv(concat(pv(concat("$(P)", ":HM:M29PV")), ":HMPOS"))</pv_name>
       <pv_value />
       <rotation_angle>0.0</rotation_angle>
       <rules />
@@ -7138,7 +7138,7 @@ $(pv_value)</tooltip>
       <name>EDM Text Update</name>
       <precision>0</precision>
       <precision_from_pv>true</precision_from_pv>
-      <pv_name>$(Motor30):HMPOS.DESC</pv_name>
+      <pv_name>=pv(concat(pv(concat("$(P)", ":HM:M30PV")), ":HMPOS.DESC"))</pv_name>
       <pv_value />
       <rotation_angle>0.0</rotation_angle>
       <rules />
@@ -7190,7 +7190,7 @@ $(pv_value)</tooltip>
       <name>EDM Text Update</name>
       <precision>0</precision>
       <precision_from_pv>true</precision_from_pv>
-      <pv_name>$(Motor30):HMPOS</pv_name>
+      <pv_name>=pv(concat(pv(concat("$(P)", ":HM:M30PV")), ":HMPOS"))</pv_name>
       <pv_value />
       <rotation_angle>0.0</rotation_angle>
       <rules />
@@ -7333,7 +7333,7 @@ $(pv_value)</tooltip>
       <name>EDM Text Update</name>
       <precision>0</precision>
       <precision_from_pv>true</precision_from_pv>
-      <pv_name>$(Motor31):HMPOS.DESC</pv_name>
+      <pv_name>=pv(concat(pv(concat("$(P)", ":HM:M31PV")), ":HMPOS.DESC"))</pv_name>
       <pv_value />
       <rotation_angle>0.0</rotation_angle>
       <rules />
@@ -7385,7 +7385,7 @@ $(pv_value)</tooltip>
       <name>EDM Text Update</name>
       <precision>0</precision>
       <precision_from_pv>true</precision_from_pv>
-      <pv_name>$(Motor31):HMPOS</pv_name>
+      <pv_name>=pv(concat(pv(concat("$(P)", ":HM:M31PV")), ":HMPOS"))</pv_name>
       <pv_value />
       <rotation_angle>0.0</rotation_angle>
       <rules />
