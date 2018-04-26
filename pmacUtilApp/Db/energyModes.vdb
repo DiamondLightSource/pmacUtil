@@ -67,7 +67,7 @@ record(seq, "$(P):HANDLEOFFSET") {
   field(DOL1, "$(P):LASTOFFSET")
   field(LNK1, "$(OFFSET) PP")
   field(DOL2, "1")
-  field(LNK2, "$(P):LASTOFFSET PP")
+  field(LNK2, "$(P):LASTOFFSET.PROC")
 }
 
 #! Further lines contain data used by VisualDCT
