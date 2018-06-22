@@ -229,6 +229,7 @@ class PLC:
         self.post = post
         self.__cmd1 = []
         self.__cmd2 = []
+        self.__cmd3 = []  # Commands executed after movement
         self.allow_debug = allow_debug
         ## The controller type, will be PMAC or GEOBRICK
         self.ctype = ctype
@@ -348,6 +349,11 @@ class PLC:
         # home command
         self.__cmd2 += ["#%dhm"%m.ax for m in self.__sel(htypes)]
 
+    def __set_motor_position_trigger_mode_for_homing(self, htypes):
+        for m in self.__sel(htypes):
+            self.__cmd1.append("I%d97 = 3; in-position trigger on following error" % m.ax)
+            self.__cmd3.append("I%d97 = 0; in-position trigger on hardware capture" % m.ax)
+
     def __jog_until_trig(self, htypes, reverse=False):
         # jog until trigger, go dist past trigger
         self.__set_jdist_hdir(htypes,reverse)
@@ -399,24 +405,11 @@ class PLC:
             f.write('\t\t; Execute the move commands\n')
         if has_pre:
             f.write('\t\t%s\n' % self.group.pre)
-        out = [[]]
-        for t in self.__cmd1:
-            if len(" ".join(out[-1]+[t]))<254 and len(out[-1])<32:
-                out[-1].append(t)
-            else:
-                out += [[t]]
-        for l in [(" ".join(l)) for l in out]:
-            if l:
-                f.write("\t\t"+l+"\n")
-        out = [[]]
-        for t in self.__cmd2:
-            if len(" ".join(out[-1]+[t]))<248 and len(out[-1])<32:
-                out[-1].append(t)
-            else:
-                out += [[t]]
-        for l in [(" ".join(l)) for l in out]:
-            if l:
-                f.write('\t\tcmd "%s"\n'%l)
+
+        # Write first 2 command sets to file
+        self.__write_cmd_set_to_file(f, self.__cmd1, use_cmd=False)
+        self.__write_cmd_set_to_file(f, self.__cmd2, use_cmd=True)
+        
         if self.__cmd1 or self.__cmd2:
             # setup a generic wait for move routine      
             self.InPosition = "&".join(["m%d40"%m.ax for m in self.__sel()])
@@ -430,7 +423,7 @@ class PLC:
             ffresultstr = "|".join("m%d42" % m.ax for m in self.__sel(htypes=ferr_htypes)) 
             if ffresultstr:
                 results.append((ffresultstr, "0", "StatusFFErr", "Following error check"))            
-            # only check the limit switches of htypes     
+            # only check the limit switches of htypes
             if lim_mtrs == None:
                 lim_mtrs = self.__sel(lim_htypes)                        
             lstr = "|".join("m%d30" % m.ax for m in lim_mtrs)                 
@@ -451,7 +444,11 @@ class PLC:
                 self.results += "\t\tif (%s != %s) ; %s failed\n" % (exp, val, chktxt)
                 self.results += "\t\t\tHomingStatus = %s\n" % stat
                 self.results += "\t\tendif\n"
-            f.write(wait_for_move % self.__dict__)            
+            f.write(wait_for_move % self.__dict__)
+
+        # Write third command set to file
+        self.__write_cmd_set_to_file(f, self.__cmd3, use_cmd=False)
+
         if has_post:
             self.__check_not_aborted(f, tabs = 2)
             f.write('\t\t\t%s\n' % self.group.post)
@@ -461,6 +458,21 @@ class PLC:
             self.__cmd2 = []
             f.write('\tendif\n\n')
     
+    ## Write out a given list of command to a file
+    def __write_cmd_set_to_file(self, f, cmd_list, use_cmd=False):
+        out = [[]]
+        max_line_len = 248 if use_cmd else 254
+        for t in cmd_list:
+            if len(" ".join(out[-1]+[t]))<max_line_len and len(out[-1])<32:
+                out[-1].append(t)
+            else:
+                out += [[t]]
+        for l in [(" ".join(l)) for l in out]:
+            if l and use_cmd:
+                f.write('\t\tcmd "%s"\n'%l)
+            elif l:
+                f.write("\t\t"+l+"\n")
+
     ## Write the PLC text to a filename string f
     def write(self,f):
         # open the file and write the header
@@ -551,6 +563,9 @@ class PLC:
             #---- PreHomeMove State ----
             # for hsw_dir motors, set the trigger to be the inverse flag
             self.__set_hflags([HSW_DIR],inv=True)
+            # for hsw_hstop the motor position trigger should be set to
+            # trigger on following error (value 3) and reset after movement
+            self.__set_motor_position_trigger_mode_for_homing([HSW_HSTOP])
             # for hsw/hsw_dir motors jog until trigger in direction of -ix23
             self.__jog_until_trig([HSW,HSW_DIR,HSW_HSTOP],reverse=True)
             # for rlim motors jog in direction of -ix23
