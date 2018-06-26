@@ -225,6 +225,9 @@ class PLC:
         self.htype = htype
         ## Default after trigger jog dist for any motor added, see add_motor()
         self.jdist = jdist
+        ## Add a private flag that allows the following errror check to be supressed.
+        ## This is needed for HSW_HSTOP
+        self._check_following_error = True
         ## Default post home behaviour for any motor added, see add_motor()        
         self.post = post
         self.__cmd1 = []
@@ -353,6 +356,7 @@ class PLC:
         for m in self.__sel(htypes):
             self.__cmd1.append("I%d97 = 3; in-position trigger on following error" % m.ax)
             self.__cmd3.append("I%d97 = 0; in-position trigger on hardware capture" % m.ax)
+        self._check_following_error = False
 
     def __jog_until_trig(self, htypes, reverse=False):
         # jog until trigger, go dist past trigger
@@ -418,11 +422,13 @@ class PLC:
             results = []
             # for the following error, always check, but ferr_htypes are the only ones that should fail
             ffcheckstr = "|".join("m%d42" % m.ax for m in self.__sel()) 
-            if ffcheckstr:
+            if self._check_following_error and ffcheckstr:
                 checks.append((ffcheckstr, "0", "StatusFFErr", "Following error check"))                
             ffresultstr = "|".join("m%d42" % m.ax for m in self.__sel(htypes=ferr_htypes)) 
-            if ffresultstr:
+            if self._check_following_error and ffresultstr:
                 results.append((ffresultstr, "0", "StatusFFErr", "Following error check"))            
+            # reset the following error check flag for future stages
+            self._check_following_error = True
             # only check the limit switches of htypes
             if lim_mtrs == None:
                 lim_mtrs = self.__sel(lim_htypes)                        
@@ -453,9 +459,10 @@ class PLC:
             self.__check_not_aborted(f, tabs = 2)
             f.write('\t\t\t%s\n' % self.group.post)
             f.write('\t\tendif\n')            
-        if self.__cmd1 or self.__cmd2 or has_pre or has_post:    
+        if self.__cmd1 or self.__cmd2 or self.__cmd3 or has_pre or has_post:    
             self.__cmd1 = []            
             self.__cmd2 = []
+            self.__cmd3 = []
             f.write('\tendif\n\n')
     
     ## Write out a given list of command to a file
