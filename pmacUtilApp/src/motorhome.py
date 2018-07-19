@@ -342,10 +342,10 @@ class PLC:
     def __set_jdist_hdir(self, htypes, reverse=False):
         # set jdist reg to be a large distance in hdir, or in -hdir if reverse
         if reverse:
-            self.__cmd1 += ["m%d72=%d*(-i%d23/ABS(i%d23))" % 
+            self.__cmd1 += ["\t\tm%d72=%d*(-i%d23/ABS(i%d23))" % 
                 (m.ax,LARGEJ,m.ax,m.ax) for m in self.__sel(htypes)]
         else:
-            self.__cmd1 += ["m%d72=%d*(i%d23/ABS(i%d23))" % 
+            self.__cmd1 += ["\t\tm%d72=%d*(i%d23/ABS(i%d23))" % 
                 (m.ax,LARGEJ,m.ax,m.ax) for m in self.__sel(htypes)]
 
     def __home(self, htypes):
@@ -354,8 +354,8 @@ class PLC:
 
     def __set_motor_position_trigger_mode_for_homing(self, htypes):
         for m in self.__sel(htypes):
-            self.__cmd1.append("I%d97 = 3; in-position trigger on following error" % m.ax)
-            self.__cmd3.append("I%d97 = 0; in-position trigger on hardware capture" % m.ax)
+            self.__cmd1.append("I%d97 = 3; in-position trigger on following error\n" % m.ax)
+            self.__cmd3.append("I%d97 = 0; in-position trigger on hardware capture\n" % m.ax)
         self._check_following_error = False
 
     def __jog_until_trig(self, htypes, reverse=False):
