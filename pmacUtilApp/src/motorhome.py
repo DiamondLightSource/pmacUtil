@@ -160,6 +160,9 @@ def parse_args():
 
 ## Object that encapsulates everything we need to know about a motor
 class Motor:
+    PHASE_PRE_HOME_MOVE = 0
+    PHASE_FAST_SEARCH = 1
+    PHASE_FAST_RETRACE = 2
     instances = []
     def __init__(self, ax, enc_axes, ctype, ms=None):
         # Axis number
@@ -188,6 +191,27 @@ class Motor:
         else:
             # macrostation number, PMAC                                
             self.ms = 2*(ax-1)-(ax-1)%2
+        # set jdist and jdist_overrides defaults
+        self.jdist = None
+        self.jdist_default = None
+        self.jdist_overrides = None
+
+    ## Pick a predefined override for jdist from the self.jdist_override tuple.
+    # \param phase_code The phase code specified as a number.
+    # PHASE_PRE_HOME_MOVE = 0, PHASE_FAST_SEARCH = 1, PHASE_FAST_RETRACE = 2.
+    def override_jdist_for_phase(self, phase_code):
+        if self.jdist_default is None:
+            self.jdist_default = self.jdist
+        if self.jdist_overrides is not None and phase_code < len(self.jdist_overrides) and self.jdist_overrides[phase_code] is not None:
+            self.jdist = self.jdist_overrides[phase_code]
+        else:
+            self.jdist = self.jdist_default
+
+    ## Release the override affecting the current motor
+    def release_jdist_override(self):
+        self.jdist = self.jdist_default
+
+
 
 ## Object that encapsulates a homing group
 class Group:
@@ -296,6 +320,11 @@ class PLC:
     # be in -hdir. E.g if ix23 = -1, jdist should be +ve. This should only be
     # needed for reference marks or bouncy limit switches. A recommended 
     # value in these cases is about 1000 counts in -hdir.
+    # \param jdist_overrides A tuple of values which each override jdist in 
+    # one phase of the homing protocol. The list should be in the order 
+    # (PRE_HOME_MOVE_JDIST, FAST_SEARCH_JDIST, FAST_RETRACE_JDIST).
+    # 'None' is a valid value - eg: (None, 1000, None) will only override the jdist 
+    # value of the Fast Search phase.
     # \param post Where to move after the home. This can be:
     # - None or 0: Stay at the home position
     # - an integer: move to this position in motor cts
@@ -307,7 +336,7 @@ class PLC:
     # - "H": go to the hardware high limit
     # - "L": go to the hardware low limit
     # \param ms Override value for the macrostation associated with this axis 
-    def add_motor(self, axis, group=1, htype=None, jdist=None, post=None,
+    def add_motor(self, axis, group=1, htype=None, jdist=None, jdist_overrides=None, post=None,
             enc_axes=[], ms = None):
         # Override defaults
         if htype == None: htype = self.htype
@@ -328,6 +357,11 @@ class PLC:
                 "Two homing operations requested for axis %d" % axis
             motor.isHomed = True
             motor.jdist = jdist
+            # Check the override is a tuple
+            if isinstance(jdist_overrides, tuple) or jdist_overrides is None:
+                motor.jdist_overrides = jdist_overrides
+            else:
+                raise ValueError("jdist_overrides expects a tuple, you may need to add '(..., None)' to the end of single values.")
         # this dict gives details of each group, it contains a list of
         # (motors axis, post move) tuples
         if group not in self.groups:
@@ -568,6 +602,9 @@ class PLC:
             f.write("\t"+" ".join(["m%d45=0"%m.ax for m in ems])+"\n")
             
             #---- PreHomeMove State ----
+            # Set the pre-home move jdist override
+            for m in Motor.instances:
+                m.override_jdist_for_phase(Motor.PHASE_PRE_HOME_MOVE)
             # for hsw_dir motors, set the trigger to be the inverse flag
             self.__set_hflags([HSW_DIR],inv=True)
             # for hsw_hstop the motor position trigger should be set to
@@ -603,7 +640,10 @@ class PLC:
                 f.write(wait_for_move % self.__dict__) 
                 f.write('\tendif\n\n')
 
-            #---- FastSearch State ----        
+            #---- FastSearch State ----
+            # Set the fast search jdist override
+            for m in Motor.instances:
+                m.override_jdist_for_phase(Motor.PHASE_FAST_SEARCH)
             # for hsw_dir motors, set the trigger to be the original flag
             self.__set_hflags([HSW_DIR]) 
             # for all motors except hsw_hlim jog until trigger in direction of ix23
@@ -624,6 +664,9 @@ class PLC:
                 f.write('\tendif\n\n')  
                 
             #---- FastRetrace State ----
+            # Set the fast retrace jdist override
+            for m in Motor.instances:
+                m.override_jdist_for_phase(Motor.PHASE_FAST_RETRACE)
             htypes = htypes_without(HOME, NOTHING)
             # for limit/hsw_* motors, set the trigger to be the inverse flag
             self.__set_hflags(htypes,inv=True)
@@ -660,6 +703,10 @@ class PLC:
                 f.write("\t\tendif\n")
             if ems:
                 f.write('\tendif\n\n')                
+
+            # Release all jdist overrides
+            for m in Motor.instances:
+                m.release_jdist_override()
 
             #---- Homing State ----        
             htypes = htypes_without(NOTHING)
