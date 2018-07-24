@@ -113,9 +113,8 @@ NOTHING = 6
 #  Detection of following error due to hitting the hard stop is taken as the
 #  limit indication.
 # (htype Enum passed to PLC.add_motor()).
-# -# (Prehome Move) Jog in hdir until either index/home switch (Figure 1) or 
-# following error
-#  -# If following error, jog in -hdir until index/home switch
+# -# (Prehome Move) Jog in -hdir until following error - Ixx97 (in-position 
+# trigger mode) set to 3 for this phase.
 # -# (Fast Search) Jog in hdir until index/home switch
 # -# (Fast Retrace) Jog in -hdir until off the index/home switch
 # -# (Home) Home
