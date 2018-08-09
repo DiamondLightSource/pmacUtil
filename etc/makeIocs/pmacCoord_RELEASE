@@ -1,3 +1,3 @@
 # Place any example specific dependencies here
-TPMAC=     $(SUPPORT)/tpmac/3-11dls13
-PMACCOORD= $(SUPPORT)/pmacCoord/1-54
+TPMAC=     $(SUPPORT)/tpmac/3-11dls14
+PMACCOORD= $(SUPPORT)/pmacCoord/1-59-1

@@ -6,3 +6,13 @@ dbd/
 include/
 lib/
 *~
+documentation/doxygen/
+iocs/apertureSlits/
+iocs/pmacStatusGeobrick/
+iocs/symetrie_ioc/
+pmacUtilApp/opi/opi/runcss.sh
+pmacUtilApp/opi/qt/button_go.png
+pmacUtilApp/opi/qt/button_go_down.png
+pmacUtilApp/opi/qt/button_stop.png
+pmacUtilApp/opi/qt/button_stop_down.png
+pmacUtilApp/opi/qt/form_ui.py
