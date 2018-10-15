@@ -3,9 +3,24 @@
 #! DBD("../../dbd/pmacUtil.dbd")
 #! DBDEND
 
+# This associates an edm screen with the template
+# % gui, $(name=), edm, motor.edl, motor=$(P)$(SM)
+# % gui, $(name=), edmembed, motor-embed-small.edl, motor=$(P)$(SM),filename=motor.edl,box-label=$(DESC)
+
+# This associates a BOY screen with the template
+# % gui, $(name=), boydetail, motorApp_opi/motor_detail.opi, P=$(P),M=$(SM),DESC=$(DESC), name=$(name=)
+# % gui, $(name=), boyembed, motorApp_opi/motor_embed_box.opi, P=$(P),M=$(SM),DESC=$(DESC), name=$(name=)
+# % gui, $(name=), boyembed, motorApp_opi/motor_embed.opi, P=$(P),M=$(SM),DESC=$(DESC), name=$(name=)
+# FIXME: this should be in pmacUtil or tpmac
+# % gui, $(name=), boyembed, motorApp_opi/motor_homed_embed.opi, P=$(P),M=$(SM)
+
+# This makes the component icon reflect the status and severity
+# % gui, $(name=), status, <pv>.MOVN
+# % gui, $(name=), sevr
 
 # % gdatag,template,simpleMotor,$(gda_name=),$(gda_desc=)
 # % gdatag,motor,rw,$(gda_name=),RECORD,Motor Record
+
 record(motor, "$(P)$(SM)") {
   field(DESC, "$(DESC)")
   field(DTYP, "Soft Channel")
