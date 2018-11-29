@@ -231,6 +231,16 @@ P465..496=0
 ; this is the actual following error limit
 #define following_error_limit     I(P400*100 + 11)
 
+; DLS have a rule to use a different timer for each PLC
+; For PLC number n, the timer variable to use is
+; i(5111+(n&30)*50+n%2)
+; which comes out as 5311 for PLC4.
+; Since n is hardcoded to 4, timer variable can be hardcoded also.
+#define plc4_timer                I5311
+
+; Makes timers more readable
+#define MilliSeconds      * 8388608/i10
+
 ; this is how many matching readings are needed for amplifier status
 #define NREADINGS                 5
 
@@ -467,7 +477,8 @@ while(axis_number < 33)
                 ADDRESS#axis_number CMD"$*"
 
                 if (enable_abs_enc_scaling)
-                    I5111=110*8388608/I10 while(I5111>0) endw ; 110 msec delay
+                    plc4_timer = 110 MilliSeconds ; Define length of delay.
+		    while(plc4_timer>0) endw      ; Wait for the delay.
                     POS_REGISTER = POS_REGISTER / ABS_ENC_SCALE_FACTOR
                 endif
             endif
